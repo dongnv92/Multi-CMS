@@ -24,6 +24,16 @@ function sanitize_title( $str) {
     return $str;
 }
 
+/**
+ * Hiển thị 1 chuỗi dạng html
+ */
+function sanitize_string_code_sample( $str , $language = 'html') {
+    $text = '<figure class="highlight"><pre><code class="language-'. $language .'" data-lang="'. $language .'">';
+    $text .= htmlentities($str);
+    $text .= '</code></pre></figure>';
+    return $text;
+}
+
 
 /**
  * Determines the difference between two timestamps.

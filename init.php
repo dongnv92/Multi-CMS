@@ -13,7 +13,9 @@ define( 'URL_HOME'      , 'http://localhost/dong/multicms');
 define( 'URL_ADMIN'     , URL_HOME . '/' . PATH_ADMIN);
 
 require_once ABSPATH.'includes/function.php';
+require_once ABSPATH.'includes/function-admin.php';
 require_once ABSPATH.'includes/formatting.php';
+require_once ABSPATH.'includes/function-form.php';
 
 // Mã hóa các ký tự đặc biệt
 cms_magic_quotes();
