@@ -83,7 +83,63 @@ require_once 'admin-header.php';
                 <h2>Thẻ Input <small>Các thẻ Input</small></h2>
             </div>
             <div class="body">
-                <?=formInputText('hello')?>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?=formInputText('hello', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định'])?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?=sanitize_string_code_sample("<?=formInputText('name_input', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định', 'value' => ''])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?=formInputPassword('hello', ['placeholder' => 'Input Password', 'label' => 'Đây là thẻ <code>input Password</code> mặc định'])?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?=sanitize_string_code_sample("<?=formInputPassword('name_input', ['placeholder' => 'Placeholder Password', 'label' => 'Đây là thẻ <code>input Password</code> mặc định', 'value' => ''])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?=formInputTextarea('hello', ['placeholder' => 'Placeholder Textarea', 'label' => 'Đây là thẻ <code>textarea</code> mặc định', 'rows' => '5'])?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?=sanitize_string_code_sample("<?=formInputTextarea('hello', ['placeholder' => 'Placeholder Textarea', 'label' => 'Đây là thẻ <code>textarea</code> mặc định', 'rows' => '5'])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?=formInputSelect('test', ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', 'hcm' => 'Hồ Chí Minh'], ['data-live-search' => 'true', 'selected' => 'hcm', 'label' => 'Đây là thẻ <code>select</code> mặc định'])?>
+                    </div>
+                    <div class="col-lg-6">
+                        <?=sanitize_string_code_sample("<?=formInputSelect('test', ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', 'hcm' => 'Hồ Chí Minh'], ['data-live-search' => 'true', 'selected' => 'hcm', 'label' => 'Đây là thẻ <code>select</code> mặc định'])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <input type="radio" name="gender" id="male" class="with-gap">
+                            <label for="male">Male</label>
+                            <input type="radio" name="gender" id="female" class="with-gap">
+                            <label for="female" class="m-l-20">Female</label>
+                        </div>
+                        <div class="form-group">
+                            <!-- Material unchecked -->
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="materialUnchecked" name="materialExampleRadios">
+                                <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
+                            </div>
+
+                            <!-- Material checked -->
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" id="materialChecked" name="materialExampleRadios" checked>
+                                <label class="form-check-label" for="materialChecked">Material checked</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

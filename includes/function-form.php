@@ -36,24 +36,43 @@ function formClose(){
 }
 
 /* Thẻ Input trong From
- *
+ * $name: là tag name trong thẻ
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ input
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - div_class_parent  : Thẻ class ở ngoài cùng
+ *      - div_class_child   : Thẻ class ở trong
+ *      - ...               : ...
  * */
-function formInputText($name, $layout = '',$attribute = ['']){
+function formInputText($name, $attribute = ['']){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
     $div_class_parent   = '';
     $div_class_child    = '';
+    $layout             = $attribute['layout'];
     switch ($layout){
         default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
             foreach ($attribute AS $key => $value){
                 switch ($key){
-                    case 'class'            : $form_attribute .= $value ? ' class="'. $value .'" ' : ' class="form-control" '   ;   break;
-                    case 'id'               : $form_attribute .= $value ? ' id="'. $value .'" ' : '_'.$name                     ;   break;
-                    case 'label'            : $label .= $value ? "<label>$value</label>" : ''                                   ;   break;
-                    case 'div_class_parent' : $div_class_parent .= $value ? $value : 'form-group'                               ;   break;
-                    case 'div_class_child'  : $div_class_child .= $value ? $value : 'form-line'                                 ;   break;
-                    default: $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'div_class_child'  :
+                    case 'layout'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
                 }
             }
             $content .= $label.'
@@ -64,6 +83,155 @@ function formInputText($name, $layout = '',$attribute = ['']){
             </div>';
             break;
     }
+    return $content;
+}
 
+/* Thẻ Input trong From
+ * $name: là tag name trong thẻ
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ input
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - div_class_parent  : Thẻ class ở ngoài cùng
+ *      - div_class_child   : Thẻ class ở trong
+ *      - ...               : ...
+ * */
+function formInputPassword($name, $attribute = ['']){
+    $content            = '';
+    $form_attribute     = '';
+    $label              = '';
+    $div_class_parent   = '';
+    $div_class_child    = '';
+    $layout             = $attribute['layout'];
+    switch ($layout){
+        default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'div_class_child'  :
+                    case 'layout'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'
+            <div class="'. $div_class_parent .'">
+                <div class="'. $div_class_child .'">
+                    <input type="password" name="'. $name .'" '. $form_attribute .'>
+                </div>
+            </div>';
+            break;
+    }
+    return $content;
+}
+
+/* Thẻ TextArea trong From
+ * $name: là tag name trong thẻ
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ Textarea
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - div_class_parent  : Thẻ class ở ngoài cùng
+ *      - div_class_child   : Thẻ class ở trong
+ *      - ...               : ...
+ * */
+
+function formInputTextarea($name, $attribute = []){
+    $content            = '';
+    $form_attribute     = '';
+    $label              = '';
+    $div_class_parent   = '';
+    $div_class_child    = '';
+    $layout             = $attribute['layout'];
+    switch ($layout){
+        default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control no-resize';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'div_class_child'  :
+                    case 'layout'  :
+                    case 'value'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'
+            <div class="'. $div_class_parent .'">
+                <div class="'. $div_class_child .'">
+                    <textarea name="'. $name .'" '. $form_attribute .'>'. ($attribute['value'] ? $attribute['value'] : '') .'</textarea>
+                </div>
+            </div>';
+            break;
+    }
+    return $content;
+}
+
+/* Thẻ Select trong From
+ * $name: là tag name trong thẻ
+ * $data: Là dữ liệu data option dạng array. Ex' $data = ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', ....]
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ select
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - ...               : ...
+ * */
+function formInputSelect($name, $data = [], $attribute = []){
+    $content            = '';
+    $form_attribute     = '';
+    $label              = '';
+    $layout             = $attribute['layout'];
+    switch ($layout){
+        default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control show-tick';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'layout'  :
+                    case 'value'  :
+                    case 'selected'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+
+            $content .= $label.'<select '. $form_attribute .'>';
+            foreach ($data AS $value => $text){
+                $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
+            }
+            $content .= '</select>';
+            break;
+    }
     return $content;
 }
