@@ -235,3 +235,164 @@ function formInputSelect($name, $data = [], $attribute = []){
     }
     return $content;
 }
+
+/* Thẻ Radio trong From
+ * $name: là tag name trong thẻ
+ * $data: Là dữ liệu data option dạng array. Ex' $data = ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', ....]
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ select
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - ...               : ...
+ * */
+function formInputRadio($name, $data, $attribute = []){
+    $content            = '';
+    $form_attribute     = '';
+    $label              = '';
+    $div_class_parent   = '';
+    $layout             = $attribute['layout'];
+    switch ($layout){
+        case 'inline':
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'custom-control-input';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'layout'  :
+                    case 'value'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'<div class="'. $div_class_parent .'">';
+            foreach ($data AS $value => $text){
+                $content .= '<div class="custom-control custom-radio custom-control-inline"><input type="radio" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="custom-control-label" for="_'. $value .'">'. $text .'</label></div>';
+            }
+            $content .= '</div>';
+            break;
+        default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'custom-control-input';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'layout'  :
+                    case 'value'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'<div class="'. $div_class_parent .'">';
+            foreach ($data AS $value => $text){
+                $content .= '<div class="custom-control custom-radio"><input type="radio" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="custom-control-label" for="_'. $value .'">'. $text .'</label></div>';
+            }
+            $content .= '</div>';
+            break;
+    }
+    return $content;
+}
+
+/* Thẻ Checkbox trong From
+ * $name: là tag name trong thẻ
+ * $data: Là dữ liệu data option dạng array. Ex' $data = ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', ....]
+ * $attribute: Là mảng gồm các attribute trong thẻ.
+ *  - 1 số key không có trong meta attribute có thể dùng làm file cài đặt
+ *      - layout            : Là giao diện thẻ select
+ *      - class             : Mặc định "form-control"
+ *      - id                : Mặc định "_$name"
+ *      - ...               : ...
+ * */
+function formInputCheckbox($name, $data, $attribute = []){
+    $content            = '';
+    $form_attribute     = '';
+    $label              = '';
+    $div_class_parent   = '';
+    $layout             = $attribute['layout'];
+    switch ($layout){
+        case 'inline':
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-check-input';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'layout'  :
+                    case 'value'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'<div class="'. $div_class_parent .'">';
+            foreach ($data AS $value => $text){
+                $content .= '<div class="form-check form-check-inline"><input type="checkbox" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="form-check-label" for="_'. $value .'">'. $text .'</label></div>';
+            }
+            $content .= '</div>';
+            break;
+        default:
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-check-input';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'div_class_parent' :
+                    case 'layout'  :
+                    case 'value'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= $label.'<div class="'. $div_class_parent .'">';
+            foreach ($data AS $value => $text){
+                $content .= '<div class="form-check"><input type="checkbox" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="form-check-label" for="_'. $value .'">'. $text .'</label></div>';
+            }
+            $content .= '</div>';
+            break;
+    }
+    return $content;
+}
+
+function formButton($text, $attribute = []){
+    $content            = '';
+    $form_attribute     = '';
+    $attribute['class'] = $attribute['class']  ? $attribute['class'] : 'btn btn-raised bg-blue waves-effect';
+    foreach ($attribute AS $key => $value){
+        switch ($key){
+            default:
+                $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                break;
+        }
+    }
+    $content .= '<button type="button" '. $form_attribute .'>'. $text .'</button>';
+    return $content;
+}

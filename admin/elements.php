@@ -84,60 +84,46 @@ require_once 'admin-header.php';
             </div>
             <div class="body">
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <?=formInputText('hello', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định'])?>
-                    </div>
-                    <div class="col-lg-6">
                         <?=sanitize_string_code_sample("<?=formInputText('name_input', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định', 'value' => ''])?>", 'php')?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <?=formInputPassword('hello', ['placeholder' => 'Input Password', 'label' => 'Đây là thẻ <code>input Password</code> mặc định'])?>
-                    </div>
-                    <div class="col-lg-6">
                         <?=sanitize_string_code_sample("<?=formInputPassword('name_input', ['placeholder' => 'Placeholder Password', 'label' => 'Đây là thẻ <code>input Password</code> mặc định', 'value' => ''])?>", 'php')?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <?=formInputTextarea('hello', ['placeholder' => 'Placeholder Textarea', 'label' => 'Đây là thẻ <code>textarea</code> mặc định', 'rows' => '5'])?>
-                    </div>
-                    <div class="col-lg-6">
                         <?=sanitize_string_code_sample("<?=formInputTextarea('hello', ['placeholder' => 'Placeholder Textarea', 'label' => 'Đây là thẻ <code>textarea</code> mặc định', 'rows' => '5'])?>", 'php')?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <?=formInputSelect('test', ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', 'hcm' => 'Hồ Chí Minh'], ['data-live-search' => 'true', 'selected' => 'hcm', 'label' => 'Đây là thẻ <code>select</code> mặc định'])?>
-                    </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
+                        <?=formInputSelect('test', ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', 'hcm' => 'Hồ Chí Minh'], ['data-live-search' => 'true', 'selected' => 'hcm', 'label' => 'Đây là thẻ <code>select</code> mặc định. Thêm Live Search với thuộc tính <code>data-live-search</code>'])?>
                         <?=sanitize_string_code_sample("<?=formInputSelect('test', ['hanoi' => 'Hà Nội', 'danang' => 'Đà Nẵng', 'hcm' => 'Hồ Chí Minh'], ['data-live-search' => 'true', 'selected' => 'hcm', 'label' => 'Đây là thẻ <code>select</code> mặc định'])?>", 'php')?>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <input type="radio" name="gender" id="male" class="with-gap">
-                            <label for="male">Male</label>
-                            <input type="radio" name="gender" id="female" class="with-gap">
-                            <label for="female" class="m-l-20">Female</label>
-                        </div>
-                        <div class="form-group">
-                            <!-- Material unchecked -->
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="materialUnchecked" name="materialExampleRadios">
-                                <label class="form-check-label" for="materialUnchecked">Material unchecked</label>
-                            </div>
-
-                            <!-- Material checked -->
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" id="materialChecked" name="materialExampleRadios" checked>
-                                <label class="form-check-label" for="materialChecked">Material checked</label>
-                            </div>
-                        </div>
+                    <div class="col-lg-12">
+                        <?=formInputRadio('test', ['male' => 'Nam', 'female' => 'Nữ'], ['label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>
+                        <?=formInputRadio('test1', ['male1' => 'Nam', 'female1' => 'Nữ'], ['layout' => 'inline', 'label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>
+                        <?=sanitize_string_code_sample("<?=formInputRadio('test', ['male' => 'Nam', 'female' => 'Nữ'], ['label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>", 'php')?>
                     </div>
-                    <div class="col-lg-6">
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?=formInputCheckbox('test_1', ['male_11' => 'Nam', 'female_11' => 'Nữ', 'all_11' => 'Tất cả'], ['label' => 'Đây là thẻ <code>inputCheckbox</code>. Layout mặc định hoặc <code>inline</code>'])?>
+                        <?=formInputCheckbox('test_2', ['male_22' => 'Nam', 'female_22' => 'Nữ', 'all_22' => 'Tất cả'], ['layout' => 'inline', 'label' => 'Đây là thẻ <code>inputCheckbox</code>. Layout mặc định hoặc <code>inline</code>'])?>
+                        <?=sanitize_string_code_sample("<?=formInputCheckbox('test_2', ['male_22' => 'Nam', 'female_22' => 'Nữ', 'all_22' => 'Tất cả'], ['layout' => 'inline', 'label' => 'Đây là thẻ <code>inputCheckbox</code>. Layout mặc định hoặc <code>inline</code>'])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?=formButton('BLUE')?>
                     </div>
                 </div>
             </div>
