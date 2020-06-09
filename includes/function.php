@@ -109,3 +109,10 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 
     return implode( $sep, $ret );
 }
+
+function check_user_login(){
+    global $database;
+    require_once ABSPATH . 'includes/class/class.user.php';
+    $me = new user($database);
+    return $me->login();
+}

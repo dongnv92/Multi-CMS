@@ -7,7 +7,7 @@ $header['js']           = [URL_ADMIN."/assets/plugins/prism/prism.js"];
 require_once 'admin-header.php';
 ?>
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="header">
                     <h2>Mã html Card <small>Mã html Card khi thêm mới</small></h2>
@@ -44,15 +44,79 @@ require_once 'admin-header.php';
             </div>
         </div>
         <!-- #END# Basic Examples -->
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="header">
-                    <h2>Thêm bảng html</h2>
+                    <div class="row">
+                        <div class="col-lg-6 text-left"><h2>Bảng demo</h2></div>
+                    </div>
                 </div>
-                <div class="body">
-                    Nội dung Card
+                <div class="content table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                        <tr>
+                            <th style="width: 20%" class="text-center align-middle">Nội Dung</th>
+                            <th style="width: 20%" class="text-center align-middle">Giá</th>
+                            <th style="width: 20%" class="text-center align-middle">Trạng Thái</th>
+                            <th style="width: 20%" class="text-center align-middle">Ngày Thêm</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-center align-middle">Hiii</td>
+                            <td class="text-center align-middle">200₫</td>
+                            <td class="text-center align-middle">Chờ Gửi</td>
+                            <td class="text-center align-middle">10:40:35 09/06/2020</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">HEllo</td>
+                            <td class="text-center align-middle">200₫</td>
+                            <td class="text-center align-middle">Hoàn Thành</td>
+                            <td class="text-center align-middle">10:00:04 08/06/2020</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center align-middle">Dong</td>
+                            <td class="text-center align-middle">200₫</td>
+                            <td class="text-center align-middle">Hoàn Thành</td>
+                            <td class="text-center align-middle">22:01:41 06/06/2020</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <?=sanitize_string_code_sample('<div class="card">
+    <div class="header">
+        <div class="row">
+            <div class="col-lg-6 text-left"><h2>Bảng demo</h2></div>
+        </div>
+    </div>
+    <div class="content table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+            <tr>
+                <th style="width: 20%" class="text-center align-middle">Nội Dung</th>
+                <th style="width: 20%" class="text-center align-middle">Giá</th>
+                <th style="width: 20%" class="text-center align-middle">Trạng Thái</th>
+                <th style="width: 20%" class="text-center align-middle">Ngày Thêm</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-center align-middle">Hiii</td>
+                <td class="text-center align-middle">200₫</td>
+                <td class="text-center align-middle">Chờ Gửi</td>
+                <td class="text-center align-middle">10:40:35 09/06/2020</td>
+            </tr>
+            <tr>
+                <td class="text-center align-middle">...</td>
+                <td class="text-center align-middle">...</td>
+                <td class="text-center align-middle">...</td>
+                <td class="text-center align-middle">...</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>', 'html')?>
         </div>
     </div>
 
@@ -122,8 +186,34 @@ require_once 'admin-header.php';
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-4 text-center">
+                        <p>Mặc định</p>
                         <?=formButton('BLUE')?>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <p>Màu RED <code>.btn  btn-raised bg-red waves-effect</code></p>
+                        <?=formButton('RED', ['class' => 'btn  btn-raised bg-red waves-effect'])?>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <p>Màu PINK <code>.btn  btn-raised bg-pink waves-effect</code></p>
+                        <?=formButton('PINK', ['disabled' => 'disabled', 'class' => 'btn  btn-raised bg-pink waves-effect'])?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 text-center">
+                        <p>Màu PURPLE <code>.btn  btn-raised bg-purple waves-effect</code></p>
+                        <?=formButton('PURPLE', ['class' => 'btn  btn-raised bg-purple waves-effect'])?>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <p>Màu DEEP PURPLE <code>.btn  btn-raised bg-deep-purple waves-effect</code></p>
+                        <?=formButton('DEEP PURPLE', ['class' => 'btn  btn-raised bg-deep-purple waves-effect'])?>
+                    </div>
+                    <div class="col-lg-4 text-center">
+                        <p>Màu INDIGO <code>.btn  btn-raised bg-indigo waves-effect</code></p>
+                        <?=formButton('INDIGO', ['disabled' => 'disabled', 'class' => 'btn  btn-raised bg-indigo waves-effect'])?>
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <?=sanitize_string_code_sample("<?=formButton('INDIGO', ['disabled' => 'disabled', 'class' => 'btn  btn-raised bg-indigo waves-effect'])?>", 'php')?>
                     </div>
                 </div>
             </div>

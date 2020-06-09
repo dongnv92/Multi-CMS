@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: DONG
- * Date: 19/09/2018
- * Time: 16:13
- * Document: https://bitbucket.org/getvivekv/php-mysqli-class/wiki/Home
- */
-
 class Database
 {
     protected static $_instance;

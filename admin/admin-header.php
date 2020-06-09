@@ -19,77 +19,14 @@ $header = $header ? $header : ['title' => 'Trang quản trị'];
     <?php foreach ($header['css'] AS $css){echo '<link rel="stylesheet" href="'. $css .'">'."\n";}?>
 </head>
 <body class="theme-blush">
-<!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <p>Vui lòng chờ ...</p>
-        <div class="m-t-30"><img src="<?=URL_ADMIN?>/assets/images/logo.png" width="48" height="48" alt="Logo"></div>
-    </div>
-</div>
-<!-- Overlay For Sidebars -->
-<div class="overlay"></div><!-- Search  -->
-<div class="search-bar">
-    <div class="search-icon"> <i class="material-icons">search</i> </div>
-    <input type="text" placeholder="Tìm kiếm ...">
-    <div class="close-search"> <i class="material-icons">close</i> </div>
-</div>
+<!-- Hiệu ứng tải trang khi đang load -->
+<?=admin_page_loader_start()?>
+
+<!-- Thanh Search bar -->
+<?=admin_header_search_bar()?>
+
 <!-- Top Bar -->
-<nav class="navbar">
-    <div class="col-12">
-        <div class="navbar-header text-center">
-            <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="<?=URL_ADMIN?>">..:: MULTICMS ::..</a>
-        </div>
-        <ul class="nav navbar-nav navbar-left">
-            <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
-            <li><a href="<?=URL_ADMIN."/settings/"?>" class="inbox-btn hidden-sm-down" data-close="true"><i class="material-icons">settings</i></a></li>
-            <li><a href="<?=URL_ADMIN."/sms/?act=add"?>" class="inbox-btn hidden-sm-down" data-close="true"><i class="zmdi zmdi-mail-send"></i></a></li>
-            <li><a href="<?=URL_ADMIN."/?act=statics"?>" class="inbox-btn hidden-sm-down" data-close="true"><i class="zmdi zmdi-trending-up"></i></a></li>
-            <li class="dropdown menu-app hidden-sm-down"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"> <i class="zmdi zmdi-apps"></i> </a>
-                <ul class="dropdown-menu slideDown">
-                    <li class="body">
-                        <ul class="menu">
-                            <li><a href="<?=$router['transaction']?>"><i class="zmdi zmdi-receipt"></i><span>Giao dịch</span></a></li>
-                            <li><a href="<?=$router['contacts']?>"><i class="zmdi zmdi-accounts-list"></i><span>Danh bạ</span></a></li>
-                            <li><a href="<?=$router['sms']?>"><i class="zmdi zmdi-comment-outline"></i><span>Tin Nhắn</span></a></li>
-                            <li><a href="<?=URL_ADMIN."/?act=statics"?>"><i class="zmdi zmdi-trending-up"></i><span>Thống Kê</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li>Tài Khoản <span class="font-bold text-danger">N-A</span></li>
-            <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="zmdi zmdi-search"></i></a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                    <i class="zmdi zmdi-notifications"></i><div class="notify"><span class="heartbit"></span><span class="point"></span></div>
-                </a>
-                <ul class="dropdown-menu slideDown">
-                    <li class="header">THÔNG BÁO</li>
-                    <li class="body">
-                        <ul class="menu list-unstyled">
-                            <li>
-                                <a href="#">
-                                    <div class="icon-circle l-blue"> <i class="material-icons">search</i> </div>
-                                    <div class="menu-info">
-                                        <h4 class="font-bold">Nội dung thông báo</h4>
-                                        <p> <i class="material-icons">access_time</i> Thời gian </p>
-                                    </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="footer"> <a href="#">Xem tất cả thông báo</a> </li>
-                </ul>
-            </li>
-            <li><a href="#" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
-        </ul>
-    </div>
-</nav>
+<?=admin_top_bar()?>
 
 <!-- Left Sidebar -->
 <aside id="leftsidebar" class="sidebar">
