@@ -94,4 +94,8 @@ class user{
         define('ACCESS_TOKEN', $data_user["{$this->user_token}"]);
         return $data_user;
     }
+
+    public function login(){
+
+    }
 }

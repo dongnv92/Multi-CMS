@@ -130,8 +130,19 @@ function redirect($url){
     header('location:'.$url);
 }
 
-function cms_get_path(){
-
-    $url_path   = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-    return $url_path;
+function get_path_uri(){
+    $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+    $root = ROOTPATH;
+    $path = explode('/', $path);
+    foreach ($path AS $key => $value){
+        if($value == $root){
+            unset($path[$key]);
+            break;
+        }else{
+            unset($path[$key]);
+        }
+    }
+    $path = implode('/', $path);
+    $path = explode('/', $path);
+    return $path;
 }

@@ -23,17 +23,20 @@ $database = new Database(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
 
 /* Nhúng các file function */
 require_once ABSPATH . 'includes/function.php';
+
+// Mã hóa các ký tự đặc biệt
+cms_magic_quotes();
+
 require_once ABSPATH . 'includes/function-admin.php';
 require_once ABSPATH . 'includes/formatting.php';
 require_once ABSPATH . 'includes/function-form.php';
 require_once ABSPATH . 'includes/function-javascript.php';
 require_once ABSPATH . 'includes/class/class.user.php';
 
-// Mã hóa các ký tự đặc biệt
-cms_magic_quotes();
 
 // Kiểm tra user
 $me = new user($database);
 $me = $me->init_get_me();
 
-$path = cms_get_path();
+// Lấy đường đẫn hiện tại
+$path = get_path_uri();
