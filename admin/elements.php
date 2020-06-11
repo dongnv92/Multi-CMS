@@ -149,8 +149,8 @@ require_once 'admin-header.php';
             <div class="body">
                 <div class="row">
                     <div class="col-lg-12">
-                        <?=formInputText('hello', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định'])?>
-                        <?=sanitize_string_code_sample("<?=formInputText('name_input', ['placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định', 'value' => ''])?>", 'php')?>
+                        <?=formInputText('hello', ['error' => 'Đây là thông báo lỗi', 'placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định'])?>
+                        <?=sanitize_string_code_sample("<?=formInputText('name_input', ['error' => 'Đây là thông báo lỗi', 'placeholder' => 'Placeholder Text', 'label' => 'Đây là thẻ <code>input Text</code> mặc định', 'value' => ''])?>", 'php')?>
                     </div>
                 </div>
                 <div class="row">
@@ -174,7 +174,7 @@ require_once 'admin-header.php';
                 <div class="row">
                     <div class="col-lg-12">
                         <?=formInputRadio('test', ['male' => 'Nam', 'female' => 'Nữ'], ['label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>
-                        <?=formInputRadio('test1', ['male1' => 'Nam', 'female1' => 'Nữ'], ['layout' => 'inline', 'label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>
+                        <?=formInputRadio('test1', ['male1' => 'Nam', 'female1' => 'Nữ'], ['error' => 'Đây là thông báo lỗi', 'layout' => 'inline', 'label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>
                         <?=sanitize_string_code_sample("<?=formInputRadio('test', ['male' => 'Nam', 'female' => 'Nữ'], ['label' => 'Đây là thẻ <code>inputRadio</code>. Layout mặc định hoặc <code>inline</code>'])?>", 'php')?>
                     </div>
                 </div>
@@ -214,6 +214,11 @@ require_once 'admin-header.php';
                     </div>
                     <div class="col-lg-12 text-center">
                         <?=sanitize_string_code_sample("<?=formButton('INDIGO', ['disabled' => 'disabled', 'class' => 'btn  btn-raised bg-indigo waves-effect'])?>", 'php')?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+
                     </div>
                 </div>
             </div>

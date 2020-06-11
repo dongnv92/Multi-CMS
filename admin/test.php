@@ -1,20 +1,21 @@
 <?php
-$attribute = ['hello' => 'Hiiii', 'Hai' => 'Hai Hai'];
-$form_attribute = '';
+require_once '../init.php';
 
-foreach ($attribute AS $key => $value){
-    switch ($key){
-        case 'label':
-            $label .= $value ? "<label>$value</label>" : '';
-            break;
-        case 'div_class_parent' :
-        case 'div_class_child'  :
-            $form_attribute .= '';
-            break;
-        default:
-            $form_attribute .= ' '. $key .'="'. $value .'" ';
-            break;
+print_r($path);
+echo "<br />";
+echo "<br />";
+
+$root = ROOTPATH;
+$path = explode('/', $path);
+
+foreach ($path AS $key => $value){
+    if($value == $root){
+        unset($path[$key]);
+        break;
+    }else{
+        unset($path[$key]);
     }
 }
-
-echo "$form_attribute";
+$path = implode('/', $path);
+$path = explode('/', $path);
+print_r($path);

@@ -109,3 +109,29 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 
     return implode( $sep, $ret );
 }
+
+function get_config($key){
+    global $database;
+    $setting = $database->select('setting_value')->from('dong_setting')->where('setting_key', $key)->fetch_first();
+    if(!$setting)
+        return false;
+    switch ($key){
+        case 'logo':
+            return URL_HOME . '/' . $setting['setting_value'];
+            break;
+        default:
+            return $setting['setting_value'];
+            break;
+    }
+}
+
+// Chuyển hướng đến 1 trang khác
+function redirect($url){
+    header('location:'.$url);
+}
+
+function cms_get_path(){
+
+    $url_path   = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+    return $url_path;
+}

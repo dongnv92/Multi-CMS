@@ -35,6 +35,10 @@ function formClose(){
     return '</form>';
 }
 
+function formError($text){
+    return '<label class="error">'. $text .'</label>';
+}
+
 /* Thẻ Input trong From
  * $name: là tag name trong thẻ
  * $attribute: Là mảng gồm các attribute trong thẻ.
@@ -60,10 +64,14 @@ function formInputText($name, $attribute = ['']){
             $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
             $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
             $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            $error              = '';
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'div_class_child'  :
@@ -80,6 +88,7 @@ function formInputText($name, $attribute = ['']){
                 <div class="'. $div_class_child .'">
                     <input type="text" name="'. $name .'" '. $form_attribute .'>
                 </div>
+                '. ($error ? $error : '') .'
             </div>';
             break;
     }
@@ -111,10 +120,14 @@ function formInputPassword($name, $attribute = ['']){
             $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
             $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
             $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            $error              = '';
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'div_class_child'  :
@@ -131,6 +144,7 @@ function formInputPassword($name, $attribute = ['']){
                 <div class="'. $div_class_child .'">
                     <input type="password" name="'. $name .'" '. $form_attribute .'>
                 </div>
+                '. ($error ? $error : '') .'
             </div>';
             break;
     }
@@ -163,10 +177,14 @@ function formInputTextarea($name, $attribute = []){
             $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
             $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
             $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            $error              = '';
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'div_class_child'  :
@@ -184,6 +202,7 @@ function formInputTextarea($name, $attribute = []){
                 <div class="'. $div_class_child .'">
                     <textarea name="'. $name .'" '. $form_attribute .'>'. ($attribute['value'] ? $attribute['value'] : '') .'</textarea>
                 </div>
+                '. ($error ? $error : '') .'
             </div>';
             break;
     }
@@ -204,6 +223,7 @@ function formInputSelect($name, $data = [], $attribute = []){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
+    $error              = '';
     $layout             = $attribute['layout'];
     switch ($layout){
         default:
@@ -214,6 +234,9 @@ function formInputSelect($name, $data = [], $attribute = []){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'layout'  :
                     case 'value'  :
@@ -230,7 +253,7 @@ function formInputSelect($name, $data = [], $attribute = []){
             foreach ($data AS $value => $text){
                 $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
             }
-            $content .= '</select>';
+            $content .= '</select>'. ($error ? $error : '');
             break;
     }
     return $content;
@@ -252,6 +275,7 @@ function formInputRadio($name, $data, $attribute = []){
     $label              = '';
     $div_class_parent   = '';
     $layout             = $attribute['layout'];
+    $error              = '';
     switch ($layout){
         case 'inline':
             // Thiết lập các giá trị mặc định
@@ -262,6 +286,9 @@ function formInputRadio($name, $data, $attribute = []){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'layout'  :
@@ -277,7 +304,7 @@ function formInputRadio($name, $data, $attribute = []){
             foreach ($data AS $value => $text){
                 $content .= '<div class="custom-control custom-radio custom-control-inline"><input type="radio" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="custom-control-label" for="_'. $value .'">'. $text .'</label></div>';
             }
-            $content .= '</div>';
+            $content .= ($error ? $error : '').'</div>';
             break;
         default:
             // Thiết lập các giá trị mặc định
@@ -288,6 +315,9 @@ function formInputRadio($name, $data, $attribute = []){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'layout'  :
@@ -303,7 +333,7 @@ function formInputRadio($name, $data, $attribute = []){
             foreach ($data AS $value => $text){
                 $content .= '<div class="custom-control custom-radio"><input type="radio" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="custom-control-label" for="_'. $value .'">'. $text .'</label></div>';
             }
-            $content .= '</div>';
+            $content .= ($error ? $error : '').'</div>';
             break;
     }
     return $content;
@@ -325,6 +355,7 @@ function formInputCheckbox($name, $data, $attribute = []){
     $label              = '';
     $div_class_parent   = '';
     $layout             = $attribute['layout'];
+    $error              = '';
     switch ($layout){
         case 'inline':
             // Thiết lập các giá trị mặc định
@@ -335,6 +366,9 @@ function formInputCheckbox($name, $data, $attribute = []){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'layout'  :
@@ -350,7 +384,7 @@ function formInputCheckbox($name, $data, $attribute = []){
             foreach ($data AS $value => $text){
                 $content .= '<div class="form-check form-check-inline"><input type="checkbox" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="form-check-label" for="_'. $value .'">'. $text .'</label></div>';
             }
-            $content .= '</div>';
+            $content .= ($error ? $error : '').'</div>';
             break;
         default:
             // Thiết lập các giá trị mặc định
@@ -361,6 +395,9 @@ function formInputCheckbox($name, $data, $attribute = []){
                 switch ($key){
                     case 'label':
                         $label .= $value ? "<label>$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
                         break;
                     case 'div_class_parent' :
                     case 'layout'  :
@@ -376,7 +413,7 @@ function formInputCheckbox($name, $data, $attribute = []){
             foreach ($data AS $value => $text){
                 $content .= '<div class="form-check"><input type="checkbox" name="'. $name .'" value="'. $value .'" id="_'. $value .'" '. $form_attribute .'><label class="form-check-label" for="_'. $value .'">'. $text .'</label></div>';
             }
-            $content .= '</div>';
+            $content .= ($error ? $error : '').'</div>';
             break;
     }
     return $content;
@@ -385,7 +422,8 @@ function formInputCheckbox($name, $data, $attribute = []){
 function formButton($text, $attribute = []){
     $content            = '';
     $form_attribute     = '';
-    $attribute['class'] = $attribute['class']  ? $attribute['class'] : 'btn btn-raised bg-blue waves-effect';
+    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-raised bg-blue waves-effect';
+    $attribute['type']  = $attribute['type']    ? $attribute['type']    : 'button';
     foreach ($attribute AS $key => $value){
         switch ($key){
             default:
@@ -393,6 +431,6 @@ function formButton($text, $attribute = []){
                 break;
         }
     }
-    $content .= '<button type="button" '. $form_attribute .'>'. $text .'</button>';
+    $content .= '<button '. $form_attribute .'>'. $text .'</button>';
     return $content;
 }
