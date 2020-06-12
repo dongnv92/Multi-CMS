@@ -50,11 +50,11 @@ if($me){
 
                     </div>
                     <div class="row">
-                        <div class="col-lg-6 text-left align-middle">
+                        <div class="col-lg-4 text-left align-middle">
                             <input type="checkbox" name="rememberme" id="rememberme" value="1" class="filled-in chk-col-cyan">
                             <label for="rememberme">Ghi Nhớ</label>
                         </div>
-                        <div class="col-lg-6 text-right">
+                        <div class="col-lg-8 text-right">
                             <?=formButton('ĐĂNG NHẬP', ['type' => 'submit', 'name' => 'submit', 'value' => 'submit', 'id' => 'submit_login'])?>
                         </div>
                     </div>
@@ -68,11 +68,47 @@ if($me){
 <script src="<?=URL_ADMIN?>/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="<?=URL_ADMIN?>/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?=URL_ADMIN?>/assets/plugins/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<?=URL_ADMIN?>/assets/js/init.js"></script>
+
 <script>
     $(document).ready(function () {
         $('#submit_login').on('click', function () {
+            var ajax = $.ajax({
+                url         : '<?=URL_ADMIN_AJAX . "login"?>',
+                method      : 'POST',
+                dataType    : 'json',
+                data        : $('#sign_in').serialize(),
+                beforeSend  : function () {
+                    $('#submit_login').attr('disabled', true);
+                    $('#submit_login').html('ĐANG ĐĂNG NHẬP ...');
+                }
+            });
+            ajax.done(function (data) {
+                if (data.response != 200){
+                    setTimeout(function () {
+                        show_notify(data.message, 'bg-red');
+                        $('#submit_login').attr('disabled', false);
+                        $('#submit_login').html('ĐĂNG NHẬP');
+                    }, 2000);
+                } else {
+                    setTimeout(function () {
+                        show_notify(data.message, 'bg-green');
+                        $('#submit_login').attr('disabled', false);
+                        $('#submit_login').html('ĐĂNG NHẬP');
+                        setTimeout(function () {
+                            $(location).attr('href', '<?=URL_ADMIN?>');
+                        }, 2000);
+                    }, 2000);
+                }
+            });
 
-            return false;
+            ajax.fail(function( jqXHR, textStatus ) {
+                setTimeout(function () {
+                    $('#submit_login').attr('disabled', false);
+                    $('#submit_login').html('ĐĂNG NHẬP');
+                    alert("Request failed: " + jqXHR.responseText);
+                }, 2000);
+            });
         })
     })
 </script>

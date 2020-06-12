@@ -1,4 +1,91 @@
 <?php
+function get_status_header_desc($code){
+    $desc = array(
+        100 => 'Continue', // Tiếp tục
+        101 => 'Switching Protocols', // Đang đổi Protocols
+        102 => 'Processing', // Đang xử lý
+        103 => 'Early Hints', // Gợi ý
+
+        200 => 'OK', // Done
+        201 => 'Created', // Đã được tạo
+        202 => 'Accepted', // Được chấp nhận
+        203 => 'Non-Authoritative Information', // Thông tin không xác nhận
+        204 => 'No Content', // Không có nội dung
+        205 => 'Reset Content', // Đặt lại nội dung
+        206 => 'Partial Content', // Một phần nội dung
+        207 => 'Multi-Status', // Nhiều trạng thái
+        226 => 'IM Used',
+
+        300 => 'Multiple Choices',
+        301 => 'Moved Permanently',
+        302 => 'Found', // Lỗi
+        303 => 'See Other',
+        304 => 'Not Modified',
+        305 => 'Use Proxy',
+        306 => 'Reserved',
+        307 => 'Temporary Redirect',
+        308 => 'Permanent Redirect',
+        309 => 'Miss field', // Thiếu trường
+
+        400 => 'Bad Request',
+        401 => 'Unauthorized',
+        402 => 'Payment Required',
+        403 => 'Forbidden',
+        404 => 'Not Found',
+        405 => 'Method Not Allowed',
+        406 => 'Not Acceptable',
+        407 => 'Proxy Authentication Required',
+        408 => 'Request Timeout',
+        409 => 'Conflict',
+        410 => 'Gone',
+        411 => 'Length Required',
+        412 => 'Precondition Failed',
+        413 => 'Request Entity Too Large',
+        414 => 'Request-URI Too Long',
+        415 => 'Unsupported Media Type',
+        416 => 'Requested Range Not Satisfiable',
+        417 => 'Expectation Failed',
+        418 => 'I\'m a teapot',
+        421 => 'Misdirected Request',
+        422 => 'Unprocessable Entity',
+        423 => 'Locked',
+        424 => 'Failed Dependency',
+        426 => 'Upgrade Required',
+        428 => 'Precondition Required',
+        429 => 'Too Many Requests',
+        431 => 'Request Header Fields Too Large',
+        451 => 'Unavailable For Legal Reasons',
+
+        500 => 'Internal Server Error',
+        501 => 'Not Implemented',
+        502 => 'Bad Gateway',
+        503 => 'Service Unavailable',
+        504 => 'Gateway Timeout',
+        505 => 'HTTP Version Not Supported',
+        506 => 'Variant Also Negotiates',
+        507 => 'Insufficient Storage',
+        510 => 'Not Extended',
+        511 => 'Network Authentication Required',
+    );
+    if(!$desc[$code])
+        return '';
+    return $desc[$code];
+}
+
+// Function hiển thị JSON
+function encode_json(array $array){
+    return json_encode($array, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
+}
+
+// Function hiển thị output API
+function get_response_json($response = 200, $message = ''){
+    return encode_json(['response' => $response, 'message' => $message ? $message : get_status_header_desc($response)]);
+}
+
+function get_response_array($response = 200, $message = ''){
+    return ['response' => $response, 'message' => $message ? $message : get_status_header_desc($response)];
+}
+
 /*
  * Thêm 1 chuỗi mã hóa các ký tự đặc biệt
  * */

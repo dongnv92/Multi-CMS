@@ -9,9 +9,12 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 define( 'ABSPATH'       , dirname( __FILE__ ) . '/' );
 define( 'ROOTPATH'      , basename(__DIR__) );
 define( 'PATH_ADMIN'    , 'admin');
-define( 'URL_HOME'      , 'http://localhost/dong/multicms');
-define( 'URL_ADMIN'     , URL_HOME . '/' . PATH_ADMIN);
-define( 'URL_LOGIN'     , URL_HOME . '/login.html');
+
+define( 'URL_HOME'       , 'http://localhost/dong/multicms');
+define( 'URL_ADMIN'      , URL_HOME . '/' . PATH_ADMIN);
+define( 'URL_LOGIN'      , URL_HOME . '/login.html');
+define( 'URL_ADMIN_AJAX' , URL_HOME . '/admin-ajax/');
+
 define( 'DB_HOST'       , 'localhost');
 define( 'DB_USERNAME'   , 'root');
 define( 'DB_PASSWORD'   , '');

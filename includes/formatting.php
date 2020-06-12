@@ -48,7 +48,7 @@ function sanitize_string_code_sample( $str , $language = 'html') {
  * @param int $to   Optional. Unix timestamp to end the time difference. Default becomes time() if not set.
  * @return string Human readable time difference.
  */
-function human_time_diff( $from, $to = 0 ) {
+function human_time_diff( $from, $to = 0, $text = 'trước') {
     if ( empty( $to ) ) {
         $to = time();
     }
@@ -61,49 +61,49 @@ function human_time_diff( $from, $to = 0 ) {
             $secs = 1;
         }
         /* translators: Time difference between two dates, in seconds. %s: Number of seconds. */
-        $since = "$secs giây trước";
+        $since = "$secs giây $text";
     } elseif ( $diff < HOUR_IN_SECONDS && $diff >= MINUTE_IN_SECONDS ) {
         $mins = round( $diff / MINUTE_IN_SECONDS );
         if ( $mins <= 1 ) {
             $mins = 1;
         }
         /* translators: Time difference between two dates, in minutes (min=minute). %s: Number of minutes. */
-        $since = "$mins phút trước";
+        $since = "$mins phút $text";
     } elseif ( $diff < DAY_IN_SECONDS && $diff >= HOUR_IN_SECONDS ) {
         $hours = round( $diff / HOUR_IN_SECONDS );
         if ( $hours <= 1 ) {
             $hours = 1;
         }
         /* translators: Time difference between two dates, in hours. %s: Number of hours. */
-        $since = "$hours giờ trước";
+        $since = "$hours giờ $text";
     } elseif ( $diff < WEEK_IN_SECONDS && $diff >= DAY_IN_SECONDS ) {
         $days = round( $diff / DAY_IN_SECONDS );
         if ( $days <= 1 ) {
             $days = 1;
         }
         /* translators: Time difference between two dates, in days. %s: Number of days. */
-        $since = "$days ngày trước";
+        $since = "$days ngày $text";
     } elseif ( $diff < MONTH_IN_SECONDS && $diff >= WEEK_IN_SECONDS ) {
         $weeks = round( $diff / WEEK_IN_SECONDS );
         if ( $weeks <= 1 ) {
             $weeks = 1;
         }
         /* translators: Time difference between two dates, in weeks. %s: Number of weeks. */
-        $since = "$weeks tuần trước";
+        $since = "$weeks tuần $text";
     } elseif ( $diff < YEAR_IN_SECONDS && $diff >= MONTH_IN_SECONDS ) {
         $months = round( $diff / MONTH_IN_SECONDS );
         if ( $months <= 1 ) {
             $months = 1;
         }
         /* translators: Time difference between two dates, in months. %s: Number of months. */
-        $since = "$months tháng trước";
+        $since = "$months tháng $text";
     } elseif ( $diff >= YEAR_IN_SECONDS ) {
         $years = round( $diff / YEAR_IN_SECONDS );
         if ( $years <= 1 ) {
             $years = 1;
         }
         /* translators: Time difference between two dates, in years. %s: Number of years. */
-        $since = "$years năm trước";
+        $since = "$years năm $text";
     }
 
     /**
@@ -117,4 +117,16 @@ function human_time_diff( $from, $to = 0 ) {
      * @param int    $to    Unix timestamp to end the time difference.
      */
     return $since;
+}
+
+function get_date_time($type = 'timestamp'){
+    switch ($type){
+        case 'timestamp':
+            $text = date('Y-m-d H:i:s', time());
+            break;
+        default:
+            $text = time();
+            break;
+    }
+    return $text;
 }
