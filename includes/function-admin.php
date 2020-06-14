@@ -261,3 +261,78 @@ function admin_left_side_bar(){
     </aside>
 <?php
 }
+
+function view_menu_header_li($data = []){
+    return '<li '. ($data['class'] ? 'class="'. $data['class'] .'"' : '') .'><a href="'. $data['url'] .'">'. $data['icon'] .' <span>'. $data['text'] .'</span></a></li>';
+}
+
+function get_menu_header($menu){
+    //global $path;
+    $path   = ['admin', 'user', 'add'];
+    $role   = ['user' => ['add' => true, 'delete' => true], 'category' => ['add' => true, 'delete' => true]];
+    $result = '<div class="menu"><ul class="list">';
+    foreach ($menu AS $_menu){
+        if(count($_menu['child']) > 0){
+
+        }else{
+            if(count($_menu['roles']) == 0){
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => ($_menu['active'] == $path ? 'active' : '')]);
+            }
+        }
+    }
+    $result .= '</ul></div>';
+    return $result;
+}
+
+function get_menu_header_structure(){
+    $menu = [
+        [
+            'roles'     => ['user' => 'add'],
+            'text'      => 'Trang quản trị',
+            'icon'      => '<i class="zmdi zmdi-home"></i>',
+            'url'       => URL_ADMIN,
+            'active'    => [PATH_ADMIN]
+        ],
+        [
+            'roles' => [],
+            'text'  => 'Quản lý thành viên',
+            'icon'  => 'user_manager',
+            'url'   => 'http://google.com',
+            'child' => [
+                [
+                    'text'  => 'Danh sách thành viên',
+                    'url'   => 'http://google.com.vn',
+                    'roles' => ['user_manager'],
+                    'icon'  => 'user_manager',
+                ],
+                [
+                    'text'  => 'Thêm thành viên',
+                    'url'   => 'http://google.com.vn',
+                    'roles' => ['user_add'],
+                    'icon'  => 'user_add',
+                ]
+            ]
+        ],
+        [
+            'roles' => [],
+            'text'  => 'Quản lý chuyên mục',
+            'icon'  => 'category_manager',
+            'url'   => 'http://google.com',
+            'child' => [
+                [
+                    'text'  => 'Danh sách chuyên mục',
+                    'url'   => 'http://google.com.vn',
+                    'roles' => ['category_manager'],
+                    'icon'  => 'category_manager',
+                ],
+                [
+                    'text'  => 'Thêm chuyên mục',
+                    'url'   => 'http://google.com.vn',
+                    'roles' => ['category_add'],
+                    'icon'  => 'category_add',
+                ]
+            ]
+        ]
+    ];
+    return $menu;
+}

@@ -1,26 +1,5 @@
 <?php
 require_once '../init.php';
-
-$menu = [
-    [
-        'root' => [
-            'role'  => ['...'],
-            'text'  => 'Text Root',
-            'icon'  => ''
-        ],
-        'child' => [
-            [
-                'role'  => '...',
-                'url'   => '...',
-                'text'  => '...'
-            ],
-            [
-                'role'  => '...',
-                'url'   => '...',
-                'text'  => '...'
-            ],
-            ['...'],
-        ]
-    ],
-    ['...']
-];
+require_once ABSPATH . 'includes/function-admin.php';
+$menu = get_menu_header_structure();
+echo get_menu_header($menu);
