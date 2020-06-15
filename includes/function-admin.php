@@ -275,7 +275,7 @@ function get_menu_header($menu){
         if(count($_menu['child']) > 0){
 
         }else{
-            if(count($_menu['roles']) == 0){
+            if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
                 $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => ($_menu['active'] == $path ? 'active' : '')]);
             }
         }
@@ -287,7 +287,7 @@ function get_menu_header($menu){
 function get_menu_header_structure(){
     $menu = [
         [
-            'roles'     => ['user' => 'add'],
+            'roles'     => ['category', 'add'],
             'text'      => 'Trang quản trị',
             'icon'      => '<i class="zmdi zmdi-home"></i>',
             'url'       => URL_ADMIN,
