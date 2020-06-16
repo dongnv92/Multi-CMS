@@ -269,14 +269,34 @@ function view_menu_header_li($data = []){
 function get_menu_header($menu){
     //global $path;
     $path   = ['admin', 'user', 'add'];
-    $role   = ['user' => ['add' => true, 'delete' => true], 'category' => ['add' => true, 'delete' => true]];
-    $result = '<div class="menu"><ul class="list">';
+    $role   = ['user' => ['add' => true, 'delete' => true, 'manager' => true], 'category' => ['add' => true, 'delete' => true,  'manager' => true]];
+    $result = '<div class="menu"><ul class="list">'."\n";
     foreach ($menu AS $_menu){
         if(count($_menu['child']) > 0){
-
+            // Kiểm tra xem menu con
+            $permission = false;
+            $li_active  = false;
+            foreach ($_menu['child'] AS $_child){
+                if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
+                    $permission = true;
+                }
+                if($path == $_child['active']){
+                    $li_active = true;
+                }
+            }
+            if($permission){
+                $result .= '<li '. ($li_active ? 'class="active open"' : '') .'>'."\n";
+                $result .= '<a href="javascript:void(0);" class="menu-toggle">'. $_menu['icon'] .' <span>'. $_menu['text'] .'</span></a><ul class="ml-menu">';
+                foreach ($_menu['child'] AS $_child){
+                    if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => ($_child['active'] == $path ? 'active' : '')])."\n";
+                    }
+                }
+                $result .= '</ul></li>'."\n";
+            }
         }else{
             if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
-                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => ($_menu['active'] == $path ? 'active' : '')]);
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => ($_menu['active'] == $path ? 'active' : '')])."\n";
             }
         }
     }
@@ -287,49 +307,45 @@ function get_menu_header($menu){
 function get_menu_header_structure(){
     $menu = [
         [
-            'roles'     => ['category', 'add'],
+            'roles'     => [],
             'text'      => 'Trang quản trị',
             'icon'      => '<i class="zmdi zmdi-home"></i>',
             'url'       => URL_ADMIN,
             'active'    => [PATH_ADMIN]
         ],
         [
-            'roles' => [],
             'text'  => 'Quản lý thành viên',
-            'icon'  => 'user_manager',
-            'url'   => 'http://google.com',
+            'icon'  => '<i class="zmdi zmdi-home"></i>',
             'child' => [
                 [
-                    'text'  => 'Danh sách thành viên',
-                    'url'   => 'http://google.com.vn',
-                    'roles' => ['user_manager'],
-                    'icon'  => 'user_manager',
+                    'text'      => 'Danh sách thành viên',
+                    'url'       => 'http://google.com.vn',
+                    'roles'     => ['user', 'manager'],
+                    'active'    => [PATH_ADMIN, 'user']
                 ],
                 [
                     'text'  => 'Thêm thành viên',
                     'url'   => 'http://google.com.vn',
-                    'roles' => ['user_add'],
-                    'icon'  => 'user_add',
+                    'roles' => ['user', 'add'],
+                    'active'    => [PATH_ADMIN, 'user', 'add']
                 ]
             ]
         ],
         [
-            'roles' => [],
             'text'  => 'Quản lý chuyên mục',
-            'icon'  => 'category_manager',
-            'url'   => 'http://google.com',
+            'icon'  => '<i class="zmdi zmdi-home"></i>',
             'child' => [
                 [
-                    'text'  => 'Danh sách chuyên mục',
-                    'url'   => 'http://google.com.vn',
-                    'roles' => ['category_manager'],
-                    'icon'  => 'category_manager',
+                    'text'      => 'Danh sách chuyên mục',
+                    'url'       => 'http://google.com.vn',
+                    'roles'     => ['category', 'manager'],
+                    'active'    => [PATH_ADMIN, 'category'],
                 ],
                 [
-                    'text'  => 'Thêm chuyên mục',
-                    'url'   => 'http://google.com.vn',
-                    'roles' => ['category_add'],
-                    'icon'  => 'category_add',
+                    'text'      => 'Thêm chuyên mục',
+                    'url'       => 'http://google.com.vn',
+                    'roles'     => ['category', 'add'],
+                    'active'    => [PATH_ADMIN, 'category', 'add']
                 ]
             ]
         ]

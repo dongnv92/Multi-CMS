@@ -72,6 +72,14 @@ function get_status_header_desc($code){
     return $desc[$code];
 }
 
+function role_structure(){
+    $structure = [
+        'user' => [
+            'user_manager' => 'Quản lý thành viên'
+        ]
+    ];
+}
+
 // Function hiển thị JSON
 function encode_json(array $array){
     return json_encode($array, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE);
