@@ -72,12 +72,35 @@ function get_status_header_desc($code){
     return $desc[$code];
 }
 
-function role_structure(){
-    $structure = [
-        'user' => [
-            'user_manager' => 'Quản lý thành viên'
-        ]
-    ];
+function role_structure($type = '', $des = ''){
+    switch ($type){
+        case 'des':
+            $text = '';
+            switch ($des[0]){
+                case 'user':
+                    switch ($des[1]){
+                        case 'manager': $text = 'Quản lý thành viên';   break;
+                        case 'add':     $text = 'Thêm thành viên';      break;
+                        case 'update':  $text = 'Cập nhật thành viên';      break;
+                        case 'delete':  $text = 'Xóa thành viên';      break;
+                        default:        $text = 'Quản lý thành viên';   break;
+                    }
+                    break;
+            }
+            return $text;
+            break;
+        default:
+            $structure = [
+                'user' => [
+                    'manager'   => false,
+                    'add'       => false,
+                    'update'    => false,
+                    'delete'    => false
+                ]
+            ];
+            return $structure;
+            break;
+    }
 }
 
 // Function hiển thị JSON
