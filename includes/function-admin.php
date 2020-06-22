@@ -110,27 +110,19 @@ function admin_top_bar(){
 
 function admin_left_side_bar(){
     global $me;
-    ?>
-    <aside id="leftsidebar" class="sidebar">
-        <!-- User Info -->
-        <div class="user-info">
-            <div class="image">
-                <img src="<?=URL_ADMIN."/assets/images/avatar/1.png"?>" width="48" height="48" alt="User" />
-            </div>
-            <div class="info-container">
-                <div class="name" data-toggle="dropdown"><?=$me['user_name']?></div>
-                <?=$me['user_phone']?>
-            </div>
+    $menu = get_menu_header_structure();
+    $text = '<aside id="leftsidebar" class="sidebar">
+    <!-- User Info -->
+    <div class="user-info">
+        <div class="image"><img src="'. URL_ADMIN . '/assets/images/avatar/1.png" width="48" height="48" alt="User" /></div>
+        <div class="info-container">
+            <div class="name" data-toggle="dropdown">'. $me['user_name'] .'</div>
+            '. ($me['user_phone'] ? $me['user_phone'] : 'No Info') .'
         </div>
-        <!-- #User Info -->
-        <!-- Menu -->
-        <?php
-        $menu = get_menu_header_structure();
-        echo get_menu_header($menu);
-        ?>
-        <!-- #Menu -->
-    </aside>
-<?php
+    </div>';
+    $text .= get_menu_header($menu);
+    $text .= '</aside>';
+    return $text;
 }
 
 function view_menu_header_li($data = []){
