@@ -2,8 +2,8 @@
 require_once '../init.php';
 $header['title']        = 'Các phần tử trong trang quản trị';
 $header['breadcrumbs']  = admin_breadcrumbs('Phần tử HTML', 'Các phần tử trong trang quản trị', 'Phần tử HTML',[URL_ADMIN."/elements.php" => 'Phần tử HTML']);
-$header['css']          = [URL_ADMIN."/assets/plugins/prism/prism.css"];
-$header['js']           = [URL_ADMIN."/assets/plugins/prism/prism.js"];
+$header['css']          = [URL_ADMIN_ASSETS."plugins/prism/prism.css"];
+$header['js']           = [URL_ADMIN_ASSETS."plugins/prism/prism.js"];
 require_once 'admin-header.php';
 ?>
     <div class="row">

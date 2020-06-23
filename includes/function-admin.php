@@ -35,7 +35,6 @@ function admin_page_loader_start(){
         <div class="line"></div>
         <div class="line"></div>
         <p>Vui lòng chờ ...</p>
-        <div class="m-t-30"><img src="<?=URL_ADMIN?>/assets/images/logo.png" width="48" height="48" alt="Logo"></div>
     </div>
 </div>';
 }
@@ -57,7 +56,7 @@ function admin_top_bar(){
     <div class="col-12">
         <div class="navbar-header text-center">
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="#">..:: MULTICMS ::..</a>
+            <a class="navbar-brand" href="'. URL_ADMIN .'">..:: MULTICMS ::..</a>
         </div>
         <ul class="nav navbar-nav navbar-left">
             <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
@@ -114,7 +113,7 @@ function admin_left_side_bar(){
     $text = '<aside id="leftsidebar" class="sidebar">
     <!-- User Info -->
     <div class="user-info">
-        <div class="image"><img src="'. URL_ADMIN . '/assets/images/avatar/1.png" width="48" height="48" alt="User" /></div>
+        <div class="image"><img src="'. ($me['user_avatar'] ? URL_HOME.'/'.$me['user_avatar'] : URL_HOME.'/content/assets/images/avatar/'. rand(1, 11) .'.png') .'" width="48" height="48" alt="Avatar" /></div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown">'. $me['user_name'] .'</div>
             '. ($me['user_phone'] ? $me['user_phone'] : 'No Info') .'
@@ -173,7 +172,7 @@ function get_menu_header_structure(){
             'text'      => 'Trang quản trị',
             'icon'      => '<i class="zmdi zmdi-home"></i>',
             'url'       => URL_ADMIN,
-            'active'    => [PATH_ADMIN]
+            'active'    => [PATH_ADMIN, '']
         ],
         [
             'text'  => 'Quản lý thành viên',
@@ -194,22 +193,18 @@ function get_menu_header_structure(){
             ]
         ],
         [
-            'text'  => 'Quản lý chuyên mục',
-            'icon'  => '<i class="zmdi zmdi-home"></i>',
-            'child' => [
-                [
-                    'text'      => 'Danh sách chuyên mục',
-                    'url'       => 'http://google.com.vn',
-                    'roles'     => ['category', 'manager'],
-                    'active'    => [PATH_ADMIN, 'category'],
-                ],
-                [
-                    'text'      => 'Thêm chuyên mục',
-                    'url'       => 'http://google.com.vn',
-                    'roles'     => ['category', 'add'],
-                    'active'    => [PATH_ADMIN, 'category', 'add']
-                ]
-            ]
+            'roles'     => [],
+            'text'      => 'Các phần tử',
+            'icon'      => '<i class="zmdi zmdi-delicious"></i>',
+            'url'       => URL_ADMIN.'/elements/',
+            'active'    => [PATH_ADMIN, 'elements', '']
+        ],
+        [
+            'roles'     => [],
+            'text'      => 'Đăng xuất',
+            'icon'      => '<i class="zmdi zmdi-power"></i>',
+            'url'       => URL_LOGOUT,
+            'active'    => []
         ]
     ];
     return $menu;

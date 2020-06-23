@@ -13,12 +13,12 @@ if($me){
     <meta name="description" content="Đăng nhập hệ thống.">
     <title>Đăng Nhập</title>
     <!-- Favicon-->
-    <link rel="icon" href="<?=URL_ADMIN?>/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="<?=URL_ADMIN_ASSETS?>images/favicon.ico" type="image/x-icon">
     <!-- Custom Css -->
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/css/authentication.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/css/color_skins.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/main.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/authentication.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/color_skins.css">
 </head>
 <body class="theme-orange">
 <div class="authentication">
@@ -30,7 +30,7 @@ if($me){
                         <div class="logo">
                             <a href="<?=URL_HOME?>"><img src="<?=get_config('logo')?>" style="max-height: 50px" alt="Logo"></a>
                         </div>
-                        <h1 class="text-white">MULTICMS</h1>
+                        <h1 class="text-white">MULTICMS LOGIN</h1>
                     </div>
                 </div>
                 <form class="col-lg-12" id="sign_in" method="POST">
@@ -64,11 +64,11 @@ if($me){
     </div>
 </div>
 <!-- Jquery Core Js -->
-<script src="<?=URL_ADMIN?>/assets/bundles/libscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN?>/assets/bundles/vendorscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN?>/assets/bundles/mainscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN?>/assets/plugins/bootstrap-notify/bootstrap-notify.js"></script>
-<script src="<?=URL_ADMIN?>/assets/js/init.js"></script>
+<script src="<?=URL_ADMIN_ASSETS?>bundles/libscripts.bundle.js"></script>
+<script src="<?=URL_ADMIN_ASSETS?>bundles/vendorscripts.bundle.js"></script>
+<script src="<?=URL_ADMIN_ASSETS?>bundles/mainscripts.bundle.js"></script>
+<script src="<?=URL_ADMIN_ASSETS?>plugins/bootstrap-notify/bootstrap-notify.js"></script>
+<script src="<?=URL_ADMIN_ASSETS?>js/init.js"></script>
 
 <script>
     $(document).ready(function () {

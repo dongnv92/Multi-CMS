@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 12, 2020 lúc 12:26 PM
+-- Thời gian đã tạo: Th6 23, 2020 lúc 12:31 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -36,7 +36,7 @@ CREATE TABLE `dong_meta` (
   `meta_url` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
   `meta_info` text COLLATE utf8_unicode_ci,
   `meta_images` int(11) DEFAULT NULL,
-  `meta_sub` int(11) NOT NULL,
+  `meta_parent` int(11) NOT NULL DEFAULT '0',
   `meta_user` int(11) NOT NULL,
   `meta_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -95,7 +95,7 @@ CREATE TABLE `dong_user` (
 --
 
 INSERT INTO `dong_user` (`user_id`, `user_login`, `user_password`, `user_name`, `user_address`, `user_phone`, `user_email`, `user_gender`, `user_birthday`, `user_married`, `user_note`, `user_avatar`, `user_role`, `user_status`, `user_block_time`, `user_block_message`, `user_invite`, `user_token`, `user_time`) VALUES
-(1, 'dongnv', 'T2tHMjIxenMxYTRYYlFnTURSaFJpZz09', 'Nguyễn Văn Đông', 30, '0966624292', 'nguyenvandong242@gmail.com', 'male', '1992-02-24', 'not', '', 'src/uploads/images/2020/04/08/pf1Wn0DX5NVBLrE.jpg', 1, 'block', '2020-06-12 15:00:00', NULL, 1, 'MzNKeDNpTURwbnNDaVRkUnpjeUxaQT09', '2019-06-07 15:27:32');
+(1, 'dongnv', 'T2tHMjIxenMxYTRYYlFnTURSaFJpZz09', 'Nguyễn Văn Đông', 30, '0966624292', 'nguyenvandong242@gmail.com', 'male', '1992-02-24', 'not', '', '', 1, 'block', '2020-06-12 15:00:00', NULL, 1, 'MzNKeDNpTURwbnNDaVRkUnpjeUxaQT09', '2019-06-07 15:27:32');
 
 --
 -- Chỉ mục cho các bảng đã đổ

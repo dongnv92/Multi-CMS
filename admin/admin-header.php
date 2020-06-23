@@ -7,15 +7,15 @@ $header = $header ? $header : ['title' => 'Trang quản trị'];
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <meta name="description" content="SMS OTP.">
+    <meta name="description" content="Quản lý dữ liệu">
     <title><?=$header['title']?></title>
     <!-- Favicon-->
-    <link rel="icon" href="<?=URL_ADMIN?>/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="icon" href="<?=URL_ADMIN_ASSETS?>images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>plugins/bootstrap/css/bootstrap.min.css">
     <!-- Custom Css -->
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/css/main.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/plugins/bootstrap-select/css/bootstrap-select.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN?>/assets/css/color_skins.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/main.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>plugins/bootstrap-select/css/bootstrap-select.css">
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/color_skins.css">
     <?php foreach ($header['css'] AS $css){echo '<link rel="stylesheet" href="'. $css .'">'."\n";}?>
 </head>
 <body class="theme-blush">

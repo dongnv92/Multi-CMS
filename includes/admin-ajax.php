@@ -1,5 +1,5 @@
 <?php
-require_once '../../init.php';
+require_once '../init.php';
 
 switch ($path[1]){
     case 'login':

@@ -6,19 +6,21 @@ set_time_limit(0);
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 // Khởi động các giá trị ban đầu
 /** Cài đặt các hằng số cố định */
-define( 'ABSPATH'       , dirname( __FILE__ ) . '/' );
-define( 'ROOTPATH'      , basename(__DIR__) );
-define( 'PATH_ADMIN'    , 'admin');
+define( 'ABSPATH'           , dirname( __FILE__ ) . '/' );
+define( 'ROOTPATH'          , basename(__DIR__) );
+define( 'PATH_ADMIN'        , 'admin');
 
-define( 'URL_HOME'       , 'http://localhost/dong/multicms');
-define( 'URL_ADMIN'      , URL_HOME . '/' . PATH_ADMIN);
-define( 'URL_LOGIN'      , URL_HOME . '/login.html');
-define( 'URL_ADMIN_AJAX' , URL_HOME . '/admin-ajax/');
+define( 'URL_HOME'          , 'http://localhost/dong/multicms');
+define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
+define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
+define( 'URL_LOGIN'         , URL_HOME . '/login.html');
+define( 'URL_LOGOUT'        , URL_HOME . '/logout.html');
+define( 'URL_ADMIN_AJAX'    , URL_HOME . '/admin-ajax/');
 
-define( 'DB_HOST'       , 'localhost');
-define( 'DB_USERNAME'   , 'root');
-define( 'DB_PASSWORD'   , '');
-define( 'DB_DATABASE'   , 'multicms');
+define( 'DB_HOST'           , 'localhost');
+define( 'DB_USERNAME'       , 'root');
+define( 'DB_PASSWORD'       , '');
+define( 'DB_DATABASE'       , 'multicms');
 
 /* Kết nối file database */
 require_once ABSPATH . 'includes/class/class.mysqli.db.php';
@@ -35,6 +37,7 @@ require_once ABSPATH . 'includes/formatting.php';
 require_once ABSPATH . 'includes/function-form.php';
 require_once ABSPATH . 'includes/function-javascript.php';
 require_once ABSPATH . 'includes/class/class.user.php';
+require_once ABSPATH . 'includes/class/class.meta.php';
 
 
 // Kiểm tra user
