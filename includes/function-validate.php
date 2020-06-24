@@ -8,3 +8,8 @@ function validate_isset($text = ''){
     }
 }
 
+function validate_int($value){
+    if(!filter_var($value, FILTER_VALIDATE_INT))
+        return false;
+    return true;
+}

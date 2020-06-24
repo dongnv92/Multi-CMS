@@ -39,6 +39,16 @@ class meta{
         return false;
     }
 
+    public function get_meta($id, $field = '*'){
+        if(!validate_int($id) || !$id)
+            return get_response_array(311, 'ID phải là dạng số.');
+        $db     = $this->db;
+        $meta   = $db->select($field)->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
+        if(!$meta)
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+        return ['response' => 200, 'data' => $meta];
+    }
+
     public function add(){
         global $me;
         $db = $this->db;

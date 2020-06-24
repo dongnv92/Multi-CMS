@@ -27,7 +27,8 @@ function get_status_header_desc($code){
         307 => 'Temporary Redirect',
         308 => 'Permanent Redirect',
         309 => 'Miss field', // Thiếu trường
-        310 => 'Already Exist', // Thiếu trường
+        310 => 'Already Exist', // Dữ liệu đã tồn tại
+        311 => 'Wrong Format', // Sai định dạng
 
         400 => 'Bad Request',
         401 => 'Unauthorized',
