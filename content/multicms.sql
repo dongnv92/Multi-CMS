@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 23, 2020 lúc 12:31 PM
+-- Thời gian đã tạo: Th6 24, 2020 lúc 12:22 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -40,6 +40,15 @@ CREATE TABLE `dong_meta` (
   `meta_user` int(11) NOT NULL,
   `meta_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `dong_meta`
+--
+
+INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_images`, `meta_parent`, `meta_user`, `meta_time`) VALUES
+(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
+(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
+(3, 'role', 'Biên tập viên', 'Biên tập viên', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}}', 0, 0, 1, '2020-06-24 17:15:29');
 
 -- --------------------------------------------------------
 
@@ -127,7 +136,7 @@ ALTER TABLE `dong_user`
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_setting`

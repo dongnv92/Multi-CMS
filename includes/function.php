@@ -14,6 +14,7 @@ function get_status_header_desc($code){
         205 => 'Reset Content', // Đặt lại nội dung
         206 => 'Partial Content', // Một phần nội dung
         207 => 'Multi-Status', // Nhiều trạng thái
+        208 => 'Action False', // Hành động không được thực hiện
         226 => 'IM Used',
 
         300 => 'Multiple Choices',
@@ -26,6 +27,7 @@ function get_status_header_desc($code){
         307 => 'Temporary Redirect',
         308 => 'Permanent Redirect',
         309 => 'Miss field', // Thiếu trường
+        310 => 'Already Exist', // Thiếu trường
 
         400 => 'Bad Request',
         401 => 'Unauthorized',
@@ -81,8 +83,8 @@ function role_structure($type = '', $des = ''){
                     switch ($des[1]){
                         case 'manager': $text = 'Quản lý thành viên';   break;
                         case 'add':     $text = 'Thêm thành viên';      break;
-                        case 'update':  $text = 'Cập nhật thành viên';      break;
-                        case 'delete':  $text = 'Xóa thành viên';      break;
+                        case 'update':  $text = 'Cập nhật thành viên';  break;
+                        case 'delete':  $text = 'Xóa thành viên';       break;
                         default:        $text = 'Quản lý thành viên';   break;
                     }
                     break;

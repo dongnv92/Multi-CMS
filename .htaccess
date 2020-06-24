@@ -8,4 +8,5 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^login.html$ login.php [L,QSA,B]
 RewriteRule ^logout.html$ logout.php [L,QSA,B]
 RewriteRule ^admin-ajax(.*)$ includes/admin-ajax.php [QSA,NC,L]
+RewriteRule ^js(.*)$ includes/function-javascript.php [QSA,NC,L]
 RewriteRule ^admin/(.*)/(.*)$ admin/$1.php [QSA,NC,L]

@@ -13,6 +13,7 @@ define( 'PATH_ADMIN'        , 'admin');
 define( 'URL_HOME'          , 'http://localhost/dong/multicms');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
 define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
+define( 'URL_JS'            , URL_HOME . '/js/');
 define( 'URL_LOGIN'         , URL_HOME . '/login.html');
 define( 'URL_LOGOUT'        , URL_HOME . '/logout.html');
 define( 'URL_ADMIN_AJAX'    , URL_HOME . '/admin-ajax/');
@@ -34,8 +35,8 @@ cms_magic_quotes();
 
 require_once ABSPATH . 'includes/function-admin.php';
 require_once ABSPATH . 'includes/formatting.php';
+require_once ABSPATH . 'includes/function-validate.php';
 require_once ABSPATH . 'includes/function-form.php';
-require_once ABSPATH . 'includes/function-javascript.php';
 require_once ABSPATH . 'includes/class/class.user.php';
 require_once ABSPATH . 'includes/class/class.meta.php';
 

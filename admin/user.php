@@ -11,10 +11,11 @@ switch ($path[2]){
         switch ($path[3]){
             case 'add':
                 $header['css']      = [
-                    URL_ADMIN_ASSETS . 'plugins/dropzone/dropzone.css'
+                    ''
                 ];
                 $header['js']      = [
-                    URL_ADMIN_ASSETS . 'plugins/dropzone/dropzone.js'
+                    URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+                    URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
                 ];
                 $header['title']    = 'Thêm vai trò thành viên';
                 require_once 'admin-header.php';
@@ -29,7 +30,7 @@ switch ($path[2]){
                             </div>
                             <div class="body">
                                 <?=formInputText('meta_name', [
-                                    'label'         => 'Tên vai trò thành viên.',
+                                    'label'         => 'Tên vai trò thành viên. <code>*</code>',
                                     'placeholder'   => 'Nhập tên vai trò thành viên',
                                     'autofocus'     => ''
                                 ])?>
@@ -38,24 +39,50 @@ switch ($path[2]){
                                     'placeholder'   => 'Nhập mô tả vai trò thành viên',
                                     'rows'          => '5'
                                 ])?>
-
-                                <div class="dz-message">
-                                    <div class="drag-icon-cph"> <i class="material-icons">touch_app</i> </div>
-                                    <h3>Drop files here or click to upload.</h3>
-                                    <em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em> </div>
-                                <div class="fallback">
-                                    <input name="file" type="file" multiple />
+                                <div class="text-right">
+                                    <?=formButton('THÊM', [
+                                        'id'    => 'button_add_role',
+                                        'class' => 'btn btn-raised bg-blue waves-effect'
+                                    ])?>
                                 </div>
                             </div>
                         </div>
+                    </div> <!--End Col-lg-4-->
+                    <div class="col-lg-8">
+                        <?php
+                        $list_role = role_structure();
+                        foreach ($list_role AS $key => $value){
+                        ?>
+                        <div class="card">
+                            <div class="header">
+                                <h2><?=role_structure('des', [$key])?></h2>
+                            </div>
+                            <div class="content table-responsive">
+                                <table class="table table-hover">
+                                    <tbody>
+                                    <?php foreach ($value AS $_key => $_value){?>
+                                    <tr>
+                                        <td width="20%" class="text-left align-middle">
+                                            <div class="switch">
+                                                <label>
+                                                    <input id="<?=$key.'_'.$_key?>" name="<?=$key.'_'.$_key?>" value="1" type="checkbox">
+                                                    <span class="lever"></span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td width="80%" class="text-left align-middle"><label class="font-weight-bold" for="<?=$key.'_'.$_key?>"><?=role_structure('des', [$key, $_key])?></label></td>
+                                    </tr>
+                                    <?php }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
                 <?=formClose()?>
-                <script>
-                    $(document).ready(function () {
-                        $("#frmFileUpload").dropzone({ url: "/file/post" });
-                    })
-                </script>
                 <?php
                 require_once 'admin-footer.php';
                 break;

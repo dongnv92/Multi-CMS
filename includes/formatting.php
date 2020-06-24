@@ -119,13 +119,13 @@ function human_time_diff( $from, $to = 0, $text = 'trước') {
     return $since;
 }
 
-function get_date_time($type = 'timestamp'){
+function get_date_time($type = ''){
     switch ($type){
         case 'timestamp':
-            $text = date('Y-m-d H:i:s', time());
+            $text = time();
             break;
         default:
-            $text = time();
+            $text = date('Y-m-d H:i:s', time());
             break;
     }
     return $text;
