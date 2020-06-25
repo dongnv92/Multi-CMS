@@ -49,14 +49,57 @@ class meta{
         return ['response' => 200, 'data' => $meta];
     }
 
+    public function update($id){
+        // Nếu chưa có id hoặc sai định dạng int thì báo lỗi
+        if(!validate_int($id) || !$id)
+            return get_response_array(311, 'ID phải là dạng số.');
+        $db     = $this->db;
+        $meta   = $db->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
+
+        // Nếu id không tồn tại thì báo lỗi
+        if(!$meta)
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+
+        // Nếu không nhập tên thì báo lỗi
+        if(!validate_isset($_REQUEST[$this->meta_name]))
+            return get_response_array(309, 'Bạn cần nhập tên vai trò thành viên.');
+
+        // Nếu tên vừa nhập khác tên cũ và trùng thì báo lỗi
+        if($_REQUEST[$this->meta_name] != $meta[$this->meta_name] && $this->check_name($_REQUEST[$this->meta_name]))
+            return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
+
+        $meta_info  = [];
+        $data_role      = role_structure();
+        foreach ($data_role AS $key => $value){
+            foreach ($value AS $_key => $_value){
+                if($_REQUEST["{$key}_{$_key}"]){
+                    $meta_info[$key][$_key] = true;
+                }else{
+                    $meta_info[$key][$_key] = false;
+                }
+            }
+        }
+        $meta_info  = serialize($meta_info);
+
+        $data_update = [
+            'meta_name'     => $db->escape($_REQUEST[$this->meta_name]),
+            'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
+            'meta_info'     => $db->escape($meta_info)
+        ];
+        $data_update = $db->where([$this->meta_type => $this->type, $this->meta_id => $id])->update($this->db_table, $data_update);
+        if(!$data_update)
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        return get_response_array(200, "Cập nhật dữ liệu thành công.");
+    }
+
     public function add(){
         global $me;
         $db = $this->db;
         if(!validate_isset($_REQUEST[$this->meta_name]))
-            return get_response_array(309, 'Bạn cần nhập tên vai trò thành viên.'. $me['user_name']);
+            return get_response_array(309, 'Bạn cần nhập tên vai trò thành viên.');
 
         if($this->check_name($_REQUEST[$this->meta_name]))
-            return get_response_array(310, "Tên vai trò thành viên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
+            return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
 
         $meta_info  = [];
         $data_role      = role_structure();

@@ -1,5 +1,18 @@
 <?php
 
+function admin_error($title, $content, $title_sub = ''){
+    $text = '<div class="card">
+        <div class="header">
+            <h2>'. $title .' '. ($title_sub ? '<small>'. $title_sub .'</small>' : '') .'</h2>
+        </div>
+        <div class="body text-center">
+            '. $content .'<br><br>
+            <a href="'. URL_ADMIN .'" class="btn btn-raised bg-blue waves-effect">Trang Chủ</a>
+        </div>
+    </div>';
+    return $text;
+}
+
 function admin_breadcrumbs($title, $title_des = '', $title_active = '', $list_url = ''){
     $li = '';
     if(is_array($list_url)){

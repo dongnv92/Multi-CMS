@@ -6,6 +6,44 @@ switch ($path[1]){
         switch ($path[2]){
             case 'role':
                 switch ($path[3]){
+                    case 'update':
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            $('#button_update_role').on('click', function () {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"?>',
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                    data        : $('form').serialize(),
+                                    beforeSend  : function () {
+                                        $('#button_update_role').attr('disabled', true);
+                                        $('#button_update_role').html('ĐANG CẬP NHẬT ...');
+                                    }
+                                });
+                                ajax.done(function (data) {
+                                    setTimeout(function () {
+                                        if(data.response == 200){
+                                            show_notify(data.message, 'bg-green');
+                                            $('#button_update_role').attr('disabled', false);
+                                            $('#button_update_role').html('CẬP NHẬT');
+                                        }else{
+                                            show_notify(data.message, 'bg-red');
+                                            $('#button_update_role').attr('disabled', false);
+                                            $('#button_update_role').html('CẬP NHẬT');
+                                        }
+                                    }, 2000);
+                                });
+
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    $('#button_update_role').attr('disabled', false);
+                                    $('#button_update_role').html('CẬP NHẬT');
+                                    alert( "Request failed: " + textStatus );
+                                });
+                            });
+                        });
+                        <?php
+                        break;
                     case 'add':
                         ?>
                         //<script>
@@ -40,7 +78,7 @@ switch ($path[1]){
                                     $('#button_add_role').html('THÊM');
                                     alert( "Request failed: " + textStatus );
                                 });
-                            })
+                            });
                         });
                         <?php
                         break;
