@@ -145,6 +145,16 @@ function cms_magic_quotes() {
     $_REQUEST = array_merge( $_GET, $_POST );
 }
 
+function get_query_search($text, array $fields){
+    global $database;
+    foreach ($fields as $data) {
+        $colums[] = "`". add_magic_quotes($data) ."` LIKE '%". add_magic_quotes($text) ."%'";
+    }
+    $colums = implode(' OR ', $colums);
+    $colums = "($colums)";
+    return $colums;
+}
+
 /*
  * Check xem request gửi lên có phải request kiểu JSON không
  * */

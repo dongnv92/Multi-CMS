@@ -181,9 +181,11 @@ switch ($path[2]){
                 $header['title'] = 'Quản lý vai trò';
                 require_once 'admin-header.php';
                 echo admin_breadcrumbs('Vai trò thành viên', 'Quản lý vai trò thành viên','Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
-                ?>
-
-                <?php
+                $meta = new meta($database, 'role');
+                $data = $meta->get_all();
+                echo "<pre>";
+                print_r($data);
+                echo "</pre>";
                 require_once 'admin-footer.php';
                 break;
         }
