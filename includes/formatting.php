@@ -1,10 +1,10 @@
 <?php
-define( 'MINUTE_IN_SECONDS', 60 );
-define( 'HOUR_IN_SECONDS', 60 * MINUTE_IN_SECONDS );
-define( 'DAY_IN_SECONDS', 24 * HOUR_IN_SECONDS );
-define( 'WEEK_IN_SECONDS', 7 * DAY_IN_SECONDS );
-define( 'MONTH_IN_SECONDS', 30 * DAY_IN_SECONDS );
-define( 'YEAR_IN_SECONDS', 365 * DAY_IN_SECONDS );
+define( 'MINUTE_IN_SECONDS' , 60 );
+define( 'HOUR_IN_SECONDS'   , 60 * MINUTE_IN_SECONDS );
+define( 'DAY_IN_SECONDS'    , 24 * HOUR_IN_SECONDS );
+define( 'WEEK_IN_SECONDS'   , 7 * DAY_IN_SECONDS );
+define( 'MONTH_IN_SECONDS'  , 30 * DAY_IN_SECONDS );
+define( 'YEAR_IN_SECONDS'   , 365 * DAY_IN_SECONDS );
 
 
 /**
@@ -129,4 +129,32 @@ function get_date_time($type = ''){
             break;
     }
     return $text;
+}
+
+// Cắt chuỗi ký tự hoặc văn bản
+function text_truncate($text, $limit, $type = 'words', $ellipsis = ' ...'){
+    switch ($type) {
+        case 'words':
+            $words = preg_split("/[\n\r\t ]+/", $text, $limit + 1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_OFFSET_CAPTURE);
+            if (count($words) > $limit) {
+                end($words); //ignore last element since it contains the rest of the string
+                $last_word = prev($words);
+
+                $text = substr($text, 0, $last_word[1] + strlen($last_word[0])) . $ellipsis;
+            }
+            return $text;
+            break;
+        case 'text':
+            if (strlen($text) > $limit) {
+                $endpos = strpos(str_replace(array("\r\n", "\r", "\n", "\t"), ' ', $text), ' ', $limit);
+                if ($endpos !== FALSE)
+                    $text = trim(substr($text, 0, $endpos)) . $ellipsis;
+            }
+            return $text;
+            break;
+    }
+}
+
+function view_date_time($date_time){
+    return date('H:i:s d/m/Y', strtotime($date_time));
 }

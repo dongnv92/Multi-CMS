@@ -96,7 +96,7 @@ if($me){
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');
                         setTimeout(function () {
-                            $(location).attr('href', '<?=URL_ADMIN?>');
+                            $(location).attr('href', '<?=isset($_REQUEST['ref']) ? $_REQUEST['ref'] : URL_ADMIN?>');
                         }, 2000);
                     }, 2000);
                 }

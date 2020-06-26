@@ -49,6 +49,31 @@ class meta{
         return ['response' => 200, 'data' => $meta];
     }
 
+    public function delete($id){
+        // Nếu chưa có id hoặc sai định dạng int thì báo lỗi
+        if(!validate_int($id) || !$id)
+            return get_response_array(311, 'ID phải là dạng số.');
+        $db     = $this->db;
+        $meta   = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
+
+        // Nếu id không tồn tại thì báo lỗi
+        if(!$meta)
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+
+        // Nếu id là id đặc biệt thì báo lỗi
+        if($id == get_config('role_special'))
+            return get_response_array(302, 'Không thể xóa dữ liệu này!');
+
+        // Nếu id là id mặc định thì báo lỗi
+        if($id == get_config('role_default'))
+            return get_response_array(302, 'Không thể xóa dữ liệu này!');
+
+        $delete = $db->delete()->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->limit(1)->execute();
+        if(!$delete)
+            return get_response_array(208, 'Xóa dữ liệu không thành công!');
+        return get_response_array(200, 'Xóa dữ liệu thành công!');
+    }
+
     public function get_all(){
         $db         = $this->db;
         $page       = (validate_int($_REQUEST['page']) && $_REQUEST['page'] > 1 ? $_REQUEST['page'] : 1); // Nếu không truyền tham số page thì mặc định là 1 (Số trang hiện tại)
@@ -60,7 +85,7 @@ class meta{
         // Tính tổng data
         $db->select('COUNT(*) AS count_data')->from($this->db_table);
         if($_REQUEST['search']){
-            $db->where(get_query_search($_REQUEST['search']), [$this->meta_name, $this->meta_des]);
+            $db->where(get_query_search($_REQUEST['search'], [$this->meta_name, $this->meta_des]));
         }
         if($where){
             $db->where($where);
@@ -77,7 +102,7 @@ class meta{
         // Hiển thị dữ liệu theo số liệu nhập vào
         $db->select('*')->from($this->db_table);
         if($_REQUEST['search']){
-            $db->where(get_query_search($_REQUEST['search']), [$this->meta_name, $this->meta_des]);
+            $db->where(get_query_search($_REQUEST['search'], [$this->meta_name, $this->meta_des]));
         }
         if($where){
             $db->where($where);
@@ -119,7 +144,7 @@ class meta{
 
         // Nếu không nhập tên thì báo lỗi
         if(!validate_isset($_REQUEST[$this->meta_name]))
-            return get_response_array(309, 'Bạn cần nhập tên vai trò thành viên.');
+            return get_response_array(309, 'Bạn cần nhập tên.');
 
         // Nếu tên vừa nhập khác tên cũ và trùng thì báo lỗi
         if($_REQUEST[$this->meta_name] != $meta[$this->meta_name] && $this->check_name($_REQUEST[$this->meta_name]))
@@ -153,7 +178,7 @@ class meta{
         global $me;
         $db = $this->db;
         if(!validate_isset($_REQUEST[$this->meta_name]))
-            return get_response_array(309, 'Bạn cần nhập tên vai trò thành viên.');
+            return get_response_array(309, 'Bạn cần nhập tên.');
 
         if($this->check_name($_REQUEST[$this->meta_name]))
             return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");

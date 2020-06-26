@@ -86,6 +86,7 @@ function role_structure($type = '', $des = ''){
                         case 'add':     $text = 'Thêm thành viên';      break;
                         case 'update':  $text = 'Cập nhật thành viên';  break;
                         case 'delete':  $text = 'Xóa thành viên';       break;
+                        case 'role':    $text = 'Quản lý phân quyền';   break;
                         default:        $text = 'Quản lý thành viên';   break;
                     }
                     break;
@@ -98,6 +99,7 @@ function role_structure($type = '', $des = ''){
                     'manager'   => false,
                     'add'       => false,
                     'update'    => false,
+                    'role'      => false,
                     'delete'    => false
                 ]
             ];
@@ -145,8 +147,7 @@ function cms_magic_quotes() {
     $_REQUEST = array_merge( $_GET, $_POST );
 }
 
-function get_query_search($text, array $fields){
-    global $database;
+function get_query_search($text, $fields){
     foreach ($fields as $data) {
         $colums[] = "`". add_magic_quotes($data) ."` LIKE '%". add_magic_quotes($text) ."%'";
     }
@@ -276,4 +277,8 @@ function get_path_uri(){
     $path = implode('/', $path);
     $path = explode('/', $path);
     return $path;
+}
+
+function get_current_url(){
+    return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 }

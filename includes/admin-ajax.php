@@ -5,6 +5,15 @@ switch ($path[1]){
         switch ($path[2]){
             case 'role':
                 switch ($path[3]){
+                    case 'delete':
+                        if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        $role   = new meta($database, 'role');
+                        $delete = $role->delete($path[4]);
+                        echo encode_json($delete);
+                        break;
                     case 'update':
                         if(!$me) {
                             echo encode_json(get_response_array(403));

@@ -142,8 +142,8 @@ function view_menu_header_li($data = []){
 }
 
 function get_menu_header($menu){
-    global $path;
-    $role   = role_structure();
+    global $path, $role;
+    //$role   = role_structure();
     $result = '<div class="menu"><ul class="list">'."\n";
     foreach ($menu AS $_menu){
         if(count($_menu['child']) > 0){
@@ -163,7 +163,7 @@ function get_menu_header($menu){
                 $result .= '<a href="javascript:void(0);" class="menu-toggle">'. $_menu['icon'] .' <span>'. $_menu['text'] .'</span></a><ul class="ml-menu">';
                 foreach ($_menu['child'] AS $_child){
                     if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
-                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => ($_child['active'] == $path ? 'active' : '')])."\n";
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => ($path == $_child['active'] ? 'active' : '')])."\n";
                     }
                 }
                 $result .= '</ul></li>'."\n";
@@ -188,20 +188,26 @@ function get_menu_header_structure(){
             'active'    => [PATH_ADMIN, '']
         ],
         [
-            'text'  => 'Quản lý thành viên',
-            'icon'  => '<i class="zmdi zmdi-home"></i>',
+            'text'  => 'Thành viên',
+            'icon'  => '<i class="zmdi zmdi-accounts-alt"></i>',
             'child' => [
                 [
                     'text'      => 'Danh sách thành viên',
-                    'url'       => 'http://google.com.vn',
+                    'url'       => URL_ADMIN . "/user/",
                     'roles'     => ['user', 'manager'],
-                    'active'    => [PATH_ADMIN, 'user']
+                    'active'    => [PATH_ADMIN, 'user', '']
                 ],
                 [
                     'text'  => 'Thêm thành viên',
-                    'url'   => 'http://google.com.vn',
+                    'url'   => URL_ADMIN . "/user/add",
                     'roles' => ['user', 'add'],
                     'active'    => [PATH_ADMIN, 'user', 'add']
+                ],
+                [
+                    'text'      => 'Phân quyền',
+                    'url'       => URL_ADMIN . "/user/role",
+                    'roles'     => ['user', 'role'],
+                    'active'    => [PATH_ADMIN, 'user', 'role']
                 ]
             ]
         ],

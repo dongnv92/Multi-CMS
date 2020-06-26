@@ -83,7 +83,43 @@ switch ($path[1]){
                         <?php
                         break;
                     default:
-
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            $('a[data-type=delete]').on('click', function () {
+                                var id = $(this).data('id');
+                                swal({
+                                    title: "Xóa vai trò thành viên",
+                                    text: "Bạn có muốn xóa vai trò thanh viên này không?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                }, function () {
+                                    setTimeout(function () {
+                                        var ajax = $.ajax({
+                                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>/delete/' + id,
+                                            method      : 'POST',
+                                            dataType    : 'json',
+                                        });
+                                        ajax.done(function (data) {
+                                            if(data.response == 200){
+                                                swal("Xóa vai trò thành viên", "Xóa vai trò thành viên thành công!", "success");
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                }, 2000);
+                                            }else{
+                                                swal("Xóa vai trò thành viên", data.message, "error");
+                                            }
+                                        });
+                                        ajax.fail(function( jqXHR, textStatus ) {
+                                            console.log("Request failed: " + textStatus );
+                                        });
+                                    }, 2000);
+                                });
+                            });
+                        });
+                        <?php
                         break;
                 }
                 break;
