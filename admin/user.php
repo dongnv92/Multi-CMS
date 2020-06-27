@@ -12,6 +12,7 @@ switch ($path[2]){
             case 'update':
                 $meta = new meta($database, 'role');
                 $meta = $meta->get_meta($path[4]);
+                // Kiểm tra tồn tại của meta
                 if($meta['response'] != 200){
                     $header['title']    = 'Cập nhật vai trò thành viên';
                     require_once 'admin-header.php';
@@ -20,8 +21,18 @@ switch ($path[2]){
                     require_once 'admin-footer.php';
                     exit();
                 }
-                $role_info = unserialize($meta['data']['meta_info']);
 
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['role']){
+                    $header['title']    = 'Cập nhật vai trò thành viên';
+                    require_once 'admin-header.php';
+                    echo admin_breadcrumbs('Vai trò thành viên', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
+                    echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once 'admin-footer.php';
+                    exit();
+                }
+
+                $role_info = unserialize($meta['data']['meta_info']);
                 $header['css']      = [
                     ''
                 ];
@@ -106,6 +117,16 @@ switch ($path[2]){
                 require_once 'admin-footer.php';
                 break;
             case 'add':
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['role']){
+                    $header['title']    = 'Cập nhật vai trò thành viên';
+                    require_once 'admin-header.php';
+                    echo admin_breadcrumbs('Vai trò thành viên', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
+                    echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once 'admin-footer.php';
+                    exit();
+                }
+
                 $header['css']      = [
                     ''
                 ];
@@ -188,6 +209,16 @@ switch ($path[2]){
                 require_once 'admin-footer.php';
                 break;
             default:
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['role']){
+                    $header['title']    = 'Cập nhật vai trò thành viên';
+                    require_once 'admin-header.php';
+                    echo admin_breadcrumbs('Vai trò thành viên', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
+                    echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once 'admin-footer.php';
+                    exit();
+                }
+
                 $meta               = new meta($database, 'role');
                 $data               = $meta->get_all();
 

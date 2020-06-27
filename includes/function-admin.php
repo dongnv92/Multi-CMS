@@ -137,6 +137,25 @@ function admin_left_side_bar(){
     return $text;
 }
 
+function check_menu_active($path, $list_active){
+    $active = '';
+    foreach ($list_active AS $_list_active){
+        $count_path = count($_list_active);
+        for($i = 0; $i <= ($count_path - 1); $i++){
+            if($path[$i] != $_list_active[$i]){
+                $active = false;
+                break;
+            }else{
+                $active = true;
+            }
+        }
+        if($active){
+            break;
+        }
+    }
+    return $active;
+}
+
 function view_menu_header_li($data = []){
     return '<li '. ($data['class'] ? 'class="'. $data['class'] .'"' : '') .'><a href="'. $data['url'] .'">'. $data['icon'] .' <span>'. $data['text'] .'</span></a></li>';
 }
@@ -154,7 +173,7 @@ function get_menu_header($menu){
                 if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
                     $permission = true;
                 }
-                if($path == $_child['active']){
+                if( check_menu_active($path, $_child['active'])){
                     $li_active = true;
                 }
             }
@@ -163,14 +182,14 @@ function get_menu_header($menu){
                 $result .= '<a href="javascript:void(0);" class="menu-toggle">'. $_menu['icon'] .' <span>'. $_menu['text'] .'</span></a><ul class="ml-menu">';
                 foreach ($_menu['child'] AS $_child){
                     if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
-                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => ($path == $_child['active'] ? 'active' : '')])."\n";
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'active' : '')])."\n";
                     }
                 }
                 $result .= '</ul></li>'."\n";
             }
         }else{
             if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
-                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => ($_menu['active'] == $path ? 'active' : '')])."\n";
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'active' : '')])."\n";
             }
         }
     }
@@ -185,7 +204,7 @@ function get_menu_header_structure(){
             'text'      => 'Trang quản trị',
             'icon'      => '<i class="zmdi zmdi-home"></i>',
             'url'       => URL_ADMIN,
-            'active'    => [PATH_ADMIN, '']
+            'active'    => [[PATH_ADMIN, '']]
         ],
         [
             'text'  => 'Thành viên',
@@ -195,19 +214,19 @@ function get_menu_header_structure(){
                     'text'      => 'Danh sách thành viên',
                     'url'       => URL_ADMIN . "/user/",
                     'roles'     => ['user', 'manager'],
-                    'active'    => [PATH_ADMIN, 'user', '']
+                    'active'    => [[PATH_ADMIN, 'user', '']]
                 ],
                 [
-                    'text'  => 'Thêm thành viên',
-                    'url'   => URL_ADMIN . "/user/add",
-                    'roles' => ['user', 'add'],
-                    'active'    => [PATH_ADMIN, 'user', 'add']
+                    'text'      => 'Thêm thành viên',
+                    'url'       => URL_ADMIN . "/user/add",
+                    'roles'     => ['user', 'add'],
+                    'active'    => [[PATH_ADMIN, 'user', 'add']]
                 ],
                 [
                     'text'      => 'Phân quyền',
                     'url'       => URL_ADMIN . "/user/role",
                     'roles'     => ['user', 'role'],
-                    'active'    => [PATH_ADMIN, 'user', 'role']
+                    'active'    => [[PATH_ADMIN, 'user', 'role', ''], [PATH_ADMIN, 'user', 'role', 'add'], [PATH_ADMIN, 'user', 'role', 'update']]
                 ]
             ]
         ],
@@ -216,7 +235,7 @@ function get_menu_header_structure(){
             'text'      => 'Các phần tử',
             'icon'      => '<i class="zmdi zmdi-delicious"></i>',
             'url'       => URL_ADMIN.'/elements/',
-            'active'    => [PATH_ADMIN, 'elements', '']
+            'active'    => [[PATH_ADMIN, 'elements', '']]
         ],
         [
             'roles'     => [],

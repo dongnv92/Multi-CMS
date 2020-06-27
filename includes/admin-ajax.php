@@ -6,7 +6,13 @@ switch ($path[1]){
             case 'role':
                 switch ($path[3]){
                     case 'delete':
+                        // Kiểm tra đăng nhập
                         if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        // Kiểm tra quyền truy cập
+                        if(!$role['user']['role']){
                             echo encode_json(get_response_array(403));
                             break;
                         }
@@ -15,16 +21,29 @@ switch ($path[1]){
                         echo encode_json($delete);
                         break;
                     case 'update':
+                        // Kiểm tra đăng nhập
                         if(!$me) {
                             echo encode_json(get_response_array(403));
                             break;
                         }
+                        // Kiểm tra quyền truy cập
+                        if(!$role['user']['role']){
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+
                         $role   = new meta($database, 'role');
                         $update = $role->update($path[4]);
                         echo encode_json($update);
                         break;
                     case 'add':
+                        // Kiểm tra đăng nhập
                         if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        // Kiểm tra quyền truy cập
+                        if(!$role['user']['role']){
                             echo encode_json(get_response_array(403));
                             break;
                         }
