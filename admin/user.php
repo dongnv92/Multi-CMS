@@ -219,8 +219,10 @@ switch ($path[2]){
                     exit();
                 }
 
-                $meta               = new meta($database, 'role');
-                $data               = $meta->get_all();
+                // Lấy dữ liệu
+                $meta   = new meta($database, 'role');
+                $data   = $meta->get_all();
+                $param  = get_param_defaul();
 
                 $header['css']      = [
                     URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
@@ -291,11 +293,17 @@ switch ($path[2]){
                                     </tr>
                                     <?php }?>
                                     <tr>
-                                        <td colspan="4" class="text-left">Tổng số <strong class="text-primary"><?=$data['paging']['count_data']?></strong> bản ghi</td>
+                                        <td colspan="4" class="text-left">
+                                            Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                            Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="text-center clearfix">
+                            <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/{$path[2]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
                         </div>
                     </div>
                 </div>
@@ -307,8 +315,65 @@ switch ($path[2]){
     case 'add':
         $header['title'] = 'Thêm thành viên';
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Thêm thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
-
+        echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+        echo formOpen('', ['method' => 'POST']);
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2>Thêm thành viên</h2>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputText('user_login', [
+                                    'label'         => 'Tên đăng nhập. <code>*</code>',
+                                    'placeholder'   => 'Nhập tên đăng nhập',
+                                    'autofocus'     => ''
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputText('user_name', [
+                                    'label'         => 'Tên hiển thị. <code>*</code>',
+                                    'placeholder'   => 'Nhập tên hiển thị'
+                                ])?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputPassword('user_pass', [
+                                    'label'         => 'Mật khẩu. <code>*</code>',
+                                    'placeholder'   => 'Nhập mật khẩu'
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputText('user_repass', [
+                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>',
+                                    'placeholder'   => 'Nhập lại mật khẩu'
+                                ])?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputText('user_email', [
+                                    'label'         => 'Email.',
+                                    'placeholder'   => 'Nhập Email'
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputText('user_phone', [
+                                    'label'         => 'Nhập số điện thoại.',
+                                    'placeholder'   => 'Nhập số điện thoại'
+                                ])?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        echo formClose();
         require_once 'admin-footer.php';
         break;
     default:

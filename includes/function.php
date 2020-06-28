@@ -282,3 +282,86 @@ function get_path_uri(){
 function get_current_url(){
     return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 }
+
+// Tạo chuỗi URL từ các tham số
+function buildQuery($params, $plus = ['']){
+    if(!is_array($params)){
+        return '';
+    }
+    $data = [];
+    foreach ($params AS $key => $value){
+        if(isset($value) && !empty($value)){
+            $data[$key] = $value;
+        }
+    }
+    if(is_array($plus)){
+        foreach ($plus AS $key => $value){
+            if(isset($value) && !empty($value)){
+                $data[$key] = $value;
+            }else{
+                unset($data[$key]);
+            }
+        }
+    }
+    return '?'.http_build_query($data);
+}
+
+// Thay thế link phân trang
+function replaceUrlPagination($url, $page_number, $option = ''){
+    $option['class_li'] = $option['class_li']   ? $option['class_li']   : 'page-item';
+    $option['class_a']  = $option['class_a']    ? $option['class_a']    : 'page-link';
+    $url = str_replace(['%7Bpage%7D', '{page}'], $page_number, $url);
+    $url = "<li class=\"{$option['class_li']}\"><a href=\"{$url}\" class=\"{$option['class_a']}\">{$option['text']}</a></li>";
+    return $url;
+}
+
+// Phân Trang
+function pagination($page_curent, $page_count, $url){
+    $link = '';
+    for ($i = $page_curent; $i <= ($page_curent + 4) && $i <= $page_count; $i++) {
+        if ($page_curent == $i) {
+            $link .= replaceUrlPagination("javascript:;", $i, ['class_li' => 'page-item active', 'text' => $i]);
+        } else {
+            $link .= replaceUrlPagination($url, $i, ['text' => $i]);
+        }
+    }
+    if ($page_curent > 4) {
+        $page4 = replaceUrlPagination($url, ($page_curent - 4), ['text' => ($page_curent - 4)]);
+    }
+    if ($page_curent > 3) {
+        $page3 = replaceUrlPagination($url, ($page_curent - 3), ['text' => ($page_curent - 3)]);
+    }
+    if ($page_curent > 2) {
+        $page2 = replaceUrlPagination($url, ($page_curent - 2), ['text' => ($page_curent - 2)]);
+    }
+    if ($page_curent > 1) {
+        $page1 = replaceUrlPagination($url, ($page_curent - 1), ['text' => ($page_curent - 1)]);
+        $link1 = replaceUrlPagination($url, ($page_curent - 1), ['text' => "« Trang sau"]);
+    }
+    if ($page_curent < $page_count) {
+        $link2 = replaceUrlPagination($url, ($page_curent + 1), ['text' => "Trang tiếp »"]);
+    }
+    $linked = $page4 . $page3 . $page2 . $page1;
+    if ($page_curent < $page_count - 4) {
+        $page_end_pt = replaceUrlPagination($url, $page_count, ['text' => $page_count]);
+    }
+    if ($page_curent > 5) {
+        $page_start_pt = replaceUrlPagination($url, 1, ['text' => '1']);
+    }
+    if ($page_count > 1 && $page_curent <= $page_count) {
+        return '<nav aria-label="Page navigation"><ul class="pagination justify-content-center">' . $link1 . $page_start_pt . $linked . $link . $page_end_pt . $link2 . '</ul></nav>';
+    } else {
+        return false;
+    }
+}
+
+function get_param_defaul(){
+    $page       = (validate_int($_REQUEST['page']) && $_REQUEST['page'] > 1 ? $_REQUEST['page'] : 1); // Nếu không truyền tham số page thì mặc định là 1 (Số trang hiện tại)
+    $limit      = (validate_int($_REQUEST['limit']) ? $_REQUEST['limit'] : 100); // Nếu không truyền tham số limit thì mặc định là 100 (Số bản ghi trên 1 trang)
+    $offset     = (validate_int($_REQUEST['offset'])? $_REQUEST['offset'] : 0); // Nếu không truyền tham số offset thì mặc định là 0 (Từ bản ghi thứ ...)
+    return [
+        'page'      => $page,
+        'limit'     => $limit,
+        'offset'    => $offset
+    ];
+}

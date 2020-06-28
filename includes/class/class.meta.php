@@ -76,9 +76,10 @@ class meta{
 
     public function get_all(){
         $db         = $this->db;
-        $page       = (validate_int($_REQUEST['page']) && $_REQUEST['page'] > 1 ? $_REQUEST['page'] : 1); // Nếu không truyền tham số page thì mặc định là 1 (Số trang hiện tại)
-        $limit      = (validate_int($_REQUEST['limit'])? $_REQUEST['limit'] : 100); // Nếu không truyền tham số limit thì mặc định là 100 (Số bản ghi trên 1 trang)
-        $offset     = (validate_int($_REQUEST['offset'])? $_REQUEST['offset'] : 0); // Nếu không truyền tham số offset thì mặc định là 0 (Từ bản ghi thứ ...)
+        $param      = get_param_defaul();
+        $page       = $param['page'];
+        $limit      = $param['limit'];
+        $offset     = $param['offset'];
         $where      = [];
         $pagination = [];
 
