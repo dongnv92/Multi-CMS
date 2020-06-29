@@ -4,6 +4,44 @@ header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
     case 'user':
         switch ($path[2]){
+            case 'add':
+            ?>
+                //<script>
+                $(document).ready(function () {
+                    $('#button_add_user').on('click', function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                            method      : 'POST',
+                            dataType    : 'json',
+                            data        : $('form').serialize(),
+                            beforeSend  : function () {
+                                $('#button_add_user').attr('disabled', true);
+                                $('#button_add_user').html('ĐANG THÊM THÀNH VIÊN ...');
+                            }
+                        });
+                        ajax.done(function (data) {
+                            setTimeout(function () {
+                                if(data.response == 200){
+                                    show_notify(data.message, 'bg-green');
+                                    $('#button_add_user').attr('disabled', false);
+                                    $('#button_add_user').html('THÊM THÀNH VIÊN');
+                                }else{
+                                    show_notify(data.message, 'bg-red');
+                                    $('#button_add_user').attr('disabled', false);
+                                    $('#button_add_user').html('THÊM THÀNH VIÊN');
+                                }
+                            }, 2000);
+                        });
+
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            $('#button_add_user').attr('disabled', false);
+                            $('#button_add_user').html('THÊM THÀNH VIÊN');
+                            alert( "Request failed: " + textStatus );
+                        });
+                    });
+                });
+            <?php
+            break;
             case 'role':
                 switch ($path[3]){
                     case 'update':

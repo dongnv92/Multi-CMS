@@ -312,8 +312,36 @@ switch ($path[2]){
                 break;
         }
         break;
-    case 'add':
-        $header['title'] = 'Thêm thành viên';
+    case 'update':
+        // Kiểm tra quyền truy cập
+        $header['js']      = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
+        $header['title']    = 'Thêm thành viên';
+
+        $user = new user($database);
+        $user = $user->get_user(['user_id' => $path[3]]);
+
+        if(!$role['user']['add']){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Thêm thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+        if(!$path[3] || !$user){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Thêm thành viên', 'Thành viên không tồn tại.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+
+        $user_role          = new meta($database, 'role');
+        $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
         echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
         echo formOpen('', ['method' => 'POST']);
@@ -322,7 +350,120 @@ switch ($path[2]){
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2>Thêm thành viên</h2>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Thêm thành viên</h2>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputText('user_login', [
+                                    'label'         => 'Tên đăng nhập. <code>*</code>',
+                                    'placeholder'   => 'Nhập tên đăng nhập',
+                                    'autofocus'     => '',
+                                    'value'         => $user['user_login']
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputText('user_name', [
+                                    'label'         => 'Tên hiển thị. <code>*</code>',
+                                    'placeholder'   => 'Nhập tên hiển thị',
+                                    'value'         => $user['user_name']
+                                ])?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputPassword('user_password', [
+                                    'label'         => 'Mật khẩu. <code>*</code>',
+                                    'placeholder'   => 'Nhập mật khẩu',
+                                    'autocomplete'  => 'new-password'
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputPassword('user_repass', [
+                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>',
+                                    'placeholder'   => 'Nhập lại mật khẩu'
+                                ])?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <?=formInputText('user_email', [
+                                    'label'         => 'Email.',
+                                    'placeholder'   => 'Nhập Email',
+                                    'value'         => $user['user_email']
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputText('user_phone', [
+                                    'label'         => 'Điện thoại.',
+                                    'placeholder'   => 'Nhập số điện thoại',
+                                    'value'         => $user['user_phone']
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputSelect('user_role', $user_role, [
+                                    'label'             => 'Vai trò <code>*</code>',
+                                    'data-live-search'  => 'true',
+                                    'selected'          => $user['user_role']]
+                                )?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <?=formButton('THÊM THÀNH VIÊN', [
+                                    'id'    => 'button_add_user',
+                                    'class' => 'btn btn-raised bg-blue waves-effect'
+                                ])?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        echo formClose();
+        require_once 'admin-footer.php';
+        break;
+    case 'add':
+        // Kiểm tra quyền truy cập
+        $header['js']      = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
+        $header['title']    = 'Thêm thành viên';
+        if(!$role['user']['add']){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Thêm thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+        $user_role          = new meta($database, 'role');
+        $user_role          = $user_role->get_data_select();
+        require_once 'admin-header.php';
+        echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+        echo formOpen('', ['method' => 'POST']);
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Thêm thành viên</h2>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
+                            </div>
+                        </div>
                     </div>
                     <div class="body">
                         <div class="row">
@@ -342,29 +483,44 @@ switch ($path[2]){
                         </div>
                         <div class="row">
                             <div class="col-lg-6">
-                                <?=formInputPassword('user_pass', [
+                                <?=formInputPassword('user_password', [
                                     'label'         => 'Mật khẩu. <code>*</code>',
-                                    'placeholder'   => 'Nhập mật khẩu'
+                                    'placeholder'   => 'Nhập mật khẩu',
+                                    'autocomplete'  => 'new-password'
                                 ])?>
                             </div>
                             <div class="col-lg-6">
-                                <?=formInputText('user_repass', [
+                                <?=formInputPassword('user_repass', [
                                     'label'         => 'Nhập lại mật khẩu. <code>*</code>',
                                     'placeholder'   => 'Nhập lại mật khẩu'
                                 ])?>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?=formInputText('user_email', [
                                     'label'         => 'Email.',
                                     'placeholder'   => 'Nhập Email'
                                 ])?>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?=formInputText('user_phone', [
                                     'label'         => 'Nhập số điện thoại.',
                                     'placeholder'   => 'Nhập số điện thoại'
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputSelect('user_role', $user_role, [
+                                        'label'             => 'Vai trò <code>*</code>',
+                                        'data-live-search'  => 'true']
+                                )?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12 text-right">
+                                <?=formButton('THÊM THÀNH VIÊN', [
+                                    'id'    => 'button_add_user',
+                                    'class' => 'btn btn-raised bg-blue waves-effect'
                                 ])?>
                             </div>
                         </div>

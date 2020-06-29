@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 24, 2020 lúc 12:22 PM
+-- Thời gian đã tạo: Th6 29, 2020 lúc 12:21 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -46,9 +46,9 @@ CREATE TABLE `dong_meta` (
 --
 
 INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_images`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
-(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
-(3, 'role', 'Biên tập viên', 'Biên tập viên', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}}', 0, 0, 1, '2020-06-24 17:15:29');
+(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
+(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
+(4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}}', 0, 0, 1, '2020-06-26 15:09:13');
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,9 @@ CREATE TABLE `dong_setting` (
 --
 
 INSERT INTO `dong_setting` (`setting_id`, `setting_key`, `setting_value`, `setting_user`, `setting_time`) VALUES
-(1, 'logo', 'content/assets/images/system/logo.png', 1, '2020-06-11 10:35:00');
+(1, 'logo', 'content/assets/images/system/logo.png', 1, '2020-06-11 10:35:00'),
+(2, 'role_special', '1', 1, '2020-06-26 15:12:00'),
+(3, 'role_default', '4', 1, '2020-06-26 15:13:00');
 
 -- --------------------------------------------------------
 
@@ -104,7 +106,8 @@ CREATE TABLE `dong_user` (
 --
 
 INSERT INTO `dong_user` (`user_id`, `user_login`, `user_password`, `user_name`, `user_address`, `user_phone`, `user_email`, `user_gender`, `user_birthday`, `user_married`, `user_note`, `user_avatar`, `user_role`, `user_status`, `user_block_time`, `user_block_message`, `user_invite`, `user_token`, `user_time`) VALUES
-(1, 'dongnv', 'T2tHMjIxenMxYTRYYlFnTURSaFJpZz09', 'Nguyễn Văn Đông', 30, '0966624292', 'nguyenvandong242@gmail.com', 'male', '1992-02-24', 'not', '', '', 1, 'block', '2020-06-12 15:00:00', NULL, 1, 'MzNKeDNpTURwbnNDaVRkUnpjeUxaQT09', '2019-06-07 15:27:32');
+(1, 'dongnv', 'T2tHMjIxenMxYTRYYlFnTURSaFJpZz09', 'Nguyễn Văn Đông', 30, '0966624292', 'nguyenvandong242@gmail.com', 'male', '1992-02-24', 'not', '', '', 1, 'active', '2020-06-12 15:00:00', NULL, 1, 'MzNKeDNpTURwbnNDaVRkUnpjeUxaQT09', '2019-06-07 15:27:32'),
+(2, 'admin', 'T2tHMjIxenMxYTRYYlFnTURSaFJpZz09', 'ADMIN', 0, '', '', '', '0000-00-00', '', '', '', 2, 'active', '0000-00-00 00:00:00', '', 0, 'blUzdmtoNUxzanBvQjJDNFhZWVVhQT09', '2020-06-29 14:56:41');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -136,19 +139,19 @@ ALTER TABLE `dong_user`
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_setting`
 --
 ALTER TABLE `dong_setting`
-  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_user`
 --
 ALTER TABLE `dong_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

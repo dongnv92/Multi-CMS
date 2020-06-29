@@ -171,7 +171,7 @@ class user{
             return get_response_array(302, 'Tài khoản của bạn đang bị tạm khóa. Đăng nhập trong '. human_time_diff(strtotime($check_user_login[$this->user_block_time]), time(), 'sau') .'.');
 
         // Kiểm tra xem mật khẩu có chính xác không?
-        $db->select("{$this->user_token}")->from($this->db_table);
+        $db->select("{$this->user_token}, {$this->user_id}")->from($this->db_table);
         $db->where_in($this->user_status, self::USER_STATUS_LOGIN_ACCESS);
         $db->where($this->user_password, $this->encodeText($_REQUEST['user_pass']));
         $db->open_where();
@@ -189,7 +189,95 @@ class user{
         }else{
             $_SESSION['access_token'] = $check_user_login[$this->user_token];
         }
+        $db->where([$this->user_id => $check_user_login[$this->user_id]])->update($this->db_table, ['user_status' => 'active']);
         return ['response' => 200, 'data' => $check_user_login, 'message' => 'Đăng nhập thành công.'];
+    }
+
+    public function check_user($data, $check_type = ''){
+        $db   = $this->db;
+        $user = false;
+        switch ($check_type){
+            default:
+                $check = $db->select('COUNT(*) AS count')->from($this->db_table)->where($this->user_login, $data)->fetch_first();
+                if($check['count'] > 0){
+                    $user = true;
+                }
+                break;
+        }
+        return $user;
+    }
+
+    public function add(){
+        $db         = $this->db;
+        $check_role = $db->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $_REQUEST[$this->user_role]])->fetch_first();
+        // Kiểm tra username
+        if(!validate_isset($_REQUEST[$this->user_login]))
+            return get_response_array(309, 'Bạn cần nhập tên đăng nhập.');
+        if(strlen($_REQUEST[$this->user_login]) < 4 || strlen($_REQUEST[$this->user_login]) > 20)
+            return get_response_array(309, 'Tên đăng nhập từ 4 đến 20 ký tự.');
+        if(!validate_username($_REQUEST[$this->user_login]))
+            return get_response_array(309, 'Tên đăng nhập chỉ bao gồm chữ, số, ký tự _ hoặc dấu chấm.');
+        if($this->check_user($_REQUEST[$this->user_login]))
+            return get_response_array(309, 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.');
+
+        // Kiểm tra tên hiển thị
+        if(!validate_isset($_REQUEST[$this->user_name]))
+            return get_response_array(309, 'Bạn cần nhập tên hiển thị.');
+        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 20)
+            return get_response_array(309, 'Tên hiển thị từ 4 đến 20 ký tự.');
+
+        // Kiểm tra mật khẩu
+        if(!validate_isset($_REQUEST[$this->user_password]))
+            return get_response_array(309, 'Bạn cần nhập mật khẩu.');
+        if(strlen($_REQUEST[$this->user_password]) < 4 || strlen($_REQUEST[$this->user_password]) > 20)
+            return get_response_array(309, 'Mật khẩu từ 4 đến 20 ký tự.');
+
+        // Kiểm tra nhập lại mật khẩu
+        if(!validate_isset($_REQUEST['user_repass']))
+            return get_response_array(309, 'Bạn cần nhập lại mật khẩu.');
+        if($_REQUEST['user_repass'] != $_REQUEST[$this->user_password])
+            return get_response_array(309, 'Hai mật khẩu không giống nhau.');
+
+        // Kiểm tra email
+        if($_REQUEST[$this->user_email] && !validate_email($_REQUEST[$this->user_email]))
+            return get_response_array(309, 'Email không đúng định dạng.');
+
+        // Kiểm tra điện thoại
+        if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || $_REQUEST[$this->user_phone] > 35))
+            return get_response_array(309, 'Số điện thoại từ 8 đến 35 ký tự.');
+
+        // Kiểm tra vai trò thành viên
+        if(!validate_isset($_REQUEST[$this->user_role]))
+            return get_response_array(309, 'Bạn cần chọn 1 vai trò thành viên.');
+        if(!validate_int($_REQUEST[$this->user_role]))
+            return get_response_array(309, 'Vai trò thành viên phải là dạng ID.');
+        if($check_role['count'] == 0)
+            return get_response_array(309, 'Vai trò thành viên không tồn tại.');
+
+        $data_add = [
+            'user_login'        => $db->escape($_REQUEST[$this->user_login]),
+            'user_password'     => $this->encodeText($_REQUEST[$this->user_password]),
+            'user_name'         => $db->escape($_REQUEST[$this->user_name]),
+            'user_address'      => '',
+            'user_phone'        => $db->escape($_REQUEST[$this->user_phone]),
+            'user_email'        => $db->escape($_REQUEST[$this->user_email]),
+            'user_gender'       => '',
+            'user_birthday'     => '',
+            'user_married'      => '',
+            'user_note'         => '',
+            'user_avatar'       => '',
+            'user_role'         => $db->escape($_REQUEST[$this->user_role]),
+            'user_status'       => 'active',
+            'user_block_time'   => '',
+            'user_block_message'=> '',
+            'user_invite'       => '',
+            'user_token'        => $this->encodeText($_REQUEST[$this->user_name].time()),
+            'user_time'         => get_date_time()
+        ];
+        $data_add = $db->insert($this->db_table, $data_add);
+        if(!$data_add)
+            return get_response_array(208, "Thêm thành viên mới không thành công.");
+        return get_response_array(200, "Thêm thành viên mới thành công.");
     }
 
     public function logout(){

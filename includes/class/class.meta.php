@@ -31,6 +31,16 @@ class meta{
         $this->type         = $meta_type;
     }
 
+    public function get_data_select(){
+        $db     = $this->db;
+        $data   = $db->select("{$this->meta_id}, {$this->meta_name}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
+        $result = [];
+        foreach ($data AS $_data){
+            $result[$_data[$this->meta_id]] = $_data[$this->meta_name];
+        }
+        return $result;
+    }
+
     private function check_name($name){
         $db     = $this->db;
         $check  = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_name => $name, $this->meta_type => $this->type])->fetch_first();

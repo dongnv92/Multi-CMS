@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/admin/user.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="366" column="74" selection-start-line="366" selection-start-column="74" selection-end-line="366" selection-end-column="74" />
+            <state relative-caret-position="425">
+              <caret line="413" column="75" selection-start-line="413" selection-start-column="75" selection-end-line="413" selection-end-column="75" />
               <folding>
                 <element signature="e#192#18791#0#PHP" />
                 <element signature="e#244#6685#0#PHP" />
@@ -30,19 +30,64 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/class/class.meta.php">
+        <entry file="file://$PROJECT_DIR$/includes/function-form.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1326">
-              <caret line="78" column="41" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="41" />
+            <state relative-caret-position="528">
+              <caret line="253" column="71" selection-start-line="253" selection-start-column="63" selection-end-line="253" selection-end-column="71" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/function.php">
+        <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6188">
-              <caret line="364" column="30" selection-start-line="364" selection-start-column="30" selection-end-line="364" selection-end-column="30" />
+            <state relative-caret-position="629">
+              <caret line="37" column="71" selection-start-line="37" selection-start-column="71" selection-end-line="37" selection-end-column="71" />
+              <folding>
+                <element signature="e#167#7070#0#PHP" />
+                <element signature="e#235#2486#0#PHP" />
+                <element signature="e#4730#7029#0#PHP" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/admin-ajax.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="306">
+              <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+              <folding>
+                <element signature="e#177#843#0#PHP" />
+                <element signature="e#864#1531#0#PHP" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="290">
+              <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/function-validate.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/class/class.meta.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="736">
+              <caret line="223" column="67" selection-start-line="221" selection-start-column="8" selection-end-line="223" selection-end-column="67" />
             </state>
           </provider>
         </entry>
@@ -71,12 +116,10 @@
       <list>
         <option value="$PROJECT_DIR$/includes/init.php" />
         <option value="$PROJECT_DIR$/test.php" />
-        <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/admin/index.php" />
         <option value="$PROJECT_DIR$/includes/class/class.mysqli.db.php" />
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.user.php" />
         <option value="$PROJECT_DIR$/admin/admin-header.php" />
         <option value="$PROJECT_DIR$/admin/includes/admin-ajax.php" />
         <option value="$PROJECT_DIR$/admin/elements.php" />
@@ -84,16 +127,18 @@
         <option value="$PROJECT_DIR$/content/assets-admin/bundles/libscripts.bundle.js" />
         <option value="$PROJECT_DIR$/.htaccess" />
         <option value="$PROJECT_DIR$/admin/admin-footer.php" />
-        <option value="$PROJECT_DIR$/includes/function-validate.php" />
         <option value="$PROJECT_DIR$/login.php" />
         <option value="$PROJECT_DIR$/includes/formatting.php" />
-        <option value="$PROJECT_DIR$/includes/function-javascript.php" />
         <option value="$PROJECT_DIR$/init.php" />
         <option value="$PROJECT_DIR$/includes/function-admin.php" />
         <option value="$PROJECT_DIR$/admin/test.php" />
-        <option value="$PROJECT_DIR$/includes/admin-ajax.php" />
         <option value="$PROJECT_DIR$/includes/function.php" />
         <option value="$PROJECT_DIR$/includes/class/class.meta.php" />
+        <option value="$PROJECT_DIR$/includes/function-javascript.php" />
+        <option value="$PROJECT_DIR$/includes/function-validate.php" />
+        <option value="$PROJECT_DIR$/includes/class/class.user.php" />
+        <option value="$PROJECT_DIR$/includes/admin-ajax.php" />
+        <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/admin/user.php" />
       </list>
     </option>
@@ -109,6 +154,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -126,11 +172,16 @@
               <item name="multicms" type="462c0819:PsiDirectoryNode" />
               <item name="includes" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="includes" type="462c0819:PsiDirectoryNode" />
+              <item name="class" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -139,6 +190,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/content" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="editing.templates" />
   </component>
   <component name="RecentsManager">
@@ -198,17 +250,18 @@
       <workItem from="1593222818014" duration="9771000" />
       <workItem from="1593269595424" duration="3539000" />
       <workItem from="1593356928442" duration="1251000" />
+      <workItem from="1593396970534" duration="12966000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="138507000" />
+    <option name="totallyTimeSpent" value="151473000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.17246597" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17217484" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -346,7 +399,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SMS/administrator/src/class/javascript.php">
+    <entry file="file://$PROJECT_DIR$/../sms/administrator/src/class/javascript.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" selection-start-line="2" selection-end-line="3" />
@@ -387,15 +440,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SMS/apisms/index.php">
+    <entry file="file://$PROJECT_DIR$/../sms/apisms/index.php">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-validate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/../review/api/includes/function.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -430,38 +476,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="98" column="113" selection-start-line="98" selection-start-column="113" selection-end-line="98" selection-end-column="113" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/formatting.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="753">
-          <caret line="158" column="54" selection-start-line="158" selection-start-column="54" selection-end-line="158" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="745">
-          <caret line="433" column="17" lean-forward="true" selection-start-line="433" selection-start-column="17" selection-end-line="433" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="651">
-          <caret line="114" column="78" lean-forward="true" selection-start-line="114" selection-start-column="78" selection-end-line="114" selection-end-column="78" />
-          <folding>
-            <element signature="e#235#2486#0#PHP" />
-            <element signature="e#2507#4709#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.htaccess">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -473,13 +487,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="524">
           <caret line="142" column="43" lean-forward="true" selection-start-line="142" selection-start-column="43" selection-end-line="142" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="994">
-          <caret line="134" column="41" selection-start-line="134" selection-start-column="38" selection-end-line="134" selection-end-column="41" />
         </state>
       </provider>
     </entry>
@@ -510,13 +517,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/admin-ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="28" selection-start-line="28" selection-end-line="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../review/src/class/function.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
@@ -524,29 +524,87 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin/user.php">
+    <entry file="file://$PROJECT_DIR$/includes/function.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="366" column="74" selection-start-line="366" selection-start-column="74" selection-end-line="366" selection-end-column="74" />
-          <folding>
-            <element signature="e#192#18791#0#PHP" />
-            <element signature="e#244#6685#0#PHP" />
-            <element signature="e#11982#18766#0#PHP" />
-          </folding>
+        <state relative-caret-position="4811">
+          <caret line="283" column="1" lean-forward="true" selection-start-line="283" selection-start-column="1" selection-end-line="283" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="98" column="113" selection-start-line="98" selection-start-column="113" selection-end-line="98" selection-end-column="113" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-validate.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/formatting.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="298">
+          <caret line="121" column="9" selection-start-line="121" selection-start-column="9" selection-end-line="121" selection-end-column="9" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/class/class.meta.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="78" column="41" selection-start-line="78" selection-start-column="8" selection-end-line="78" selection-end-column="41" />
+        <state relative-caret-position="736">
+          <caret line="223" column="67" selection-start-line="221" selection-start-column="8" selection-end-line="223" selection-end-column="67" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function.php">
+    <entry file="file://$PROJECT_DIR$/includes/admin-ajax.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6188">
-          <caret line="364" column="30" selection-start-line="364" selection-start-column="30" selection-end-line="364" selection-end-column="30" />
+        <state relative-caret-position="306">
+          <caret line="18" column="39" selection-start-line="18" selection-start-column="39" selection-end-line="18" selection-end-column="39" />
+          <folding>
+            <element signature="e#177#843#0#PHP" />
+            <element signature="e#864#1531#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="629">
+          <caret line="37" column="71" selection-start-line="37" selection-start-column="71" selection-end-line="37" selection-end-column="71" />
+          <folding>
+            <element signature="e#167#7070#0#PHP" />
+            <element signature="e#235#2486#0#PHP" />
+            <element signature="e#4730#7029#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="290">
+          <caret line="29" column="20" selection-start-line="29" selection-start-column="20" selection-end-line="29" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="253" column="71" selection-start-line="253" selection-start-column="63" selection-end-line="253" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="413" column="75" selection-start-line="413" selection-start-column="75" selection-end-line="413" selection-end-column="75" />
+          <folding>
+            <element signature="e#192#18791#0#PHP" />
+            <element signature="e#244#6685#0#PHP" />
+            <element signature="e#11982#18766#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>

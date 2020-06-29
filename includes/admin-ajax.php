@@ -3,6 +3,21 @@ require_once '../init.php';
 switch ($path[1]){
     case 'user':
         switch ($path[2]){
+            case 'add':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['add']){
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                $add = new user($database);
+                $add = $add->add();
+                echo encode_json($add);
+                break;
             case 'role':
                 switch ($path[3]){
                     case 'delete':

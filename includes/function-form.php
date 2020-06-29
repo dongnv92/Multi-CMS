@@ -249,7 +249,7 @@ function formInputSelect($name, $data = [], $attribute = []){
                 }
             }
 
-            $content .= $label.'<select '. $form_attribute .'>';
+            $content .= $label.'<select '. $form_attribute .' name="'. $name .'">';
             foreach ($data AS $value => $text){
                 $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
             }
