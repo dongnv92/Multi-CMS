@@ -94,6 +94,76 @@ class user{
         return $data;
     }
 
+    // Lấy danh sách tất cả thành viên
+    public function get_all(){
+        $db         = $this->db;
+        $param      = get_param_defaul();
+        $page       = $param['page'];
+        $limit      = $param['limit'];
+        $offset     = $param['offset'];
+        $where      = [];
+        $pagination = [];
+        // Tính tổng data
+        $db->select('COUNT(*) AS count_data')->from($this->db_table);
+        if($_REQUEST['search']){
+            $db->where(get_query_search($_REQUEST['search'], [$this->user_login, $this->user_name, $this->user_email, $this->user_phone]));
+        }
+        if($where){
+            $db->where($where);
+        }
+        $data_count                 = $db->fetch_first();
+        $pagination['count']        = $data_count['count_data'];                    // Tổng số bản ghi
+        $pagination['page_num']     = ceil($pagination['count'] / $limit);   // Tổng số trang
+        $pagination['page_start']   = ($page - 1) * $limit;                        // Bắt đầu từ số bản ghi này
+
+        // Nếu số trang hiện tại lớn hơn tổng số trang thì bào lỗi
+        if(($page - 1) > $pagination['page_num'] || $offset > $pagination['count'])
+            return get_response_array(311, 'Số trang không được lớn hơn số dữ liệu có.');
+
+        // Hiển thị dữ liệu theo số liệu nhập vào
+        $db->select('*')->from($this->db_table);
+        if($_REQUEST['search']){
+            $db->where(get_query_search($_REQUEST['search'], [$this->user_login, $this->user_name, $this->user_email, $this->user_phone]));
+        }
+        if($where){
+            $db->where($where);
+        }
+        $db->limit($limit, ($page > 1 ? $pagination['page_start'] : $offset));
+        if($_REQUEST['sort']){
+            $sort = explode('.',$_REQUEST['sort']);
+            if(count($sort) == 1){
+                $db->order_by($sort[0]);
+            }else if(count($sort) == 2 && in_array($sort[1], ['asc', 'ASC', 'desc', 'DESC'])){
+                $db->order_by($sort[0], $sort[1]);
+            }
+        }
+        $data = $db->fetch();
+        $response = [
+            'response'  => 200,
+            'paging'    => [
+                'count_data'    => $pagination['count'],
+                'page'          => $pagination['page_num'],
+                'page_current'  => $page,
+                'limit'         => $limit,
+                'offset'        => $page > 1 ? $pagination['page_start'] : $offset
+            ],
+            'data'      => $data
+        ];
+        return $response;
+    }
+
+    public function delete($id){
+        $db         = $this->db;
+        $user_count = $db->select('COUNT(*) AS count')->from($this->db_table)->fetch_first();
+        if(!$this->check_user($id, 'id'))
+            return get_response_array(309, 'Thành viên không tồn tại hoặc đã bị xóa khỏi hệ thống.');
+        if($user_count['count'] == 1)
+            return get_response_array(309, 'Không thể xóa thành viên cuối cùng.');
+        $delete = $db->delete()->from($this->db_table)->where($this->user_id, $id)->limit(1)->execute();
+        if(!$delete)
+            return get_response_array(208, 'Xóa thành viên không thành công!');
+        return get_response_array(200, 'Xóa thành viên thành công!');
+    }
 
     // Lấy thông tin user qua user_token
     function init_get_me(){
@@ -197,6 +267,12 @@ class user{
         $db   = $this->db;
         $user = false;
         switch ($check_type){
+            case 'id':
+                $check = $db->select('COUNT(*) AS count')->from($this->db_table)->where($this->user_id, $data)->fetch_first();
+                if($check['count'] > 0){
+                    $user = true;
+                }
+                break;
             default:
                 $check = $db->select('COUNT(*) AS count')->from($this->db_table)->where($this->user_login, $data)->fetch_first();
                 if($check['count'] > 0){
@@ -205,6 +281,83 @@ class user{
                 break;
         }
         return $user;
+    }
+
+    public function update($id){
+        $db             = $this->db;
+        $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_id, $id)->fetch_first();
+        $check_user     = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_login, $_REQUEST[$this->user_login])->fetch_first();
+        $check_email    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_email, $_REQUEST[$this->user_email])->fetch_first();
+        $check_phone    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_phone, $_REQUEST[$this->user_phone])->fetch_first();
+        $check_role     = $db->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $_REQUEST[$this->user_role]])->fetch_first();
+
+        if(!$get_user)
+            return get_response_array(309, 'Thành viên không tồn tại trên hệ thống hoặc đã bị xóa.');
+
+        // Kiểm tra username
+        if(!validate_isset($_REQUEST[$this->user_login]))
+            return get_response_array(309, 'Bạn cần nhập tên đăng nhập.');
+        if(strlen($_REQUEST[$this->user_login]) < 4 || strlen($_REQUEST[$this->user_login]) > 20)
+            return get_response_array(309, 'Tên đăng nhập từ 4 đến 20 ký tự.');
+        if(!validate_username($_REQUEST[$this->user_login]))
+            return get_response_array(309, 'Tên đăng nhập chỉ bao gồm chữ, số, ký tự _ hoặc dấu chấm.');
+        if(($_REQUEST[$this->user_login] != $get_user[$this->user_login]) && $check_user['count'] > 0)
+            return get_response_array(309, 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.');
+
+        // Kiểm tra tên hiển thị
+        if(!validate_isset($_REQUEST[$this->user_name]))
+            return get_response_array(309, 'Bạn cần nhập tên hiển thị.');
+        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 20)
+            return get_response_array(309, 'Tên hiển thị từ 4 đến 20 ký tự.');
+
+        // Kiểm tra mật khẩu
+        if(validate_isset($_REQUEST[$this->user_password])){
+            if(strlen($_REQUEST[$this->user_password]) < 4 || strlen($_REQUEST[$this->user_password]) > 20)
+                return get_response_array(309, 'Mật khẩu từ 4 đến 20 ký tự.');
+
+            // Kiểm tra nhập lại mật khẩu
+            if(!validate_isset($_REQUEST['user_repass']))
+                return get_response_array(309, 'Bạn cần nhập lại mật khẩu.');
+            if($_REQUEST['user_repass'] != $_REQUEST[$this->user_password])
+                return get_response_array(309, 'Hai mật khẩu không giống nhau.');
+        }
+
+        // Kiểm tra email
+        if($_REQUEST[$this->user_email] && !validate_email($_REQUEST[$this->user_email]))
+            return get_response_array(309, 'Email không đúng định dạng.');
+        if($_REQUEST[$this->user_email] && (($_REQUEST[$this->user_email] != $get_user[$this->user_email]) && $check_email['count'] > 0))
+            return get_response_array(309, 'Email đã tồn tại, vui lòng chọn Email khác.');
+
+        // Kiểm tra điện thoại
+        if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || strlen($_REQUEST[$this->user_phone]) > 35))
+            return get_response_array(309, 'Số điện thoại từ 8 đến 35 ký tự.');
+        if($_REQUEST[$this->user_phone] && (($_REQUEST[$this->user_phone] != $get_user[$this->user_phone]) && $check_phone['count'] > 0))
+            return get_response_array(309, 'Điện thoại đã tồn tại, vui lòng chọn số điện thoại khác.');
+
+        // Kiểm tra vai trò thành viên
+        if(!validate_isset($_REQUEST[$this->user_role]))
+            return get_response_array(309, 'Bạn cần chọn 1 vai trò thành viên.');
+        if(!validate_int($_REQUEST[$this->user_role]))
+            return get_response_array(309, 'Vai trò thành viên phải là dạng ID.');
+        if($check_role['count'] == 0)
+            return get_response_array(309, 'Vai trò thành viên không tồn tại.');
+
+        $data_update = [
+            'user_login'        => $db->escape($_REQUEST[$this->user_login]),
+            'user_name'         => $db->escape($_REQUEST[$this->user_name]),
+            'user_phone'        => $db->escape($_REQUEST[$this->user_phone]),
+            'user_email'        => $db->escape($_REQUEST[$this->user_email]),
+            'user_role'         => $db->escape($_REQUEST[$this->user_role]),
+            'user_status'       => 'active'
+        ];
+        if($_REQUEST[$this->user_password]){
+            $data_update[$this->user_password] = $_REQUEST[$this->user_password];
+        }
+
+        $data_update = $db->where($this->user_id, $id)->update($this->db_table, $data_update);
+        if(!$data_update)
+            return get_response_array(208, "Cập nhật thành viên không thành công.");
+        return get_response_array(200, "Cập nhật thành viên thành công.");
     }
 
     public function add(){
@@ -243,7 +396,7 @@ class user{
             return get_response_array(309, 'Email không đúng định dạng.');
 
         // Kiểm tra điện thoại
-        if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || $_REQUEST[$this->user_phone] > 35))
+        if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || strlen($_REQUEST[$this->user_phone]) > 35))
             return get_response_array(309, 'Số điện thoại từ 8 đến 35 ký tự.');
 
         // Kiểm tra vai trò thành viên

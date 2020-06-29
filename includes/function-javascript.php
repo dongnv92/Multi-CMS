@@ -4,8 +4,55 @@ header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
     case 'user':
         switch ($path[2]){
+            case 'update':
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['update']){
+                    echo "Forbidden";
+                    exit();
+                }
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    $('#button_update_user').on('click', function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
+                            method      : 'POST',
+                            dataType    : 'json',
+                            data        : $('form').serialize(),
+                            beforeSend  : function () {
+                                $('#button_update_user').attr('disabled', true);
+                                $('#button_update_user').html('ĐANG CẬP NHẬT THÀNH VIÊN ...');
+                            }
+                        });
+                        ajax.done(function (data) {
+                            setTimeout(function () {
+                                if(data.response == 200){
+                                    show_notify(data.message, 'bg-green');
+                                    $('#button_update_user').attr('disabled', false);
+                                    $('#button_update_user').html('CẬP NHẬT');
+                                }else{
+                                    show_notify(data.message, 'bg-red');
+                                    $('#button_update_user').attr('disabled', false);
+                                    $('#button_update_user').html('CẬP NHẬT');
+                                }
+                            }, 2000);
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            $('#button_update_user').attr('disabled', false);
+                            $('#button_update_user').html('CẬP NHẬT');
+                            alert( "Request failed: " + textStatus );
+                        });
+                    });
+                });
+                <?php
+                break;
             case 'add':
-            ?>
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['add']){
+                    echo "Forbidden";
+                    exit();
+                }
+                ?>
                 //<script>
                 $(document).ready(function () {
                     $('#button_add_user').on('click', function () {
@@ -43,6 +90,11 @@ switch ($path[1]){
             <?php
             break;
             case 'role':
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['role']){
+                    echo "Forbidden";
+                    exit();
+                }
                 switch ($path[3]){
                     case 'update':
                         ?>
@@ -160,6 +212,50 @@ switch ($path[1]){
                         <?php
                         break;
                 }
+                break;
+            default:
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['manager']){
+                    echo "Forbidden";
+                    exit();
+                }
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    $('a[data-type=delete]').on('click', function () {
+                        var id = $(this).data('id');
+                        swal({
+                            title: "Xóa thành viên",
+                            text: "Bạn có muốn xóa thành viên này không? sau khi xóa dữ liệu sẽ không thể khôi phục được",
+                            type: "warning",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function () {
+                            setTimeout(function () {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + id,
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                });
+                                ajax.done(function (data) {
+                                    if(data.response == 200){
+                                        swal("Xóa thành viên", "Xóa thành viên thành công!", "success");
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }else{
+                                        swal("Xóa thành viên", data.message, "error");
+                                    }
+                                });
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    console.log("Request failed: " + textStatus );
+                                });
+                            }, 2000);
+                        });
+                    });
+                });
+                <?php
                 break;
         }
         break;

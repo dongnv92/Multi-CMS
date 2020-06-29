@@ -316,25 +316,25 @@ switch ($path[2]){
         // Kiểm tra quyền truy cập
         $header['js']      = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
-            URL_JS . "{$path[1]}/{$path[2]}"
+            URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
         ];
-        $header['title']    = 'Thêm thành viên';
+        $header['title']    = 'Cập nhật thành viên';
 
         $user = new user($database);
         $user = $user->get_user(['user_id' => $path[3]]);
 
         if(!$role['user']['add']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
-            echo admin_error('Thêm thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            echo admin_breadcrumbs('Thành viên', 'Cập nhật thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Cập nhật thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
         }
 
         if(!$path[3] || !$user){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
-            echo admin_error('Thêm thành viên', 'Thành viên không tồn tại.');
+            echo admin_breadcrumbs('Thành viên', 'Cập nhật thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Cập nhật thành viên.', 'Thành viên không tồn tại hoặc đã bị xóa khỏi hệ thống. Vui lòng kiểm tra lại.');
             require_once 'admin-footer.php';
             exit();
         }
@@ -343,7 +343,7 @@ switch ($path[2]){
         $user_role          = new meta($database, 'role');
         $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+        echo admin_breadcrumbs('Thành viên', 'Cập nhật thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên']);
         echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row">
@@ -352,10 +352,11 @@ switch ($path[2]){
                     <div class="header">
                         <div class="row">
                             <div class="col-lg-6">
-                                <h2>Thêm thành viên</h2>
+                                <h2>Cập nhật <span class="text-pink"><?=$user['user_name']?></span></h2>
                             </div>
                             <div class="col-lg-6 text-right">
                                 <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
+                                <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">THÊM MỚI</a>
                             </div>
                         </div>
                     </div>
@@ -417,8 +418,8 @@ switch ($path[2]){
                         </div>
                         <div class="row">
                             <div class="col-lg-12 text-right">
-                                <?=formButton('THÊM THÀNH VIÊN', [
-                                    'id'    => 'button_add_user',
+                                <?=formButton('CẬP NHẬT', [
+                                    'id'    => 'button_update_user',
                                     'class' => 'btn btn-raised bg-blue waves-effect'
                                 ])?>
                             </div>
@@ -534,9 +535,110 @@ switch ($path[2]){
         break;
     default:
         $header['title'] = 'Quản lý thành viên';
+        // Kiểm tra quyền truy cập
+        if(!$role['user']['manager']){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Quản lý thành viên', '','Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_error('Quản lý thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+        // Lấy dữ liệu
+        $user   = new user($database);
+        $data   = $user->get_all();
+        $param  = get_param_defaul();
+
+        $header['css']      = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
+        ];
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
+            URL_JS . "{$path[1]}/{$path[2]}",
+        ];
         require_once 'admin-header.php';
         echo admin_breadcrumbs('Quản lý thành viên', '','Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
-
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card action_bar m-t-15">
+                    <?=formOpen('', ['method' => 'GET'])?>
+                    <div class="row" style="margin-left : 5px; margin-right : 5px">
+                        <div class="col-lg-4 col-md-6 hidden-sm-down">
+                            <div class="input-group m-t-10">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="form-line">
+                                    <input type="text" autofocus name="search" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Tìm kiếm ...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
+                        </div>
+                        <div class="col-lg-6 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
+                            <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                        </div>
+                    </div>
+                    <?=formClose()?>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="content table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th style="width: 20%" class="text-left align-middle">Tên đăng nhập</th>
+                                <th style="width: 30%" class="text-center align-middle">Tên hiển thị</th>
+                                <th style="width: 20%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
+                                <th style="width: 15%" class="text-center align-middle">Quản trị</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if($data['paging']['count_data'] == 0){?>
+                                <tr>
+                                    <td colspan="5" class="text-center">Dữ liệu trống</td>
+                                </tr>
+                            <?php }?>
+                            <?php
+                            foreach ($data['data'] AS $row){
+                                $user_role = new meta($database, 'role');
+                                $user_role = $user_role->get_meta($row['user_role'], 'meta_name');
+                                ?>
+                                <tr>
+                                    <td class="text-left align-middle font-weight-bold">
+                                        <a title="Click để chỉnh sửa" href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>"><?=$row['user_login']?></a>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['user_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$user_role['data']['meta_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=view_date_time($row['user_time'])?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['user_id']?>" title="Xóa <?=$row['user_name']?>"><i class="material-icons text-danger">delete_forever</i></a>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            <tr>
+                                <td colspan="5" class="text-left">
+                                    Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                    Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-center clearfix">
+                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/{$path[2]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                </div>
+            </div>
+        </div>
+        <?php
         require_once 'admin-footer.php';
         break;
 }

@@ -3,6 +3,21 @@ require_once '../init.php';
 switch ($path[1]){
     case 'user':
         switch ($path[2]){
+            case 'update':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['update']){
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                $update = new user($database);
+                $update = $update->update($path[3]);
+                echo json_encode($update);
+                break;
             case 'add':
                 // Kiểm tra đăng nhập
                 if(!$me) {
@@ -67,6 +82,21 @@ switch ($path[1]){
                         echo encode_json($add);
                         break;
                 }
+                break;
+            case 'delete':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['manager']){
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                $user   = new user($database);
+                $delete = $user->delete($path[3]);
+                echo encode_json($delete);
                 break;
         }
         break;
