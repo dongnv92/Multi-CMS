@@ -379,17 +379,29 @@ switch ($path[2]){
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?=formInputPassword('user_password', [
                                     'label'         => 'Mật khẩu. <code>*</code>',
                                     'placeholder'   => 'Nhập mật khẩu',
                                     'autocomplete'  => 'new-password'
                                 ])?>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <?=formInputPassword('user_repass', [
                                     'label'         => 'Nhập lại mật khẩu. <code>*</code>',
                                     'placeholder'   => 'Nhập lại mật khẩu'
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputSelect('user_status', [
+                                    'active'        => 'Hoạt động',
+                                    'not_active'    => 'Chưa kích hoạt',
+                                    'block'         => 'Tạm khóa',
+                                    'block_forever' => 'Đã khóa'
+                                ], [
+                                    'label'             => 'Trạng thái',
+                                    'data-live-search'  => 'true',
+                                    'selected'          => $user['user_status']
                                 ])?>
                             </div>
                         </div>
@@ -571,11 +583,20 @@ switch ($path[2]){
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('user_status', [
+                                ''              => 'Trạng thái',
+                                'active'        => 'Hoạt động',
+                                'not_active'    => 'Chưa kích hoạt',
+                                'block'         => 'Tạm khóa',
+                                'block_forever' => 'Đã khóa'
+                            ], ['data-live-search' => 'true', 'selected' => $_REQUEST['user_status']])?>
+                        </div>
                         <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
                             <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
                         </div>
-                        <div class="col-lg-6 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
-                            <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                        <div class="col-lg-3 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
+                            <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
                         </div>
                     </div>
                     <?=formClose()?>
@@ -588,8 +609,9 @@ switch ($path[2]){
                             <thead>
                             <tr>
                                 <th style="width: 20%" class="text-left align-middle">Tên đăng nhập</th>
-                                <th style="width: 30%" class="text-center align-middle">Tên hiển thị</th>
-                                <th style="width: 20%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 20%" class="text-center align-middle">Tên hiển thị</th>
+                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
                                 <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
                                 <th style="width: 15%" class="text-center align-middle">Quản trị</th>
                             </tr>
@@ -597,7 +619,7 @@ switch ($path[2]){
                             <tbody>
                             <?php if($data['paging']['count_data'] == 0){?>
                                 <tr>
-                                    <td colspan="5" class="text-center">Dữ liệu trống</td>
+                                    <td colspan="6" class="text-center">Dữ liệu trống</td>
                                 </tr>
                             <?php }?>
                             <?php
@@ -616,6 +638,9 @@ switch ($path[2]){
                                         <?=$user_role['data']['meta_name']?>
                                     </td>
                                     <td class="text-center align-middle">
+                                        <?=get_status('user', $row['user_status'])?>
+                                    </td>
+                                    <td class="text-center align-middle">
                                         <?=view_date_time($row['user_time'])?>
                                     </td>
                                     <td class="text-center align-middle">
@@ -624,7 +649,7 @@ switch ($path[2]){
                                 </tr>
                             <?php }?>
                             <tr>
-                                <td colspan="5" class="text-left">
+                                <td colspan="6" class="text-left">
                                     Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
                                     Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
                                 </td>
@@ -634,7 +659,7 @@ switch ($path[2]){
                     </div>
                 </div>
                 <div class="text-center clearfix">
-                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/{$path[2]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
                 </div>
             </div>
         </div>

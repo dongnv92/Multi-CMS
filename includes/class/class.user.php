@@ -103,6 +103,11 @@ class user{
         $offset     = $param['offset'];
         $where      = [];
         $pagination = [];
+
+        if($_REQUEST[$this->user_status] && (in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_ACCESS) || in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_BLOCK))){
+            $where[$this->user_status] = $_REQUEST[$this->user_status];
+        }
+
         // Tính tổng data
         $db->select('COUNT(*) AS count_data')->from($this->db_table);
         if($_REQUEST['search']){
@@ -344,13 +349,20 @@ class user{
         if($check_role['count'] == 0)
             return get_response_array(309, 'Vai trò thành viên không tồn tại.');
 
+        // Kiểm tra trạng thái
+        if(!validate_isset($_REQUEST[$this->user_status]))
+            return get_response_array(309, 'Bạn cần chọn 1 trạng thái.');
+        if(!in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_BLOCK) && !in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_ACCESS))
+            return get_response_array(309, 'Trạng thái không hợp lệ.');
+
+
         $data_update = [
-            'user_login'        => $db->escape($_REQUEST[$this->user_login]),
-            'user_name'         => $db->escape($_REQUEST[$this->user_name]),
-            'user_phone'        => $db->escape($_REQUEST[$this->user_phone]),
-            'user_email'        => $db->escape($_REQUEST[$this->user_email]),
-            'user_role'         => $db->escape($_REQUEST[$this->user_role]),
-            'user_status'       => 'active'
+            'user_login'    => $db->escape($_REQUEST[$this->user_login]),
+            'user_name'     => $db->escape($_REQUEST[$this->user_name]),
+            'user_phone'    => $db->escape($_REQUEST[$this->user_phone]),
+            'user_email'    => $db->escape($_REQUEST[$this->user_email]),
+            'user_role'     => $db->escape($_REQUEST[$this->user_role]),
+            'user_status'   => $db->escape($_REQUEST[$this->user_status])
         ];
         if($_REQUEST[$this->user_password]){
             $data_update[$this->user_password] = $_REQUEST[$this->user_password];

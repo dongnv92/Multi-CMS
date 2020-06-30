@@ -365,3 +365,24 @@ function get_param_defaul(){
         'offset'    => $offset
     ];
 }
+
+function get_status($type, $data){
+    switch ($type){
+        case 'user':
+            switch ($data){
+                case 'active':
+                    return '<span class="text-success">Đang hoạt động</span>';
+                    break;
+                case 'not_active':
+                    return '<span class="text-success">Chưa kích hoạt</span>';
+                    break;
+                case 'block':
+                    return '<span class="text-danger">Đang tạm khóa</span>';
+                    break;
+                case 'block_forever':
+                    return '<span class="text-danger">Đang bị khóa</span>';
+                    break;
+            }
+            break;
+    }
+}
