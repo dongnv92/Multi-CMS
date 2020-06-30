@@ -159,6 +159,8 @@ class user{
             return get_response_array(309, 'Thành viên không tồn tại hoặc đã bị xóa khỏi hệ thống.');
         if($user_count['count'] == 1)
             return get_response_array(309, 'Không thể xóa thành viên cuối cùng.');
+        if(get_config('user_special') == $id)
+            return get_response_array(309, 'Không thể thành viên này.');
         $delete = $db->delete()->from($this->db_table)->where($this->user_id, $id)->limit(1)->execute();
         if(!$delete)
             return get_response_array(208, 'Xóa thành viên không thành công!');
