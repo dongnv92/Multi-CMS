@@ -139,14 +139,14 @@ switch ($path[2]){
                                 <?=formInputText('user_email', [
                                     'label'         => 'Email.',
                                     'placeholder'   => 'Nhập Email',
-                                    'value'         => $user['user_email']
+                                    'value'         => $me['user_email']
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputText('user_phone', [
                                     'label'         => 'Điện thoại.',
                                     'placeholder'   => 'Nhập số điện thoại',
-                                    'value'         => $user['user_phone']
+                                    'value'         => $me['user_phone']
                                 ])?>
                             </div>
                         </div>

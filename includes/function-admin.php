@@ -249,6 +249,24 @@ function get_menu_header_structure(){
             ]
         ],
         [
+            'text'  => 'Bài viết',
+            'icon'  => '<i class="zmdi zmdi-border-color"></i>',
+            'child' => [
+                [
+                    'text'      => 'Bài viết',
+                    'url'       => URL_ADMIN . "/blog/",
+                    'roles'     => [],
+                    'active'    => [[PATH_ADMIN, 'blog', '']]
+                ],
+                [
+                    'text'      => 'Chuyên mục',
+                    'url'       => URL_ADMIN . "/blog/category",
+                    'roles'     => [],
+                    'active'    => [[PATH_ADMIN, 'blog', 'category']]
+                ]
+            ]
+        ],
+        [
             'roles'     => [],
             'text'      => 'Các phần tử',
             'icon'      => '<i class="zmdi zmdi-delicious"></i>',
