@@ -290,6 +290,13 @@ class user{
         return $user;
     }
 
+    public function update_avatar($images){
+        $db = $this->db;
+        if(!$db->where($this->user_token, ACCESS_TOKEN)->update($this->db_table, ['user_avatar' => $images]))
+            return get_response_array(208, "Cập nhật ảnh đại diện không thành công.");
+        return get_response_array(200, "Cập nhật ảnh đại diện thành công.");
+    }
+
     public function update($id){
         $db             = $this->db;
         $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_id, $id)->fetch_first();
@@ -365,13 +372,65 @@ class user{
             'user_status'   => $db->escape($_REQUEST[$this->user_status])
         ];
         if($_REQUEST[$this->user_password]){
-            $data_update[$this->user_password] = $_REQUEST[$this->user_password];
+            $data_update[$this->user_password] = $this->encodeText($_REQUEST[$this->user_password]);
         }
 
         $data_update = $db->where($this->user_id, $id)->update($this->db_table, $data_update);
         if(!$data_update)
             return get_response_array(208, "Cập nhật thành viên không thành công.");
         return get_response_array(200, "Cập nhật thành viên thành công.");
+    }
+
+    public function update_me(){
+        $db             = $this->db;
+        $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_token, ACCESS_TOKEN)->fetch_first();
+        $check_email    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_email, $_REQUEST[$this->user_email])->fetch_first();
+        $check_phone    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_phone, $_REQUEST[$this->user_phone])->fetch_first();
+
+        // Kiểm tra tên hiển thị
+        if(!validate_isset($_REQUEST[$this->user_name]))
+            return get_response_array(309, 'Bạn cần nhập tên hiển thị.');
+        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 20)
+            return get_response_array(309, 'Tên hiển thị từ 4 đến 20 ký tự.');
+
+        // Kiểm tra mật khẩu
+        if(validate_isset($_REQUEST[$this->user_password])){
+            if(strlen($_REQUEST[$this->user_password]) < 4 || strlen($_REQUEST[$this->user_password]) > 20)
+                return get_response_array(309, 'Mật khẩu từ 4 đến 20 ký tự.');
+
+            // Kiểm tra nhập lại mật khẩu
+            if(!validate_isset($_REQUEST['user_repass']))
+                return get_response_array(309, 'Bạn cần nhập lại mật khẩu.');
+            if($_REQUEST['user_repass'] != $_REQUEST[$this->user_password])
+                return get_response_array(309, 'Hai mật khẩu không giống nhau.');
+        }
+
+        // Kiểm tra email
+        if($_REQUEST[$this->user_email] && !validate_email($_REQUEST[$this->user_email]))
+            return get_response_array(309, 'Email không đúng định dạng.');
+        if($_REQUEST[$this->user_email] && (($_REQUEST[$this->user_email] != $get_user[$this->user_email]) && $check_email['count'] > 0))
+            return get_response_array(309, 'Email đã tồn tại, vui lòng chọn Email khác.');
+
+        // Kiểm tra điện thoại
+        if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || strlen($_REQUEST[$this->user_phone]) > 35))
+            return get_response_array(309, 'Số điện thoại từ 8 đến 35 ký tự.');
+        if($_REQUEST[$this->user_phone] && (($_REQUEST[$this->user_phone] != $get_user[$this->user_phone]) && $check_phone['count'] > 0))
+            return get_response_array(309, 'Điện thoại đã tồn tại, vui lòng chọn số điện thoại khác.');
+
+
+        $data_update = [
+            'user_name'     => $db->escape($_REQUEST[$this->user_name]),
+            'user_phone'    => $db->escape($_REQUEST[$this->user_phone]),
+            'user_email'    => $db->escape($_REQUEST[$this->user_email])
+        ];
+        if($_REQUEST[$this->user_password]){
+            $data_update[$this->user_password] = $this->encodeText($_REQUEST[$this->user_password]);
+        }
+
+        $data_update = $db->where($this->user_token, ACCESS_TOKEN)->update($this->db_table, $data_update);
+        if(!$data_update)
+            return get_response_array(208, "Cập nhật hồ sơ thành công.");
+        return get_response_array(200, "Cập nhật hồ sơ thành công.");
     }
 
     public function add(){

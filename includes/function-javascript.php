@@ -2,6 +2,71 @@
 require '../init.php';
 header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
+    case 'profile':
+        switch ($path[2]){
+            case 'change-avatar':
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    var drEvent = $('.dropify').dropify({
+                        messages: {
+                            'default': '<center>Kéo, thả File vào đây hoặc Bấm để tải file</center>',
+                            'replace': 'Kéo thả hoặc bấm để đổi File',
+                            'remove':  'Xóa',
+                            'error':   'Ohhh có lỗi rồi.'
+                        },
+                        error: {
+                            'fileSize': 'Tập tin quá nặng.).',
+                            'minWidth': 'The image width is too small ({{ value }}}px min).',
+                            'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                            'minHeight': 'The image height is too small ({{ value }}}px min).',
+                            'maxHeight': 'The image height is too big ({{ value }}px max).',
+                            'imageFormat': 'Chỉ hỗ trợ file ảnh ({{ value }} ).',
+                            'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
+                        }
+                    });
+                });
+                <?php
+                break;
+            default:
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    $('#button_update_me').on('click', function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                            method      : 'POST',
+                            dataType    : 'json',
+                            data        : $('form').serialize(),
+                            beforeSend  : function () {
+                                $('#button_update_me').attr('disabled', true);
+                                $('#button_update_me').html('ĐANG CẬP NHẬT HỒ SƠ ...');
+                            }
+                        });
+                        ajax.done(function (data) {
+                            setTimeout(function () {
+                                if(data.response == 200){
+                                    show_notify(data.message, 'bg-green');
+                                    $('#button_update_me').attr('disabled', false);
+                                    $('#button_update_me').html('CẬP NHẬT');
+                                }else{
+                                    show_notify(data.message, 'bg-red');
+                                    $('#button_update_me').attr('disabled', false);
+                                    $('#button_update_me').html('CẬP NHẬT');
+                                }
+                            }, 2000);
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            $('#button_update_me').attr('disabled', false);
+                            $('#button_update_me').html('CẬP NHẬT');
+                            alert("Request failed: " + jqXHR.responseText);
+                        });
+                    });
+                });
+                <?php
+                break;
+        }
+        break;
     case 'user':
         switch ($path[2]){
             case 'update':

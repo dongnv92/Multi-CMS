@@ -8,19 +8,14 @@
  * */
 function formOpen($action = "", $attribute = ['']){
     $form_attribute = '';
+    // Thiết lập các giá trị mặc định
     foreach ($attribute AS $key => $value){
         switch ($key){
-            case 'method':
-                $form_attribute .= (in_array($value, ['post', 'POST', 'get', 'GET']) && $value) ? ' method="'. $value .'" ' : '';
-                break;
-            case 'class':
-                $form_attribute .= $value ? ' class="'. $value .'" ' : ' class="form-control" ';
-                break;
             case 'enctype':
-                $form_attribute .= $value ? ' enctype="enctype="multipart/form-data" ' : '';
+                $form_attribute .= 'enctype="multipart/form-data"';
                 break;
             default:
-                $form_attribute .= " $key = $value\"\" ";
+                $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
                 break;
         }
     }

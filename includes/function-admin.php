@@ -214,7 +214,7 @@ function get_menu_header_structure(){
                     'text'      => 'Danh sách thành viên',
                     'url'       => URL_ADMIN . "/user/",
                     'roles'     => ['user', 'manager'],
-                    'active'    => [[PATH_ADMIN, 'user', '']]
+                    'active'    => [[PATH_ADMIN, 'user', ''], [PATH_ADMIN, 'user', 'update']]
                 ],
                 [
                     'text'      => 'Thêm thành viên',
@@ -227,6 +227,24 @@ function get_menu_header_structure(){
                     'url'       => URL_ADMIN . "/user/role",
                     'roles'     => ['user', 'role'],
                     'active'    => [[PATH_ADMIN, 'user', 'role', ''], [PATH_ADMIN, 'user', 'role', 'add'], [PATH_ADMIN, 'user', 'role', 'update']]
+                ]
+            ]
+        ],
+        [
+            'text'  => 'Thông tin cá nhân',
+            'icon'  => '<i class="zmdi zmdi-account"></i>',
+            'child' => [
+                [
+                    'text'      => 'Sửa hồ sơ',
+                    'url'       => URL_ADMIN . "/profile/",
+                    'roles'     => [],
+                    'active'    => [[PATH_ADMIN, 'profile', '']]
+                ],
+                [
+                    'text'      => 'Đổi Avatar',
+                    'url'       => URL_ADMIN . "/profile/change-avatar",
+                    'roles'     => [],
+                    'active'    => [[PATH_ADMIN, 'profile', 'change-avatar']]
                 ]
             ]
         ],

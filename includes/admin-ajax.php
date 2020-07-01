@@ -1,6 +1,28 @@
 <?php
 require_once '../init.php';
 switch ($path[1]){
+    case 'profile':
+        switch ($path[2]){
+            case 'change-avatar':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                print_r($_FILES["file"]["user_avatar"]);
+                break;
+            default:
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                $user   = new user($database);
+                $update = $user->update_me();
+                echo encode_json($update);
+                break;
+        }
+        break;
     case 'user':
         switch ($path[2]){
             case 'update':
