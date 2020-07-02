@@ -10,93 +10,95 @@ switch ($path[2]){
     case 'category':
         switch ($path[3]){
             case 'add':
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['role']){
+                    $header['title']    = 'Cập nhật vai trò thành viên';
+                    require_once 'admin-header.php';
+                    echo admin_breadcrumbs('Vai trò thành viên', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
+                    echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once 'admin-footer.php';
+                    exit();
+                }
+
+                $header['css']      = [
+                    ''
+                ];
                 $header['js']      = [
                     URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
                     URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
                 ];
-                $header['title']    = 'Thêm chuyên mục bài viết';
+                $header['title']    = 'Thêm vai trò thành viên';
                 require_once 'admin-header.php';
-                echo admin_breadcrumbs('Chuyên mục', 'Thêm chuyên mục bài viết','Thêm chuyên mục', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/blog/category' => 'Chuyên mục']);
-                echo formOpen('', ['method' => 'POST']);
+                echo admin_breadcrumbs('Vai trò thành viên', 'Quản lý vai trò thành viên','Thêm mới', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
                 ?>
-                <div class="row">
-                    <div class="col-lg-12">
+                <?=formOpen('', ["class" => "dropzone", "id" => "frmFileUpload", "method" => "POST"])?>
+                <div class="row clearfix">
+                    <div class="col-lg-4">
                         <div class="card">
                             <div class="header">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <h2>Thêm chuyên mục</h2>
-                                    </div>
-                                    <div class="col-lg-6 text-right">
-                                        <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
-                                    </div>
-                                </div>
+                                <h2>Thông tin <small>Thông tin về vai trò thành viên</small></h2>
                             </div>
                             <div class="body">
+                                <?=formInputText('meta_name', [
+                                    'label'         => 'Tên vai trò thành viên. <code>*</code>',
+                                    'placeholder'   => 'Nhập tên vai trò thành viên',
+                                    'autofocus'     => ''
+                                ])?>
+                                <?=formInputTextarea('meta_des', [
+                                    'label'         => 'Mô tả',
+                                    'placeholder'   => 'Nhập mô tả vai trò thành viên',
+                                    'rows'          => '5'
+                                ])?>
                                 <div class="row">
-                                    <div class="col-lg-6">
-                                        <?=formInputText('user_login', [
-                                            'label'         => 'Tên đăng nhập. <code>*</code>',
-                                            'placeholder'   => 'Nhập tên đăng nhập',
-                                            'autofocus'     => ''
-                                        ])?>
+                                    <div class="col-lg-6 text-left">
+                                        <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <?=formInputText('user_name', [
-                                            'label'         => 'Tên hiển thị. <code>*</code>',
-                                            'placeholder'   => 'Nhập tên hiển thị'
-                                        ])?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <?=formInputPassword('user_password', [
-                                            'label'         => 'Mật khẩu. <code>*</code>',
-                                            'placeholder'   => 'Nhập mật khẩu',
-                                            'autocomplete'  => 'new-password'
-                                        ])?>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <?=formInputPassword('user_repass', [
-                                            'label'         => 'Nhập lại mật khẩu. <code>*</code>',
-                                            'placeholder'   => 'Nhập lại mật khẩu'
-                                        ])?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <?=formInputText('user_email', [
-                                            'label'         => 'Email.',
-                                            'placeholder'   => 'Nhập Email'
-                                        ])?>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <?=formInputText('user_phone', [
-                                            'label'         => 'Nhập số điện thoại.',
-                                            'placeholder'   => 'Nhập số điện thoại'
-                                        ])?>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <?=formInputSelect('user_role', $user_role, [
-                                                'label'             => 'Vai trò <code>*</code>',
-                                                'data-live-search'  => 'true']
-                                        )?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 text-right">
-                                        <?=formButton('THÊM THÀNH VIÊN', [
-                                            'id'    => 'button_add_user',
+                                    <div class="col-lg-6 text-right">
+                                        <?=formButton('THÊM', [
+                                            'id'    => 'button_add_role',
                                             'class' => 'btn btn-raised bg-blue waves-effect'
                                         ])?>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div> <!--End Col-lg-4-->
+                    <div class="col-lg-8">
+                        <?php
+                        $list_role = role_structure();
+                        foreach ($list_role AS $key => $value){
+                            ?>
+                            <div class="card">
+                                <div class="header">
+                                    <h2><?=role_structure('des', [$key])?></h2>
+                                </div>
+                                <div class="content table-responsive">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                        <?php foreach ($value AS $_key => $_value){?>
+                                            <tr>
+                                                <td width="20%" class="text-left align-middle">
+                                                    <div class="switch">
+                                                        <label>
+                                                            <input id="<?=$key.'_'.$_key?>" name="<?=$key.'_'.$_key?>" value="1" type="checkbox">
+                                                            <span class="lever"></span>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td width="80%" class="text-left align-middle"><label class="font-weight-bold" for="<?=$key.'_'.$_key?>"><?=role_structure('des', [$key, $_key])?></label></td>
+                                            </tr>
+                                        <?php }?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                 </div>
+                <?=formClose()?>
                 <?php
-                echo formClose();
                 require_once 'admin-footer.php';
                 break;
         }
