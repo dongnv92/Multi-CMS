@@ -1,6 +1,24 @@
 <?php
 require_once '../init.php';
 switch ($path[1]){
+    case 'blog':
+        switch ($path[2]){
+            case 'category':
+                switch ($path[3]){
+                    case 'add':
+                        // Kiểm tra đăng nhập
+                        if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        $category   = new meta($database, 'blog_category');
+                        $add        = $category->add();
+                        echo encode_json($add);
+                        break;
+                }
+                break;
+        }
+        break;
     case 'profile':
         switch ($path[2]){
             case 'change-avatar':

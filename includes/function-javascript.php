@@ -2,6 +2,52 @@
 require '../init.php';
 header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
+    case 'blog':
+        switch ($path[2]){
+            case 'category':
+                switch ($path[3]){
+                    case 'add':
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            $('#button_add_category').on('click', function () {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                    data        : $('form').serialize(),
+                                    beforeSend  : function () {
+                                        $('#button_add_category').attr('disabled', true);
+                                        $('#button_add_category').html('ĐANG THÊM CHUYÊN MỤC ...');
+                                    }
+                                });
+                                ajax.done(function (data) {
+                                    setTimeout(function () {
+                                        if(data.response == 200){
+                                            show_notify(data.message, 'bg-green');
+                                            $('#button_add_category').attr('disabled', false);
+                                            $('#button_add_category').html('THÊM');
+                                        }else{
+                                            show_notify(data.message, 'bg-red');
+                                            $('#button_add_category').attr('disabled', false);
+                                            $('#button_add_category').html('THÊM');
+                                        }
+                                    }, 2000);
+                                });
+
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    $('#button_add_role').attr('disabled', false);
+                                    $('#button_add_role').html('THÊM');
+                                    alert( "Request failed: " + textStatus );
+                                });
+                            });
+                        });
+                        <?php
+                        break;
+                }
+                break;
+        }
+        break;
     case 'profile':
         switch ($path[2]){
             case 'change-avatar':

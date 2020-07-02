@@ -49,6 +49,23 @@ class meta{
         return false;
     }
 
+    private function check_url($url){
+        $db     = $this->db;
+        $check  = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_url=> $url, $this->meta_type => $this->type])->fetch_first();
+        if($check['count'] > 0)
+            return true;
+        return false;
+    }
+
+    private function check_id($id){
+        $db     = $this->db;
+        $check  = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_id=> $id, $this->meta_type => $this->type])->fetch_first();
+        if($check['count'] > 0)
+            return true;
+        return false;
+    }
+
+
     public function get_meta($id, $field = '*'){
         if(!validate_int($id) || !$id)
             return get_response_array(311, 'ID phải là dạng số.');
@@ -194,26 +211,45 @@ class meta{
         if($this->check_name($_REQUEST[$this->meta_name]))
             return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
 
-        $meta_info  = [];
-        $data_role      = role_structure();
-        foreach ($data_role AS $key => $value){
-            foreach ($value AS $_key => $_value){
-                if($_REQUEST["{$key}_{$_key}"]){
-                    $meta_info[$key][$_key] = true;
-                }else{
-                    $meta_info[$key][$_key] = false;
-                }
+        // Xử lý các trường không bắt buộc
+        if($_REQUEST[$this->meta_url]){
+            if($this->check_url($_REQUEST[$this->meta_url]))
+                return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
+        }
+        if($_REQUEST[$this->meta_parent]){
+            if(!$this->check_id($_REQUEST[$this->meta_parent]))
+                return get_response_array(310, "Chuyên mục cha không tồn tại, vui lòng chọn kiểm tra lại.");
+        }else{
+            // Nếu meta_type là các trường sau thì tự động thêm url khi người dùng không nhập
+            if(in_array($this->type, ['blog_category'])){
+                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
             }
         }
-        $meta_info  = serialize($meta_info);
+
+        // Nếu type là phân quyền thì xử lý chuỗi phân quyền
+        if(in_array($this->type, ['role'])){
+            $meta_info  = [];
+            $data_role      = role_structure();
+            foreach ($data_role AS $key => $value){
+                foreach ($value AS $_key => $_value){
+                    if($_REQUEST["{$key}_{$_key}"]){
+                        $meta_info[$key][$_key] = true;
+                    }else{
+                        $meta_info[$key][$_key] = false;
+                    }
+                }
+            }
+            $meta_info  = serialize($meta_info);
+        }
+
         $data_add   = [
             'meta_type'     => $db->escape($this->type),
             'meta_name'     => $db->escape($_REQUEST[$this->meta_name]),
             'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
-            'meta_url'      => '',
-            'meta_info'     => $db->escape($meta_info),
+            'meta_url'      => $db->escape($_REQUEST[$this->meta_url]),
+            'meta_info'     => $meta_info ? $db->escape($meta_info) : '',
             'meta_images'   => '',
-            'meta_parent'   => '0',
+            'meta_parent'   => $db->escape($_REQUEST[$this->meta_parent]),
             'meta_user'     => $me['user_id'],
             'meta_time'     => get_date_time()
         ];
