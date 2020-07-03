@@ -27,6 +27,9 @@ switch ($path[1]){
                                             show_notify(data.message, 'bg-green');
                                             $('#button_add_category').attr('disabled', false);
                                             $('#button_add_category').html('THÊM');
+                                            setTimeout(function () {
+                                                location.reload();
+                                            }, 2000);
                                         }else{
                                             show_notify(data.message, 'bg-red');
                                             $('#button_add_category').attr('disabled', false);

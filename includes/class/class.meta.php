@@ -31,10 +31,13 @@ class meta{
         $this->type         = $meta_type;
     }
 
-    public function get_data_select(){
+    public function get_data_select($default_option = ''){
         $db     = $this->db;
         $data   = $db->select("{$this->meta_id}, {$this->meta_name}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
         $result = [];
+        if(is_array($default_option) && count($default_option)){
+            $result['0'] = $default_option[0];
+        }
         foreach ($data AS $_data){
             $result[$_data[$this->meta_id]] = $_data[$this->meta_name];
         }

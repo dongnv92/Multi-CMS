@@ -12,7 +12,7 @@ switch ($path[2]){
             case 'add':
 
                 $list_cate  = new meta($database, 'blog_category');
-                $list_cate  = $list_cate->get_data_select();
+                $list_cate  = $list_cate->get_data_select(['0' => 'Chuyên mục cha']);
 
                 $header['js']      = [
                     URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
