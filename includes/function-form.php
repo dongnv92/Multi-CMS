@@ -233,9 +233,9 @@ function formInputSelect($name, $data = [], $attribute = []){
                     case 'error':
                         $error .= formError($value);
                         break;
-                    case 'layout'  :
-                    case 'value'  :
-                    case 'selected'  :
+                    case 'layout'       :
+                    case 'value'        :
+                    case 'selected'     :
                         $form_attribute .= '';
                         break;
                     default:

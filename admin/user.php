@@ -211,10 +211,10 @@ switch ($path[2]){
             default:
                 // Kiểm tra quyền truy cập
                 if(!$role['user']['role']){
-                    $header['title']    = 'Cập nhật vai trò thành viên';
+                    $header['title']    = 'Quản lý vai trò';
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Vai trò thành viên', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
-                    echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    echo admin_breadcrumbs('Quản lý vai trò', 'Cập nhật vai trò thành viên','Cập nhật', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò']);
+                    echo admin_error('Quản lý vai trò', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
                     require_once 'admin-footer.php';
                     exit();
                 }

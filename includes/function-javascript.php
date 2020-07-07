@@ -6,10 +6,11 @@ switch ($path[1]){
         switch ($path[2]){
             case 'category':
                 switch ($path[3]){
-                    case 'add':
+                    default:
                         ?>
                         //<script>
                         $(document).ready(function () {
+                            // Thêm chuyên mục
                             $('#button_add_category').on('click', function () {
                                 var ajax = $.ajax({
                                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
@@ -41,7 +42,41 @@ switch ($path[1]){
                                 ajax.fail(function( jqXHR, textStatus ) {
                                     $('#button_add_role').attr('disabled', false);
                                     $('#button_add_role').html('THÊM');
-                                    alert( "Request failed: " + textStatus );
+                                    alert("Request failed: " + jqXHR.responseText);
+                                });
+                            });
+
+                            // Xóa chuyên mục
+                            $('a[data-type=delete]').on('click', function () {
+                                var id = $(this).data('id');
+                                swal({
+                                    title: "Xóa chuyên mục blog",
+                                    text: "Bạn có muốn xóa chuyên mục blog này không?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                }, function () {
+                                    setTimeout(function () {
+                                        var ajax = $.ajax({
+                                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>/delete/' + id,
+                                            method      : 'POST',
+                                            dataType    : 'json',
+                                        });
+                                        ajax.done(function (data) {
+                                            if(data.response == 200){
+                                                swal("Xóa chuyên mục blog", "Xóa chuyên mục blog thành công!", "success");
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                }, 2000);
+                                            }else{
+                                                swal("Xóa chuyên mục blog", data.message, "error");
+                                            }
+                                        });
+                                        ajax.fail(function( jqXHR, textStatus ) {
+                                            console.log("Request failed: " + textStatus );
+                                        });
+                                    }, 2000);
                                 });
                             });
                         });

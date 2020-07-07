@@ -120,13 +120,15 @@ class meta{
         if(!$meta)
             return get_response_array(302, 'Dữ liệu không tồn tại.');
 
-        // Nếu id là id đặc biệt thì báo lỗi
-        if($id == get_config('role_special'))
-            return get_response_array(302, 'Không thể xóa dữ liệu này!');
+        if($this->type == 'role'){
+            // Nếu id là id đặc biệt thì báo lỗi
+            if($id == get_config('role_special'))
+                return get_response_array(302, 'Không thể xóa dữ liệu này!');
+            // Nếu id là id mặc định thì báo lỗi
+            if($id == get_config('role_default'))
+                return get_response_array(302, 'Không thể xóa dữ liệu này!');
 
-        // Nếu id là id mặc định thì báo lỗi
-        if($id == get_config('role_default'))
-            return get_response_array(302, 'Không thể xóa dữ liệu này!');
+        }
 
         $delete = $db->delete()->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->limit(1)->execute();
         if(!$delete)

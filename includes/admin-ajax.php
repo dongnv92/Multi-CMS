@@ -5,7 +5,18 @@ switch ($path[1]){
         switch ($path[2]){
             case 'category':
                 switch ($path[3]){
-                    case 'add':
+                    case 'delete':
+                        // Kiểm tra đăng nhập
+                        if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+
+                        $role   = new meta($database, 'blog_category');
+                        $delete = $role->delete($path[4]);
+                        echo encode_json($delete);
+                        break;
+                    default:
                         // Kiểm tra đăng nhập
                         if(!$me) {
                             echo encode_json(get_response_array(403));
