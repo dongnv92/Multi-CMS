@@ -10,9 +10,10 @@ switch ($path[2]){
     case 'category':
         switch ($path[3]){
             case 'add':
-
-                $list_cate  = new meta($database, 'blog_category');
-                $list_cate  = $list_cate->get_data_select(['0' => 'Chuyên mục cha']);
+                $list_cate_option   = new meta($database, 'blog_category');
+                $list_cate_option   = $list_cate_option->get_data_select(['0' => 'Chuyên mục cha']);
+                $list_cate          = new meta($database, 'blog_category');
+                $list_cate          = $list_cate->get_data_showall();
 
                 $header['js']      = [
                     URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
@@ -40,7 +41,7 @@ switch ($path[2]){
                                     'placeholder'   => 'Nhập URL chuyên mục',
                                     'autofocus'     => ''
                                 ])?>
-                                <?=formInputSelect('meta_parent', $list_cate, [
+                                <?=formInputSelect('meta_parent', $list_cate_option, [
                                         'label'             => 'Chuyên mục cha.',
                                         'data-live-search'  => 'true']
                                 )?><br><br>
@@ -64,37 +65,35 @@ switch ($path[2]){
                         </div>
                     </div> <!--End Col-lg-4-->
                     <div class="col-lg-8">
-                        <?php
-                        $list_role = role_structure();
-                        foreach ($list_role AS $key => $value){
-                            ?>
-                            <div class="card">
-                                <div class="header">
-                                    <h2><?=role_structure('des', [$key])?></h2>
-                                </div>
-                                <div class="content table-responsive">
-                                    <table class="table table-hover">
-                                        <tbody>
-                                        <?php foreach ($value AS $_key => $_value){?>
-                                            <tr>
-                                                <td width="20%" class="text-left align-middle">
-                                                    <div class="switch">
-                                                        <label>
-                                                            <input id="<?=$key.'_'.$_key?>" name="<?=$key.'_'.$_key?>" value="1" type="checkbox">
-                                                            <span class="lever"></span>
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td width="80%" class="text-left align-middle"><label class="font-weight-bold" for="<?=$key.'_'.$_key?>"><?=role_structure('des', [$key, $_key])?></label></td>
-                                            </tr>
-                                        <?php }?>
-                                        </tbody>
-                                    </table>
+                        <div class="card">
+                            <div class="header">
+                                <div class="row">
+                                    <div class="col-lg-6 text-left"><h2>Danh sách chuyên mục</h2></div>
                                 </div>
                             </div>
-                            <?php
-                        }
-                        ?>
+                            <div class="content table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                    <tr>
+                                        <th style="width: 30%" class="text-left align-middle">Tên chuyên mục</th>
+                                        <th style="width: 40%" class="text-center align-middle">Nội dung</th>
+                                        <th style="width: 30%" class="text-right align-middle">Ngày Thêm</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php foreach ($list_cate AS $_list_cate){?>
+                                    <tr>
+                                        <td class="text-left align-middle">
+                                            <a href="#" class="font-weight-bold"><?=($_list_cate['level'] > 0 ? str_repeat(' → ', $_list_cate['level']) : '') . $_list_cate['meta_name']?></a>
+                                        </td>
+                                        <td class="text-center align-middle"><?=$_list_cate['meta_name']?></td>
+                                        <td class="text-right align-middle"><?=view_date_time($_list_cate['meta_time'])?></td>
+                                    </tr>
+                                    <?php }?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <?=formClose()?>

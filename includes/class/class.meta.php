@@ -33,15 +33,45 @@ class meta{
 
     public function get_data_select($default_option = ''){
         $db     = $this->db;
-        $data   = $db->select("{$this->meta_id}, {$this->meta_name}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
+        $data   = $db->select("{$this->meta_id}, {$this->meta_name}, {$this->meta_parent}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
         $result = [];
         if(is_array($default_option) && count($default_option)){
             $result['0'] = $default_option[0];
         }
+
+        $data = $this->recursiveDatabase($data);
+
         foreach ($data AS $_data){
-            $result[$_data[$this->meta_id]] = $_data[$this->meta_name];
+            $result[$_data[$this->meta_id]] = ($_data['level'] > 0 ? str_repeat(' → ', $_data['level']) : '') . $_data[$this->meta_name];
         }
         return $result;
+    }
+
+    public function get_data_showall(){
+        $db     = $this->db;
+        $data   = $db->select("{$this->meta_id}, {$this->meta_name}, {$this->meta_parent}, {$this->meta_time}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
+        $data   = $this->recursiveDatabase($data);
+        return $data;
+    }
+
+
+
+    // Đệ quy dữ liệu từ Database
+    function recursiveDatabase(array $data, $parentId = 0, $level = 0){
+        $branch = array();
+        foreach ($data as $element) {
+            if ($element[$this->meta_parent] == $parentId) {
+                $element['level'] = $level;
+                $children = $this->recursiveDatabase($data, $element[$this->meta_id], $level + 1);
+                $branch[] = $element;
+                if(isset($children) && is_array($children) && count($children)){
+                    foreach ($children AS $element_2){
+                        $branch[] = $element_2;
+                    }
+                }
+            }
+        }
+        return $branch;
     }
 
     private function check_name($name){
