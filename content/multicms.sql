@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 03, 2020 lúc 12:57 PM
+-- Thời gian đã tạo: Th7 08, 2020 lúc 12:33 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -46,12 +46,13 @@ CREATE TABLE `dong_meta` (
 --
 
 INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_images`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
-(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:1:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
-(4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:1:{s:4:\"user\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}}', 0, 0, 1, '2020-06-26 15:09:13'),
+(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng.', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
+(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
+(4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}}', 0, 0, 1, '2020-06-26 15:09:13'),
 (5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', 0, 0, 1, '2020-07-03 14:00:31'),
 (6, 'blog_category', 'Tin tức', '', 'tin-tuc', '', 0, 0, 1, '2020-07-03 14:16:01'),
-(7, 'blog_category', 'Công Nghệ', 'Tin tức công nghệ', '', '', 0, 6, 1, '2020-07-03 14:18:07');
+(10, 'blog_category', 'Công nghệ', 'Tin tức công nghệ', 'cong-nghe', '', 0, 6, 1, '2020-07-08 10:05:45'),
+(11, 'blog_category', 'Thời sự', 'Tin tức thời sự', 'thoi-su', '', 0, 6, 1, '2020-07-08 10:30:43');
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,7 @@ ALTER TABLE `dong_user`
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_setting`

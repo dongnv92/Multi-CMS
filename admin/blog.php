@@ -8,37 +8,41 @@ if(!$me){
 
 switch ($path[2]){
     case 'category':
+        // Kiểm tra quyền truy cập
+        if(!$role['blog']['category']){
+            $header['title']    = 'Quản lý chuyên mục bài viết';
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Chuyên mục bài viết', 'Quản lý chuyên mục bài viết','Quản lý', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Chuyên mục']);
+            echo admin_error('Quản lý chuyên mục bài viết', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
         switch ($path[3]){
             case 'update':
                 $meta = new meta($database, 'blog_category');
                 $meta = $meta->get_meta($path[4]);
                 // Kiểm tra tồn tại của meta
                 if($meta['response'] != 200){
-                    $header['title']    = 'Cập nhật chuyên mục blog';
+                    $header['title']    = 'Cập nhật chuyên mục bài viết';
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Cập nhật chuyên mục blog', 'Cập nhật chuyên mục blog','Cập nhật', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Chuyên mục']);
-                    echo admin_error('Cập nhật chuyên mục blog', 'Chuyên mục blog không tồn tại.');
+                    echo admin_breadcrumbs('Chuyên mục bài viết', 'Cập nhật chuyên mục bài viết','Cập nhật chuyên mục', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Chuyên mục']);
+                    echo admin_error('Chuyên mục bài viết', 'Chuyên mục bài viết không tồn tại.');
                     require_once 'admin-footer.php';
                     exit();
                 }
-
 
                 $list_cate_option   = new meta($database, 'blog_category');
                 $list_cate_option   = $list_cate_option->get_data_select(['0' => 'Chuyên mục cha']);
                 $list_cate          = new meta($database, 'blog_category');
                 $list_cate          = $list_cate->get_data_showall();
 
-                $header['css']      = [
-                    URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
-                ];
-                $header['js']       = [
+                $header['js']      = [
                     URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
-                    URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
-                    URL_JS . "{$path[1]}/{$path[2]}",
+                    URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"
                 ];
                 $header['title']    = 'Thêm chuyên mục bài viết';
                 require_once 'admin-header.php';
-                echo admin_breadcrumbs('Chuyên mục bài viết', 'Thêm chuyên mục bài viết','Thêm chuyên mục', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Chuyên mục']);
+                echo admin_breadcrumbs('Chuyên mục bài viết', 'Cập nhật chuyên mục bài viết','Cập nhật chuyên mục', [URL_ADMIN . '/blog/' => 'Bài viết', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Chuyên mục']);
                 ?>
                 <?=formOpen('', ["method" => "POST"])?>
                 <div class="row clearfix">
@@ -76,7 +80,7 @@ switch ($path[2]){
                                     </div>
                                     <div class="col-lg-6 text-right">
                                         <?=formButton('CẬP NHẬT', [
-                                            'id'    => 'button_add_category',
+                                            'id'    => 'button_update_cate',
                                             'class' => 'btn btn-raised bg-blue waves-effect'
                                         ])?>
                                     </div>
@@ -98,25 +102,19 @@ switch ($path[2]){
                                         <th style="width: 30%" class="text-left align-middle">Tên chuyên mục</th>
                                         <th style="width: 30%" class="text-center align-middle">Nội dung</th>
                                         <th style="width: 20%" class="text-center align-middle">Ngày Thêm</th>
-                                        <th style="width: 20%" class="text-center align-middle">Xóa</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php foreach ($list_cate AS $_list_cate){?>
                                         <tr>
                                             <td class="text-left align-middle">
-                                                <a href="#" class="font-weight-bold"><?=($_list_cate['level'] > 0 ? str_repeat(' → ', $_list_cate['level']) : '') . $_list_cate['meta_name']?></a>
+                                                <a href="<?=URL_ADMIN . "/{$path[1]}/{$path[2]}/update/{$_list_cate['meta_id']}"?>" class="font-weight-bold"><?=($_list_cate['level'] > 0 ? str_repeat(' → ', $_list_cate['level']) : '') . $_list_cate['meta_name']?></a>
                                             </td>
                                             <td class="text-center align-middle">
                                                 <?=$_list_cate['meta_content'] ? $_list_cate['meta_content'] : 'Trống'?>
                                             </td>
                                             <td class="text-center align-middle">
                                                 <?=view_date_time($_list_cate['meta_time'])?>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <a href="javascript:;" data-type="delete" data-id="<?=$_list_cate['meta_id']?>" title="Xóa <?=$_list_cate['meta_name']?>">
-                                                    <i class="material-icons text-danger">delete_forever</i>
-                                                </a>
                                             </td>
                                         </tr>
                                     <?php }?>

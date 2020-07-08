@@ -90,6 +90,16 @@ function role_structure($type = '', $des = ''){
                         default:        $text = 'Quản lý thành viên';   break;
                     }
                     break;
+                case 'blog':
+                    switch ($des[1]){
+                        case 'manager':     $text = 'Xem bài viết';                 break;
+                        case 'add':         $text = 'Thêm bài viết';                break;
+                        case 'update':      $text = 'Sửa bài viết';                 break;
+                        case 'delete':      $text = 'Xoá bài viết';                 break;
+                        case 'category':    $text = 'Quản lý chuyên mục bài viết';  break;
+                        default:            $text = 'Bài viết';                     break;
+                    }
+                    break;
             }
             return $text;
             break;
@@ -101,7 +111,15 @@ function role_structure($type = '', $des = ''){
                     'update'    => false,
                     'role'      => false,
                     'delete'    => false
+                ],
+                'blog' => [
+                    'manager'   => false,
+                    'add'       => false,
+                    'update'    => false,
+                    'delete'    => false,
+                    'category'  => false
                 ]
+
             ];
             return $structure;
             break;

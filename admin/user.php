@@ -33,9 +33,6 @@ switch ($path[2]){
                 }
 
                 $role_info = unserialize($meta['data']['meta_info']);
-                $header['css']      = [
-                    ''
-                ];
                 $header['js']      = [
                     URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
                     URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"

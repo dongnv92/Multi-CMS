@@ -4,7 +4,23 @@ switch ($path[1]){
     case 'blog':
         switch ($path[2]){
             case 'category':
+                // Kiểm tra quyền truy cập
+                if(!$role['blog']['manager']){
+                    echo "Forbidden";
+                    exit();
+                }
                 switch ($path[3]){
+                    case 'update':
+                        // Kiểm tra đăng nhập
+                        if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+
+                        $cate   = new meta($database, 'blog_category');
+                        $update = $cate->update($path[4]);
+                        echo encode_json($update);
+                        break;
                     case 'delete':
                         // Kiểm tra đăng nhập
                         if(!$me) {
@@ -32,14 +48,6 @@ switch ($path[1]){
         break;
     case 'profile':
         switch ($path[2]){
-            case 'change-avatar':
-                // Kiểm tra đăng nhập
-                if(!$me) {
-                    echo encode_json(get_response_array(403));
-                    break;
-                }
-                print_r($_FILES["file"]["user_avatar"]);
-                break;
             default:
                 // Kiểm tra đăng nhập
                 if(!$me) {

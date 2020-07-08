@@ -255,13 +255,19 @@ function get_menu_header_structure(){
                 [
                     'text'      => 'Bài viết',
                     'url'       => URL_ADMIN . "/blog/",
-                    'roles'     => [],
+                    'roles'     => ['blog', 'manager'],
+                    'active'    => [[PATH_ADMIN, 'blog', '']]
+                ],
+                [
+                    'text'      => 'Thêm bài viết',
+                    'url'       => URL_ADMIN . "/blog/add",
+                    'roles'     => ['blog', 'add'],
                     'active'    => [[PATH_ADMIN, 'blog', '']]
                 ],
                 [
                     'text'      => 'Chuyên mục',
                     'url'       => URL_ADMIN . "/blog/category",
-                    'roles'     => [],
+                    'roles'     => ['blog', 'category'],
                     'active'    => [[PATH_ADMIN, 'blog', 'category']]
                 ]
             ]

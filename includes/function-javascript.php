@@ -5,7 +5,50 @@ switch ($path[1]){
     case 'blog':
         switch ($path[2]){
             case 'category':
+                // Kiểm tra quyền truy cập
+                if(!$role['blog']['manager']){
+                    echo "Forbidden";
+                    exit();
+                }
                 switch ($path[3]){
+                    case 'update':
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            $('#button_update_cate').on('click', function () {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"?>',
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                    data        : $('form').serialize(),
+                                    beforeSend  : function () {
+                                        $('#button_update_cate').attr('disabled', true);
+                                        $('#button_update_cate').html('ĐANG CẬP NHẬT ...');
+                                    }
+                                });
+                                ajax.done(function (data) {
+                                    setTimeout(function () {
+                                        if(data.response == 200){
+                                            show_notify(data.message, 'bg-green');
+                                            $('#button_update_cate').attr('disabled', false);
+                                            $('#button_update_cate').html('CẬP NHẬT');
+                                        }else{
+                                            show_notify(data.message, 'bg-red');
+                                            $('#button_update_cate').attr('disabled', false);
+                                            $('#button_update_cate').html('CẬP NHẬT');
+                                        }
+                                    }, 2000);
+                                });
+
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    $('#button_update_cate').attr('disabled', false);
+                                    $('#button_update_cate').html('CẬP NHẬT');
+                                    alert( "Request failed: " + textStatus );
+                                });
+                            });
+                        });
+                        <?php
+                        break;
                     default:
                         ?>
                         //<script>

@@ -25,7 +25,7 @@ class meta{
         $this->meta_info    = 'meta_info';
         $this->meta_images  = 'meta_images';
         $this->meta_parent  = 'meta_parent';
-        $this->meta_url     = 'meta_user';
+        $this->meta_url     = 'meta_url';
         $this->meta_user    = 'meta_user';
         $this->meta_time    = 'meta_time';
         $this->type         = $meta_type;
@@ -145,6 +145,8 @@ class meta{
         $where      = [];
         $pagination = [];
 
+        $where['meta_type'] = $this->type;
+
         // Tính tổng data
         $db->select('COUNT(*) AS count_data')->from($this->db_table);
         if($_REQUEST['search']){
@@ -213,23 +215,43 @@ class meta{
         if($_REQUEST[$this->meta_name] != $meta[$this->meta_name] && $this->check_name($_REQUEST[$this->meta_name]))
             return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
 
-        $meta_info  = [];
-        $data_role      = role_structure();
-        foreach ($data_role AS $key => $value){
-            foreach ($value AS $_key => $_value){
-                if($_REQUEST["{$key}_{$_key}"]){
-                    $meta_info[$key][$_key] = true;
-                }else{
-                    $meta_info[$key][$_key] = false;
-                }
+        if($_REQUEST[$this->meta_parent]){
+            if(!$this->check_id($_REQUEST[$this->meta_parent])){
+                return get_response_array(310, "Chuyên mục cha không tồn tại, vui lòng chọn kiểm tra lại.");
             }
         }
-        $meta_info  = serialize($meta_info);
+
+        if(in_array($this->type, ['blog_category'])){
+            if($_REQUEST[$this->meta_url]){
+                if($_REQUEST[$this->meta_url] != $meta[$this->meta_url] && $this->check_url($_REQUEST[$this->meta_url])){
+                    return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
+                }
+            }else{
+                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
+            }
+        }
+
+        if(in_array($this->type, ['role'])){
+            $meta_info  = [];
+            $data_role      = role_structure();
+            foreach ($data_role AS $key => $value){
+                foreach ($value AS $_key => $_value){
+                    if($_REQUEST["{$key}_{$_key}"]){
+                        $meta_info[$key][$_key] = true;
+                    }else{
+                        $meta_info[$key][$_key] = false;
+                    }
+                }
+            }
+            $meta_info  = serialize($meta_info);
+        }
 
         $data_update = [
             'meta_name'     => $db->escape($_REQUEST[$this->meta_name]),
             'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
-            'meta_info'     => $db->escape($meta_info)
+            'meta_info'     => $meta_info ? $db->escape($meta_info) : '',
+            'meta_url'      => $_REQUEST[$this->meta_url] ? $db->escape($_REQUEST[$this->meta_url]) : '',
+            'meta_parent'   => $_REQUEST[$this->meta_parent] ? $db->escape($_REQUEST[$this->meta_parent]) : ''
         ];
         $data_update = $db->where([$this->meta_type => $this->type, $this->meta_id => $id])->update($this->db_table, $data_update);
         if(!$data_update)
@@ -247,17 +269,17 @@ class meta{
             return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
 
         // Xử lý các trường không bắt buộc
-        if($_REQUEST[$this->meta_url]){
-            if($this->check_url($_REQUEST[$this->meta_url]))
-                return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
+        if(in_array($this->type, ['blog_category'])){
+            if($_REQUEST[$this->meta_url]){
+                if($this->check_url($_REQUEST[$this->meta_url]))
+                    return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
+            }else{
+                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
+            }
         }
         if($_REQUEST[$this->meta_parent]){
-            if(!$this->check_id($_REQUEST[$this->meta_parent]))
+            if(!$this->check_id($_REQUEST[$this->meta_parent])){
                 return get_response_array(310, "Chuyên mục cha không tồn tại, vui lòng chọn kiểm tra lại.");
-        }else{
-            // Nếu meta_type là các trường sau thì tự động thêm url khi người dùng không nhập
-            if(in_array($this->type, ['blog_category'])){
-                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
             }
         }
 
