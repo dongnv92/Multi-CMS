@@ -271,24 +271,33 @@ switch ($path[2]){
                             'placeholder'   => 'Nhập tiêu đề',
                             'autofocus'     => ''
                         ])?>
-                        <textarea id="summernote" name="editordata"></textarea>
+                        <?=formInputTextarea('blog_content', [
+                            'id'    => 'summernote'
+                        ])?>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="body">
-
+                    <div class="body text-right">
+                        <?=formButton('ĐĂNG BÀI', [
+                            'id'    => 'button_add_post',
+                            'class' => 'btn btn-raised bg-blue waves-effect'
+                        ])?>
                     </div>
                 </div>
                 <div class="card">
-                    <div class="header">
-                        Chuyên mục <code>*</code>
-                    </div>
                     <div class="body">
                         <?=formInputSelect('blog_category', $category, [
-                            'data-live-search'  => 'true']
+                            'label'             => 'Chọn chuyên mục',
+                            'data-live-search'  => 'true'
+                        ]
                         )?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="body">
+
                     </div>
                 </div>
             </div>

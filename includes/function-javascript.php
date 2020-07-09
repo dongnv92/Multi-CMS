@@ -131,7 +131,11 @@ switch ($path[1]){
                 ?>
                 //<script>
                 $(document).ready(function () {
-                    $('#summernote').summernote();
+                    $('#summernote').summernote({
+                        placeholder: 'Nhập nội dung',
+                        tabsize: 2,
+                        height: 200
+                    });
                 });
                 <?php
                 break;
