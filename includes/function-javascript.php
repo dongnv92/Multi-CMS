@@ -127,6 +127,14 @@ switch ($path[1]){
                         break;
                 }
                 break;
+            case 'add':
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    $('#summernote').summernote();
+                });
+                <?php
+                break;
         }
         break;
     case 'profile':

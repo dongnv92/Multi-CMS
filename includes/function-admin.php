@@ -262,7 +262,7 @@ function get_menu_header_structure(){
                     'text'      => 'Thêm bài viết',
                     'url'       => URL_ADMIN . "/blog/add",
                     'roles'     => ['blog', 'add'],
-                    'active'    => [[PATH_ADMIN, 'blog', '']]
+                    'active'    => [[PATH_ADMIN, 'blog', 'add']]
                 ],
                 [
                     'text'      => 'Chuyên mục',

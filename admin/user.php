@@ -442,12 +442,13 @@ switch ($path[2]){
         require_once 'admin-footer.php';
         break;
     case 'add':
-        // Kiểm tra quyền truy cập
         $header['js']      = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_JS . "{$path[1]}/{$path[2]}"
         ];
         $header['title']    = 'Thêm thành viên';
+
+        // Kiểm tra quyền truy cập
         if(!$role['user']['add']){
             require_once 'admin-header.php';
             echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);

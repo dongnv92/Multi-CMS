@@ -234,4 +234,67 @@ switch ($path[2]){
                 break;
         }
         break;
+    case 'add':
+        $header['title']    = 'Thêm bài viết';
+
+        // Kiểm tra quyền truy cập
+        if(!$role['blog']['add']){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Bài viết', 'Thêm bài viết','Thêm bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+            echo admin_error('Thêm bài viết', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+        $category           = new meta($database, 'blog_category');
+        $category           = $category->get_data_select();
+
+        $header['css']      = [
+            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css'
+        ];
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
+
+        require_once 'admin-header.php';
+        echo admin_breadcrumbs('Bài viết', 'Thêm bài viết','Thêm bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+        echo formOpen('', ['method' => 'POST']);
+        ?>
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="body">
+                        <?=formInputText('blog_title', [
+                            'label'         => 'Tiêu đề. <code>*</code>',
+                            'placeholder'   => 'Nhập tiêu đề',
+                            'autofocus'     => ''
+                        ])?>
+                        <textarea id="summernote" name="editordata"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="body">
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        Chuyên mục <code>*</code>
+                    </div>
+                    <div class="body">
+                        <?=formInputSelect('blog_category', $category, [
+                            'data-live-search'  => 'true']
+                        )?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        echo formClose();
+        require_once 'admin-footer.php';
+        break;
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 08, 2020 lúc 12:33 PM
+-- Thời gian đã tạo: Th7 09, 2020 lúc 12:31 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -57,6 +57,25 @@ INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `dong_post`
+--
+
+CREATE TABLE `dong_post` (
+  `post_id` int(11) NOT NULL,
+  `post_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'blog',
+  `post_title` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `post_content` text COLLATE utf8_unicode_ci NOT NULL,
+  `post_category` int(11) NOT NULL,
+  `post_user` int(11) NOT NULL,
+  `post_status` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'active',
+  `post_view` int(11) NOT NULL DEFAULT '0',
+  `post_future` int(11) NOT NULL,
+  `post_create` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `dong_setting`
 --
 
@@ -64,6 +83,7 @@ CREATE TABLE `dong_setting` (
   `setting_id` int(11) NOT NULL,
   `setting_key` varchar(200) COLLATE utf8_unicode_ci NOT NULL,
   `setting_value` text COLLATE utf8_unicode_ci NOT NULL,
+  `setting_des` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `setting_user` int(11) NOT NULL,
   `setting_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -72,11 +92,12 @@ CREATE TABLE `dong_setting` (
 -- Đang đổ dữ liệu cho bảng `dong_setting`
 --
 
-INSERT INTO `dong_setting` (`setting_id`, `setting_key`, `setting_value`, `setting_user`, `setting_time`) VALUES
-(1, 'logo', 'content/assets/images/system/logo.png', 1, '2020-06-11 10:35:00'),
-(2, 'role_special', '1', 1, '2020-06-26 15:12:00'),
-(3, 'role_default', '4', 1, '2020-06-26 15:13:00'),
-(4, 'user_special', '1', 1, '2020-06-30 10:34:00');
+INSERT INTO `dong_setting` (`setting_id`, `setting_key`, `setting_value`, `setting_des`, `setting_user`, `setting_time`) VALUES
+(1, 'logo', 'content/assets/images/system/logo.png', 'Đường dẫn Logo Website', 1, '2020-06-11 10:35:00'),
+(2, 'role_special', '1', 'ID phân quyền đặc biệt, không thể xoá', 1, '2020-06-26 15:12:00'),
+(3, 'role_default', '4', 'ID Phân quyền mặc định, không thể xoá', 1, '2020-06-26 15:13:00'),
+(4, 'user_special', '1', 'ID Người dùng đặc biệt, không thể xoá', 1, '2020-06-30 10:34:00'),
+(5, 'blog_category_default', '5', 'ID chuyên mục bài viết đặc biệt, không thể xoá.', 1, '2020-07-09 11:37:00');
 
 -- --------------------------------------------------------
 
@@ -125,6 +146,12 @@ ALTER TABLE `dong_meta`
   ADD PRIMARY KEY (`meta_id`);
 
 --
+-- Chỉ mục cho bảng `dong_post`
+--
+ALTER TABLE `dong_post`
+  ADD PRIMARY KEY (`post_id`);
+
+--
 -- Chỉ mục cho bảng `dong_setting`
 --
 ALTER TABLE `dong_setting`
@@ -147,10 +174,16 @@ ALTER TABLE `dong_meta`
   MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
+-- AUTO_INCREMENT cho bảng `dong_post`
+--
+ALTER TABLE `dong_post`
+  MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT cho bảng `dong_setting`
 --
 ALTER TABLE `dong_setting`
-  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_user`
