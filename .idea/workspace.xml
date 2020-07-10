@@ -15,20 +15,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/admin/blog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="290" column="37" lean-forward="true" selection-start-line="290" selection-start-column="37" selection-end-line="290" selection-end-column="37" />
+            <state relative-caret-position="552">
+              <caret line="303" column="55" selection-start-line="303" selection-start-column="55" selection-end-line="303" selection-end-column="55" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/includes/function-form.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1537">
-              <caret line="216" column="9" selection-start-line="216" selection-start-column="9" selection-end-line="216" selection-end-column="9" />
+            <state relative-caret-position="634">
+              <caret line="224" column="76" selection-start-line="224" selection-start-column="76" selection-end-line="224" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -36,8 +36,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin/user.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="534" column="36" lean-forward="true" selection-start-line="531" selection-start-column="32" selection-end-line="534" selection-end-column="36" />
+            <state relative-caret-position="1590">
+              <caret line="541" column="13" lean-forward="true" selection-start-line="541" selection-start-column="13" selection-end-line="541" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -46,7 +46,7 @@
         <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
-              <caret line="136" column="35" selection-start-line="136" selection-start-column="35" selection-end-line="136" selection-end-column="35" />
+              <caret line="140" column="22" selection-start-line="140" selection-start-column="22" selection-end-line="140" selection-end-column="22" />
               <folding>
                 <element signature="e#167#7315#0#PHP" />
               </folding>
@@ -97,7 +97,6 @@
         <option value="$PROJECT_DIR$/includes/function-validate.php" />
         <option value="$PROJECT_DIR$/includes/class/class.user.php" />
         <option value="$PROJECT_DIR$/admin/profile.php" />
-        <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/includes/class/class.meta.php" />
         <option value="$PROJECT_DIR$/includes/function.php" />
         <option value="$PROJECT_DIR$/includes/admin-ajax.php" />
@@ -106,6 +105,7 @@
         <option value="$PROJECT_DIR$/content/assets-admin/plugins/summernote/summernote.js" />
         <option value="$PROJECT_DIR$/content/assets-admin/plugins/summernote/summernote.css" />
         <option value="$PROJECT_DIR$/includes/function-javascript.php" />
+        <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/admin/blog.php" />
       </list>
     </option>
@@ -227,17 +227,18 @@
       <workItem from="1594174345915" duration="8661000" />
       <workItem from="1594262959553" duration="8333000" />
       <workItem from="1594298551829" duration="3036000" />
+      <workItem from="1594365078038" duration="5567000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="222368000" />
+    <option name="totallyTimeSpent" value="227935000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17549168" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.17750533" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -258,7 +259,7 @@
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13272922" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17750533" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -337,7 +338,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SMS/administrator/src/class/javascript.php">
+    <entry file="file://$PROJECT_DIR$/../sms/administrator/src/class/javascript.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" selection-start-line="2" selection-end-line="3" />
@@ -378,7 +379,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../SMS/apisms/index.php">
+    <entry file="file://$PROJECT_DIR$/../sms/apisms/index.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/../review/api/includes/function.php">
@@ -593,7 +594,7 @@
     <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
-          <caret line="136" column="35" selection-start-line="136" selection-start-column="35" selection-end-line="136" selection-end-column="35" />
+          <caret line="140" column="22" selection-start-line="140" selection-start-column="22" selection-end-line="140" selection-end-column="22" />
           <folding>
             <element signature="e#167#7315#0#PHP" />
           </folding>
@@ -602,22 +603,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/admin/user.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="534" column="36" lean-forward="true" selection-start-line="531" selection-start-column="32" selection-end-line="534" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/blog.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="290" column="37" lean-forward="true" selection-start-line="290" selection-start-column="37" selection-end-line="290" selection-end-column="37" />
+        <state relative-caret-position="1590">
+          <caret line="541" column="13" lean-forward="true" selection-start-line="541" selection-start-column="13" selection-end-line="541" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/function-form.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1537">
-          <caret line="216" column="9" selection-start-line="216" selection-start-column="9" selection-end-line="216" selection-end-column="9" />
+        <state relative-caret-position="634">
+          <caret line="224" column="76" selection-start-line="224" selection-start-column="76" selection-end-line="224" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/blog.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="303" column="55" selection-start-line="303" selection-start-column="55" selection-end-line="303" selection-end-column="55" />
         </state>
       </provider>
     </entry>

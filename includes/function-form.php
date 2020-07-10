@@ -162,8 +162,6 @@ function formInputTextarea($name, $attribute = []){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
-    $div_class_parent   = '';
-    $div_class_child    = '';
     $layout             = $attribute['layout'];
     switch ($layout){
         default:
@@ -202,6 +200,34 @@ function formInputTextarea($name, $attribute = []){
             break;
     }
     return $content;
+}
+
+function formInputSwitch($name, $attribute = []){
+    $form_attribute = '';
+    $error          = '';
+    foreach ($attribute AS $key => $value){
+        switch ($key){
+            case 'error':
+                $error .= formError($value);
+                break;
+            case 'label':
+            case 'layout'  :
+                $form_attribute .= '';
+                break;
+            default:
+                $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                break;
+        }
+    }
+    $text = '
+        <div class="switch">
+            <label>
+                <input type="checkbox" name="'. $name .'" '. $form_attribute .'>
+                '. ($attribute['label'] ? '<span class="lever"></span> '.$attribute['label'] : '') .'
+            </label>
+        </div>
+    ';
+    return $text;
 }
 
 /* Thẻ Select trong From
@@ -348,7 +374,6 @@ function formInputCheckbox($name, $data, $attribute = []){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
-    $div_class_parent   = '';
     $layout             = $attribute['layout'];
     $error              = '';
     switch ($layout){

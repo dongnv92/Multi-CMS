@@ -279,25 +279,40 @@ switch ($path[2]){
             </div>
             <div class="col-lg-4">
                 <div class="card">
-                    <div class="body text-right">
-                        <?=formButton('ĐĂNG BÀI', [
-                            'id'    => 'button_add_post',
-                            'class' => 'btn btn-raised bg-blue waves-effect'
+                    <div class="header">
+                        <h2>Xuất bản</h2>
+                    </div>
+                    <div class="body">
+                        <div class="text-left">
+                            <?=formInputSwitch('post_feature', [
+                                'label' => 'Nổi bật?'
+                            ])?>
+                        </div>
+                        <div class="text-right">
+                            <?=formButton('ĐĂNG BÀI', [
+                                'id'    => 'button_add_post',
+                                'class' => 'btn btn-raised bg-blue waves-effect'
+                            ])?>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h2>Trạng thái</h2>
+                    </div>
+                    <div class="body">
+                        <?=formInputSelect('post_status', ['published' => 'Đăng luôn', 'pending' => 'Chờ duyệt'], [
+                            'data-live-search'  => 'true'
                         ])?>
                     </div>
                 </div>
                 <div class="card">
                     <div class="body">
                         <?=formInputSelect('blog_category', $category, [
-                            'label'             => 'Chọn chuyên mục',
-                            'data-live-search'  => 'true'
-                        ]
+                                'label'             => 'Chọn chuyên mục',
+                                'data-live-search'  => 'true'
+                            ]
                         )?>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="body">
-
                     </div>
                 </div>
             </div>
