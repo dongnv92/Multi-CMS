@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 09, 2020 lúc 12:31 PM
+-- Thời gian đã tạo: Th7 14, 2020 lúc 12:22 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -65,12 +65,15 @@ CREATE TABLE `dong_post` (
   `post_type` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'blog',
   `post_title` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
   `post_content` text COLLATE utf8_unicode_ci NOT NULL,
+  `post_keyword` varchar(300) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `post_short_content` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
   `post_category` int(11) NOT NULL,
+  `post_url` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
   `post_user` int(11) NOT NULL,
   `post_status` varchar(100) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'active',
   `post_view` int(11) NOT NULL DEFAULT '0',
-  `post_future` int(11) NOT NULL,
-  `post_create` int(11) NOT NULL
+  `post_feature` int(11) NOT NULL,
+  `post_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------

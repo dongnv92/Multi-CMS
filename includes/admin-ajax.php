@@ -1,6 +1,13 @@
 <?php
 require_once '../init.php';
 switch ($path[1]){
+    case 'upload':
+        if(move_uploaded_file($_FILES['files']['tmp_name'], ABSPATH . '/content/uploads/' . $_FILES['files']['file_name'])){
+            echo "OK {$_FILES['files']['file_name']}";
+        }else{
+            echo "False: {$_FILES['files']['file_name']}";
+        }
+        break;
     case 'blog':
         switch ($path[2]){
             case 'category':

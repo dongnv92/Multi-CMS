@@ -236,7 +236,6 @@ switch ($path[2]){
         break;
     case 'add':
         $header['title']    = 'Thêm bài viết';
-
         // Kiểm tra quyền truy cập
         if(!$role['blog']['add']){
             require_once 'admin-header.php';
@@ -246,21 +245,27 @@ switch ($path[2]){
             exit();
         }
 
+        if($_REQUEST['submit']){
+
+        }
+
         $category           = new meta($database, 'blog_category');
         $category           = $category->get_data_select();
 
         $header['css']      = [
-            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css'
+            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css',
+            URL_ADMIN_ASSETS . 'plugins/dropify/css/dropify.min.css'
         ];
         $header['js']       = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
             URL_JS . "{$path[1]}/{$path[2]}"
         ];
 
         require_once 'admin-header.php';
         echo admin_breadcrumbs('Bài viết', 'Thêm bài viết','Thêm bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
-        echo formOpen('', ['method' => 'POST']);
+        echo formOpen('', ['method' => 'POST', 'id' => 'form_add_post', 'enctype' => true]);
         ?>
         <div class="row">
             <div class="col-lg-8">
@@ -273,6 +278,22 @@ switch ($path[2]){
                         ])?>
                         <?=formInputTextarea('blog_content', [
                             'id'    => 'summernote'
+                        ])?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">Tuỳ chọn khác</div>
+                    <div class="body">
+                        <?=formInputText('blog_url', [
+                            'label'         => 'URL. <code>có thể để trống</code>',
+                            'placeholder'   => 'URL bài viết'
+                        ])?>
+                        <?=formInputText('blog_keyword', [
+                            'label'         => 'Từ khoá.',
+                            'placeholder'   => 'Từ khoá tìm kiếm'
+                        ])?>
+                        <?=formInputTextarea('post_short_content', [
+                            'label' => 'Mô tả ngắn'
                         ])?>
                     </div>
                 </div>
@@ -290,7 +311,9 @@ switch ($path[2]){
                         </div>
                         <div class="text-right">
                             <?=formButton('ĐĂNG BÀI', [
-                                'id'    => 'button_add_post',
+                                'id'    => 'add_post',
+                                'type'  => 'submit',
+                                'name'  => 'submit',
                                 'class' => 'btn btn-raised bg-blue waves-effect'
                             ])?>
                         </div>
@@ -309,10 +332,18 @@ switch ($path[2]){
                 <div class="card">
                     <div class="body">
                         <?=formInputSelect('blog_category', $category, [
-                                'label'             => 'Chọn chuyên mục',
-                                'data-live-search'  => 'true'
-                            ]
+                            'label'             => 'Chọn chuyên mục',
+                            'data-live-search'  => 'true'
+                        ]
                         )?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header"><h2>Ảnh bài viết</h2></div>
+                    <div class="body">
+                        <div class="form-group">
+                            <input type="file" name="post_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" />
+                        </div>
                     </div>
                 </div>
             </div>
