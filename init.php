@@ -13,6 +13,7 @@ define( 'PATH_ADMIN'        , 'admin');
 define( 'URL_HOME'          , 'http://localhost/dong/multicms');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
 define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
+define( 'URL_BLOG'          , URL_HOME . '/blog/');
 define( 'URL_JS'            , URL_HOME . '/js/');
 define( 'URL_LOGIN'         , URL_HOME . '/login.html');
 define( 'URL_LOGOUT'        , URL_HOME . '/logout.html');

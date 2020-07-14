@@ -155,21 +155,16 @@ switch ($path[1]){
                         }
                     });
 
-                    $('#form_add_post').on('submit', function (e) {
-                        e.preventDefault();
-                        $.ajax({
-                            url: '<?=URL_ADMIN_AJAX . "upload"?>',
-                            type: 'post',
-                            data: new FormData(this),
-                            contentType: false,
-                            processData: false,
-                            success: function(response){
-                                alert(response);
-                            },
-                        });
-
+                    $('input[name=post_title]').focusout(function () {
+                        var post_title = $(this).val();
+                        $.post(
+                            '<?=URL_ADMIN_AJAX . "{$path[1]}/create_url/?post_title="?>' + post_title,
+                            function (data) {
+                                $('input[name=post_url]').val(data);
+                            }
+                        );
                     });
-                });
+                    });
                 <?php
                 break;
         }

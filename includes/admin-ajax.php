@@ -10,6 +10,10 @@ switch ($path[1]){
         break;
     case 'blog':
         switch ($path[2]){
+            case 'create_url':
+                $title = sanitize_title($_REQUEST['post_title']);
+                echo $title;
+                break;
             case 'category':
                 // Kiểm tra quyền truy cập
                 if(!$role['blog']['manager']){

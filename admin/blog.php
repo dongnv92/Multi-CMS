@@ -271,7 +271,7 @@ switch ($path[2]){
             <div class="col-lg-8">
                 <div class="card">
                     <div class="body">
-                        <?=formInputText('blog_title', [
+                        <?=formInputText('post_title', [
                             'label'         => 'Tiêu đề. <code>*</code>',
                             'placeholder'   => 'Nhập tiêu đề',
                             'autofocus'     => ''
@@ -284,7 +284,7 @@ switch ($path[2]){
                 <div class="card">
                     <div class="header">Tuỳ chọn khác</div>
                     <div class="body">
-                        <?=formInputText('blog_url', [
+                        <?=formInputText('post_url', [
                             'label'         => 'URL. <code>có thể để trống</code>',
                             'placeholder'   => 'URL bài viết'
                         ])?>
