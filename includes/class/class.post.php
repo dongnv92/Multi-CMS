@@ -10,6 +10,7 @@ class Post{
     const post_short_content    = 'post_short_content';
     const post_category         = 'post_category';
     const post_url              = 'post_url';
+    const post_images           = 'post_images';
     const post_user             = 'post_user';
     const post_status           = 'post_status';
     const post_view             = 'post_view';
@@ -45,6 +46,18 @@ class Post{
         return false;
     }
 
+    public function update_post_images($id_post, $images_url){
+        $db = $this->db;
+        if(!$this->check_post(['post_id' => $id_post])){
+            return get_response_array(309, 'ID Post không tồn tại.');
+        }
+        $update = $db->where('post_id', $id_post)->update(self::table, [self::post_images => $images_url]);
+        if(!$update){
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        }
+        return get_response_array(200, "Cập nhật dữ liệu thành công.");
+    }
+
     public function add(){
         $db = $this->db;
         global $me;
@@ -58,8 +71,8 @@ class Post{
             return get_response_array(309, 'Bạn cần nội dung.');
 
         // Kiểm tra url post
-        if($_REQUEST[self::post_url]){
-            if(validate_isset($_REQUEST[self::post_url])){
+        if(validate_isset($_REQUEST[self::post_url])){
+            if($this->check_post(['post_url' => $_REQUEST[self::post_url]])){
                 return get_response_array(309, 'URL đã tồn tại, vui lòng chọn URL khác.');
             }
         }else{
@@ -73,7 +86,9 @@ class Post{
             return get_response_array(309, 'Trạng thái bài viết không đúng định dạng.');
 
         // Kiểm tra bài viết nổi bật, nếu không chọn thì mặc định là false
-        if(!$_REQUEST[self::post_feature] || !in_array($_REQUEST[self::post_feature], self::post_feature_value)){
+        if($_REQUEST[self::post_feature]){
+            $_REQUEST[self::post_feature] = 'true';
+        }else{
             $_REQUEST[self::post_feature] = 'false';
         }
 
@@ -84,7 +99,7 @@ class Post{
             return get_response_array(309, 'Chuyên mục không tồn tại.');
 
         $data_add = [
-            self::post_type             => $_REQUEST[$this->type],
+            self::post_type             => $this->type,
             self::post_title            => $_REQUEST[self::post_title],
             self::post_content          => $_REQUEST[self::post_content],
             self::post_keyword          => $_REQUEST[self::post_keyword],
