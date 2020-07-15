@@ -246,7 +246,11 @@ switch ($path[2]){
         }
 
         if($_REQUEST['submit']){
-
+            $post   = new Post($database, 'blog');
+            $result = $post->add();
+            if($result['response'] != 200){
+                $error = '<div class="col-lg-12"><div class="alert alert-danger">'. $result['message'] .'</div></div>';
+            }
         }
 
         $category           = new meta($database, 'blog_category');
@@ -268,15 +272,18 @@ switch ($path[2]){
         echo formOpen('', ['method' => 'POST', 'id' => 'form_add_post', 'enctype' => true]);
         ?>
         <div class="row">
+            <?=$error ? $error : ''?>
             <div class="col-lg-8">
                 <div class="card">
                     <div class="body">
                         <?=formInputText('post_title', [
                             'label'         => 'Tiêu đề. <code>*</code>',
                             'placeholder'   => 'Nhập tiêu đề',
+                            'value'         => $_REQUEST['post_title'] ? $_REQUEST['post_title'] : '',
                             'autofocus'     => ''
                         ])?>
-                        <?=formInputTextarea('blog_content', [
+                        <?=formInputTextarea('post_content', [
+                            'value' => $_REQUEST['post_content'] ? $_REQUEST['post_content'] : '',
                             'id'    => 'summernote'
                         ])?>
                     </div>
@@ -286,13 +293,16 @@ switch ($path[2]){
                     <div class="body">
                         <?=formInputText('post_url', [
                             'label'         => 'URL. <code>có thể để trống</code>',
+                            'value'         => $_REQUEST['post_url'] ? $_REQUEST['post_url'] : '',
                             'placeholder'   => 'URL bài viết'
                         ])?>
-                        <?=formInputText('blog_keyword', [
+                        <?=formInputText('post_keyword', [
                             'label'         => 'Từ khoá.',
+                            'value'         => $_REQUEST['post_keyword'] ? $_REQUEST['post_keyword'] : '',
                             'placeholder'   => 'Từ khoá tìm kiếm'
                         ])?>
                         <?=formInputTextarea('post_short_content', [
+                            'value' => $_REQUEST['post_short_content'] ? $_REQUEST['post_short_content'] : '',
                             'label' => 'Mô tả ngắn'
                         ])?>
                     </div>
@@ -306,6 +316,7 @@ switch ($path[2]){
                     <div class="body">
                         <div class="text-left">
                             <?=formInputSwitch('post_feature', [
+                                'value' => 'true',
                                 'label' => 'Nổi bật?'
                             ])?>
                         </div>
@@ -314,6 +325,7 @@ switch ($path[2]){
                                 'id'    => 'add_post',
                                 'type'  => 'submit',
                                 'name'  => 'submit',
+                                'value' => 'submit',
                                 'class' => 'btn btn-raised bg-blue waves-effect'
                             ])?>
                         </div>
@@ -331,7 +343,7 @@ switch ($path[2]){
                 </div>
                 <div class="card">
                     <div class="body">
-                        <?=formInputSelect('blog_category', $category, [
+                        <?=formInputSelect('post_category', $category, [
                             'label'             => 'Chọn chuyên mục',
                             'data-live-search'  => 'true'
                         ]
