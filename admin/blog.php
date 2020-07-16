@@ -385,4 +385,168 @@ switch ($path[2]){
         echo formClose();
         require_once 'admin-footer.php';
         break;
+    case 'update':
+        $header['title']    = 'Cập nhập bài viết';
+        // Kiểm tra quyền truy cập
+        if(!$role['blog']['update']){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Bài viết', 'Cập nhật bài viết','Cập nhật', [URL_ADMIN . '/blog/' => 'Bài viết']);
+            echo admin_error('Cập nhật bài viết', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+        $_REQUEST['post_title'] = $_REQUEST['post_title'] ? $_REQUEST['post_title'] : $post['data']['post_title'];
+
+        $post = new Post($database, 'blog');
+        $post = $post->get_post(['post_id' => $path[3]]);
+
+        if($post['response'] != 200){
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Bài viết', 'Cập nhật bài viết','Cập nhật', [URL_ADMIN . '/blog/' => 'Bài viết']);
+            echo admin_error('Cập nhật bài viết', 'Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+
+        if($_REQUEST['submit']){
+            $post   = new Post($database, 'blog');
+            $result = $post->add();
+            if($result['response'] == 200){
+                require_once ABSPATH . "includes/class/class.uploader.php";
+                if($_FILES['post_images']){
+                    $path_upload        = 'content/uploads/post/'.date('Y', time()).'/'.date('m', time()).'/'.date('d', time()).'/';
+                    $uploader           = new Uploader();
+                    $data_upload        = $uploader->upload($_FILES['post_images'], array(
+                        'limit'         => 1, //Maximum Limit of files. {null, Number}
+                        'maxSize'       => 2, //Maximum Size of files {null, Number(in MB's)}
+                        'extensions'    => ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'], //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
+                        'required'      => true, //Minimum one file is required for upload {Boolean}
+                        'uploadDir'     => ABSPATH . $path_upload, //Upload directory {String}
+                        'title'         => array('auto', 15), //New file name {null, String, Array} *please read documentation in README.md
+                        'removeFiles'   => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
+                        'replace'       => false, //Replace the file if it already exists {Boolean}
+                        'onRemove'      => 'onFilesRemoveCallback'//A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
+                    ));
+                    if($data_upload['isComplete']){
+                        $data_images    =  $path_upload . $data_upload['data']['metas'][0]['name'];
+                        $post->update_post_images($result['data'], $data_images);
+                    }
+                }
+            }else{
+                $error = '<div class="col-lg-12"><div class="alert alert-danger">'. $result['message'] .'</div></div>';
+            }
+        }
+
+        $category           = new meta($database, 'blog_category');
+        $category           = $category->get_data_select();
+
+        $header['css']      = [
+            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css',
+            URL_ADMIN_ASSETS . 'plugins/dropify/css/dropify.min.css'
+        ];
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
+            URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
+
+        require_once 'admin-header.php';
+        echo admin_breadcrumbs('Bài viết', 'Cập nhật bài viết','Cập nhật', [URL_ADMIN . '/blog/' => 'Bài viết']);
+        echo formOpen('', ['method' => 'POST', 'id' => 'form_add_post', 'enctype' => true]);
+        ?>
+        <div class="row">
+            <?=$error ? $error : ''?>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="body">
+                        <?=formInputText('post_title', [
+                            'label'         => 'Tiêu đề. <code>*</code>',
+                            'placeholder'   => 'Nhập tiêu đề',
+                            'value'         => $_REQUEST['post_title'] ? $_REQUEST['post_title'] : '',
+                            'autofocus'     => ''
+                        ])?>
+                        <?=formInputTextarea('post_content', [
+                            'value' => $_REQUEST['post_content'] ? $_REQUEST['post_content'] : '',
+                            'id'    => 'summernote'
+                        ])?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">Tuỳ chọn khác</div>
+                    <div class="body">
+                        <?=formInputText('post_url', [
+                            'label'         => 'URL. <code>có thể để trống</code>',
+                            'value'         => $_REQUEST['post_url'] ? $_REQUEST['post_url'] : '',
+                            'placeholder'   => 'URL bài viết'
+                        ])?>
+                        <?=formInputText('post_keyword', [
+                            'label'         => 'Từ khoá.',
+                            'value'         => $_REQUEST['post_keyword'] ? $_REQUEST['post_keyword'] : '',
+                            'placeholder'   => 'Từ khoá tìm kiếm'
+                        ])?>
+                        <?=formInputTextarea('post_short_content', [
+                            'value' => $_REQUEST['post_short_content'] ? $_REQUEST['post_short_content'] : '',
+                            'label' => 'Mô tả ngắn'
+                        ])?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card">
+                    <div class="header">
+                        <h2>Xuất bản</h2>
+                    </div>
+                    <div class="body">
+                        <div class="text-left">
+                            <?=formInputSwitch('post_feature', [
+                                'value' => 'true',
+                                'label' => 'Nổi bật?'
+                            ])?>
+                        </div>
+                        <div class="text-right">
+                            <?=formButton('ĐĂNG BÀI', [
+                                'id'    => 'add_post',
+                                'type'  => 'submit',
+                                'name'  => 'submit',
+                                'value' => 'submit',
+                                'class' => 'btn btn-raised bg-blue waves-effect'
+                            ])?>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header">
+                        <h2>Trạng thái</h2>
+                    </div>
+                    <div class="body">
+                        <?=formInputSelect('post_status', ['public' => 'Đăng luôn', 'pending' => 'Chờ duyệt'], [
+                            'data-live-search'  => 'true'
+                        ])?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="body">
+                        <?=formInputSelect('post_category', $category, [
+                            'label'             => 'Chọn chuyên mục',
+                            'data-live-search'  => 'true'
+                        ]
+                        )?>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="header"><h2>Ảnh bài viết</h2></div>
+                    <div class="body">
+                        <div class="form-group">
+                            <input type="file" name="post_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        echo formClose();
+        require_once 'admin-footer.php';
+        break;
 }

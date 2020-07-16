@@ -33,6 +33,85 @@ class Post{
         return false;
     }
 
+    public function get_post($where, $select = '*'){
+        $db                     = $this->db;
+        $where[self::post_type] = $this->type;
+        $data                   = $db->select($select)->from(self::table)->where($where)->fetch_first();
+        if(!$data){
+            return false;
+        }
+        return ['response' => 200, 'data' => $data];
+    }
+
+    public function delete($id){
+        $db     = $this->db;
+        if(!$this->check_post(['post_id' => $id]))
+            return get_response_array(309, 'Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.');
+        $delete = $db->delete()->from(self::table)->where([self::post_id => $id, self::post_type => $this->type])->limit(1)->execute();
+        if(!$delete)
+            return get_response_array(208, 'Xóa dữ liệu không thành công!');
+        return get_response_array(200, 'Xóa dữ liệu thành công!');
+    }
+
+    // Lấy danh sách tất cả thành viên
+    public function get_all(){
+        $db         = $this->db;
+        $param      = get_param_defaul();
+        $page       = $param['page'];
+        $limit      = $param['limit'];
+        $offset     = $param['offset'];
+        $where      = [];
+        $pagination = [];
+
+        // Tính tổng data
+        $db->select('COUNT(*) AS count_data')->from(self::table);
+        if($_REQUEST['search']){
+            $db->where(get_query_search($_REQUEST['search'], [self::post_title, self::post_content, self::post_short_content, self::post_keyword]));
+        }
+        if($where){
+            $db->where($where);
+        }
+        $data_count                 = $db->fetch_first();
+        $pagination['count']        = $data_count['count_data'];                    // Tổng số bản ghi
+        $pagination['page_num']     = ceil($pagination['count'] / $limit);   // Tổng số trang
+        $pagination['page_start']   = ($page - 1) * $limit;                        // Bắt đầu từ số bản ghi này
+
+        // Nếu số trang hiện tại lớn hơn tổng số trang thì bào lỗi
+        if(($page - 1) > $pagination['page_num'] || $offset > $pagination['count'])
+            return get_response_array(311, 'Số trang không được lớn hơn số dữ liệu có.');
+
+        // Hiển thị dữ liệu theo số liệu nhập vào
+        $db->select('*')->from($this->db_table);
+        if($_REQUEST['search']){
+            $db->where(get_query_search($_REQUEST['search'], [self::post_title, self::post_content, self::post_short_content, self::post_keyword]));
+        }
+        if($where){
+            $db->where($where);
+        }
+        $db->limit($limit, ($page > 1 ? $pagination['page_start'] : $offset));
+        if($_REQUEST['sort']){
+            $sort = explode('.',$_REQUEST['sort']);
+            if(count($sort) == 1){
+                $db->order_by($sort[0]);
+            }else if(count($sort) == 2 && in_array($sort[1], ['asc', 'ASC', 'desc', 'DESC'])){
+                $db->order_by($sort[0], $sort[1]);
+            }
+        }
+        $data = $db->fetch();
+        $response = [
+            'response'  => 200,
+            'paging'    => [
+                'count_data'    => $pagination['count'],
+                'page'          => $pagination['page_num'],
+                'page_current'  => $page,
+                'limit'         => $limit,
+                'offset'        => $page > 1 ? $pagination['page_start'] : $offset
+            ],
+            'data'      => $data
+        ];
+        return $response;
+    }
+
     private function check_category($id_category){
         $db = $this->db;
         switch ($this->type){
