@@ -565,4 +565,118 @@ switch ($path[2]){
         echo formClose();
         require_once 'admin-footer.php';
         break;
+    default:
+        // Lấy dữ liệu
+        $post   = new Post($database, 'blog');
+        $data   = $post->get_all();
+        $param  = get_param_defaul();
+
+
+        $header['css']  = [
+            URL_ADMIN_ASSETS . 'css/inbox.css'
+        ];
+        $header['js']   = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_JS . "{$path[1]}/"
+        ];
+        $header['title'] = 'Quản lý bài viết';
+        require_once 'admin-header.php';
+        echo admin_breadcrumbs('Bài viết', 'Quản lý bài viết','Quản lý bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card action_bar m-t-15">
+                    <?=formOpen('', ['method' => 'GET'])?>
+                    <div class="row" style="margin-left : 5px; margin-right : 5px">
+                        <div class="col-lg-4 col-md-6 hidden-sm-down">
+                            <div class="input-group m-t-10">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="form-line">
+                                    <input type="text" autofocus name="search" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Tìm kiếm ...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('user_status', [
+                                ''              => 'Trạng thái',
+                                'active'        => 'Hoạt động',
+                                'not_active'    => 'Chưa kích hoạt',
+                                'block'         => 'Tạm khóa',
+                                'block_forever' => 'Đã khóa'
+                            ], ['data-live-search' => 'true', 'selected' => $_REQUEST['user_status']])?>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
+                            <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                        </div>
+                    </div>
+                    <?=formClose()?>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="content table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th style="width: 20%" class="text-left align-middle">Tên đăng nhập</th>
+                                <th style="width: 20%" class="text-center align-middle">Tên hiển thị</th>
+                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
+                                <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
+                                <th style="width: 15%" class="text-center align-middle">Quản trị</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if($data['paging']['count_data'] == 0){?>
+                                <tr>
+                                    <td colspan="6" class="text-center">Dữ liệu trống</td>
+                                </tr>
+                            <?php }?>
+                            <?php
+                            foreach ($data['data'] AS $row){
+                                $user_role = new meta($database, 'role');
+                                $user_role = $user_role->get_meta($row['user_role'], 'meta_name');
+                                ?>
+                                <tr>
+                                    <td class="text-left align-middle font-weight-bold">
+                                        <a title="Click để chỉnh sửa" href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>"><?=$row['user_login']?></a>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['user_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$user_role['data']['meta_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=get_status('user', $row['user_status'])?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=view_date_time($row['user_time'])?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['user_id']?>" title="Xóa <?=$row['user_name']?>"><i class="material-icons text-danger">delete_forever</i></a>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            <tr>
+                                <td colspan="6" class="text-left">
+                                    Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                    Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-center clearfix">
+                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                </div>
+            </div>
+        </div>
+        <?php
+        require_once 'admin-footer.php';
+        break;
 }
