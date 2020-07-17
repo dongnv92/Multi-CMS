@@ -15,15 +15,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin/blog.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="329">
-              <caret line="448" column="61" selection-start-line="448" selection-start-column="61" selection-end-line="448" selection-end-column="61" />
+            <state relative-caret-position="486">
+              <caret line="472" column="34" selection-start-line="472" selection-start-column="34" selection-end-line="472" selection-end-column="34" />
               <folding>
                 <element signature="e#192#14372#0#PHP" />
                 <element signature="e#14377#22226#0#PHP" />
-                <element signature="e#23474#25483#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -41,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/includes/class/class.post.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="237" column="60" selection-start-line="237" selection-start-column="60" selection-end-line="237" selection-end-column="60" />
+            <state relative-caret-position="804">
+              <caret line="237" column="50" selection-start-line="237" selection-start-column="50" selection-end-line="237" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -111,8 +110,8 @@
         <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/includes/function-admin.php" />
         <option value="$PROJECT_DIR$/includes/function-javascript.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.post.php" />
         <option value="$PROJECT_DIR$/admin/blog.php" />
+        <option value="$PROJECT_DIR$/includes/class/class.post.php" />
       </list>
     </option>
   </component>
@@ -230,12 +229,12 @@
       <workItem from="1594735551399" duration="3823000" />
       <workItem from="1594822962374" duration="3149000" />
       <workItem from="1594909155358" duration="1938000" />
-      <workItem from="1594951322291" duration="12403000" />
+      <workItem from="1594951322291" duration="13205000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="269268000" />
+    <option name="totallyTimeSpent" value="270070000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -618,22 +617,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.post.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="237" column="60" selection-start-line="237" selection-start-column="60" selection-end-line="237" selection-end-column="60" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/admin/blog.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="329">
-          <caret line="448" column="61" selection-start-line="448" selection-start-column="61" selection-end-line="448" selection-end-column="61" />
+        <state relative-caret-position="486">
+          <caret line="472" column="34" selection-start-line="472" selection-start-column="34" selection-end-line="472" selection-end-column="34" />
           <folding>
             <element signature="e#192#14372#0#PHP" />
             <element signature="e#14377#22226#0#PHP" />
-            <element signature="e#23474#25483#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/class/class.post.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="804">
+          <caret line="237" column="50" selection-start-line="237" selection-start-column="50" selection-end-line="237" selection-end-column="50" />
         </state>
       </provider>
     </entry>
