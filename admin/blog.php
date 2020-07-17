@@ -337,8 +337,9 @@ switch ($path[2]){
                     <div class="body">
                         <div class="text-left">
                             <?=formInputSwitch('post_feature', [
-                                'value' => 'true',
-                                'label' => 'Nổi bật?'
+                                'checked'   => $_REQUEST['post_feature'] ? 'true' : '',
+                                'value'     => 'true',
+                                'label'     => 'Nổi bật?'
                             ])?>
                         </div>
                         <div class="text-right">
@@ -358,7 +359,8 @@ switch ($path[2]){
                     </div>
                     <div class="body">
                         <?=formInputSelect('post_status', ['public' => 'Đăng luôn', 'pending' => 'Chờ duyệt'], [
-                            'data-live-search'  => 'true'
+                            'data-live-search'  => 'true',
+                            'selected'          => $_REQUEST['post_status']
                         ])?>
                     </div>
                 </div>
@@ -366,7 +368,8 @@ switch ($path[2]){
                     <div class="body">
                         <?=formInputSelect('post_category', $category, [
                             'label'             => 'Chọn chuyên mục',
-                            'data-live-search'  => 'true'
+                            'data-live-search'  => 'true',
+                            'selected'          => $_REQUEST['post_category']
                         ]
                         )?>
                     </div>
@@ -396,8 +399,6 @@ switch ($path[2]){
             exit();
         }
 
-        $_REQUEST['post_title'] = $_REQUEST['post_title'] ? $_REQUEST['post_title'] : $post['data']['post_title'];
-
         $post = new Post($database, 'blog');
         $post = $post->get_post(['post_id' => $path[3]]);
 
@@ -409,9 +410,16 @@ switch ($path[2]){
             exit();
         }
 
+        $_REQUEST['post_title']         = $_REQUEST['post_title']           ? $_REQUEST['post_title']           : $post['data']['post_title'];
+        $_REQUEST['post_content']       = $_REQUEST['post_content']         ? $_REQUEST['post_content']         : $post['data']['post_content'];
+        $_REQUEST['post_url']           = $_REQUEST['post_url']             ? $_REQUEST['post_url']             : $post['data']['post_url'];
+        $_REQUEST['post_keyword']       = $_REQUEST['post_keyword']         ? $_REQUEST['post_keyword']         : $post['data']['post_keyword'];
+        $_REQUEST['post_short_content'] = $_REQUEST['post_short_content']   ? $_REQUEST['post_short_content']   : $post['data']['post_short_content'];
+        $_REQUEST['post_feature']       = $_REQUEST['post_feature']         ? $_REQUEST['post_feature']         : $post['data']['post_feature'];
+
         if($_REQUEST['submit']){
             $post   = new Post($database, 'blog');
-            $result = $post->add();
+            $result = $post->update($path[3]);
             if($result['response'] == 200){
                 require_once ABSPATH . "includes/class/class.uploader.php";
                 if($_FILES['post_images']){
@@ -430,12 +438,16 @@ switch ($path[2]){
                     ));
                     if($data_upload['isComplete']){
                         $data_images    =  $path_upload . $data_upload['data']['metas'][0]['name'];
-                        $post->update_post_images($result['data'], $data_images);
+                        $post->update_post_images($path[3], $data_images);
                     }
                 }
+                $success = '<div class="col-lg-12"><div class="alert alert-info">Cập nhật bài viết thành công</div></div>';
             }else{
                 $error = '<div class="col-lg-12"><div class="alert alert-danger">'. $result['message'] .'</div></div>';
             }
+
+            $post = new Post($database, 'blog');
+            $post = $post->get_post(['post_id' => $path[3]]);
         }
 
         $category           = new meta($database, 'blog_category');
@@ -458,6 +470,7 @@ switch ($path[2]){
         ?>
         <div class="row">
             <?=$error ? $error : ''?>
+            <?=$success ? $success : ''?>
             <div class="col-lg-8">
                 <div class="card">
                     <div class="body">
@@ -501,8 +514,9 @@ switch ($path[2]){
                     <div class="body">
                         <div class="text-left">
                             <?=formInputSwitch('post_feature', [
-                                'value' => 'true',
-                                'label' => 'Nổi bật?'
+                                'checked'   => $_REQUEST['post_feature'] == 'true' ? 'true' : '',
+                                'value'     => 'true',
+                                'label'     => 'Nổi bật?'
                             ])?>
                         </div>
                         <div class="text-right">
@@ -522,16 +536,18 @@ switch ($path[2]){
                     </div>
                     <div class="body">
                         <?=formInputSelect('post_status', ['public' => 'Đăng luôn', 'pending' => 'Chờ duyệt'], [
-                            'data-live-search'  => 'true'
+                            'data-live-search'  => 'true',
+                            'selected'          => $_REQUEST['post_status']
                         ])?>
                     </div>
                 </div>
                 <div class="card">
                     <div class="body">
                         <?=formInputSelect('post_category', $category, [
-                            'label'             => 'Chọn chuyên mục',
-                            'data-live-search'  => 'true'
-                        ]
+                                'label'             => 'Chọn chuyên mục',
+                                'data-live-search'  => 'true',
+                                'selected'          => $_REQUEST['post_category']
+                            ]
                         )?>
                     </div>
                 </div>
@@ -539,7 +555,7 @@ switch ($path[2]){
                     <div class="header"><h2>Ảnh bài viết</h2></div>
                     <div class="body">
                         <div class="form-group">
-                            <input type="file" name="post_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" />
+                            <input type="file" name="post_images" id="input-file-now" data-default-file="<?=$post['data']['post_images'] ? URL_HOME . '/' . $post['data']['post_images'] : ''?>" class="dropify" data-allowed-file-extensions="jpg png" />
                         </div>
                     </div>
                 </div>

@@ -214,6 +214,11 @@ function formInputSwitch($name, $attribute = []){
             case 'layout'  :
                 $form_attribute .= '';
                 break;
+            case 'checked':
+                if($value == 'true'){
+                    $form_attribute .= ' checked="checked" ';
+                }
+                break;
             default:
                 $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
                 break;

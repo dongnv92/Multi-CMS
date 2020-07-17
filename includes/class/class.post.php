@@ -146,6 +146,7 @@ class Post{
             return get_response_array(309, 'Bạn cần nhập tên.');
         if($this->check_post(['post_title' => $_REQUEST[self::post_title]]))
             return get_response_array(309, 'Tên đã tồn tại. Vui lòng chọn tên khác');
+
         if(!validate_isset($_REQUEST[self::post_content]))
             return get_response_array(309, 'Bạn cần nội dung.');
 
@@ -178,15 +179,15 @@ class Post{
             return get_response_array(309, 'Chuyên mục không tồn tại.');
 
         $data_add = [
-            self::post_type             => $this->type,
-            self::post_title            => $_REQUEST[self::post_title],
-            self::post_content          => $_REQUEST[self::post_content],
-            self::post_keyword          => $_REQUEST[self::post_keyword],
-            self::post_short_content    => $_REQUEST[self::post_short_content],
+            self::post_type             => $db->escape($this->type),
+            self::post_title            => $db->escape($_REQUEST[self::post_title]),
+            self::post_content          => $db->escape($_REQUEST[self::post_content]),
+            self::post_keyword          => $db->escape($_REQUEST[self::post_keyword]),
+            self::post_short_content    => $db->escape($_REQUEST[self::post_short_content]),
             self::post_category         => $_REQUEST[self::post_category],
-            self::post_url              => $_REQUEST[self::post_url],
-            self::post_status           => $_REQUEST[self::post_status],
-            self::post_feature          => $_REQUEST[self::post_feature],
+            self::post_url              => $db->escape($_REQUEST[self::post_url]),
+            self::post_status           => $db->escape($_REQUEST[self::post_status]),
+            self::post_feature          => $db->escape($_REQUEST[self::post_feature]),
             self::post_time             => get_date_time(),
             self::post_view             => 0,
             self::post_user             => $me['user_id'],
@@ -197,5 +198,69 @@ class Post{
             return get_response_array(208, "Thêm dữ liệu không thành công.");
         }
         return ['response' => 200, 'message' => 'Thêm dữ liệu thành công', 'data' => $add];
+    }
+
+    public function update($post_id){
+        $db     = $this->db;
+        $post   = $db->select("post_title, post_url")->from(self::table)->where([self::post_type => $this->type, self::post_id => $post_id])->fetch_first();
+
+        // Kiểm tra tiêu đề
+        if(!validate_isset($_REQUEST[self::post_title])){
+            return get_response_array(309, 'Bạn cần nhập tên.');
+        }
+        if($_REQUEST[self::post_title] != $post[self::post_title] && $this->check_post([self::post_title => $_REQUEST[self::post_title]])){
+            return get_response_array(309, 'Tên đã tồn tại. Vui lòng chọn tên khác.');
+        }
+
+        // Kiểm tra nội dung
+        if(!validate_isset($_REQUEST[self::post_content])){
+            return get_response_array(309, 'Bạn cần nội dung.');
+        }
+
+        // Kiểm tra url post
+        if(validate_isset($_REQUEST[self::post_url])){
+            if($_REQUEST[self::post_url] != $post[self::post_url] && $this->check_post([self::post_url => $_REQUEST[self::post_url]])){
+                return get_response_array(309, 'URL đã tồn tại, vui lòng chọn URL khác.');
+            }
+        }else{
+            $_REQUEST[self::post_url] = sanitize_title($_REQUEST[self::post_title]);
+        }
+
+        // Kiểm tra trạng thái bài viết
+        if(!validate_isset($_REQUEST[self::post_status]))
+            return get_response_array(309, 'Bạn cần chọn trạng thái bài viết.');
+        if(!in_array($_REQUEST[self::post_status], self::post_status_value)){
+            return get_response_array(309, 'Trạng thái bài viết không đúng định dạng.');
+        }
+
+        // Kiểm tra bài viết nổi bật, nếu không chọn thì mặc định là false
+        if(!in_array($_REQUEST[self::post_feature], self::post_feature_value)){
+            $_REQUEST[self::post_feature] = 'false';
+        }
+
+        // Kiểm tra chuyên mục
+        if(!validate_isset($_REQUEST[self::post_category])){
+            return get_response_array(309, 'Bạn cần chọn một chuyên mục.');
+        }
+        if(!$this->check_category($_REQUEST[self::post_category])){
+            return get_response_array(309, 'Chuyên mục không tồn tại.');
+        }
+
+        $data_update = [
+            self::post_title            => $_REQUEST[self::post_title],
+            self::post_content          => $_REQUEST[self::post_content],
+            self::post_keyword          => $_REQUEST[self::post_keyword],
+            self::post_short_content    => $_REQUEST[self::post_short_content],
+            self::post_category         => $_REQUEST[self::post_category],
+            self::post_url              => $_REQUEST[self::post_url],
+            self::post_status           => $_REQUEST[self::post_status],
+            self::post_feature          => $_REQUEST[self::post_feature]
+        ];
+
+        $data_update = $db->where(self::post_id, $post_id)->update(self::table, $data_update);
+        if(!$data_update){
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        }
+        return get_response_array(200, "Cập nhật dữ liệu thành công.");
     }
 }

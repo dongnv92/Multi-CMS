@@ -256,7 +256,7 @@ function get_menu_header_structure(){
                     'text'      => 'Bài viết',
                     'url'       => URL_ADMIN . "/blog/",
                     'roles'     => ['blog', 'manager'],
-                    'active'    => [[PATH_ADMIN, 'blog', '']]
+                    'active'    => [[PATH_ADMIN, 'blog', ''], [PATH_ADMIN, 'blog', 'update']]
                 ],
                 [
                     'text'      => 'Thêm bài viết',

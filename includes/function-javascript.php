@@ -127,6 +127,37 @@ switch ($path[1]){
                         break;
                 }
                 break;
+            case 'update':
+            ?>
+            //<script>
+            $(document).ready(function () {
+                $('#summernote').summernote({
+                    placeholder: 'Nhập nội dung',
+                    tabsize: 2,
+                    height: 200
+                });
+
+                var drEvent = $('.dropify').dropify({
+                    messages: {
+                        'default': '<center>Kéo, thả File vào đây hoặc Bấm để tải file</center>',
+                        'replace': 'Kéo thả hoặc bấm để đổi File',
+                        'remove':  'Xóa',
+                        'error':   'Ohhh có lỗi rồi.'
+                    },
+                    error: {
+                        'fileSize': 'Tập tin quá nặng.).',
+                        'minWidth': 'The image width is too small ({{ value }}}px min).',
+                        'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                        'minHeight': 'The image height is too small ({{ value }}}px min).',
+                        'maxHeight': 'The image height is too big ({{ value }}px max).',
+                        'imageFormat': 'Chỉ hỗ trợ file ảnh ({{ value }} ).',
+                        'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
+                    }
+                });
+
+            });
+            <?php
+            break;
             case 'add':
                 ?>
                 //<script>
