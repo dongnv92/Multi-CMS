@@ -621,12 +621,11 @@ switch ($path[2]){
                         <table class="table table-hover mb-0">
                             <thead>
                             <tr>
-                                <th style="width: 20%" class="text-left align-middle">Tên đăng nhập</th>
-                                <th style="width: 20%" class="text-center align-middle">Tên hiển thị</th>
-                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
-                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
-                                <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
-                                <th style="width: 15%" class="text-center align-middle">Quản trị</th>
+                                <th style="width: 30%" class="text-left align-middle">Tiêu đề</th>
+                                <th style="width: 15%" class="text-center align-middle">Tác giả</th>
+                                <th style="width: 15%" class="text-center align-middle">Chuyên mục</th>
+                                <th style="width: 20%" class="text-center align-middle">Thời gian</th>
+                                <th style="width: 20%" class="text-center align-middle">Quản lý</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -637,21 +636,24 @@ switch ($path[2]){
                             <?php }?>
                             <?php
                             foreach ($data['data'] AS $row){
-                                $user_role = new meta($database, 'role');
-                                $user_role = $user_role->get_meta($row['user_role'], 'meta_name');
+                                $post_user = new user($database);
+                                $post_user = $post_user->get_user(['user_id' => $row['post_user']], 'user_name');
+
+                                $post_category = new meta($database, 'blog_category');
+                                $post_category = $post_category->get_meta($row['post_category'], 'meta_name');
                                 ?>
                                 <tr>
                                     <td class="text-left align-middle font-weight-bold">
-                                        <a title="Click để chỉnh sửa" href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>"><?=$row['user_login']?></a>
+                                        <a title="Click để chỉnh sửa" href=""><?=text_truncate($row['post_title'], 10)?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['user_name']?>
+                                        <?=$post_user['user_name']?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$user_role['data']['meta_name']?>
+                                        <?=$post_category['data']['meta_name']?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=get_status('user', $row['user_status'])?>
+                                        <?=view_date_time($row['post_time'])?>
                                     </td>
                                     <td class="text-center align-middle">
                                         <?=view_date_time($row['user_time'])?>
