@@ -198,6 +198,45 @@ switch ($path[1]){
                     });
                 <?php
                 break;
+            default:
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    $('a[data-type=delete]').on('click', function () {
+                        var id = $(this).data('id');
+                        swal({
+                            title: "Xóa bài viết",
+                            text: "Bạn có chắc chắn muốn xóa bài viết này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                            type: "warning",
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            showLoaderOnConfirm: true,
+                        }, function () {
+                            setTimeout(function () {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + id,
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                });
+                                ajax.done(function (data) {
+                                    if(data.response == 200){
+                                        swal("Xóa bài viết", "Xóa bài viết thành công!", "success");
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }else{
+                                        swal("Bài viết", data.message, "error");
+                                    }
+                                });
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    console.log("Request failed: " + textStatus );
+                                });
+                            }, 2000);
+                        });
+                    });
+                });
+                <?php
+                break;
         }
         break;
     case 'profile':

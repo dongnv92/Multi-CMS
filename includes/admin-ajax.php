@@ -10,6 +10,22 @@ switch ($path[1]){
         break;
     case 'blog':
         switch ($path[2]){
+            case 'delete':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                // Kiểm tra quyền truy cập
+                if(!$role['user']['delete']){
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+
+                $post   = new Post($database, 'blog');
+                $delete = $post->delete($path[3]);
+                echo encode_json($delete);
+                break;
             case 'create_url':
                 $title = sanitize_title($_REQUEST['post_title']);
                 echo $title;

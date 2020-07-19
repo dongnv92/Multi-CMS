@@ -16,6 +16,7 @@ class Post{
     const post_view             = 'post_view';
     const post_feature          = 'post_feature';
     const post_time             = 'post_time';
+    const post_last_update      = 'post_last_update';
     const post_feature_value    = ['true', 'false'];
     const post_status_value     = ['public', 'pending'];
 
@@ -63,6 +64,20 @@ class Post{
         $where      = [];
         $pagination = [];
 
+        if($_REQUEST[self::post_user] && validate_int($_REQUEST[self::post_user])){
+            $check_user = $db->select('COUNT(*) AS count')->from('dong_user')->where('user_id', $_REQUEST[self::post_user])->fetch_first();
+            if($check_user['count'] > 0){
+                $where[self::post_user] = $_REQUEST[self::post_user];
+            }
+        }
+
+        if($_REQUEST[self::post_category] && validate_int($_REQUEST[self::post_category])){
+            $check_category = $db->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'blog_category', 'meta_id' => $_REQUEST[self::post_category]])->fetch_first();
+            if($check_category['count'] > 0){
+                $where[self::post_category] = $_REQUEST[self::post_category];
+            }
+        }
+
         // Tính tổng data
         $db->select('COUNT(*) AS count_data')->from(self::table);
         if($_REQUEST['search']){
@@ -96,6 +111,8 @@ class Post{
             }else if(count($sort) == 2 && in_array($sort[1], ['asc', 'ASC', 'desc', 'DESC'])){
                 $db->order_by($sort[0], $sort[1]);
             }
+        }else{
+            $db->order_by(self::post_id, 'desc');
         }
         $data = $db->fetch();
         $response = [
@@ -234,7 +251,7 @@ class Post{
         }
 
         // Kiểm tra bài viết nổi bật, nếu không chọn thì mặc định là false
-        if(!in_array($_REQUEST[self::post_feature], self::post_feature_value)){
+        if($_REQUEST[self::post_feature] != 'true'){
             $_REQUEST[self::post_feature] = 'false';
         }
 
@@ -254,7 +271,8 @@ class Post{
             self::post_category         => $_REQUEST[self::post_category],
             self::post_url              => $_REQUEST[self::post_url],
             self::post_status           => $_REQUEST[self::post_status],
-            self::post_feature          => $_REQUEST[self::post_feature]
+            self::post_feature          => $_REQUEST[self::post_feature],
+            self::post_last_update      => get_date_time()
         ];
 
         $data_update = $db->where(self::post_id, $post_id)->update(self::table, $data_update);

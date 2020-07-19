@@ -203,8 +203,17 @@ function cms_is_json_request() {
  * @param array $data URL-encode key/value pairs.
  * @return string URL-encoded string.
  */
-function build_query( $data ) {
-    return _http_build_query( $data, null, '&', '', false );
+function build_query($data, $plus = '') {
+    if(is_array($plus)){
+        foreach ($plus AS $key => $value){
+            if(isset($value) && !empty($value)){
+                $data[$key] = $value;
+            }else{
+                unset($data[$key]);
+            }
+        }
+    }
+    return '?'._http_build_query( $data, null, '&', '', false );
 }
 
 /**

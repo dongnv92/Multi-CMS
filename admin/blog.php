@@ -7,6 +7,37 @@ if(!$me){
 }
 
 switch ($path[2]){
+    case 'detail':
+        $post = new Post($database, 'blog');
+        $post = $post->get_post(['post_id' => $path[3]]);
+        if($post['response'] != 200){
+            $header['title'] = 'Xem bài viết';
+            require_once 'admin-header.php';
+            echo admin_breadcrumbs('Bài viết', 'Xem bài viết','Xem bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+            echo admin_error('Xem bài viết', 'Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.');
+            require_once 'admin-footer.php';
+            exit();
+        }
+        $header['css']  = [
+            URL_ADMIN_ASSETS . "css/blog.css"
+        ];
+        $header['title'] = $post['data']['post_title'];
+        require_once 'admin-header.php';
+        echo admin_breadcrumbs('Bài viết', $post['data']['post_title'],'Chi tiết bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+        ?>
+        <div class="row">
+            <div class="col-lg-8 col-md-12 left-box">
+                <div class="card single-blog-post">
+                    <div class="body">
+                        <h3 class="m-t-20"><?=$post['data']['post_title']?></h3>
+                        <?=$post['data']['post_content']?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        require_once 'admin-footer.php';
+        break;
     case 'category':
         // Kiểm tra quyền truy cập
         if(!$role['blog']['category']){
@@ -415,7 +446,6 @@ switch ($path[2]){
         $_REQUEST['post_url']           = $_REQUEST['post_url']             ? $_REQUEST['post_url']             : $post['data']['post_url'];
         $_REQUEST['post_keyword']       = $_REQUEST['post_keyword']         ? $_REQUEST['post_keyword']         : $post['data']['post_keyword'];
         $_REQUEST['post_short_content'] = $_REQUEST['post_short_content']   ? $_REQUEST['post_short_content']   : $post['data']['post_short_content'];
-        $_REQUEST['post_feature']       = $_REQUEST['post_feature']         ? $_REQUEST['post_feature']         : $post['data']['post_feature'];
 
         if($_REQUEST['submit']){
             $post   = new Post($database, 'blog');
@@ -514,7 +544,7 @@ switch ($path[2]){
                     <div class="body">
                         <div class="text-left">
                             <?=formInputSwitch('post_feature', [
-                                'checked'   => $_REQUEST['post_feature'] == 'true' ? 'true' : '',
+                                'checked'   => $post['data']['post_feature'] == 'true' ? 'true' : '',
                                 'value'     => 'true',
                                 'label'     => 'Nổi bật?'
                             ])?>
@@ -567,17 +597,18 @@ switch ($path[2]){
         break;
     default:
         // Lấy dữ liệu
-        $post   = new Post($database, 'blog');
-        $data   = $post->get_all();
-        $param  = get_param_defaul();
+        $post       = new Post($database, 'blog');
+        $data       = $post->get_all();
+        $param      = get_param_defaul();
+        $category   = new meta($database, 'blog_category');
+        $category   = $category->get_data_select(['0' => 'Chuyên mục']);
 
-
-        $header['css']  = [
-            URL_ADMIN_ASSETS . 'css/inbox.css'
+        $header['css']      = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
         ];
-        $header['js']   = [
-            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
-            URL_JS . "{$path[1]}/"
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
+            URL_JS . "{$path[1]}",
         ];
         $header['title'] = 'Quản lý bài viết';
         require_once 'admin-header.php';
@@ -597,13 +628,7 @@ switch ($path[2]){
                             </div>
                         </div>
                         <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
-                            <?=formInputSelect('user_status', [
-                                ''              => 'Trạng thái',
-                                'active'        => 'Hoạt động',
-                                'not_active'    => 'Chưa kích hoạt',
-                                'block'         => 'Tạm khóa',
-                                'block_forever' => 'Đã khóa'
-                            ], ['data-live-search' => 'true', 'selected' => $_REQUEST['user_status']])?>
+                            <?=formInputSelect('post_category', $category, ['data-live-search' => 'true', 'selected' => $_REQUEST['post_category']])?>
                         </div>
                         <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
                             <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
@@ -624,8 +649,9 @@ switch ($path[2]){
                                 <th style="width: 30%" class="text-left align-middle">Tiêu đề</th>
                                 <th style="width: 15%" class="text-center align-middle">Tác giả</th>
                                 <th style="width: 15%" class="text-center align-middle">Chuyên mục</th>
-                                <th style="width: 20%" class="text-center align-middle">Thời gian</th>
-                                <th style="width: 20%" class="text-center align-middle">Quản lý</th>
+                                <th style="width: 15%" class="text-center align-middle">Nổi bật</th>
+                                <th style="width: 15%" class="text-center align-middle">Thời gian</th>
+                                <th style="width: 10%" class="text-center align-middle">Quản lý</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -644,22 +670,27 @@ switch ($path[2]){
                                 ?>
                                 <tr>
                                     <td class="text-left align-middle font-weight-bold">
-                                        <a title="Click để chỉnh sửa" href=""><?=text_truncate($row['post_title'], 10)?></a>
+                                        <a title="Xem chi tiết bài viết" href="<?=URL_ADMIN . "/{$path[1]}/detail/{$row['post_id']}"?>"><?=text_truncate($row['post_title'], 10)?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$post_user['user_name']?>
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/". build_query(['post_user' => $row['post_user']])?>"><?=$post_user['user_name']?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$post_category['data']['meta_name']?>
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/". build_query(['post_category' => $row['post_category']])?>"><?=$post_category['data']['meta_name']?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=view_date_time($row['post_time'])?>
+                                        <?=formInputSwitch('post_feature', [
+                                            'checked'   => $row['post_feature'] == 'true' ? 'true' : '',
+                                            'value'     => 'true',
+                                            'label'     => ' '
+                                        ])?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=view_date_time($row['user_time'])?>
+                                        <?=$row['post_last_update'] ? "Sửa lần cuối <p>". view_date_time($row['post_last_update']) ."</p>" : 'Đăng lúc <p>'. view_date_time($row['post_time']) .'</p>'?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['user_id']?>" title="Xóa <?=$row['user_name']?>"><i class="material-icons text-danger">delete_forever</i></a>
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['post_id']}"?>" title="Cập nhật <?=$row['post_title']?>"><i class="material-icons text-info">mode_edit</i></a>
+                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['post_id']?>" title="Xóa <?=$row['post_title']?>"><i class="material-icons text-danger">delete_forever</i></a>
                                     </td>
                                 </tr>
                             <?php }?>
@@ -674,7 +705,7 @@ switch ($path[2]){
                     </div>
                 </div>
                 <div class="text-center clearfix">
-                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
                 </div>
             </div>
         </div>
