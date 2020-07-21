@@ -76,6 +76,7 @@ function get_status_header_desc($code){
 }
 
 function role_structure($type = '', $des = ''){
+    $list_plugin = get_list_plugin();
     switch ($type){
         case 'des':
             $text = '';
@@ -100,6 +101,13 @@ function role_structure($type = '', $des = ''){
                         default:            $text = 'Bài viết';                     break;
                     }
                     break;
+                default:
+                    if(in_array($des[0], $list_plugin)){
+                        $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$des[0]}/config.json");
+                        $config = json_decode($config, true);
+                        $text   = $config['role_text'][$des[1]];
+                    }
+                    break;
             }
             return $text;
             break;
@@ -121,6 +129,14 @@ function role_structure($type = '', $des = ''){
                 ]
 
             ];
+
+            // Lấy cấu trúc phân quyền từ các Plugin
+            foreach ($list_plugin AS $plugin){
+                $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
+                $config = json_decode($config, true);
+                $structure = array_merge($structure, $config['role_structure']);
+            }
+
             return $structure;
             break;
     }
@@ -412,4 +428,9 @@ function get_status($type, $data){
             }
             break;
     }
+}
+
+function get_list_plugin(){
+    $directory = array_diff(scandir( ABSPATH . "/content/plugin" ), array('..', '.'));
+    return $directory;
 }

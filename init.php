@@ -9,6 +9,7 @@ date_default_timezone_set('Asia/Ho_Chi_Minh');
 define( 'ABSPATH'           , dirname( __FILE__ ) . '/' );
 define( 'ROOTPATH'          , basename(__DIR__) );
 define( 'PATH_ADMIN'        , 'admin');
+define( 'PATH_PLUGIN'       , 'content/plugin/');
 
 define( 'URL_HOME'          , 'http://localhost/dong/multicms');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);

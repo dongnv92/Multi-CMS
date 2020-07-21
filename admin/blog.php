@@ -1,11 +1,4 @@
 <?php
-require_once '../init.php';
-require_once ABSPATH . 'includes/function-admin.php';
-// Check login
-if(!$me){
-    redirect(URL_LOGIN.'?ref=' . get_current_url());
-}
-
 switch ($path[2]){
     case 'detail':
         $post = new Post($database, 'blog');
@@ -670,7 +663,7 @@ switch ($path[2]){
                                 ?>
                                 <tr>
                                     <td class="text-left align-middle font-weight-bold">
-                                        <a title="Xem chi tiết bài viết" href="<?=URL_ADMIN . "/{$path[1]}/detail/{$row['post_id']}"?>"><?=text_truncate($row['post_title'], 10)?></a>
+                                        <a title="Xem chi tiết bài viết" class="font-weight-bold" href="<?=URL_ADMIN . "/{$path[1]}/detail/{$row['post_id']}"?>"><?=text_truncate($row['post_title'], 10)?></a>
                                     </td>
                                     <td class="text-center align-middle">
                                         <a href="<?=URL_ADMIN . "/{$path[1]}/". build_query(['post_user' => $row['post_user']])?>"><?=$post_user['user_name']?></a>

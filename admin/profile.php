@@ -1,11 +1,4 @@
 <?php
-require_once '../init.php';
-require_once ABSPATH . 'includes/function-admin.php';
-// Check login
-if (!$me) {
-    redirect(URL_LOGIN . '?ref=' . get_current_url());
-}
-
 switch ($path[2]){
     case 'change-avatar':
         require_once ABSPATH . 'includes/class/class.uploader.php';

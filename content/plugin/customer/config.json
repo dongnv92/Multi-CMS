@@ -1,6 +1,48 @@
+
 {
-  "name": "Quản lý khách Hàng, Đối Tác",
+  "name": "Quản lý khách hàng",
+  "unique_identifier": "customer",
   "version": "0.1",
-  "background": "images\/images.png",
-  "status": "active"
+  "banner": "banner.png",
+  "status": "active",
+  "menu": [
+    {
+      "text": "Quản lý khách hàng",
+      "icon": "<i class=\"zmdi zmdi-accounts-alt\"><\/i>",
+      "child": [
+        {
+          "text": "Danh sách khách hàng",
+          "url": "URL_ADMIN\/customer\/",
+          "roles": ["customer", "manager"],
+          "active": [
+            ["admin", "customer", ""],
+            ["admin", "customer", "update"]
+          ]
+        },
+        {
+          "text": "Thêm khách hàng",
+          "url": "URL_ADMIN\/customer\/add",
+          "roles": ["customer", "add"],
+          "active": [
+            ["admin", "customer", "add"]
+          ]
+        }
+      ]
+    }
+  ],
+  "role_structure": {
+    "customer": {
+      "manager" : false,
+      "add"     : false,
+      "update"  : false,
+      "delete"  : false
+    }
+  },
+  "role_text": {
+    ""        : "Plugin Quản lý khách hàng",
+    "manager" : "Quản lý khách hàng",
+    "add"     : "Thêm khách hàng",
+    "update"  : "Cập nhật khách hàng",
+    "delete"  : "Xoá khách hàng"
+  }
 }

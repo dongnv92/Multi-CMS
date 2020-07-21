@@ -126,7 +126,9 @@ function admin_left_side_bar(){
     $text = '<aside id="leftsidebar" class="sidebar">
     <!-- User Info -->
     <div class="user-info">
-        <div class="image"><img src="'. ($me['user_avatar'] ? URL_HOME.'/'.$me['user_avatar'] : URL_HOME.'/content/assets/images/avatar/'. rand(1, 11) .'.png') .'" width="48" height="48" alt="Avatar" /></div>
+        <div class="image">
+            <img src="'. ($me['user_avatar'] ? URL_HOME.'/'.$me['user_avatar'] : URL_HOME.'/content/assets/images/avatar/'. rand(1, 11) .'.png') .'" width="48" height="48" alt="Avatar" />
+        </div>
         <div class="info-container">
             <div class="name" data-toggle="dropdown">'. $me['user_name'] .'</div>
             '. ($me['user_phone'] ? $me['user_phone'] : 'No Info') .'
@@ -157,6 +159,7 @@ function check_menu_active($path, $list_active){
 }
 
 function view_menu_header_li($data = []){
+    $data['url'] = str_replace('URL_ADMIN', URL_ADMIN, $data['url']);
     return '<li '. ($data['class'] ? 'class="'. $data['class'] .'"' : '') .'><a href="'. $data['url'] .'">'. $data['icon'] .' <span>'. $data['text'] .'</span></a></li>';
 }
 
@@ -278,7 +281,18 @@ function get_menu_header_structure(){
             'icon'      => '<i class="zmdi zmdi-delicious"></i>',
             'url'       => URL_ADMIN.'/elements/',
             'active'    => [[PATH_ADMIN, 'elements', '']]
-        ],
+        ]
+    ];
+
+    // Lấy danh sách menu từ các plugin
+    $list_plugin = get_list_plugin();
+    foreach ($list_plugin AS $plugin){
+        $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
+        $config = json_decode($config, true);
+        $menu   = array_merge($menu, $config['menu']);
+    }
+
+    $menu_logout = [
         [
             'roles'     => [],
             'text'      => 'Đăng xuất',
@@ -287,5 +301,8 @@ function get_menu_header_structure(){
             'active'    => []
         ]
     ];
+
+    $menu = array_merge($menu, $menu_logout);
+
     return $menu;
 }

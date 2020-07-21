@@ -1,5 +1,4 @@
 <?php
-require_once '../init.php';
 $header['title']        = 'Các phần tử trong trang quản trị';
 $header['breadcrumbs']  = admin_breadcrumbs('Phần tử HTML', 'Các phần tử trong trang quản trị', 'Phần tử HTML',[URL_ADMIN."/elements.php" => 'Phần tử HTML']);
 $header['css']          = [URL_ADMIN_ASSETS."plugins/prism/prism.css"];
