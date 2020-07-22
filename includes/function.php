@@ -101,6 +101,12 @@ function role_structure($type = '', $des = ''){
                         default:            $text = 'Bài viết';                     break;
                     }
                     break;
+                case 'plugin':
+                    switch ($des[1]){
+                        case 'manager':     $text = 'Quản lý Plugin';   break;
+                        default:            $text = 'Plugin';           break;
+                    }
+                    break;
                 default:
                     if(in_array($des[0], $list_plugin)){
                         $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$des[0]}/config.json");
@@ -126,8 +132,10 @@ function role_structure($type = '', $des = ''){
                     'update'    => false,
                     'delete'    => false,
                     'category'  => false
+                ],
+                'plugin' => [
+                    'manager'   => false
                 ]
-
             ];
 
             // Lấy cấu trúc phân quyền từ các Plugin

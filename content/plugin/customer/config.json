@@ -1,14 +1,14 @@
-
 {
   "name": "Quản lý khách hàng",
   "unique_identifier": "customer",
   "version": "0.1",
-  "banner": "banner.png",
+  "banner": "banner.jpg",
+  "description": "Plugin quản lý khách hàng dành cho trang thương mại điện tử.",
   "status": "active",
   "menu": [
     {
       "text": "Quản lý khách hàng",
-      "icon": "<i class=\"zmdi zmdi-accounts-alt\"><\/i>",
+      "icon": "<i class=\"zmdi zmdi-accounts-outline\"></i>\n",
       "child": [
         {
           "text": "Danh sách khách hàng",

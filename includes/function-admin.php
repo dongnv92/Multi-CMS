@@ -276,11 +276,22 @@ function get_menu_header_structure(){
             ]
         ],
         [
-            'roles'     => [],
-            'text'      => 'Các phần tử',
-            'icon'      => '<i class="zmdi zmdi-delicious"></i>',
-            'url'       => URL_ADMIN.'/elements/',
-            'active'    => [[PATH_ADMIN, 'elements', '']]
+            'text'  => 'Plugin',
+            'icon'  => '<i class="zmdi zmdi-layers"></i>',
+            'child' => [
+                [
+                    'text'      => 'Tất cả Plugin',
+                    'url'       => URL_ADMIN . "/plugin/",
+                    'roles'     => ['plugin', 'manager'],
+                    'active'    => [[PATH_ADMIN, 'plugin', '']]
+                ],
+                [
+                    'text'      => 'Thêm mới',
+                    'url'       => URL_ADMIN . "/plugin/add",
+                    'roles'     => ['plugin', 'manager'],
+                    'active'    => [[PATH_ADMIN, 'plugin', 'add']]
+                ]
+            ]
         ]
     ];
 
@@ -293,6 +304,13 @@ function get_menu_header_structure(){
     }
 
     $menu_logout = [
+        [
+            'roles'     => [],
+            'text'      => 'Các phần tử',
+            'icon'      => '<i class="zmdi zmdi-delicious"></i>',
+            'url'       => URL_ADMIN.'/elements/',
+            'active'    => [[PATH_ADMIN, 'elements', '']]
+        ],
         [
             'roles'     => [],
             'text'      => 'Đăng xuất',

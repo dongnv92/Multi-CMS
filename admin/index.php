@@ -11,6 +11,7 @@ switch ($path[1]){
     case 'user':
     case 'profile':
     case 'elements':
+    case 'plugin':
     case 'test':
         require_once "{$path[1]}.php";
         break;
@@ -25,7 +26,7 @@ switch ($path[1]){
                     echo admin_error($config['name'], "Plugin <strong>{$config['name']}</strong> chưa được kích hoạt hoặc không có trên hệ thống.");
                 require_once 'admin-footer.php';
             }
-            require_once '';
+            require_once (ABSPATH . PATH_PLUGIN . $path[1] . '/index.php');
         }else{
             $header['title'] = 'Trang quản trị';
             require_once 'admin-header.php';

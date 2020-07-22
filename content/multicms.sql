@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 21, 2020 lúc 12:36 PM
--- Phiên bản máy phục vụ: 10.1.35-MariaDB
--- Phiên bản PHP: 7.2.9
+-- Thời gian đã tạo: Th7 22, 2020 lúc 06:09 PM
+-- Phiên bản máy phục vụ: 10.1.36-MariaDB
+-- Phiên bản PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -46,7 +46,7 @@ CREATE TABLE `dong_meta` (
 --
 
 INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_images`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng.', '', 'a:3:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
+(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng.', '', 'a:4:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
 (2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:3:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
 (4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}}', 0, 0, 1, '2020-06-26 15:09:13'),
 (5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', 0, 0, 1, '2020-07-03 14:00:31'),
