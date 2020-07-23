@@ -1,12 +1,41 @@
 <?php
 require_once '../init.php';
 switch ($path[1]){
-    case 'upload':
-        if(move_uploaded_file($_FILES['files']['tmp_name'], ABSPATH . '/content/uploads/' . $_FILES['files']['file_name'])){
-            echo "OK {$_FILES['files']['file_name']}";
-        }else{
-            echo "False: {$_FILES['files']['file_name']}";
-        }
+    case 'plugin':
+            switch ($path[2]){
+                default:
+                    // Kiểm tra đăng nhập
+                    if(!$me) {
+                        echo encode_json(get_response_array(403));
+                        break;
+                    }
+                    // Kiểm tra quyền truy cập
+                    if(!$role['plugin']['manager']){
+                        echo encode_json(get_response_array(403));
+                        break;
+                    }
+
+                    if(!in_array($_REQUEST['status'], ['active', 'not_active'])){
+                        echo encode_json(get_response_array(403));
+                        break;
+                    }
+
+                    if(!in_array($_REQUEST['plugin'], get_list_plugin())){
+                        echo encode_json(get_response_array(403));
+                        break;
+                    }
+
+                    $path_config = ABSPATH . PATH_PLUGIN . "{$_REQUEST['plugin']}/config.json";
+                    $config = file_get_contents($path_config);
+                    $config = json_decode($config, true);
+                    $config['status'] = $_REQUEST['status'];
+                    if(file_put_contents($path_config, json_encode($config))){
+                        echo encode_json(['response' => 200, 'message' => 'Cập nhật thành công.']);
+                    }else{
+                        echo encode_json(['response' => 404, 'message' => 'Cập nhật không thành công.']);
+                    }
+                    break;
+            }
         break;
     case 'blog':
         switch ($path[2]){

@@ -2,6 +2,53 @@
 require '../init.php';
 header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
+    case 'plugin':
+            switch ($path[2]){
+                default:
+                    // Kiểm tra quyền truy cập
+                    if(!$role['plugin']['manager']){
+                        echo "Forbidden";
+                        exit();
+                    }
+                    ?>
+                    //<script>
+                    $(document).ready(function () {
+                        $('#plugin_status').on('click', function () {
+                            var status  = $(this).data('type');
+                            var name    = $(this).data('name');
+                            var text    = (status == 'active' ? 'NGỪNG KÍCH HOẠT' : 'KÍCH HOẠT');
+
+                            var ajax = $.ajax({
+                                url         : '<?=URL_ADMIN_AJAX . "{$path[1]}"?>',
+                                method      : 'POST',
+                                dataType    : 'json',
+                                data        : {status : status, plugin : name},
+                                beforeSend  : function () {
+                                    $('#plugin_status').attr('disabled', true);
+                                    $('#plugin_status').html('ĐANG UPDATE ...');
+                                }
+                            });
+                            ajax.done(function (data) {
+                                if(data.response == 200){
+                                    location.reload();
+                                }else{
+                                    $('#plugin_status').attr('disabled', false);
+                                    $('#plugin_status').html(text);
+                                    show_notify(data.message, 'bg-red');
+                                }
+                            });
+
+                            ajax.fail(function( jqXHR, textStatus ) {
+                                $('#plugin_status').attr('disabled', false);
+                                $('#plugin_status').html(text);
+                                alert( "Request failed: " + textStatus );
+                            });
+                        });
+                    });
+                    <?php
+                    break;
+            }
+        break;
     case 'blog':
         switch ($path[2]){
             case 'category':

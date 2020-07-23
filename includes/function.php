@@ -111,7 +111,9 @@ function role_structure($type = '', $des = ''){
                     if(in_array($des[0], $list_plugin)){
                         $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$des[0]}/config.json");
                         $config = json_decode($config, true);
-                        $text   = $config['role_text'][$des[1]];
+                        if($config['status'] == 'active'){
+                            $text   = $config['role_text'][$des[1]];
+                        }
                     }
                     break;
             }
@@ -142,7 +144,9 @@ function role_structure($type = '', $des = ''){
             foreach ($list_plugin AS $plugin){
                 $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
                 $config = json_decode($config, true);
-                $structure = array_merge($structure, $config['role_structure']);
+                if($config['status'] == 'active'){
+                    $structure = array_merge($structure, $config['role_structure']);
+                }
             }
 
             return $structure;

@@ -300,7 +300,9 @@ function get_menu_header_structure(){
     foreach ($list_plugin AS $plugin){
         $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
         $config = json_decode($config, true);
-        $menu   = array_merge($menu, $config['menu']);
+        if($config['status'] == 'active'){
+            $menu   = array_merge($menu, $config['menu']);
+        }
     }
 
     $menu_logout = [
