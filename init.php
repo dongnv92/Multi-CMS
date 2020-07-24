@@ -48,6 +48,18 @@ require_once ABSPATH . 'includes/class/class.post.php';
 $me = new user($database);
 $me = $me->init_get_me();
 
+// Nhúng các file trong Plugin vào
+foreach (get_list_plugin() AS $_init_plugin){
+    $_init_plugin_path      = ABSPATH . PATH_PLUGIN . $_init_plugin;
+    $_init_plugin_config    = file_get_contents($_init_plugin_path . "/config.json");
+    $_init_plugin_config    = json_decode($_init_plugin_config, true);
+    if(is_array($_init_plugin_config['public_class']) && count($_init_plugin_config['public_class'])){
+        foreach ($_init_plugin_config['public_class'] AS $_init_plugin_class){
+            require_once "$_init_plugin_path/$_init_plugin_class";
+        }
+    }
+}
+
 // Lấy thông tin phân quyền vai trò
 $role = new meta($database, 'role');
 $role = $role->get_meta($me['user_role'], 'meta_info');

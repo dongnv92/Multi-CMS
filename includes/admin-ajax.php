@@ -27,9 +27,13 @@ switch ($path[1]){
 
                     $path_config = ABSPATH . PATH_PLUGIN . "{$_REQUEST['plugin']}/config.json";
                     $config = file_get_contents($path_config);
-                    $config = json_decode($config, true);
-                    $config['status'] = $_REQUEST['status'];
-                    if(file_put_contents($path_config, json_encode($config))){
+                    if($_REQUEST['status'] == 'active'){
+                        $config = str_replace('"status":"not_active"', '"status":"active"',  $config);
+                    }else{
+                        $config = str_replace('"status":"active"', '"status":"not_active"',  $config);
+                    }
+
+                    if(file_put_contents($path_config, $config)){
                         echo encode_json(['response' => 200, 'message' => 'Cập nhật thành công.']);
                     }else{
                         echo encode_json(['response' => 404, 'message' => 'Cập nhật không thành công.']);
@@ -221,6 +225,12 @@ switch ($path[1]){
         echo encode_json($login);
         break;
     default:
-        print_r($path);
+        if(in_array($path[1], get_list_plugin())){
+            $config = file_get_contents(ABSPATH . PATH_PLUGIN . $path[1] . '/config.json');
+            $config = json_decode($config, true);
+            if($config['status'] == 'active'){
+                require_once ABSPATH . PATH_PLUGIN . $path[1] . "/{$config['source']['ajax']}";
+            }
+        }
         break;
 }

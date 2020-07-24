@@ -608,4 +608,13 @@ switch ($path[1]){
                 break;
         }
         break;
+    default:
+        if(in_array($path[1], get_list_plugin())){
+            $config = file_get_contents(ABSPATH . PATH_PLUGIN . $path[1] . '/config.json');
+            $config = json_decode($config, true);
+            if($config['status'] == 'active'){
+                require_once ABSPATH . PATH_PLUGIN . $path[1] . "/{$config['source']['javascript']}";
+            }
+        }
+        break;
 }

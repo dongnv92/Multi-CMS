@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 22, 2020 lúc 06:09 PM
--- Phiên bản máy phục vụ: 10.1.36-MariaDB
--- Phiên bản PHP: 7.2.10
+-- Thời gian đã tạo: Th7 24, 2020 lúc 12:41 PM
+-- Phiên bản máy phục vụ: 10.1.35-MariaDB
+-- Phiên bản PHP: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,25 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `multicms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `dong_customer`
+--
+
+CREATE TABLE `dong_customer` (
+  `customer_id` int(11) NOT NULL,
+  `customer_type` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'customer',
+  `customer_code` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_phone` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_address` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_email` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `customer_user` int(11) NOT NULL,
+  `customer_status` varchar(20) COLLATE utf8_unicode_ci DEFAULT 'active',
+  `customer_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -154,6 +173,12 @@ INSERT INTO `dong_user` (`user_id`, `user_login`, `user_password`, `user_name`, 
 --
 
 --
+-- Chỉ mục cho bảng `dong_customer`
+--
+ALTER TABLE `dong_customer`
+  ADD PRIMARY KEY (`customer_id`);
+
+--
 -- Chỉ mục cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
@@ -180,6 +205,12 @@ ALTER TABLE `dong_user`
 --
 -- AUTO_INCREMENT cho các bảng đã đổ
 --
+
+--
+-- AUTO_INCREMENT cho bảng `dong_customer`
+--
+ALTER TABLE `dong_customer`
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_meta`
