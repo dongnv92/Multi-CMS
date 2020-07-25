@@ -21,15 +21,31 @@ class Customer{
     }
 
     private function create_code(){
-
+        return 'CUS'.time();
     }
 
     public function add(){
         $db = $this->db;
         global $me;
 
-        if(!$_REQUEST['customer_type'] || !in_array($_REQUEST['customer_type'], self::customer_type_value)){
+        // Kiểu khách hàng, đối tác
+        if(!$_REQUEST[self::customer_type] || !in_array($_REQUEST[self::customer_type], self::customer_type_value)){
             return get_response_array(309, 'Kiểu dữ liệu {type} không đúng định dạng.');
+        }
+
+        // Nếu không có mã thì gọi hàm tạo
+        if(!$_REQUEST[self::customer_code]){
+            $_REQUEST[self::customer_code] = $this->create_code();
+        }
+
+        // Kiểm tra tên khách hàng / đối tác
+        if(!$_REQUEST[self::customer_name]){
+            return get_response_array(309, 'Cần nhập tên khách hàng / đối tác.');
+        }
+
+        // Kiểm tra email
+        if($_REQUEST[self::customer_email] && !validate_email($_REQUEST[self::customer_email])){
+            return get_response_array(309, 'Email không đúng định dạng.');
         }
 
     }
