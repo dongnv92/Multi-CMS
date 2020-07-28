@@ -17,7 +17,7 @@ class Customer{
     const customer_type_value       = ['customer', 'partner'];
     const customer_status_value     = ['active', 'not_active'];
 
-    public function __construct($database, $type){
+    public function __construct($database, $type = 'customer'){
         $this->db   = $database;
         $this->type = $type;
     }
@@ -175,10 +175,10 @@ class Customer{
 
     public function update($customer_id){
         $db         = $this->db;
-        $customer   = $this->get_customer([self::customer_id => $customer_id, self::customer_type => $this->type]);
+        $customer   = $this->get_customer([self::customer_id => $customer_id]);
 
         // Check xem $customer_id có tồn tịa hay không?
-        if(!$this->check_customer([self::customer_id => $customer_id, self::customer_type => $this->type])){
+        if(!$customer){
             return get_response_array(309, 'Dữ liệu không tồn tại.');
         }
 
@@ -194,8 +194,8 @@ class Customer{
             if(strlen($_REQUEST[self::customer_code]) > 20){
                 return get_response_array(309, 'Mã code phải dưới 20 ký tự.');
             }
-            if($customer[self::customer_code] != $_REQUEST[self::customer_code] && $this->check_customer([self::customer_code => $_REQUEST[self::customer_code]])){
-                return get_response_array(309, 'Mã code đã tồn tại, vui lòng chọn mã khác.');
+            if($customer['data'][self::customer_code] != $_REQUEST[self::customer_code] && $this->check_customer([self::customer_code => $_REQUEST[self::customer_code]])){
+                return get_response_array(309, 'Mã code đã tồn tại, vui lòng chọn mã khác.'. $customer[self::customer_code]);
             }
         }
 
@@ -214,7 +214,7 @@ class Customer{
         }
 
         $data = [
-            self::customer_type         => $this->type,
+            self::customer_type         => $db->escape($_REQUEST[self::customer_type]),
             self::customer_code         => $db->escape($_REQUEST[self::customer_code]),
             self::customer_name         => $db->escape($_REQUEST[self::customer_name]),
             self::customer_phone        => $db->escape($_REQUEST[self::customer_phone]),

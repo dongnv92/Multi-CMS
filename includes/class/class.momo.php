@@ -1,27 +1,33 @@
 <?php
+/*
+ * (*) Là các trường bắt buộc phải thay đổi khi đổi mật khẩu MOMO
+ * $otp                 : Lấy khi đăng nhập mới từ đầu.
+ * $rkey                : Lấy trong publiv/login
+ * $setupKeyEncrypted   : Lấy trong public
+ * */
 class Momo{
     private $config;
     private $phone              = '0966624292';
-    private $otp                = '636561';
     private $password           = '241992';
-    private $rkey               = 'YyBkJGXO2HWt0wR7Ocgj'; // 20 characters
-    private $setupKeyEncrypted  = "ozuqkHaLvPWxgWdWeNbYIWCwB8dDBnvEgwxz8g3nIo23ihZ0luUUznKxg+iZC4gY"; // (*): Xem trong public
-    private $imei               = "53122BEC-4613-4873-95F1-90DA9638C4ED"; // (*): Xem trong public
+    private $otp                = '761912'; // (*) mã OTP gửi về điện thoại khi login
+    private $rkey               = 'hM7iCzZHMpB1JkRdZXHM'; // (*) 20 ký tự, xem trong public/login
+    private $setupKeyEncrypted  = "OSuXozNZ9q42GSf1xvw9GSU/+vr6s90xV87+PdjtGlw5KmmRVj9TMEd2H0pv3g/S"; // (*): Xem trong public
+    private $imei               = "53122BEC-4613-4873-95F1-90DA9638C4ED";
     private $token              = 'dfdjCewLGlE:APA91bEyR_lpb8CN6eghznFGMuPzSPpr9qb7Z8SlBJa3zeReBopzKQvsdf7QAkVBEnWKK3dX-uyFsPPy0Yrsbxq3Gh6KzqdFDnXGjNrzK5FeXwtPfhO8cfYgvjVWCxBZpIaXzBhVf7Lc';
     private $onesignalToken     = 'a12e8af7-4f94-4fbd-9983-64aa2e938ac5';
 
     public function __construct(){
         $ohash = hash('sha256', $this->phone . $this->rkey . $this->otp);
         $this->config = [
-            'phone'                 => $this->phone, //sdt (*)
-            'otp'                   => $this->otp, //otp (*)
-            'password'              => $this->password, //pass (*)
-            'rkey'                  => $this->rkey, // 20 characters (*)
-            'setupKeyEncrypted'     => $this->setupKeyEncrypted, // (*): Xem trong public
-            'imei'                  => $this->imei, // (*)
-            'token'                 => $this->token, // (*)
-            'onesignalToken'        => $this->onesignalToken, // (*)
-            'aaid'                  => '', //null
+            'phone'                 => $this->phone,
+            'otp'                   => $this->otp,
+            'password'              => $this->password,
+            'rkey'                  => $this->rkey,
+            'setupKeyEncrypted'     => $this->setupKeyEncrypted,
+            'imei'                  => $this->imei,
+            'token'                 => $this->token,
+            'onesignalToken'        => $this->onesignalToken,
+            'aaid'                  => '',
             'idfa'                  => '',
             'csp'                   => 'Viettel',
             'icc'                   => '',
