@@ -43,6 +43,7 @@ require_once ABSPATH . 'includes/function-form.php';
 require_once ABSPATH . 'includes/class/class.user.php';
 require_once ABSPATH . 'includes/class/class.meta.php';
 require_once ABSPATH . 'includes/class/class.post.php';
+require_once ABSPATH . 'includes/class/class.momo.php';
 
 // Kiểm tra user
 $me = new user($database);
