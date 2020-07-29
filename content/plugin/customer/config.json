@@ -20,7 +20,8 @@
           "roles":["customer", "manager"],
           "active":[
             ["admin", "customer",""],
-            ["admin", "customer", "update"]
+            ["admin", "customer", "update"],
+            ["admin", "customer", "detail"]
           ]
         },
         {

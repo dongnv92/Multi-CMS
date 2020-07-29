@@ -13,7 +13,7 @@ switch ($path[1]){
                     ?>
                     //<script>
                     $(document).ready(function () {
-                        $('#plugin_status').on('click', function () {
+                        $('button[data-action=change_status]').on('click', function () {
                             var status  = $(this).data('type');
                             var name    = $(this).data('name');
                             var text    = (status == 'active' ? 'NGỪNG KÍCH HOẠT' : 'KÍCH HOẠT');

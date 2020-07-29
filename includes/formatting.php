@@ -156,5 +156,5 @@ function text_truncate($text, $limit, $type = 'words', $ellipsis = ' ...'){
 }
 
 function view_date_time($date_time){
-    return date('H:i:s d/m/Y', strtotime($date_time));
+    return date('d/m/Y', strtotime($date_time));
 }

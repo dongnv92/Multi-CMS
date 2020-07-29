@@ -3,6 +3,126 @@ $plugin_config = file_get_contents('config.json');
 $plugin_config = json_decode($plugin_config, true);
 
 switch ($path[2]){
+    case 'detail':
+        // Kiểm tra quyền truy cập
+        if(!$role['customer']['manager']){
+            $header['title'] = 'Lỗi quyền truy cập';
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_breadcrumbs('Khách hàng, Đối tác', 'Chi tiết khách hàng, đối tác','Chi tiết', [URL_ADMIN . "/{$path[1]}/" => 'Khách hàng, Đối tác']);
+            echo admin_error('Chi tiết khách hàng, đối tác', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+
+        $customer_data = new Customer($database);
+        $customer = $customer_data->get_customer(['customer_id' => $path[3]]);
+
+        if(!$customer || !$path[3]){
+            $header['title'] = 'Lỗi quyền truy cập';
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_breadcrumbs('Khách hàng, Đối tác', 'Chi tiết khách hàng, đối tác','Chi tiết', [URL_ADMIN . "/{$path[1]}/" => 'Khách hàng, Đối tác']);
+            echo admin_error('Chi tiết Khách hàng, Đối tác', 'Khách hàng, đối tác không tồn tại, vui lòng xem lại.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+        $customer   = $customer['data'];
+        $type       = $customer['customer_type'] == 'customer' ? 'Khách hàng' : 'Đối tác';
+        $customer_user = new user($database);
+        $customer_user = $customer_user->get_user(['user_id' => $customer['customer_user']]);
+
+        $header['title'] = $type.' '.$customer['customer_name'];
+        require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+        echo admin_breadcrumbs($type, $header['title'],'Chi tiết', [URL_ADMIN . "/{$path[1]}/" => $type]);
+        ?>
+        <div class="row clearfix">
+            <div class="col-xl-4 col-lg-5 col-md-12">
+                <div class="card member-card">
+                    <div class="header l-blue">
+                        <h4 class="m-t-0"><?=$customer['customer_name']?></h4>
+                        <p><?=$customer['customer_code']?></p>
+                    </div>
+                    <div class="member-img">
+                        <a href="">
+                            <img class="rounded-circle" src="http://sms.topcongty.vn/administrator/assets/images/avatar/12.png"  alt="Nguyễn Đông">
+                        </a>
+                    </div>
+                    <div class="body">
+                        <div class="col-12">
+                            <p class="text-muted">
+                                <span class="font-weight-bold">Địa chỉ</span>: <?=$customer['customer_address'] ? $customer['customer_address'] : '---'?><br>
+                                <span class="font-weight-bold">Điện thoại</span>: <?=$customer['customer_phone'] ? $customer['customer_phone'] : '---'?><br>
+                                <span class="font-weight-bold">Email</span>: <?=$customer['customer_email'] ? $customer['customer_email'] : '---'?><br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8 col-lg-7 col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Chi tiết <?=$type?> <?=$customer['customer_name']?></h2>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="btn btn-raised bg-blue waves-effect">Danh sách</a>
+                                <a href="<?=URL_ADMIN."/{$path[1]}/update/{$path[3]}?type={$customer['customer_type']}"?>" class="btn btn-raised bg-blue waves-effect">Cập nhật</a>
+                                <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table hover">
+                            <tbody>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Họ Tên</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_name']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Mã <?=$type?></td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_code']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Khách hàng / Đối tác</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$type?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Địa chỉ</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_address'] ? $customer['customer_address'] : '---'?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Điện thoại</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_phone'] ? $customer['customer_phone'] : '---'?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Email</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_email'] ? $customer['customer_email'] : '---'?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Người thêm</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer_user['user_name']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Trạng thái</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer_data->get_status($customer['customer_status'])?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Ngày tạo</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=view_date_time($customer['customer_time'])?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Lần sửa đổi gần nhất</td>
+                                <td style="width: 75%" class="font-bold text-danger"><?=$customer['customer_last_update'] ? view_date_time($customer['customer_last_update']) : '---'?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+        require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+        break;
     case 'update':
         // Kiểm tra quyền truy cập
         if(!$role['customer']['update']){
@@ -16,6 +136,7 @@ switch ($path[2]){
 
         $customer = new Customer($database, $_REQUEST['type']);
         $customer = $customer->get_customer(['customer_id' => $path[3]]);
+
         if(!$customer || !$_REQUEST['type'] || !$path[3]){
             $header['title'] = 'Cập nhật khách hàng, đối tác';
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";

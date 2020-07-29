@@ -36,9 +36,20 @@ class Customer{
         return false;
     }
 
+    public function get_status($status){
+        switch ($status){
+            case 'active':
+                return '<span class="text-success">Đang hoạt động</span>';
+                break;
+            case 'not_active':
+                return '<span class="text-danger">Đang tạm khóa</span>';
+                break;
+        }
+    }
+
     public function get_customer($where, $select = '*'){
         $db                         = $this->db;
-        $where[self::customer_type] = $this->type;
+        //$where[self::customer_type] = $this->type;
         $data                       = $db->select($select)->from(self::table)->where($where)->fetch_first();
         if(!$data){
             return false;
@@ -48,10 +59,10 @@ class Customer{
 
     public function delete($id){
         $db     = $this->db;
-        if(!$this->check_customer([self::customer_id => $id, self::customer_type => $this->type])){
+        if(!$this->check_customer([self::customer_id => $id])){
             return get_response_array(309, 'Dữ liệu không tồn tại hoặc đã bị xóa khỏi hệ thống.');
         }
-        $delete = $db->delete()->from(self::table)->where([self::customer_id => $id, self::customer_type => $this->type])->limit(1)->execute();
+        $delete = $db->delete()->from(self::table)->where([self::customer_id => $id])->limit(1)->execute();
         if(!$delete){
             return get_response_array(208, 'Xóa dữ liệu không thành công!');
         }

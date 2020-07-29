@@ -1,5 +1,20 @@
 <?php
 switch ($path[2]){
+    case 'delete':
+        // Kiểm tra đăng nhập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+        // Kiểm tra quyền truy cập
+        if(!$role['customer']['update']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+        $customer   = new Customer($database);
+        $action     = $customer->delete($path[3]);
+        echo encode_json($action);
+        break;
     case 'update':
         // Kiểm tra đăng nhập
         if(!$me) {

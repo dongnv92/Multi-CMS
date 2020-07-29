@@ -6,17 +6,17 @@ switch ($path[1]){
                 default:
                     // Kiểm tra đăng nhập
                     if(!$me) {
-                        echo encode_json(get_response_array(403));
+                        echo encode_json(get_response_array(400));
                         break;
                     }
                     // Kiểm tra quyền truy cập
                     if(!$role['plugin']['manager']){
-                        echo encode_json(get_response_array(403));
+                        echo encode_json(get_response_array(401));
                         break;
                     }
 
                     if(!in_array($_REQUEST['status'], ['active', 'not_active'])){
-                        echo encode_json(get_response_array(403));
+                        echo encode_json(get_response_array(402));
                         break;
                     }
 

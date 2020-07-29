@@ -38,8 +38,8 @@ switch ($path[2]){
                             <div class="col-4">
                                 <h6>
                                     <?=$config['status'] == 'active' ?
-                                        '<button type="button" id="plugin_status" data-type="not_active" data-name="'. $plugin .'" class="btn btn-raised bg-teal waves-effect btn-sm">KÍCH HOẠT</button>':
-                                        '<button type="button" id="plugin_status" data-type="active" data-name="'. $plugin .'" class="btn btn-raised bg-red waves-effect btn-sm">NGỪNG KÍCH HOẠT</button>'
+                                        '<button type="button" data-action="change_status" id="plugin_status" data-type="not_active" data-name="'. $plugin .'" class="btn btn-raised bg-teal waves-effect btn-sm">KÍCH HOẠT</button>':
+                                        '<button type="button" data-action="change_status" id="plugin_status" data-type="active" data-name="'. $plugin .'" class="btn btn-raised bg-red waves-effect btn-sm">NGỪNG KÍCH HOẠT</button>'
                                     ?>
                                 </h6>
                                 <small>TRẠNG THÁI</small>
