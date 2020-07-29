@@ -44,7 +44,7 @@ switch ($path[2]){
         });
         <?php
         break;
-        case 'update':
+    case 'update':
         // Kiểm tra đăng nhập
         if(!$me) {
             exit('Error');
@@ -90,4 +90,43 @@ switch ($path[2]){
         });
     <?php
     break;
+    default:
+        ?>
+        //<script>
+        $(document).ready(function () {
+            $('a[data-type=delete]').on('click', function () {
+                var id = $(this).data('id');
+                swal({
+                    title: "Xóa khách hàng, đối tác",
+                    text: "Bạn có chắc chắn muốn xóa khách hàng, đối tác này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function () {
+                    setTimeout(function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + id,
+                            method      : 'POST',
+                            dataType    : 'json',
+                        });
+                        ajax.done(function (data) {
+                            if(data.response == 200){
+                                swal("Xóa khách hàng, đối tác", "Xóa khách hàng, đối tác thành công!", "success");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            }else{
+                                swal("Xóa khách hàng, đối tác", data.message, "error");
+                            }
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            console.log("Request failed: " + textStatus );
+                        });
+                    }, 2000);
+                });
+            });
+        });
+        <?php
+        break;
 }

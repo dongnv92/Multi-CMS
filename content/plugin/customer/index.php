@@ -220,12 +220,12 @@ switch ($path[2]){
             $header['title'] = 'Quản lý khách hàng, đối tác';
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
             echo admin_breadcrumbs('Khách hàng, đối tác', 'Quản lý','Cập nhật', [URL_ADMIN . "/{$path[1]}/" => 'Khách hàng, Đối tác', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Quản lý']);
-            echo admin_error('Quản lý Khách hàng, Đối tác', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            echo admin_error('Quản lý Khách hàng, Đối tác', 'Bạn không có quyền truy cập hoặc đường dẫn sai, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
         }
         // Lấy dữ liệu
-        $customer   = new Customer($database, $_REQUEST['customer_type']);
+        $customer   = new Customer($database, (in_array($_REQUEST['customer_type'], ['customer', 'partner']) ? $_REQUEST['customer_type'] : 'customer'));
         $data       = $customer->get_all();
         $param      = get_param_defaul();
 
@@ -253,6 +253,9 @@ switch ($path[2]){
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('customer_type', ['customer' => 'Khách hàng', 'partner' => 'Đối tác'], ['data-live-search' => 'true', 'selected' => $_REQUEST['customer_type']])?>
+                        </div>
                         <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
                             <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
                         </div>
@@ -269,51 +272,51 @@ switch ($path[2]){
                         <table class="table table-hover mb-0">
                             <thead>
                             <tr>
-                                <th style="width: 30%" class="text-left align-middle">Tiêu đề</th>
-                                <th style="width: 15%" class="text-center align-middle">Tác giả</th>
-                                <th style="width: 15%" class="text-center align-middle">Chuyên mục</th>
-                                <th style="width: 15%" class="text-center align-middle">Nổi bật</th>
-                                <th style="width: 15%" class="text-center align-middle">Thời gian</th>
+                                <th style="width: 15%" class="text-center align-middle">Mã</th>
+                                <th style="width: 15%" class="text-center align-middle">Họ tên</th>
+                                <th style="width: 20%" class="text-center align-middle">Địa chỉ</th>
+                                <th style="width: 15%" class="text-center align-middle">Điện thoại</th>
+                                <th style="width: 15%" class="text-center align-middle">Email</th>
+                                <th style="width: 10%" class="text-center align-middle">Thời gian</th>
                                 <th style="width: 10%" class="text-center align-middle">Quản lý</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php if($data['paging']['count_data'] == 0){?>
                                 <tr>
-                                    <td colspan="6" class="text-center">Dữ liệu trống</td>
+                                    <td colspan="7" class="text-center">Dữ liệu trống</td>
                                 </tr>
                             <?php }?>
                             <?php
                             foreach ($data['data'] AS $row){
                                 ?>
                                 <tr>
-                                    <td class="text-left align-middle font-weight-bold">
-                                        <a title="Xem chi tiết bài viết" class="font-weight-bold" href="<?=URL_ADMIN . "/{$path[1]}/detail/{$row['post_id']}"?>"><?=text_truncate($row['post_title'], 10)?></a>
+                                    <td class="text-center align-middle">
+                                        <a title="Xem chi tiết" class="font-weight-bold" href="<?=URL_ADMIN . "/{$path[1]}/detail/{$row['customer_id']}"?>"><?=$row['customer_code']?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a href="<?=URL_ADMIN . "/{$path[1]}/". build_query(['post_user' => $row['post_user']])?>"><?=$post_user['user_name']?></a>
+                                        <?=$row['customer_name']?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a href="<?=URL_ADMIN . "/{$path[1]}/". build_query(['post_category' => $row['post_category']])?>"><?=$post_category['data']['meta_name']?></a>
+                                        <?=text_truncate($row['customer_address'] ? $row['customer_address'] : '---', 5)?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=formInputSwitch('post_feature', [
-                                            'checked'   => $row['post_feature'] == 'true' ? 'true' : '',
-                                            'value'     => 'true',
-                                            'label'     => ' '
-                                        ])?>
+                                        <?=text_truncate($row['customer_phone'] ? $row['customer_phone'] : '---', 1)?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['post_last_update'] ? "Sửa lần cuối <p>". view_date_time($row['post_last_update']) ."</p>" : 'Đăng lúc <p>'. view_date_time($row['post_time']) .'</p>'?>
+                                        <?=text_truncate($row['customer_email'] ? $row['customer_email'] : '---', 1)?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['post_id']}"?>" title="Cập nhật <?=$row['post_title']?>"><i class="material-icons text-info">mode_edit</i></a>
-                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['post_id']?>" title="Xóa <?=$row['post_title']?>"><i class="material-icons text-danger">delete_forever</i></a>
+                                        <?=$row['customer_last_update'] ? "Sửa lần cuối <p>". view_date_time($row['customer_last_update']) ."</p>" : 'Đăng lúc <p>'. view_date_time($row['customer_time']) .'</p>'?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['customer_id']}?type={$row['customer_type']}"?>" title="Cập nhật <?=$row['customer_name']?>"><i class="material-icons text-info">mode_edit</i></a>
+                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['customer_id']?>" title="Xóa <?=$row['customer_name']?>"><i class="material-icons text-danger">delete_forever</i></a>
                                     </td>
                                 </tr>
                             <?php }?>
                             <tr>
-                                <td colspan="6" class="text-left">
+                                <td colspan="7" class="text-left">
                                     Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
                                     Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
                                 </td>

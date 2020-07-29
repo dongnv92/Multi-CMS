@@ -11,42 +11,24 @@
   "public_class" : ["includes/customer.class.php"],
   "menu":[
     {
-      "text":"Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng",
+      "text":"Khách hàng",
       "icon":"<i class=\"zmdi zmdi-accounts-outline\"><\/i>\n",
       "child":[
         {
-          "text":"Danh s\u00e1ch kh\u00e1ch h\u00e0ng",
+          "text":"Khách hàng, Đối tác",
           "url":"URL_ADMIN\/customer\/",
-          "roles":[
-            "customer",
-            "manager"
-          ],
+          "roles":["customer", "manager"],
           "active":[
-            [
-              "admin",
-              "customer",
-              ""
-            ],
-            [
-              "admin",
-              "customer",
-              "update"
-            ]
+            ["admin", "customer",""],
+            ["admin", "customer", "update"]
           ]
         },
         {
-          "text":"Th\u00eam kh\u00e1ch h\u00e0ng",
+          "text":"Thêm mới",
           "url":"URL_ADMIN\/customer\/add",
-          "roles":[
-            "customer",
-            "add"
-          ],
+          "roles":["customer","add"],
           "active":[
-            [
-              "admin",
-              "customer",
-              "add"
-            ]
+            ["admin", "customer", "add"]
           ]
         }
       ]
