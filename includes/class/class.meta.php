@@ -305,7 +305,7 @@ class meta{
             'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
             'meta_url'      => $db->escape($_REQUEST[$this->meta_url]),
             'meta_info'     => $meta_info ? $db->escape($meta_info) : '',
-            'meta_images'   => '',
+            'meta_images'   => get_config('no_image'),
             'meta_parent'   => $db->escape($_REQUEST[$this->meta_parent]),
             'meta_user'     => $me['user_id'],
             'meta_time'     => get_date_time()

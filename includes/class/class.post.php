@@ -96,7 +96,7 @@ class Post{
             return get_response_array(311, 'Số trang không được lớn hơn số dữ liệu có.');
 
         // Hiển thị dữ liệu theo số liệu nhập vào
-        $db->select('*')->from(self::table);
+        $db->select($_REQUEST['fields'] ? $_REQUEST['fields'] : '*')->from(self::table);
         if($_REQUEST['search']){
             $db->where(get_query_search($_REQUEST['search'], [self::post_title, self::post_content, self::post_short_content, self::post_keyword]));
         }
@@ -205,6 +205,7 @@ class Post{
             self::post_url              => $db->escape($_REQUEST[self::post_url]),
             self::post_status           => $db->escape($_REQUEST[self::post_status]),
             self::post_feature          => $db->escape($_REQUEST[self::post_feature]),
+            self::post_images           => get_config('no_image'),
             self::post_time             => get_date_time(),
             self::post_view             => 0,
             self::post_user             => $me['user_id'],

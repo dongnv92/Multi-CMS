@@ -184,8 +184,8 @@ function add_magic_quotes( $array ) {
 
 function cms_magic_quotes() {
     // Escape with wpdb.
-    $_GET       = add_magic_quotes( $_GET );
-    $_POST      = add_magic_quotes( $_POST );
+    //$_GET       = add_magic_quotes( $_GET );
+    //$_POST      = add_magic_quotes( $_POST );
     $_COOKIE    = add_magic_quotes( $_COOKIE );
     $_SERVER    = add_magic_quotes( $_SERVER );
     $_SESSION   = add_magic_quotes( $_SESSION );
@@ -423,6 +423,16 @@ function get_param_defaul(){
 
 function get_status($type, $data){
     switch ($type){
+        case 'blog':
+            switch ($data){
+                case 'public':
+                    return '<span class="text-success">Đang hoạt động</span>';
+                    break;
+                case 'not_active':
+                    return '<span class="text-danger">Đang tạm khoá</span>';
+                    break;
+            }
+            break;
         case 'user':
             switch ($data){
                 case 'active':

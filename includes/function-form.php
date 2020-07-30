@@ -49,10 +49,42 @@ function formInputText($name, $attribute = ['']){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
-    $div_class_parent   = '';
-    $div_class_child    = '';
     $layout             = $attribute['layout'];
     switch ($layout){
+        case 'floating_label':
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group form-float";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            $error              = '';
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label class=\"form-label\">$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
+                        break;
+                    case 'div_class_parent' :
+                    case 'div_class_child'  :
+                    case 'layout'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= '
+            <div class="'. $div_class_parent .'">
+                <div class="'. $div_class_child .'">
+                    <input type="text" name="'. $name .'" '. $form_attribute .'>
+                    '. ($label ? $label : '') .'
+                </div>
+                '. ($error ? $error : '') .'
+            </div>';
+            break;
         default:
             // Thiết lập các giá trị mặc định
             $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';

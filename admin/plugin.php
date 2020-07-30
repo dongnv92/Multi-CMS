@@ -15,7 +15,7 @@ switch ($path[2]){
             $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
             $config = json_decode($config, true);
             ?>
-            <div class="col-lg-4 col-md-12">
+            <div class="col-lg-3 col-md-12">
                 <div class="card member-card">
                     <div class="header" style='background-image: url("<?=URL_HOME . '/' . PATH_PLUGIN . "$plugin/{$config['banner']}"?>"); background-size: 100% 100%; background-repeat: no-repeat'></div>
                     <div class="body">

@@ -6,11 +6,23 @@ switch ($path[2]){
         if($post['response'] != 200){
             $header['title'] = 'Xem bài viết';
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Bài viết', 'Xem bài viết','Xem bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
-            echo admin_error('Xem bài viết', 'Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.');
+                echo admin_breadcrumbs('Bài viết', 'Xem bài viết','Xem bài viết', [URL_ADMIN . '/blog/' => 'Bài viết']);
+                echo admin_error('Xem bài viết', 'Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.');
             require_once 'admin-footer.php';
             exit();
         }
+
+        $_REQUEST['limit']          = 5;
+        $_REQUEST['post_category']  = $post['data']['post_category'];
+        $_REQUEST['fields']         = 'post_id, post_title, post_images, post_time';
+        $post_related               = new Post($database, 'blog');
+        $post_related               = $post_related->get_all();
+
+        $category   = new meta($database, 'blog_category');
+        $category   = $category->get_meta($post['data']['post_category']);
+        $post_user  = new user($database);
+        $post_user  = $post_user->get_user(['user_id' => $post['data']['post_user']]);
+
         $header['css']  = [
             URL_ADMIN_ASSETS . "css/blog.css"
         ];
@@ -24,6 +36,96 @@ switch ($path[2]){
                     <div class="body">
                         <h3 class="m-t-20"><?=$post['data']['post_title']?></h3>
                         <?=$post['data']['post_content']?>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 right-box">
+                <div class="card">
+                    <div class="body">
+                        <form method="get" action="<?=URL_ADMIN."/{$path[1]}/"?>">
+                            <div class="widget search">
+                                <div class="form-group">
+                                    <div class="form-line">
+                                        <input type="text" name="search" class="form-control" placeholder="Tìm bài viết ...">
+                                    </div>
+                                    <button class="btn btn-raised btn-primary m-t-10" type="submit">Tìm kiếm</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <h2>Thông tin chi tiết</h2>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <a href="<?=URL_ADMIN."/{$path[1]}/update/{$path[3]}"?>" class="btn btn-raised bg-blue waves-effect">Chỉnh sửa</a>
+                                <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content table-responsive">
+                        <table class="table table hover">
+                            <tbody>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Tiêu đề</td>
+                                <td style="width: 75%" class="font-bold"><?=$post['data']['post_title']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Chuyên mục</td>
+                                <td style="width: 75%" class="font-bold"><?=$category['data']['meta_name']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Tác giả</td>
+                                <td style="width: 75%" class="font-bold"><?=$post_user['user_name']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Trạng thái</td>
+                                <td style="width: 75%" class="font-bold"><?=get_status('blog', $post['data']['post_status'])?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Nổi bật?</td>
+                                <td style="width: 75%" class="font-bold"><?=$post['data']['post_feature'] == 'true' ? 'Có' : 'Không'?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Lượt xem</td>
+                                <td style="width: 75%" class="font-bold"><?=$post['data']['post_view']?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Ngày đăng</td>
+                                <td style="width: 75%" class="font-bold"><?=view_date_time($post['data']['post_time'])?></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 25%" class="text-right">Sửa lần cuối</td>
+                                <td style="width: 75%" class="font-bold"><?=$post['data']['post_last_update'] ? view_date_time($post['data']['post_last_update']) : '---'?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="header">
+                        <h2>Bài viết liên quan</h2>
+                    </div>
+                    <div class="body">
+                        <ul class="inbox-widget list-unstyled clearfix">
+                        <?php foreach ($post_related['data'] AS $_post_related){?>
+                            <li class="inbox-inner"><a href="javascript:void(0);">
+                                <div class="inbox-item">
+                                    <div class="inbox-img"> <img src="<?=URL_HOME . '/' .$_post_related['post_images']?>"> </div>
+                                    <div class="inbox-item-info">
+                                        <p class="author"><a href="<?=URL_ADMIN . "/{$path[1]}/detail/{$_post_related['post_id']}"?>"><?=$_post_related['post_title']?></a></p>
+                                        <p class="inbox-date"><?=view_date_time($_post_related['post_time'])?></p>
+                                    </div>
+                                </div>
+                                </a>
+                            </li>
+                        <?php }?>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -439,6 +541,7 @@ switch ($path[2]){
         $_REQUEST['post_url']           = $_REQUEST['post_url']             ? $_REQUEST['post_url']             : $post['data']['post_url'];
         $_REQUEST['post_keyword']       = $_REQUEST['post_keyword']         ? $_REQUEST['post_keyword']         : $post['data']['post_keyword'];
         $_REQUEST['post_short_content'] = $_REQUEST['post_short_content']   ? $_REQUEST['post_short_content']   : $post['data']['post_short_content'];
+        $_REQUEST['post_category']      = $_REQUEST['post_category']        ? $_REQUEST['post_category']        : $post['data']['post_category'];
 
         if($_REQUEST['submit']){
             $post   = new Post($database, 'blog');
@@ -567,10 +670,10 @@ switch ($path[2]){
                 <div class="card">
                     <div class="body">
                         <?=formInputSelect('post_category', $category, [
-                                'label'             => 'Chọn chuyên mục',
-                                'data-live-search'  => 'true',
-                                'selected'          => $_REQUEST['post_category']
-                            ]
+                            'label'             => 'Chọn chuyên mục',
+                            'data-live-search'  => 'true',
+                            'selected'          => $_REQUEST['post_category']
+                        ]
                         )?>
                     </div>
                 </div>
