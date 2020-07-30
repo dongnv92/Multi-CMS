@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 30, 2020 lúc 12:45 PM
--- Phiên bản máy phục vụ: 10.1.35-MariaDB
--- Phiên bản PHP: 7.2.9
+-- Thời gian đã tạo: Th7 30, 2020 lúc 06:40 PM
+-- Phiên bản máy phục vụ: 10.1.36-MariaDB
+-- Phiên bản PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -63,7 +63,7 @@ CREATE TABLE `dong_meta` (
   `meta_des` varchar(1000) COLLATE utf8_unicode_ci NOT NULL,
   `meta_url` varchar(300) COLLATE utf8_unicode_ci NOT NULL,
   `meta_info` text COLLATE utf8_unicode_ci,
-  `meta_images` int(11) DEFAULT NULL,
+  `meta_image` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL,
   `meta_parent` int(11) NOT NULL DEFAULT '0',
   `meta_user` int(11) NOT NULL,
   `meta_time` datetime NOT NULL
@@ -73,15 +73,17 @@ CREATE TABLE `dong_meta` (
 -- Đang đổ dữ liệu cho bảng `dong_meta`
 --
 
-INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_images`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng.', '', 'a:6:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}s:4:\"momo\";a:1:{s:7:\"manager\";b:1;}s:7:\"product\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:8:\"category\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:13:25'),
-(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:3:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', 0, 0, 1, '2020-06-24 17:14:52'),
-(4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}}', 0, 0, 1, '2020-06-26 15:09:13'),
-(5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', 0, 0, 1, '2020-07-03 14:00:31'),
-(6, 'blog_category', 'Tin tức', '', 'tin-tuc', '', 0, 0, 1, '2020-07-03 14:16:01'),
-(10, 'blog_category', 'Công nghệ', 'Tin tức công nghệ', 'cong-nghe', '', 0, 6, 1, '2020-07-08 10:05:45'),
-(11, 'blog_category', 'Thời sự', 'Tin tức thời sự', 'thoi-su', '', 0, 6, 1, '2020-07-08 10:30:43'),
-(12, 'product_category', 'Điện tử', '', '', '', 0, 0, 1, '2020-07-30 17:39:06');
+INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_image`, `meta_parent`, `meta_user`, `meta_time`) VALUES
+(1, 'role', 'Người sáng lập', 'Người quản trị, sáng lập và điều hành ứng dụng.', 'nguoi-sang-lap', 'a:6:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}s:4:\"momo\";a:1:{s:7:\"manager\";b:1;}s:7:\"product\";a:6:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:8:\"category\";b:1;s:5:\"brand\";b:1;s:6:\"delete\";b:1;}}', '', 0, 1, '2020-06-24 17:13:25'),
+(2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', '', 'a:3:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}}', '', 0, 1, '2020-06-24 17:14:52'),
+(4, 'role', 'Thành viên', 'Thành viên bình thường', '', 'a:2:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}}', '', 0, 1, '2020-06-26 15:09:13'),
+(5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', '', 0, 1, '2020-07-03 14:00:31'),
+(6, 'blog_category', 'Tin tức', '', 'tin-tuc', '', '', 0, 1, '2020-07-03 14:16:01'),
+(10, 'blog_category', 'Công nghệ', 'Tin tức công nghệ', 'cong-nghe', '', '', 6, 1, '2020-07-08 10:05:45'),
+(11, 'blog_category', 'Thời sự', 'Tin tức thời sự', 'thoi-su', '', '', 6, 1, '2020-07-08 10:30:43'),
+(12, 'product_category', 'Điện tử', 'Chuyên đồ điện tử', 'dien-tu', '', '', 0, 1, '2020-07-30 17:39:06'),
+(14, 'product_category', 'Camera IP', 'Chuyên Camera IP', 'camera-ip', '', '', 12, 1, '2020-07-30 20:48:11'),
+(25, 'product_brand', 'SAMSUNG', 'SAMSUNG', 'samsung', '', 'content/uploads/brand/GVBr4p5SlR8cE92.png', 0, 1, '2020-07-30 23:08:06');
 
 -- --------------------------------------------------------
 
@@ -229,7 +231,7 @@ ALTER TABLE `dong_customer`
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_post`

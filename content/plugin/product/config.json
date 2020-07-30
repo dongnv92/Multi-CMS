@@ -37,6 +37,13 @@
           "active":[
             ["admin", "product","category"]
           ]
+        },{
+          "text":"Brand",
+          "url":"URL_ADMIN\/product\/brand",
+          "roles":["product", "brand"],
+          "active":[
+            ["admin", "product","brand"]
+          ]
         }
       ]
     }
@@ -47,6 +54,7 @@
       "add"       : false,
       "update"    : false,
       "category"  : false,
+      "brand"     : false,
       "delete"    : false
     }
   },
@@ -56,6 +64,7 @@
     "add"       : "Thêm sản phẩm",
     "update"    : "Cập nhật sản phẩm",
     "category"  : "Quản lý danh mục sản phẩm",
+    "brand"     : "Quản lý Brand",
     "delete"    : "Xoá sản phẩm"
   }
 }

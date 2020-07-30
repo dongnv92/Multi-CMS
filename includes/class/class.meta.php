@@ -9,7 +9,7 @@ class meta{
     private $meta_des;
     private $meta_url;
     private $meta_info;
-    private $meta_images;
+    private $meta_image;
     private $meta_parent;
     private $meta_user;
     private $meta_time;
@@ -23,7 +23,7 @@ class meta{
         $this->meta_des     = 'meta_des';
         $this->meta_url     = 'meta_url';
         $this->meta_info    = 'meta_info';
-        $this->meta_images  = 'meta_images';
+        $this->meta_image   = 'meta_image';
         $this->meta_parent  = 'meta_parent';
         $this->meta_url     = 'meta_url';
         $this->meta_user    = 'meta_user';
@@ -49,12 +49,22 @@ class meta{
 
     public function get_data_showall(){
         $db     = $this->db;
-        $data   = $db->select("{$this->meta_id}, {$this->meta_name}, {$this->meta_parent}, {$this->meta_time}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
+        $data   = $db->select("{$this->meta_id}, {$this->meta_des}, {$this->meta_name}, {$this->meta_parent}, {$this->meta_time}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
         $data   = $this->recursiveDatabase($data);
         return $data;
     }
 
-
+    public function update_image($id, $image){
+        $db     = $this->db;
+        if(!$this->check_id($id)){
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+        }
+        $update = $db->where($this->meta_id, $id)->update($this->db_table, [$this->meta_image => $image]);
+        if(!$update){
+            return get_response_array(208, "Update ảnh không thành công.");
+        }
+        return get_response_array(200, "Update ảnh thành công.");
+    }
 
     // Đệ quy dữ liệu từ Database
     function recursiveDatabase(array $data, $parentId = 0, $level = 0){
@@ -114,7 +124,7 @@ class meta{
         if(!validate_int($id) || !$id)
             return get_response_array(311, 'ID phải là dạng số.');
         $db     = $this->db;
-        $meta   = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
+        $meta   = $db->select('COUNT(*) AS count, meta_image')->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
 
         // Nếu id không tồn tại thì báo lỗi
         if(!$meta)
@@ -131,8 +141,13 @@ class meta{
         }
 
         $delete = $db->delete()->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->limit(1)->execute();
-        if(!$delete)
+        if(!$delete){
             return get_response_array(208, 'Xóa dữ liệu không thành công!');
+        }
+
+        if($meta[$this->meta_image] && $meta[$this->meta_image] != get_config('no_image')){
+            unlink(ABSPATH . $meta[$this->meta_image]);
+        }
         return get_response_array(200, 'Xóa dữ liệu thành công!');
     }
 
@@ -221,14 +236,12 @@ class meta{
             }
         }
 
-        if(in_array($this->type, ['blog_category'])){
-            if($_REQUEST[$this->meta_url]){
-                if($_REQUEST[$this->meta_url] != $meta[$this->meta_url] && $this->check_url($_REQUEST[$this->meta_url])){
-                    return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
-                }
-            }else{
-                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
+        if($_REQUEST[$this->meta_url]){
+            if($_REQUEST[$this->meta_url] != $meta[$this->meta_url] && $this->check_url($_REQUEST[$this->meta_url])){
+                return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
             }
+        }else{
+            $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
         }
 
         if(in_array($this->type, ['role'])){
@@ -269,14 +282,14 @@ class meta{
             return get_response_array(310, "Tên ({$_REQUEST[$this->meta_name]}) đã tồn tại, vui lòng chọn tên khác.");
 
         // Xử lý các trường không bắt buộc
-        if(in_array($this->type, ['blog_category'])){
-            if($_REQUEST[$this->meta_url]){
-                if($this->check_url($_REQUEST[$this->meta_url]))
-                    return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
-            }else{
-                $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
+        if($_REQUEST[$this->meta_url]){
+            if($this->check_url($_REQUEST[$this->meta_url])){
+                return get_response_array(310, "URL ({$_REQUEST[$this->meta_url]}) đã tồn tại, vui lòng chọn URL khác.");
             }
+        }else{
+            $_REQUEST[$this->meta_url] = sanitize_title($_REQUEST[$this->meta_name]);
         }
+
         if($_REQUEST[$this->meta_parent]){
             if(!$this->check_id($_REQUEST[$this->meta_parent])){
                 return get_response_array(310, "Chuyên mục cha không tồn tại, vui lòng chọn kiểm tra lại.");
@@ -305,15 +318,16 @@ class meta{
             'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
             'meta_url'      => $db->escape($_REQUEST[$this->meta_url]),
             'meta_info'     => $meta_info ? $db->escape($meta_info) : '',
-            'meta_images'   => get_config('no_image'),
+            'meta_image'   => get_config('no_image'),
             'meta_parent'   => $db->escape($_REQUEST[$this->meta_parent]),
             'meta_user'     => $me['user_id'],
             'meta_time'     => get_date_time()
         ];
 
         $data_add = $db->insert($this->db_table, $data_add);
-        if(!$data_add)
+        if(!$data_add){
             return get_response_array(208, "Thêm dữ liệu không thành công.");
-        return get_response_array(200, "Thêm dữ liệu thành công.");
+        }
+        return ['response' => 200, 'message' => 'Thêm dữ liệu thành công', 'data' => $data_add];
     }
 }
