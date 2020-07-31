@@ -563,7 +563,8 @@ switch ($path[2]){
                             <div role="tabpanel" class="tab-pane" id="second">
                                 <?=formInputText('product_code', [
                                     'layout'    => 'horizonta',
-                                    'label'     => 'Mã sản phẩm'
+                                    'label'     => 'Mã sản phẩm',
+                                    'value'     => $product->create_barcode()
                                 ])?>
                                 <?=formInputText('product_sku', [
                                     'layout'    => 'horizonta',
