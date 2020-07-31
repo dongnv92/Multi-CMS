@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 30, 2020 lúc 06:40 PM
--- Phiên bản máy phục vụ: 10.1.36-MariaDB
--- Phiên bản PHP: 7.2.10
+-- Thời gian đã tạo: Th7 31, 2020 lúc 12:39 PM
+-- Phiên bản máy phục vụ: 10.1.35-MariaDB
+-- Phiên bản PHP: 7.2.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -123,6 +123,35 @@ INSERT INTO `dong_post` (`post_id`, `post_type`, `post_title`, `post_content`, `
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `dong_product`
+--
+
+CREATE TABLE `dong_product` (
+  `product_id` int(11) NOT NULL,
+  `product_barcode` varchar(50) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Mã Sản Phẩm',
+  `product_sku` varchar(500) COLLATE utf8_unicode_ci NOT NULL,
+  `product_name` varchar(1000) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên Sản Phẩm',
+  `product_short_content` varchar(1000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Mô Tả Ngắn',
+  `product_content` text COLLATE utf8_unicode_ci NOT NULL COMMENT 'Nội dung sản phẩm',
+  `product_category` int(11) NOT NULL COMMENT 'Chuyên mục sản phẩm',
+  `product_brand` int(11) NOT NULL COMMENT 'Thương hiệu',
+  `product_price_buy` int(11) DEFAULT NULL,
+  `product_price` int(11) NOT NULL COMMENT 'Giá sản phẩm',
+  `product_price_sale` int(11) NOT NULL COMMENT 'Phần trăm khuyến mãi',
+  `product_size` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `product_color` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `product_quantity` int(11) DEFAULT '0',
+  `product_user` int(11) NOT NULL COMMENT 'Người thêm sản phẩm',
+  `product_featured` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1: Nổi bật / 0: Không',
+  `product_status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1: Hiện / 2: Ẩn',
+  `product_instock` tinyint(1) NOT NULL DEFAULT '1' COMMENT '1: Còn hàng / 0: Hết Hàng',
+  `product_unit` int(4) NOT NULL DEFAULT '83',
+  `product_time` datetime NOT NULL COMMENT 'Ngày thêm sản phẩm'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `dong_setting`
 --
 
@@ -206,6 +235,13 @@ ALTER TABLE `dong_post`
   ADD PRIMARY KEY (`post_id`);
 
 --
+-- Chỉ mục cho bảng `dong_product`
+--
+ALTER TABLE `dong_product`
+  ADD PRIMARY KEY (`product_id`),
+  ADD UNIQUE KEY `product_code` (`product_barcode`);
+
+--
 -- Chỉ mục cho bảng `dong_setting`
 --
 ALTER TABLE `dong_setting`
@@ -238,6 +274,12 @@ ALTER TABLE `dong_meta`
 --
 ALTER TABLE `dong_post`
   MODIFY `post_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `dong_product`
+--
+ALTER TABLE `dong_product`
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_setting`

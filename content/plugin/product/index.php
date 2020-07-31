@@ -471,6 +471,9 @@ switch ($path[2]){
             exit();
         }
 
+        $product = new Product($database);
+        $unit_product_option = $product->get_unit();
+
         // Get Category Option
         $option_category = new meta($database, 'product_category');
         $option_category = $option_category->get_data_select([0 => 'Chọn Danh Mục']);
@@ -481,11 +484,13 @@ switch ($path[2]){
         $header['title']    = 'Thêm sản phẩm';
         $header['css']      = [
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css',
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.css',
             URL_ADMIN_ASSETS . 'plugins/dropify/css/dropify.min.css'
         ];
         $header['js']       = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.js',
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
             URL_JS . "{$path[1]}/{$path[2]}"
         ];
@@ -495,23 +500,125 @@ switch ($path[2]){
         ?>
         <div class="row">
             <div class="col-lg-8">
+                <!--Thông tin cơ bản-->
                 <div class="card">
-                    <div class="header">
-                        <h2>Sản phẩm <small>Thêm sản phẩm</small></h2>
-                    </div>
                     <div class="body">
                         <?=formInputText('product_name', [
                             'placeholder'   => 'Nhập tên sản phẩm',
-                            'autofocus'     => ''
+                            'autofocus'     => true,
                         ])?>
                         <?=formInputTextarea('post_content', [
-                            'value' => $_REQUEST['post_content'] ? $_REQUEST['post_content'] : '',
-                            'id'    => 'summernote'
+                            'class'    => 'summernote'
+                        ])?>
+                    </div>
+                </div>
+
+                <!--Thông tin khác-->
+                <div class="card">
+                    <div class="body">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#first">Chung</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#second">Kiểm kê kho</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#images">Danh sách ảnh</a></li>
+                        </ul>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane in active" id="first">
+                                <?=formInputText('product_price', [
+                                    'layout'    => 'horizonta',
+                                    'label'     => '<code>*</code> Giá bán thường (₫)'
+                                ])?>
+                                <?=formInputText('product_price', [
+                                    'layout'    => 'horizonta',
+                                    'label'     => 'Giá khuyến mãi (₫)'
+                                ])?>
+                                <?=formInputText('product_price', [
+                                    'layout'    => 'horizonta',
+                                    'label'     => 'Giá nhập (₫)'
+                                ])?>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        Đơn vị tính
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <?=formInputSelect('product_unit', $unit_product_option, [
+                                            'data-live-search'  => 'true',
+                                        ])?>
+                                    </div>
+                                </div><br />
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        Giá đã gồm thuế?
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <?=formInputSwitch('product_vat', [
+                                            'checked'   => $post['data']['post_feature'] == 'true' ? 'true' : '',
+                                            'value'     => 'true',
+                                            'label'     => ' '
+                                        ])?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="second">
+                                <?=formInputText('product_code', [
+                                    'layout'    => 'horizonta',
+                                    'label'     => 'Mã sản phẩm'
+                                ])?>
+                                <?=formInputText('product_sku', [
+                                    'layout'    => 'horizonta',
+                                    'label'     => 'Mã SKU'
+                                ])?>
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        Trạng thái kho hàng?
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <?=formInputSelect('product_stock_status', ['instock' => 'Còn hàng', 'outofstock' => 'Hết hàng'], [
+                                            'data-live-search'  => 'true',
+                                        ])?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="images">
+                                <div class="form-group">
+                                    <input type="file" name="product_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" multiple />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Nội dung ngắn-->
+                <div class="card">
+                    <div class="header">
+                        <h2>Nội dung ngắn</h2>
+                    </div>
+                    <div class="body">
+                        <?=formInputTextarea('post_short_content', [
+                            'class'    => 'summernote'
                         ])?>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4">
+                <div class="card">
+                    <div class="body">
+                        <?=formInputCheckbox('product_featured', ['1' => 'Đây là sản phẩm nổi bật?'], ['layout' => 'inline'])?>
+                        <?=formInputCheckbox('product_status', ['show' => 'Ẩn / Hiện'], ['layout' => 'inline', 'checked' => 'checked'])?>
+                        <hr style="border-top: 1px dashed #0f74a8" />
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-outline-info waves-effect">DANH SÁCH</a>
+                            </div>
+                            <div class="col-lg-6 text-right">
+                                <?=formButton('THÊM MỚI', [
+                                    'id' => 'button_add'
+                                ])?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!--Danh Mục Sản Phẩm-->
                 <div class="card">
                     <div class="body">
@@ -529,6 +636,38 @@ switch ($path[2]){
                             'label' => 'Brand Name <code>*</code>',
                             'data-live-search'  => 'true',
                         ])?>
+                    </div>
+                </div>
+
+                <!--Brand-->
+                <div class="card">
+                    <div class="body">
+                        <?=formInputText('product_url', [
+                            'placeholder'   => 'Nhập URL sản phẩm',
+                            'label'         => 'URL sản phẩm <code>(Có thể để trống)</code>',
+                        ])?>
+                    </div>
+                </div>
+
+                <!--Hastag-->
+                <div class="card">
+                    <div class="body">
+                        <?=formInputText('product_url', [
+                            'label'         => '# Hashtag',
+                            'data-role'     => 'tagsinput'
+                        ])?>
+                    </div>
+                </div>
+
+                <!-- Ảnh -->
+                <div class="card">
+                    <div class="header">
+                        <h2>Ảnh sản phẩm</h2>
+                    </div>
+                    <div class="body">
+                        <div class="form-group">
+                            <input type="file" name="product_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" />
+                        </div>
                     </div>
                 </div>
             </div>
