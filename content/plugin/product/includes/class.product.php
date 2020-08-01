@@ -39,6 +39,15 @@ class Product{
         return false;
     }
 
+    private function check_category($id){
+        $database   = $this->db;
+        $check      = $database->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_id' => $id, 'meta_type' => 'product_category'])->fetch_first();
+        if($check['count'] > 0){
+            return true;
+        }
+        return false;
+    }
+
     function get_unit($type = '', $data = ''){
         $content = [
             '1' => 'Chiếc',
@@ -101,5 +110,12 @@ class Product{
             return get_response_array(309, 'Tên sản phẩm đã tồn tại, vui lòng nhập lại.');
         }
 
+        // Kiểm tra chọn chuyên mục
+        if(!$_REQUEST[self::product_category]){
+            return get_response_array(309, 'Bạn cần chọn một danh mục sản phẩm.');
+        }
+        if(!$this->check_category($_REQUEST[self::product_category])){
+            return get_response_array(309, 'Danh mục sản phẩm không đúng, vui lòng chọn lại.');
+        }
     }
 }
