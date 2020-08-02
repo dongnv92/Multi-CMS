@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th7 31, 2020 lúc 06:35 PM
+-- Thời gian đã tạo: Th8 02, 2020 lúc 05:41 PM
 -- Phiên bản máy phục vụ: 10.1.36-MariaDB
 -- Phiên bản PHP: 7.2.10
 
@@ -140,6 +140,7 @@ CREATE TABLE `dong_product` (
   `product_brand` int(5) DEFAULT NULL COMMENT 'Thương hiệu',
   `product_price` int(11) NOT NULL DEFAULT '0' COMMENT 'Giá sản phẩm',
   `product_price_sale` int(11) DEFAULT NULL COMMENT 'Giá khuyến mãi',
+  `product_sale_percent` int(3) DEFAULT '0',
   `product_price_buy` int(11) DEFAULT NULL COMMENT 'Giá nhập vào',
   `product_price_vat` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `product_quantity` int(11) DEFAULT '0' COMMENT 'Số lượng',
