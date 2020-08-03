@@ -373,11 +373,28 @@ switch ($path[2]) {
                 });
                 ajax.done(function (data) {
                     if(data.response == 200){
-                        setTimeout(function () {
-                            show_notify(data.message, 'bg-green');
-                            $('#button_add').attr('disabled', false);
-                            $('#button_add').html('THÊM MỚI');
-                        }, 1500);
+                        // Upload Ảnh
+                        var file_data = $('#product_image').prop('files')[0];
+                        var form_data = new FormData();
+                        form_data.append('product_image', file_data);
+                        form_data.append('product_id', data.data);
+                        $.ajax({
+                            url: '<?=URL_ADMIN_AJAX . "{$path[1]}/update_product_image/"?>', // point to server-side controller method
+                            dataType: 'text', // what to expect back from the server
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data,
+                            type: 'post',
+                            success: function () {
+                                setTimeout(function () {
+                                    show_notify(data.message, 'bg-green');
+                                    $('#button_add').attr('disabled', false);
+                                    $('#button_add').html('THÊM MỚI');
+                                }, 1500);
+                            }
+                        });
+                        // Upload Ảnh
                     }else{
                         show_notify(data.message, 'bg-red');
                         $('#button_add').attr('disabled', false);

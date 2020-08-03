@@ -1,9 +1,5 @@
 <?php
 switch ($path[2]){
-    case 'test':
-        $product = new Product($database);
-        echo $product->get_sale_percent(10000000, 9500000);
-        break;
     case 'brand':
         // Kiểm tra quyền truy cập
         if(!$role['product']['brand']){
@@ -671,7 +667,7 @@ switch ($path[2]){
                     </div>
                     <div class="body">
                         <div class="form-group">
-                            <input type="file" name="product_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" />
+                            <input type="file" name="product_image" data-default-file="<?=URL_HOME . '/' . get_config('no_image')?>" id="product_image" class="dropify" data-allowed-file-extensions="jpg png" />
                         </div>
                     </div>
                 </div>
