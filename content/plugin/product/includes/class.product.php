@@ -40,6 +40,10 @@ class Product{
         return false;
     }
 
+    function get_sale_percent($price, $price_sale){
+        return 100 - floor(($price_sale/$price) * 100);
+    }
+
     private function check_category($id){
         $database   = $this->db;
         $check      = $database->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_id' => $id, 'meta_type' => 'product_category'])->fetch_first();
@@ -105,20 +109,20 @@ class Product{
             }
         }
 
-        // Kiểm tra URL sản phẩm
-        if(!$_REQUEST[self::product_url]){
-            return get_response_array(309, 'Bạn cần nhập URL sản phẩm.');
-        }
-        if($this->check_product([self::product_url => $_REQUEST[self::product_url]])){
-            return get_response_array(309, 'URL sản phẩm đã tồn tại, vui lòng nhập lại.');
-        }
-
         // Kiểm tra tên sản phẩm
         if(!$_REQUEST[self::product_name]){
             return get_response_array(309, 'Bạn cần nhập tên sản phẩm.');
         }
         if($this->check_product([self::product_name=> $_REQUEST[self::product_name]])){
             return get_response_array(309, 'Tên sản phẩm đã tồn tại, vui lòng nhập lại.');
+        }
+
+        // Kiểm tra URL sản phẩm
+        if(!$_REQUEST[self::product_url]){
+            return get_response_array(309, 'Bạn cần nhập URL sản phẩm.');
+        }
+        if($this->check_product([self::product_url => $_REQUEST[self::product_url]])){
+            return get_response_array(309, 'URL sản phẩm đã tồn tại, vui lòng nhập lại.');
         }
 
         // Kiểm tra chọn chuyên mục
@@ -192,9 +196,9 @@ class Product{
 
         // Kiểm tra xem còn hàng trong kho không?
         if($_REQUEST[self::product_instock]){
-            $_REQUEST[self::product_featured] = 'instock';
+            $_REQUEST[self::product_instock] = 'instock';
         }else{
-            $_REQUEST[self::product_featured] = 'outofstock';
+            $_REQUEST[self::product_instock] = 'outofstock';
         }
 
         // Kiểm tra xem đơn vị tính là gì?
@@ -218,7 +222,7 @@ class Product{
             self::product_brand          => $db->escape($_REQUEST[self::product_brand]),
             self::product_price          => $db->escape($_REQUEST[self::product_price]),
             self::product_price_sale     => $db->escape($_REQUEST[self::product_price_sale]),
-            self::product_sale_percent   => $db->escape($_REQUEST[self::product_price_sale] ? (floor(($_REQUEST[self::product_price_sale] / $_REQUEST[self::product_price])) * 100) : 0),
+            self::product_sale_percent   => $this->get_sale_percent($_REQUEST[self::product_price], $_REQUEST[self::product_price_sale]),
             self::product_price_buy      => $db->escape($_REQUEST[self::product_price_buy]),
             self::product_price_vat      => $db->escape($_REQUEST[self::product_price_vat]),
             self::product_quantity       => 0,

@@ -242,7 +242,7 @@ switch ($path[1]){
                             }
                         );
                     });
-                    });
+                });
                 <?php
                 break;
             default:

@@ -1,5 +1,37 @@
 <?php
 switch ($path[2]){
+    case 'create_url':
+        // Kiểm tra quyền truy cập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        // Kiểm tra quyền truy cập
+        if(!$role['product']['add']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+        $title = sanitize_title($_REQUEST['product_name']);
+        echo $title;
+        break;
+    case 'add':
+        // Kiểm tra quyền truy cập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        // Kiểm tra quyền truy cập
+        if(!$role['product']['add']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        $product    = new Product($database);
+        $add        = $product->add();
+        echo encode_json($add);
+        break;
     case 'category':
         // Kiểm tra quyền truy cập
         if(!$role['product']['category']){

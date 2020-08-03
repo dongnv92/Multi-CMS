@@ -1,5 +1,9 @@
 <?php
 switch ($path[2]){
+    case 'test':
+        $product = new Product($database);
+        echo $product->get_sale_percent(10000000, 9500000);
+        break;
     case 'brand':
         // Kiểm tra quyền truy cập
         if(!$role['product']['brand']){
@@ -507,7 +511,7 @@ switch ($path[2]){
                             'placeholder'   => 'Nhập tên sản phẩm',
                             'autofocus'     => true,
                         ])?>
-                        <?=formInputTextarea('post_content', [
+                        <?=formInputTextarea('product_content', [
                             'class'    => 'summernote'
                         ])?>
                     </div>
@@ -529,11 +533,11 @@ switch ($path[2]){
                                     'layout'    => 'horizonta',
                                     'label'     => '<code>*</code> Giá bán thường (₫)'
                                 ])?>
-                                <?=formInputText('product_price', [
+                                <?=formInputText('product_price_sale', [
                                     'layout'    => 'horizonta',
                                     'label'     => 'Giá khuyến mãi (₫)'
                                 ])?>
-                                <?=formInputText('product_price', [
+                                <?=formInputText('product_price_buy', [
                                     'layout'    => 'horizonta',
                                     'label'     => 'Giá nhập (₫)'
                                 ])?>
@@ -552,7 +556,7 @@ switch ($path[2]){
                                         Giá đã gồm thuế?
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <?=formInputSwitch('product_vat', [
+                                        <?=formInputSwitch('product_price_vat', [
                                             'checked'   => $post['data']['post_feature'] == 'true' ? 'true' : '',
                                             'value'     => 'true',
                                             'label'     => ' '
@@ -561,7 +565,7 @@ switch ($path[2]){
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="second">
-                                <?=formInputText('product_code', [
+                                <?=formInputText('product_barcode', [
                                     'layout'    => 'horizonta',
                                     'label'     => 'Mã sản phẩm',
                                     'value'     => $product->create_barcode()
@@ -575,7 +579,7 @@ switch ($path[2]){
                                         Trạng thái kho hàng?
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <?=formInputSelect('product_stock_status', ['instock' => 'Còn hàng', 'outofstock' => 'Hết hàng'], [
+                                        <?=formInputSelect('product_instock', ['instock' => 'Còn hàng', 'outofstock' => 'Hết hàng'], [
                                             'data-live-search'  => 'true',
                                         ])?>
                                     </div>
@@ -583,7 +587,7 @@ switch ($path[2]){
                             </div>
                             <div role="tabpanel" class="tab-pane" id="images">
                                 <div class="form-group">
-                                    <input type="file" name="product_images" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" multiple />
+                                    <input type="file" name="product_image" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" multiple />
                                 </div>
                             </div>
                         </div>
@@ -595,7 +599,7 @@ switch ($path[2]){
                         <h2>Nội dung ngắn</h2>
                     </div>
                     <div class="body">
-                        <?=formInputTextarea('post_short_content', [
+                        <?=formInputTextarea('product_short_content', [
                             'class'    => 'summernote'
                         ])?>
                     </div>
@@ -653,7 +657,7 @@ switch ($path[2]){
                 <!--Hastag-->
                 <div class="card">
                     <div class="body">
-                        <?=formInputText('product_url', [
+                        <?=formInputText('product_hashtag', [
                             'label'         => '# Hashtag',
                             'data-role'     => 'tagsinput'
                         ])?>

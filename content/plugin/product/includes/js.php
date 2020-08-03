@@ -321,6 +321,9 @@ switch ($path[2]) {
         }
     break;
     case 'add':
+        if(!$role['product']['add']){
+            exit('Forbidden');
+        }
         ?>
         //<script>
         $(document).ready(function () {
@@ -346,6 +349,48 @@ switch ($path[2]) {
                     'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
                 }
             });
+
+            $('input[name=product_name]').focusout(function () {
+                var product_name = $(this).val();
+                $.post(
+                    '<?=URL_ADMIN_AJAX . "{$path[1]}/create_url/?product_name="?>' + product_name,
+                    function (data) {
+                        $('input[name=product_url]').val(data);
+                    }
+                );
+            });
+
+            $('#button_add').on('click', function () {
+                var ajax = $.ajax({
+                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : $('form').serialize(),
+                    beforeSend  : function () {
+                        $('#button_add').attr('disabled', true);
+                        $('#button_add').html('ĐANG THÊM ...');
+                    }
+                });
+                ajax.done(function (data) {
+                    if(data.response == 200){
+                        setTimeout(function () {
+                            show_notify(data.message, 'bg-green');
+                            $('#button_add').attr('disabled', false);
+                            $('#button_add').html('THÊM MỚI');
+                        }, 1500);
+                    }else{
+                        show_notify(data.message, 'bg-red');
+                        $('#button_add').attr('disabled', false);
+                        $('#button_add').html('THÊM MỚI');
+                    }
+                });
+
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $('#button_add').attr('disabled', false);
+                    $('#button_add').html('THÊM MỚI');
+                    alert( "Request failed: " + jqXHR.responseText );
+                });
+            })
         });
         <?php
         break;
