@@ -583,7 +583,7 @@ switch ($path[2]){
                             </div>
                             <div role="tabpanel" class="tab-pane" id="images">
                                 <div class="form-group">
-                                    <input type="file" name="product_image" id="input-file-now" class="dropify" data-allowed-file-extensions="jpg png" multiple />
+                                    <input type="file" name="product_images[]" id="product_images" class="dropify" data-allowed-file-extensions="jpg png" multiple />
                                 </div>
                             </div>
                         </div>
@@ -634,7 +634,7 @@ switch ($path[2]){
                 <div class="card">
                     <div class="body">
                         <?=formInputSelect('product_brand', $option_brand, [
-                            'label' => 'Brand Name <code>*</code>',
+                            'label' => 'Brand Name',
                             'data-live-search'  => 'true',
                         ])?>
                     </div>
@@ -654,7 +654,7 @@ switch ($path[2]){
                 <div class="card">
                     <div class="body">
                         <?=formInputText('product_hashtag', [
-                            'label'         => '# Hashtag',
+                            'label'         => '# Hashtag <code>(Phân cách bằng dấu phẩy hoặc phím enter)</code>',
                             'data-role'     => 'tagsinput'
                         ])?>
                     </div>

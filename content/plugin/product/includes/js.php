@@ -373,7 +373,7 @@ switch ($path[2]) {
                 });
                 ajax.done(function (data) {
                     if(data.response == 200){
-                        // Upload Ảnh
+                        // Upload ảnh sản phẩm
                         var file_data = $('#product_image').prop('files')[0];
                         var form_data = new FormData();
                         form_data.append('product_image', file_data);
@@ -387,14 +387,34 @@ switch ($path[2]) {
                             data: form_data,
                             type: 'post',
                             success: function () {
-                                setTimeout(function () {
-                                    show_notify(data.message, 'bg-green');
-                                    $('#button_add').attr('disabled', false);
-                                    $('#button_add').html('THÊM MỚI');
-                                }, 1500);
                             }
                         });
-                        // Upload Ảnh
+                        // Upload ảnh sản phẩm
+                        // Upload Danh sách ảnh sản phẩm
+                        var form_data_1 = new FormData();
+                        var ins = document.getElementById('product_images').files.length;
+                        for (var x = 0; x < ins; x++) {
+                            form_data_1.append("product_images[]", document.getElementById('product_images').files[x]);
+                        }
+                        form_data_1.append('product_id', data.data);
+                        $.ajax({
+                            url: '<?=URL_ADMIN_AJAX . "{$path[1]}/add_images/"?>', // point to server-side controller method
+                            dataType: 'text', // what to expect back from the server
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data_1,
+                            type: 'post',
+                            success: function (data_images) {
+
+                            }
+                        });
+                        // Upload Danh sách ảnh sản phẩm
+                        setTimeout(function () {
+                            show_notify(data.message, 'bg-green');
+                            $('#button_add').attr('disabled', false);
+                            $('#button_add').html('THÊM MỚI');
+                        }, 1500);
                     }else{
                         show_notify(data.message, 'bg-red');
                         $('#button_add').attr('disabled', false);
