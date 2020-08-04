@@ -1,4 +1,5 @@
 <?php
+define('CURRENCY', '₫');
 class Product{
     private $db;
     const table                  = 'dong_product';
@@ -50,10 +51,24 @@ class Product{
         $where      = [];
         $pagination = [];
 
+        // Nếu có param id chuyên mục
+        if($_REQUEST[self::product_category]){
+            if($this->check_category($_REQUEST[self::product_category])){
+                $where[self::product_category] = $_REQUEST[self::product_category];
+            }
+        }
+
         // Tính tổng data
         $db->select('COUNT(*) AS count_data')->from(self::table);
         if($_REQUEST['search']){
-            $db->where(get_query_search($_REQUEST['search'], [self::customer_code, self::customer_name, self::customer_phone, self::customer_address, self::customer_email]));
+            $db->where(get_query_search($_REQUEST['search'], [
+                self::product_barcode,
+                self::product_sku,
+                self::product_name,
+                self::product_content,
+                self::product_short_content,
+                self::product_hashtag
+            ]));
         }
         if($where){
             $db->where($where);
@@ -70,7 +85,14 @@ class Product{
         // Hiển thị dữ liệu theo số liệu nhập vào
         $db->select('*')->from(self::table);
         if($_REQUEST['search']){
-            $db->where(get_query_search($_REQUEST['search'], [self::customer_code, self::customer_name, self::customer_phone, self::customer_address, self::customer_email]));
+            $db->where(get_query_search($_REQUEST['search'], [
+                self::product_barcode,
+                self::product_sku,
+                self::product_name,
+                self::product_content,
+                self::product_short_content,
+                self::product_hashtag
+            ]));
         }
         if($where){
             $db->where($where);
@@ -84,7 +106,7 @@ class Product{
                 $db->order_by($sort[0], $sort[1]);
             }
         }else{
-            $db->order_by(self::customer_id, 'desc');
+            $db->order_by(self::product_id, 'desc');
         }
         $data = $db->fetch();
         $response = [

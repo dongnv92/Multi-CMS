@@ -1,4 +1,5 @@
 <?php
+require_once ABSPATH . PATH_PLUGIN . "product/includes/function-nomal.php";
 switch ($path[2]){
     case 'brand':
         // Kiểm tra quyền truy cập
@@ -676,5 +677,145 @@ switch ($path[2]){
         <?php
         echo formClose();
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+        break;
+    default:
+        // Kiểm tra quyền truy cập
+        if(!$role['product']['manager']){
+            $header['title']    = 'Truy cập không hợp lệ';
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_breadcrumbs('Sản phẩm', 'Quản lý sản phẩm','quản lý', [URL_ADMIN . "/{$path[1]}/" => 'Sản phẩm']);
+            echo admin_error('Truy cập không hợp lệ', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+        // Lấy dữ liệu
+        $product    = new Product($database);
+        $data       = $product->get_all();
+        $param      = get_param_defaul();
+        $category   = new meta($database, 'product_category');
+        $category   = $category->get_data_select(['0' => 'Chuyên mục']);
+
+        $header['css']      = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
+        ];
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
+            URL_JS . "{$path[1]}",
+        ];
+        $header['title'] = 'Quản lý sản phẩm';
+        require_once ABSPATH . PATH_ADMIN . '/admin-header.php';
+        echo admin_breadcrumbs('Sản phẩm', 'Quản lý sản phẩm','Quản lý sản phẩm', [URL_ADMIN . "/{$path[1]}/" => 'Sản phẩm']);
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card action_bar m-t-15">
+                    <?=formOpen('', ['method' => 'GET'])?>
+                    <div class="row" style="margin-left : 5px; margin-right : 5px">
+                        <div class="col-lg-4 col-md-6 hidden-sm-down">
+                            <div class="input-group m-t-10">
+                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
+                                <div class="form-line">
+                                    <input type="text" autofocus name="search" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Tìm kiếm ...">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('product_category', $category, ['data-live-search' => 'true', 'selected' => $_REQUEST['product_category']])?>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
+                            <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                        </div>
+                    </div>
+                    <?=formClose()?>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="content table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th style="width: 5%" class="text-center align-middle">Ảnh</th>
+                                <th style="width: 24%" class="text-left align-middle">Tên sản phẩm</th>
+                                <th style="width: 8%" class="text-center align-middle">Mã SP</th>
+                                <th style="width: 13%" class="text-center align-middle">Giá</th>
+                                <th style="width: 7%" class="text-center align-middle">Số lượng</th>
+                                <th style="width: 7%" class="text-center align-middle">Nổi bật</th>
+                                <th style="width: 8%" class="text-center align-middle">Kho</th>
+                                <th style="width: 8%" class="text-center align-middle">Danh Mục</th>
+                                <th style="width: 10%" class="text-center align-middle">Brand</th>
+                                <th style="width: 10%" class="text-center align-middle">Thời gian</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if($data['paging']['count_data'] == 0){?>
+                                <tr>
+                                    <td colspan="10" class="text-center">Dữ liệu trống</td>
+                                </tr>
+                            <?php }?>
+                            <?php
+                            foreach ($data['data'] AS $row){
+                                $product_user       = new user($database);
+                                $product_user       = $product_user->get_user(['user_id' => $row['category_user']], 'user_name');
+                                $product_category   = new meta($database, 'product_category');
+                                $product_category   = $product_category->get_meta($row['product_category'], 'meta_name');
+                                if($row['product_brand']){
+                                    $product_brand   = new meta($database, 'product_brand');
+                                    $product_brand   = $product_brand->get_meta($row['product_brand'], 'meta_name');
+                                }
+                                ?>
+                                <tr>
+                                    <td class="text-center align-middle">
+                                        <img src="<?=URL_HOME . "/" . $row['product_image']?>" class="rounded" height="60px">
+                                    </td>
+                                    <td class="text-left align-middle font-weight-bold">
+                                        <?=$row['product_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_barcode']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_price_sale'] ? "<del>". convert_number_to_money($row['product_price']) ." ". CURRENCY ."</del><br />". convert_number_to_money($row['product_price_sale']) ." ".CURRENCY : convert_number_to_money($row['product_price']). ' '.CURRENCY?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_quantity']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_featured'] ? '<i class="material-icons text-secondary">star</i>' : '<i class="material-icons text-secondary">star_border</i>'?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_instock'] == 'instock' ? '<span class="text-success">Còn hàng</span>' : '<span class="text-danger">Hết hàng</span>'?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$product_category['data']['meta_name']?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_brand'] ? $product_brand['data']['meta_name'] : '---'?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$row['product_last_update'] ? "Sửa lần cuối <p>". view_date_time($row['product_last_update']) ."</p>" : 'Đăng lúc <p>'. view_date_time($row['product_time']) .'</p>'?>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            <tr>
+                                <td colspan="10" class="text-left">
+                                    Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                    Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-center clearfix">
+                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
+                </div>
+            </div>
+        </div>
+        <?php
+        require_once ABSPATH . PATH_ADMIN . '/admin-footer.php';
         break;
 }
