@@ -708,6 +708,9 @@ switch ($path[2]){
         ?>
         <div class="row">
             <div class="col-lg-12">
+                <a href="<?=URL_ADMIN . "/{$path[1]}/"?>" class="text-small">Tất cả</a> | <a href="<?=URL_ADMIN . "/{$path[1]}/?product_status=public"?>" class="text-small">Đã xuất bản</a> | <a href="<?=URL_ADMIN . "/{$path[1]}/?product_status=hide"?>" class="text-small text-danger">Thùng rác</a>
+            </div>
+            <div class="col-lg-12">
                 <div class="card action_bar m-t-15">
                     <?=formOpen('', ['method' => 'GET'])?>
                     <div class="row" style="margin-left : 5px; margin-right : 5px">
@@ -738,13 +741,12 @@ switch ($path[2]){
                         <table class="table table-hover mb-0">
                             <thead>
                             <tr>
-                                <th style="width: 5%" class="text-center align-middle">Ảnh</th>
-                                <th style="width: 24%" class="text-left align-middle">Tên sản phẩm</th>
+                                <th style="width: 7%" class="text-center align-middle">Ảnh</th>
+                                <th style="width: 27%" class="text-left align-middle">Tên sản phẩm</th>
                                 <th style="width: 8%" class="text-center align-middle">Mã SP</th>
                                 <th style="width: 13%" class="text-center align-middle">Giá</th>
-                                <th style="width: 7%" class="text-center align-middle">Số lượng</th>
                                 <th style="width: 7%" class="text-center align-middle">Nổi bật</th>
-                                <th style="width: 8%" class="text-center align-middle">Kho</th>
+                                <th style="width: 10%" class="text-center align-middle">Kho</th>
                                 <th style="width: 8%" class="text-center align-middle">Danh Mục</th>
                                 <th style="width: 10%" class="text-center align-middle">Brand</th>
                                 <th style="width: 10%" class="text-center align-middle">Thời gian</th>
@@ -753,7 +755,7 @@ switch ($path[2]){
                             <tbody>
                             <?php if($data['paging']['count_data'] == 0){?>
                                 <tr>
-                                    <td colspan="10" class="text-center">Dữ liệu trống</td>
+                                    <td colspan="9" class="text-center">Dữ liệu trống</td>
                                 </tr>
                             <?php }?>
                             <?php
@@ -767,12 +769,16 @@ switch ($path[2]){
                                     $product_brand   = $product_brand->get_meta($row['product_brand'], 'meta_name');
                                 }
                                 ?>
-                                <tr>
+                                <tr data-label="manager" data-id="<?=$row['product_id']?>">
                                     <td class="text-center align-middle">
                                         <img src="<?=URL_HOME . "/" . $row['product_image']?>" class="rounded" height="60px">
                                     </td>
                                     <td class="text-left align-middle font-weight-bold">
-                                        <?=$row['product_name']?>
+                                        <?=$row['product_name']?><br />
+                                        <p id="hide_<?=$row['product_id']?>" style="display: none">
+                                            <small>ID: <?=$row['product_id']?> | <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['product_id']}"?>">Chỉnh sửa</a> | <a href="#" class="text-danger">Xoá</a></small>
+                                        </p>
+                                        <p id="show_<?=$row['product_id']?>"><br /></p>
                                     </td>
                                     <td class="text-center align-middle">
                                         <?=$row['product_barcode']?>
@@ -781,19 +787,16 @@ switch ($path[2]){
                                         <?=$row['product_price_sale'] ? "<del>". convert_number_to_money($row['product_price']) ." ". CURRENCY ."</del><br />". convert_number_to_money($row['product_price_sale']) ." ".CURRENCY : convert_number_to_money($row['product_price']). ' '.CURRENCY?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['product_quantity']?>
-                                    </td>
-                                    <td class="text-center align-middle">
                                         <?=$row['product_featured'] ? '<i class="material-icons text-secondary">star</i>' : '<i class="material-icons text-secondary">star_border</i>'?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['product_instock'] == 'instock' ? '<span class="text-success">Còn hàng</span>' : '<span class="text-danger">Hết hàng</span>'?>
+                                        <?=$row['product_instock'] == 'instock' ? '<span class="text-success font-weight-bold">Còn hàng</span> ('. $row['product_quantity'] .')' : '<span class="text-danger font-weight-bold">Hết hàng</span>'?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$product_category['data']['meta_name']?>
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/?product_category={$row['product_category']}"?>"><?=$product_category['data']['meta_name']?></a>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['product_brand'] ? $product_brand['data']['meta_name'] : '---'?>
+                                        <?=$row['product_brand'] ? '<a href="'. URL_ADMIN .'/'. $path[1] .'/?product_brand='. $row['product_brand'] .'">'. $product_brand['data']['meta_name'] .'</a>' : '---'?>
                                     </td>
                                     <td class="text-center align-middle">
                                         <?=$row['product_last_update'] ? "Sửa lần cuối <p>". view_date_time($row['product_last_update']) ."</p>" : 'Đăng lúc <p>'. view_date_time($row['product_time']) .'</p>'?>
@@ -801,7 +804,7 @@ switch ($path[2]){
                                 </tr>
                             <?php }?>
                             <tr>
-                                <td colspan="10" class="text-left">
+                                <td colspan="9" class="text-left">
                                     Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
                                     Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
                                 </td>

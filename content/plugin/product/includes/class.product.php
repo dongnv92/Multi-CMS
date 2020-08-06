@@ -28,6 +28,8 @@ class Product{
     const product_time           = 'product_time';
     const product_last_update    = 'product_last_update';
 
+    const product_status_value  = ['hide', 'public'];
+
     public function __construct($db){
         $this->db = $db;
     }
@@ -51,11 +53,23 @@ class Product{
         $where      = [];
         $pagination = [];
 
-        // Nếu có param id chuyên mục
+        // Lọc chuyên mục
         if($_REQUEST[self::product_category]){
             if($this->check_category($_REQUEST[self::product_category])){
                 $where[self::product_category] = $_REQUEST[self::product_category];
             }
+        }
+
+        // Lọc Brand
+        if($_REQUEST[self::product_brand]){
+            if($this->check_brand($_REQUEST[self::product_brand])){
+                $where[self::product_brand] = $_REQUEST[self::product_brand];
+            }
+        }
+
+        // Lọc trạng thái
+        if($_REQUEST[self::product_status] && in_array($_REQUEST[self::product_status], self::product_status_value)){
+            $where[self::product_status] = $_REQUEST[self::product_status];
         }
 
         // Tính tổng data

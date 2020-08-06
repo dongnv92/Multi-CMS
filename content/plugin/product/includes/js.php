@@ -431,4 +431,20 @@ switch ($path[2]) {
         });
         <?php
         break;
+    default:
+        ?>
+        $(document).ready(function () {
+            // Product Manager
+            $('tr[data-label=manager]').hover(function () {
+                var product_id = $(this).data('id');
+                $('#show_'+product_id).hide();
+                $('#hide_'+product_id).show().fadeIn(500);
+            }, function () {
+                var product_id = $(this).data('id');
+                $('#show_' + product_id).show();
+                $('#hide_' + product_id).hide();
+            });
+        });
+        <?php
+        break;
 }
