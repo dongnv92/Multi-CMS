@@ -443,6 +443,12 @@ switch ($path[2]) {
                 tabsize: 2,
                 height: 200
             });
+
+            $('#aniimated-thumbnials').lightGallery({
+                thumbnail: true,
+                selector: 'a'
+            });
+
             var drEvent = $('.dropify').dropify({
                 messages: {
                     'default': '<center>Kéo, thả File vào đây hoặc Bấm để tải file</center>',

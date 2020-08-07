@@ -494,15 +494,21 @@ switch ($path[2]){
         $option_brand = new meta($database, 'product_brand');
         $option_brand = $option_brand->get_data_select([0 => 'Chọn Brand']);
 
+        // Get List Images
+        $images = new Media($database);
+        $images = $images->get_list_data('product', $path[3]);
+
         $header['title']    = 'Cập nhật sản phẩm';
         $header['css']      = [
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css',
             URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.css',
+            URL_ADMIN_ASSETS . 'plugins/light-gallery/css/lightgallery.css',
             URL_ADMIN_ASSETS . 'plugins/dropify/css/dropify.min.css'
         ];
         $header['js']       = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
+            URL_ADMIN_ASSETS . 'plugins/light-gallery/js/lightgallery-all.js',
             URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.js',
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
             URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
@@ -536,6 +542,7 @@ switch ($path[2]){
                             <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#first">Chung</a></li>
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#second">Kiểm kê kho</a></li>
                             <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#images">Danh sách ảnh</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#upload_images">Tải thêm ảnh</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
@@ -603,6 +610,20 @@ switch ($path[2]){
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="images">
+                                <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
+                                    <?php if($images){?>
+                                    <?php foreach ($images AS $_images){?>
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-20">
+                                        <a href="<?=URL_HOME . '/' . $_images['file_path']?>" data-sub-html="Ảnh sản phẩm <?=$data['product_name']?>">
+                                            <img class="img-fluid img-thumbnail" src="<?=URL_HOME . '/' . $_images['file_path']?>" alt="">
+                                        </a>
+                                        <div class="text-danger text-center"><small>Xóa ảnh</small></div>
+                                    </div>
+                                    <?php }?>
+                                    <?php }?>
+                                </div>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="upload_images">
                                 <div class="form-group">
                                     <input type="file" name="product_images[]" id="product_images" class="dropify" data-allowed-file-extensions="jpg png" multiple />
                                 </div>

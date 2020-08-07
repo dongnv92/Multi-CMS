@@ -2,6 +2,7 @@
 class Media{
     private $db;
     const table             = 'dong_files';         // Tên bảng
+    const file_id           = 'file_id';            // ID tập tin
     const file_type         = 'file_type';          // Từ khoá tập tin
     const file_path         = 'file_path';          // Đường đẫn đến file
     const file_name         = 'file_name';          // Tên File
@@ -16,6 +17,41 @@ class Media{
 
     public function __construct($database){
         $this->db = $database;
+    }
+
+    public function get_list_data($file_type, $file_attackment){
+        if(!in_array($file_type, self::file_type_allow)){
+            return get_response_array(309, 'Từ khoá tập tin không hợp lệ.');
+        }
+        $db     = $this->db;
+        $data   = $db->select()->from(self::table)->where([self::file_type => $file_type, self::file_attackment => $file_attackment])->fetch();
+        if(!$data){
+            return false;
+        }
+        return $data;
+    }
+
+    public function delete_file($file_type, $file_id){
+        if(!in_array($file_type, self::file_type_allow)){
+            return get_response_array(309, 'Từ khoá tập tin không hợp lệ.');
+        }
+        $db     = $this->db;
+        $file   = $db->from(self::table)->where([self::file_type => $file_type, self::file_id => $file_id])->fetch_first();
+        if(!$file){
+            return get_response_array(309, 'Id tập tin không tồn tại');
+        }
+        $path = ABSPATH . $file[self::file_path];
+        if(file_exists($path)){
+            if(unlink($path)){
+                $delete = $db->delete()->from(self::table)->where(self::file_id, $file_id)->limit(1)->execute();
+                if($delete){
+                    return get_response_array(200, 'Xóa tập tin thành công.');
+                }
+                return get_response_array(309, 'Xóa tập tin không thành công.');
+            }
+            return get_response_array(309, 'Xóa tập tin không thành công.');
+        }
+        return get_response_array(309, 'Xóa tập tin không thành công.');
     }
 
     public function add($file_type, $file_attackment){

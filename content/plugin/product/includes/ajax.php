@@ -1,5 +1,19 @@
 <?php
 switch ($path[2]){
+    case 'delete_image':
+        // Kiểm tra đăng nhập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+        if(!$role['product']['update']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+        $media = new Media($database);
+        $media = $media->delete_file('product', $path[3]);
+        echo $media;
+        break;
     case 'add_images':
         // Kiểm tra đăng nhập
         if(!$me) {
