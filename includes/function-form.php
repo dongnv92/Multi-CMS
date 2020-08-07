@@ -466,6 +466,9 @@ function formInputCheckbox($name, $data, $attribute = []){
                         break;
                     case 'div_class_parent' :
                     case 'layout'  :
+                    case 'checked':
+                        $form_attribute .= $value == 'checked' ? ' checked="checked" ' : '';
+                        break;
                     case 'value'  :
                         $form_attribute .= '';
                         break;

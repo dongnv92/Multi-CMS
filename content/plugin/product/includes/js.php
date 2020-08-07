@@ -431,6 +431,107 @@ switch ($path[2]) {
         });
         <?php
         break;
+    case 'update':
+        if(!$role['product']['update']){
+            exit('Forbidden');
+        }
+        ?>
+        //<script>
+        $(document).ready(function () {
+            $('.summernote').summernote({
+                placeholder: 'Nhập nội dung',
+                tabsize: 2,
+                height: 200
+            });
+            var drEvent = $('.dropify').dropify({
+                messages: {
+                    'default': '<center>Kéo, thả File vào đây hoặc Bấm để tải file</center>',
+                    'replace': 'Kéo thả hoặc bấm để đổi File',
+                    'remove':  'Xóa',
+                    'error':   'Ohhh có lỗi rồi.'
+                },
+                error: {
+                    'fileSize': 'Tập tin quá nặng.).',
+                    'minWidth': 'The image width is too small ({{ value }}}px min).',
+                    'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                    'minHeight': 'The image height is too small ({{ value }}}px min).',
+                    'maxHeight': 'The image height is too big ({{ value }}px max).',
+                    'imageFormat': 'Chỉ hỗ trợ file ảnh ({{ value }} ).',
+                    'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
+                }
+            });
+
+            $('#button_update').on('click', function () {
+                var ajax = $.ajax({
+                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : $('form').serialize(),
+                    beforeSend  : function () {
+                        $('#button_update').attr('disabled', true);
+                        $('#button_update').html('ĐANG CẬP NHẬT ...');
+                    }
+                });
+                ajax.done(function (data) {
+                    if(data.response == 200){
+                        // Upload ảnh sản phẩm
+                        var file_data = $('#product_image').prop('files')[0];
+                        var form_data = new FormData();
+                        form_data.append('product_image', file_data);
+                        form_data.append('product_id', data.data);
+                        $.ajax({
+                            url: '<?=URL_ADMIN_AJAX . "{$path[1]}/update_product_image/"?>', // point to server-side controller method
+                            dataType: 'text', // what to expect back from the server
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data,
+                            type: 'post',
+                            success: function () {
+                            }
+                        });
+                        // Upload ảnh sản phẩm
+                        // Upload Danh sách ảnh sản phẩm
+                        var form_data_1 = new FormData();
+                        var ins = document.getElementById('product_images').files.length;
+                        for (var x = 0; x < ins; x++) {
+                            form_data_1.append("product_images[]", document.getElementById('product_images').files[x]);
+                        }
+                        form_data_1.append('product_id', data.data);
+                        $.ajax({
+                            url: '<?=URL_ADMIN_AJAX . "{$path[1]}/add_images/"?>', // point to server-side controller method
+                            dataType: 'text', // what to expect back from the server
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            data: form_data_1,
+                            type: 'post',
+                            success: function (data_images) {
+
+                            }
+                        });
+                        // Upload Danh sách ảnh sản phẩm
+                        setTimeout(function () {
+                            show_notify(data.message, 'bg-green');
+                            $('#button_update').attr('disabled', false);
+                            $('#button_update').html('CẬP NHẬT');
+                        }, 1500);
+                    }else{
+                        show_notify(data.message, 'bg-red');
+                        $('#button_update').attr('disabled', false);
+                        $('#button_update').html('CẬP NHẬT');
+                    }
+                });
+
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $('#button_update').attr('disabled', false);
+                    $('#button_update').html('CẬP NHẬT');
+                    alert( "Request failed: " + jqXHR.responseText );
+                });
+            })
+        });
+        <?php
+        break;
     default:
         ?>
         $(document).ready(function () {
