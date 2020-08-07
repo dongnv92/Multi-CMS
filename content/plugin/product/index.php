@@ -475,6 +475,8 @@ switch ($path[2]){
         $product    = new Product($database);
         $data       = $product->get_product(['product_id' => $path[3]]);
 
+        $unit_product_option = $product->get_unit();
+
         if(!$data){
             $header['title'] = 'Sản phẩm không tồn tại.';
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
@@ -503,7 +505,7 @@ switch ($path[2]){
             URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
             URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.js',
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
-            URL_JS . "{$path[1]}/{$path[2]}"
+            URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
         ];
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
         echo admin_breadcrumbs('Sản phẩm', 'Cập nhật sản phẩm','Cập nhật', [URL_ADMIN . "/{$path[1]}/" => 'Sản phẩm']);

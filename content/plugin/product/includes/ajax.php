@@ -227,4 +227,21 @@ switch ($path[2]){
                 break;
         }
         break;
+    case 'update':
+        // Kiểm tra quyền truy cập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        // Kiểm tra quyền truy cập
+        if(!$role['product']['update']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        $product    = new Product($database);
+        $action     = $product->update($path[3]);
+        echo encode_json($action);
+        break;
 }

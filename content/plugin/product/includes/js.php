@@ -461,15 +461,15 @@ switch ($path[2]) {
                 }
             });
 
-            $('#button_update').on('click', function () {
+            $('#button_submit').on('click', function () {
                 var ajax = $.ajax({
-                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
                     method      : 'POST',
                     dataType    : 'json',
                     data        : $('form').serialize(),
                     beforeSend  : function () {
-                        $('#button_update').attr('disabled', true);
-                        $('#button_update').html('ĐANG CẬP NHẬT ...');
+                        $('#button_submit').attr('disabled', true);
+                        $('#button_submit').html('ĐANG CẬP NHẬT ...');
                     }
                 });
                 ajax.done(function (data) {
@@ -478,7 +478,7 @@ switch ($path[2]) {
                         var file_data = $('#product_image').prop('files')[0];
                         var form_data = new FormData();
                         form_data.append('product_image', file_data);
-                        form_data.append('product_id', data.data);
+                        form_data.append('product_id', '<?=$path[3]?>');
                         $.ajax({
                             url: '<?=URL_ADMIN_AJAX . "{$path[1]}/update_product_image/"?>', // point to server-side controller method
                             dataType: 'text', // what to expect back from the server
@@ -497,7 +497,7 @@ switch ($path[2]) {
                         for (var x = 0; x < ins; x++) {
                             form_data_1.append("product_images[]", document.getElementById('product_images').files[x]);
                         }
-                        form_data_1.append('product_id', data.data);
+                        form_data_1.append('product_id', '<?=$path[3]?>');
                         $.ajax({
                             url: '<?=URL_ADMIN_AJAX . "{$path[1]}/add_images/"?>', // point to server-side controller method
                             dataType: 'text', // what to expect back from the server
@@ -513,19 +513,19 @@ switch ($path[2]) {
                         // Upload Danh sách ảnh sản phẩm
                         setTimeout(function () {
                             show_notify(data.message, 'bg-green');
-                            $('#button_update').attr('disabled', false);
-                            $('#button_update').html('CẬP NHẬT');
+                            $('#button_submit').attr('disabled', false);
+                            $('#button_submit').html('CẬP NHẬT');
                         }, 1500);
                     }else{
                         show_notify(data.message, 'bg-red');
-                        $('#button_update').attr('disabled', false);
-                        $('#button_update').html('CẬP NHẬT');
+                        $('#button_submit').attr('disabled', false);
+                        $('#button_submit').html('CẬP NHẬT');
                     }
                 });
 
                 ajax.fail(function( jqXHR, textStatus ) {
-                    $('#button_update').attr('disabled', false);
-                    $('#button_update').html('CẬP NHẬT');
+                    $('#button_submit').attr('disabled', false);
+                    $('#button_submit').html('CẬP NHẬT');
                     alert( "Request failed: " + jqXHR.responseText );
                 });
             })
