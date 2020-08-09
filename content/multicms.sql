@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th8 04, 2020 lúc 12:41 PM
--- Phiên bản máy phục vụ: 10.1.35-MariaDB
--- Phiên bản PHP: 7.2.9
+-- Thời gian đã tạo: Th8 09, 2020 lúc 05:01 PM
+-- Phiên bản máy phục vụ: 10.1.36-MariaDB
+-- Phiên bản PHP: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -74,10 +74,7 @@ CREATE TABLE `dong_files` (
 --
 
 INSERT INTO `dong_files` (`file_id`, `file_type`, `file_path`, `file_name`, `file_extension`, `file_size`, `file_attackment`, `file_download`, `file_user`, `file_time`) VALUES
-(1, 'product', 'content/uploads/product/I9DxCXUng0pOfGk.png', 'I9DxCXUng0pOfGk.png', 'png', 4281, 3, 0, 1, '2020-08-04 16:05:59'),
 (2, 'product', 'content/uploads/product/Y1uS06iHdwOChjD.png', 'Y1uS06iHdwOChjD.png', 'png', 20214, 3, 0, 1, '2020-08-04 16:05:59'),
-(3, 'product', 'content/uploads/product/s17iIoWqOXnhEp_.png', 's17iIoWqOXnhEp_.png', 'png', 24924, 3, 0, 1, '2020-08-04 16:05:59'),
-(4, 'product', 'content/uploads/product/MdJmfWkaY2AQKR0.png', 'MdJmfWkaY2AQKR0.png', 'png', 54730, 3, 0, 1, '2020-08-04 16:05:59'),
 (5, 'product', 'content/uploads/product/aDCkXP9K7RA1sGt.png', 'aDCkXP9K7RA1sGt.png', 'png', 6191, 3, 0, 1, '2020-08-04 16:05:59');
 
 -- --------------------------------------------------------
@@ -190,7 +187,7 @@ CREATE TABLE `dong_product` (
 INSERT INTO `dong_product` (`product_id`, `product_barcode`, `product_sku`, `product_url`, `product_name`, `product_short_content`, `product_content`, `product_hashtag`, `product_category`, `product_image`, `product_brand`, `product_price`, `product_price_sale`, `product_sale_percent`, `product_price_buy`, `product_price_vat`, `product_quantity`, `product_user`, `product_featured`, `product_status`, `product_instock`, `product_unit`, `product_time`, `product_last_update`) VALUES
 (1, '8881596508113', 'SANPHAMTESTHAI', 'san-pham-test', 'Sản phẩm test', '<h2 style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 15px; color: rgb(33, 33, 33);\">Nội dung ngắn</h2>', '<p>Sản phẩm test<br></p>', 'Hashtag', 14, 'content/uploads/product/b4IxkoXlcMQPBJ_.png', 25, 1000000, 950000, 5, 900000, 'true', 0, 1, 'true', 'public', 'instock', 1, '2020-08-04 09:33:12', NULL),
 (2, '8881596511542', '', 'dsgsdg', 'dsgsdg', '', '', '', 12, 'content/assets/images/system/noimage.jpg', 0, 0, 0, 0, 0, '', 0, 1, '', 'public', 'instock', 1, '2020-08-04 10:25:55', NULL),
-(3, '8881596531636', 'IPHONEX64BLACK', 'iphone-x-64g-black', 'Iphone x 64G Black', '<p>Nội Dung Ngắn</p>', '<p>Hello&nbsp;&nbsp;&nbsp;&nbsp;</p>', 'Hashtag ,ầ,à,âfas,àasf', 14, 'content/uploads/product/LjyDtfEHv5zRcq9.png', 25, 10000000, 9500000, 5, 9000000, 'true', 0, 1, 'true', 'public', 'instock', 1, '2020-08-04 16:05:59', NULL);
+(3, '8881596531636', 'IPHONEX64BLACK', 'iphone-x-64g-black', 'Iphone x 64G Black', '<p>Nội Dung Ngắn</p>', '<p>Hello :)</p>', 'Hashtag ,ầ,à,âfas,àasf', 14, 'content/uploads/product/LjyDtfEHv5zRcq9.png', 25, 10000000, 9500000, 5, 9000000, 'true', 0, 1, 'true', 'public', 'instock', 1, '2020-08-04 16:05:59', '2020-08-09 21:54:53');
 
 -- --------------------------------------------------------
 
@@ -316,13 +313,13 @@ ALTER TABLE `dong_customer`
 -- AUTO_INCREMENT cho bảng `dong_files`
 --
 ALTER TABLE `dong_files`
-  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `file_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_post`

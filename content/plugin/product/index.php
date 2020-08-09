@@ -502,12 +502,14 @@ switch ($path[2]){
         $header['css']      = [
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.css',
             URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.css',
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css',
             URL_ADMIN_ASSETS . 'plugins/light-gallery/css/lightgallery.css',
             URL_ADMIN_ASSETS . 'plugins/dropify/css/dropify.min.css'
         ];
         $header['js']       = [
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_ADMIN_ASSETS . 'plugins/dropify/js/dropify.min.js',
+            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
             URL_ADMIN_ASSETS . 'plugins/light-gallery/js/lightgallery-all.js',
             URL_ADMIN_ASSETS . 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.js',
             URL_ADMIN_ASSETS . 'plugins/summernote/summernote.js',
@@ -611,16 +613,16 @@ switch ($path[2]){
                             </div>
                             <div role="tabpanel" class="tab-pane" id="images">
                                 <div id="aniimated-thumbnials" class="list-unstyled row clearfix">
-                                    <?php if($images){?>
+                                <?php if($images){?>
                                     <?php foreach ($images AS $_images){?>
-                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-20">
+                                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 m-b-20" id="list_image_<?=$_images['file_id']?>">
                                         <a href="<?=URL_HOME . '/' . $_images['file_path']?>" data-sub-html="Ảnh sản phẩm <?=$data['product_name']?>">
                                             <img class="img-fluid img-thumbnail" src="<?=URL_HOME . '/' . $_images['file_path']?>" alt="">
                                         </a>
-                                        <div class="text-danger text-center"><small>Xóa ảnh</small></div>
+                                        <div class="text-danger text-center" data-type="delete_image" data-id="<?=$_images['file_id']?>"><small>Xóa ảnh</small></div>
                                     </div>
                                     <?php }?>
-                                    <?php }?>
+                                <?php }?>
                                 </div>
                             </div>
                             <div role="tabpanel" class="tab-pane" id="upload_images">
@@ -1038,7 +1040,11 @@ switch ($path[2]){
                                     <td class="text-left align-middle font-weight-bold">
                                         <?=$row['product_name']?><br />
                                         <p id="hide_<?=$row['product_id']?>" style="display: none">
-                                            <small>ID: <?=$row['product_id']?> | <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['product_id']}"?>">Chỉnh sửa</a> | <a href="#" class="text-danger">Xoá</a></small>
+                                            <small>
+                                                ID: <?=$row['product_id']?> |
+                                                <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['product_id']}"?>">Chỉnh sửa</a> |
+                                                <a href="javascript:;" class="text-danger" data-type="product_delete" data-id="<?=$row['product_id']?>">Xoá</a>
+                                            </small>
                                         </p>
                                         <p id="show_<?=$row['product_id']?>"><br /></p>
                                     </td>

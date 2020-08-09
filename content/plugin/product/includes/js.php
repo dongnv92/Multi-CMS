@@ -449,6 +449,39 @@ switch ($path[2]) {
                 selector: 'a'
             });
 
+            $('div[data-type=delete_image]').on('click', function () {
+                var image_id = $(this).data('id');
+                swal({
+                    title: "Xóa ảnh",
+                    text: "Bạn có chắc chắn muốn ảnh sản phẩm này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function () {
+                    setTimeout(function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete_image/' + image_id,
+                            method      : 'POST',
+                            dataType    : 'json',
+                        });
+                        ajax.done(function (data) {
+                            if(data.response == 200){
+                                setTimeout(function () {
+                                    $('#list_image_' + image_id).remove();
+                                    swal("Xóa ảnh", "Xóa ảnh thành công!", "success");
+                                }, 1000);
+                            }else{
+                                swal("Xóa ảnh", data.message, "error");
+                            }
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            console.log("Request failed: " + textStatus );
+                        });
+                    }, 2000);
+                });
+            });
+
             var drEvent = $('.dropify').dropify({
                 messages: {
                     'default': '<center>Kéo, thả File vào đây hoặc Bấm để tải file</center>',
@@ -550,6 +583,39 @@ switch ($path[2]) {
                 var product_id = $(this).data('id');
                 $('#show_' + product_id).show();
                 $('#hide_' + product_id).hide();
+            });
+
+            // Delete
+            $('div[data-type=product_delete]').on('click', function () {
+                var product_id = $(this).data('id');
+                swal({
+                    title: "Xóa sản phẩm",
+                    text: "Bạn có chắc chắn muốn sản phẩm này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function () {
+                    setTimeout(function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + product_id,
+                            method      : 'POST',
+                            dataType    : 'json',
+                        });
+                        ajax.done(function (data) {
+                            if(data.response == 200){
+                                setTimeout(function () {
+                                    swal("Xóa sản phẩm", 'Xóa sản phẩm thành công', "success");
+                                }, 1000);
+                            }else{
+                                swal("Xóa sản phẩm", data.message, "error");
+                            }
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            console.log("Request failed: " + textStatus );
+                        });
+                    }, 2000);
+                });
             });
         });
         <?php
