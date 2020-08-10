@@ -12,7 +12,7 @@ switch ($path[2]){
         }
         $media = new Media($database);
         $media = $media->delete_file('product', $path[3]);
-        echo $media;
+        echo encode_json($media);
         break;
     case 'add_images':
         // Kiểm tra đăng nhập
