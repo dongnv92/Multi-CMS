@@ -617,7 +617,7 @@ switch ($path[2]){
                                         <a href="<?=URL_HOME . '/' . $_images['file_path']?>" data-sub-html="Ảnh sản phẩm <?=$data['product_name']?>">
                                             <img class="img-fluid img-thumbnail" src="<?=URL_HOME . '/' . $_images['file_path']?>" alt="">
                                         </a>
-                                        <div class="text-danger text-center"><small>Xóa ảnh</small></div>
+                                        <div class="text-danger text-center" data-type="delete_image" data-id="<?=$_images['file_id']?>"><small>Xóa ảnh</small></div>
                                     </div>
                                     <?php }?>
                                     <?php }?>

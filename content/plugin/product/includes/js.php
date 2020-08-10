@@ -467,6 +467,11 @@ switch ($path[2]) {
                 }
             });
 
+            $('div[data-type="delete_image"]').on('click', function () {
+                var image_id = $(this).data('id');
+                alert(image_id);
+            });
+
             $('#button_submit').on('click', function () {
                 var ajax = $.ajax({
                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
