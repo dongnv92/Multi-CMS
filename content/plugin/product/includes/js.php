@@ -500,11 +500,6 @@ switch ($path[2]) {
                 }
             });
 
-            $('div[data-type="delete_image"]').on('click', function () {
-                var image_id = $(this).data('id');
-                alert(image_id);
-            });
-
             $('#button_submit').on('click', function () {
                 var ajax = $.ajax({
                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}"?>',
@@ -591,7 +586,7 @@ switch ($path[2]) {
             });
 
             // Delete
-            $('div[data-type=product_delete]').on('click', function () {
+            $('a[data-type=product_delete]').on('click', function () {
                 var product_id = $(this).data('id');
                 swal({
                     title: "Xóa sản phẩm",
@@ -611,6 +606,7 @@ switch ($path[2]) {
                             if(data.response == 200){
                                 setTimeout(function () {
                                     swal("Xóa sản phẩm", 'Xóa sản phẩm thành công', "success");
+                                    $('tr[data-id=' + product_id + ']').remove();
                                 }, 1000);
                             }else{
                                 swal("Xóa sản phẩm", data.message, "error");

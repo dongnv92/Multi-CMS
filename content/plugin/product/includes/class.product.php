@@ -43,7 +43,32 @@ class Product{
         return false;
     }
 
-    // Lấy danh sách tất cả thành viên
+    // Xoá sản phẩm
+    public function delete($product_id){
+        $db             = $this->db;
+        if(!validate_int($product_id)){
+            return get_response_array(309, 'ID sản phẩm không đúng định dạng.');
+        }
+        $product  = $this->get_product([self::product_id => $product_id]);
+        // Kiểm tra xem sản phẩm có tồn tại không?
+        if(!$product){
+            return get_response_array(309, 'Sản phẩm không tồn tại.');
+        }
+        $delete = $db->delete()->from(self::table)->where(self::product_id, $product_id)->limit(1)->execute();
+        if(!$delete){
+            return get_response_array(309, 'Xoá sản phẩm không thành công.');
+        }
+        $media      = new Media($db);
+        $media_list = $media->get_list_data('product', $product_id);
+        if($media_list){
+            foreach ($media_list AS $_media_list){
+                $media->delete_file('product', $_media_list['file_id']);
+            }
+        }
+        return get_response_array(200, 'Xoá sản phẩm thành công.');
+    }
+
+    // Lấy danh sách tất cả sản phẩm
     public function get_all(){
         $db         = $this->db;
         $param      = get_param_defaul();
@@ -171,7 +196,7 @@ class Product{
         return false;
     }
 
-    function get_unit($type = '', $data = ''){
+    public function get_unit($type = '', $data = ''){
         $content = [
             '1' => 'Chiếc',
             '2' => 'Cái',

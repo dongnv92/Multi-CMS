@@ -258,4 +258,21 @@ switch ($path[2]){
         $action     = $product->update($path[3]);
         echo encode_json($action);
         break;
+    case 'delete':
+        // Kiểm tra quyền truy cập
+        if(!$me) {
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        // Kiểm tra quyền truy cập
+        if(!$role['product']['delete']){
+            echo encode_json(get_response_array(403));
+            break;
+        }
+
+        $product    = new Product($database);
+        $action     = $product->delete($path[3]);
+        echo encode_json($action);
+        break;
 }

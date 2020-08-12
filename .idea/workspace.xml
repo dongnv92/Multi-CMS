@@ -14,49 +14,25 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="619" column="75" lean-forward="true" selection-start-line="619" selection-start-column="75" selection-end-line="619" selection-end-column="75" />
+            <state relative-caret-position="323">
+              <caret line="519" selection-start-line="517" selection-end-line="519" />
               <folding>
                 <element signature="e#105#14477#0#PHP" />
                 <element signature="e#14482#28874#0#PHP" />
-                <element signature="e#41689#52719#0#PHP" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/js.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="471" column="30" selection-start-line="471" selection-start-column="30" selection-end-line="471" selection-end-column="30" />
-              <folding>
-                <element signature="e#30#6281#0#PHP" />
-                <element signature="e#6286#16900#0#PHP" />
-                <element signature="e#16905#22166#0#PHP" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/includes/class/class.media.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="12" selection-start-line="12" selection-end-line="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/ajax.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="27" column="45" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -141,12 +117,13 @@
         <option value="$PROJECT_DIR$/includes/function-javascript.php" />
         <option value="$PROJECT_DIR$/init.php" />
         <option value="$PROJECT_DIR$/content/plugin/product/includes/function-nomal.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/class.product.php" />
         <option value="$PROJECT_DIR$/includes/function-form.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/ajax.php" />
         <option value="$PROJECT_DIR$/includes/class/class.media.php" />
+        <option value="$PROJECT_DIR$/content/plugin/product/includes/class.product.php" />
+        <option value="$PROJECT_DIR$/content/plugin/product/includes/ajax.php" />
         <option value="$PROJECT_DIR$/content/plugin/product/index.php" />
         <option value="$PROJECT_DIR$/content/plugin/product/includes/js.php" />
+        <option value="$PROJECT_DIR$/content/plugin/momo/index.php" />
       </list>
     </option>
   </component>
@@ -163,7 +140,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -187,7 +163,7 @@
               <item name="multicms" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="product" type="462c0819:PsiDirectoryNode" />
+              <item name="momo" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
@@ -195,23 +171,12 @@
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
               <item name="product" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-              <item name="class" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -341,17 +306,19 @@
       <workItem from="1596682421602" duration="5994000" />
       <workItem from="1596810037014" duration="3637000" />
       <workItem from="1596859122061" duration="1179000" />
+      <workItem from="1597024597581" duration="5842000" />
+      <workItem from="1597204594354" duration="1352000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="470559000" />
+    <option name="totallyTimeSpent" value="477753000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1881663" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1924307" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -474,13 +441,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="391">
           <caret line="23" column="41" selection-start-line="23" selection-start-column="41" selection-end-line="23" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/momo/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -620,15 +580,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/uploads/product/b4IxkoXlcMQPBJ_.png" />
     <entry file="file://$PROJECT_DIR$/content/uploads/product/fVlCsAan8RKu93P.png" />
     <entry file="file://$PROJECT_DIR$/content/uploads/product/hQGWSeUFJazVwov.jpg" />
-    <entry file="file://$PROJECT_DIR$/content/uploads/product/kuCYtUQcD3WNdja.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/content/uploads/product/kuCYtUQcD3WNdja.png" />
     <entry file="file://$PROJECT_DIR$/content/uploads/product/XwOZgsLJY4Kejzl.png" />
     <entry file="file://$PROJECT_DIR$/init.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -701,13 +656,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.product.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="385" column="35" selection-start-line="385" selection-start-column="35" selection-end-line="385" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/customer/includes/customer.class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="266">
@@ -717,39 +665,83 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/class/class.media.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="12" selection-start-line="12" selection-end-line="13" />
+        <state relative-caret-position="-8">
+          <caret line="21" column="20" selection-start-line="21" selection-start-column="20" selection-end-line="21" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
+    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.product.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="619" column="75" lean-forward="true" selection-start-line="619" selection-start-column="75" selection-end-line="619" selection-end-column="75" />
+        <state relative-caret-position="617">
+          <caret line="67" column="53" selection-start-line="67" selection-start-column="53" selection-end-line="67" selection-end-column="53" />
           <folding>
-            <element signature="e#105#14477#0#PHP" />
-            <element signature="e#14482#28874#0#PHP" />
-            <element signature="e#41689#52719#0#PHP" />
+            <element signature="n#check_product#0;n#Product#0;n#!!top" />
+            <element signature="n#get_all#0;n#Product#0;n#!!top" />
+            <element signature="n#get_product#0;n#Product#0;n#!!top" />
+            <element signature="n#get_sale_percent#0;n#Product#0;n#!!top" />
+            <element signature="n#check_category#0;n#Product#0;n#!!top" />
+            <element signature="n#check_brand#0;n#Product#0;n#!!top" />
+            <element signature="n#get_unit#0;n#Product#0;n#!!top" />
+            <element signature="n#create_barcode#0;n#Product#0;n#!!top" />
+            <element signature="n#update_image#0;n#Product#0;n#!!top" />
+            <element signature="n#add#0;n#Product#0;n#!!top" />
+            <element signature="n#update#0;n#Product#0;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/ajax.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="27" column="45" selection-start-line="27" selection-start-column="38" selection-end-line="27" selection-end-column="45" />
+        <state relative-caret-position="408">
+          <caret line="274" column="48" selection-start-line="274" selection-start-column="48" selection-end-line="274" selection-end-column="48" />
+          <folding>
+            <element signature="e#29#441#0#PHP" />
+            <element signature="e#446#2934#0#PHP" />
+            <element signature="e#2939#5204#0#PHP" />
+            <element signature="e#5209#5619#0#PHP" />
+            <element signature="e#5624#6064#0#PHP" />
+            <element signature="e#6069#7421#0#PHP" />
+            <element signature="e#7426#11133#0#PHP" />
+            <element signature="e#11138#11598#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/js.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="471" column="30" selection-start-line="471" selection-start-column="30" selection-end-line="471" selection-end-column="30" />
+        <state relative-caret-position="595">
+          <caret line="608" column="81" selection-start-line="608" selection-start-column="81" selection-end-line="608" selection-end-column="81" />
           <folding>
             <element signature="e#30#6281#0#PHP" />
             <element signature="e#6286#16900#0#PHP" />
             <element signature="e#16905#22166#0#PHP" />
+            <element signature="e#22171#29004#0#PHP" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="519" selection-start-line="517" selection-end-line="519" />
+          <folding>
+            <element signature="e#105#14477#0#PHP" />
+            <element signature="e#14482#28874#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/momo/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="44" selection-start-line="10" selection-start-column="41" selection-end-line="10" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="8" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
         </state>
       </provider>
     </entry>
