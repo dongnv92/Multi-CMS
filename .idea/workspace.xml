@@ -14,35 +14,7 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/content/plugin/momo/includes/class.momo.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="175">
-              <caret line="51" column="47" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -74,15 +46,11 @@
     </dirStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../review" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/includes/init.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.mysqli.db.php" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/admin/admin-header.php" />
         <option value="$PROJECT_DIR$/admin/includes/admin-ajax.php" />
         <option value="$PROJECT_DIR$/includes/class/meta.php" />
@@ -127,16 +95,20 @@
         <option value="$PROJECT_DIR$/content/plugin/product/includes/ajax.php" />
         <option value="$PROJECT_DIR$/content/plugin/product/index.php" />
         <option value="$PROJECT_DIR$/content/plugin/product/includes/js.php" />
-        <option value="$PROJECT_DIR$/content/plugin/momo/index.php" />
         <option value="$PROJECT_DIR$/../review/index.php" />
         <option value="$PROJECT_DIR$/test.php" />
+        <option value="$PROJECT_DIR$/content/plugin/momo/includes/class.momo.php" />
+        <option value="$PROJECT_DIR$/content/plugin/momo/index.php" />
+        <option value="$PROJECT_DIR$/../review/src/pages/backend/index.php" />
+        <option value="$PROJECT_DIR$/../review/src/class/function.php" />
+        <option value="$PROJECT_DIR$/../review/src/pages/backend/profile.php" />
       </list>
     </option>
   </component>
   <component name="PhpServers">
     <servers />
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="width" value="676" />
     <option name="height" value="788" />
@@ -147,44 +119,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="momo" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="momo" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
       <pane id="Scope" />
+      <pane id="ProjectPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -318,17 +254,19 @@
       <workItem from="1597204594354" duration="1352000" />
       <workItem from="1597287221581" duration="3481000" />
       <workItem from="1597391375979" duration="2073000" />
+      <workItem from="1597716956353" duration="1793000" />
+      <workItem from="1597803742930" duration="1199000" />
+      <workItem from="1597887482835" duration="9750000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="483307000" />
+    <option name="totallyTimeSpent" value="496049000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19669509" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13965885" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -350,7 +288,7 @@
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1881663" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13965885" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -363,8 +301,9 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.19068256" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3856988" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="File Transfer" order="12" visible="true" weight="0.14084508" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -375,30 +314,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/admin/admin-header.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3111">
-          <caret line="290" column="54" selection-start-line="290" selection-start-column="54" selection-end-line="290" selection-end-column="54" />
-          <folding>
-            <element signature="n#admin_error#0;n#!!top" />
-            <element signature="n#admin_breadcrumbs#0;n#!!top" />
-            <element signature="n#admin_page_loader_start#0;n#!!top" />
-            <element signature="n#admin_header_search_bar#0;n#!!top" />
-            <element signature="n#admin_top_bar#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="16" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/admin/user.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="7446">
@@ -724,29 +639,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/../review/src/pages/backend/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2652" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
+          <caret line="16" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/momo/includes/class.momo.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
-          <caret line="51" column="47" selection-start-line="51" selection-start-column="43" selection-end-line="51" selection-end-column="47" />
+          <caret line="191" column="29" selection-start-line="191" selection-start-column="20" selection-end-line="191" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/momo/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="1" lean-forward="true" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../review/src/pages/backend/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="770">
+          <caret line="300" column="33" lean-forward="true" selection-start-line="300" selection-start-column="33" selection-end-line="300" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../review/src/class/function.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="336" column="131" selection-start-line="336" selection-start-column="131" selection-end-line="336" selection-end-column="131" />
+          <folding>
+            <element signature="e#13560#13850#0#PHP" />
+            <element signature="e#13863#14955#0#PHP" />
+            <element signature="e#14968#19074#0#PHP" />
+            <element signature="e#19087#19940#0#PHP" />
+            <element signature="e#19953#20548#0#PHP" />
+            <element signature="e#20561#21456#0#PHP" />
+            <element signature="e#21469#21627#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../review/src/pages/backend/profile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="30" column="68" selection-start-line="30" selection-start-column="68" selection-end-line="30" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../review/src/pages/backend/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3179">
+          <caret line="1097" column="39" lean-forward="true" selection-start-line="934" selection-start-column="16" selection-end-line="1097" selection-end-column="39" />
+          <folding>
+            <element signature="e#128#320#0#PHP" />
+            <element signature="e#325#20945#0#PHP" />
+            <element signature="e#20950#21204#0#PHP" />
+            <element signature="e#21268#27064#0#PHP" />
+            <element signature="e#27077#28150#0#PHP" />
+            <element signature="e#28163#56055#0#PHP" />
+            <element signature="e#85244#106714#0#PHP" />
+            <element signature="e#106719#174166#0#PHP" />
+            <element signature="e#174171#205553#0#PHP" />
+            <element signature="e#205558#205703#0#PHP" />
+            <element signature="e#205708#216085#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>
