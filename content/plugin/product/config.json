@@ -1,70 +1,115 @@
 {
-  "name":"Quản lý sản phẩm",
-  "unique_identifier":"product",
-  "version":"0.1",
-  "banner":"assets/images/banner.jpg",
-  "description":"Plugin quản lý sản phẩm, giỏ hàng, thanh toán ...",
-  "status":"active",
-  "author":"MULTICMS PLUGIN",
-  "website":"http:\/\/localhost\/dong\/multicms\/",
-  "source" : {"javascript" :  "includes/js.php", "ajax" :  "includes/ajax.php"},
-  "public_class" : ["includes/class.product.php"],
-  "menu":[
-    {
-      "text":"Sản phầm",
-      "icon":"<i class=\"zmdi zmdi-shopping-cart\"></i>\n",
-      "child":[
+    "name": "Quản lý sản phẩm",
+    "unique_identifier": "product",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Plugin quản lý sản phẩm, giỏ hàng, thanh toán ...",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php"
+    },
+    "public_class": [
+        "includes\/class.product.php",
+        "includes\/class.cart.php"
+    ],
+    "menu": [
         {
-          "text":"Tất cả sản phẩm",
-          "url":"URL_ADMIN\/product\/",
-          "roles":["product", "manager"],
-          "active":[
-            ["admin", "product",""],
-            ["admin", "product","detail"],
-            ["admin", "product","update"]
-          ]
-        },{
-          "text":"Thêm mới",
-          "url":"URL_ADMIN\/product\/add",
-          "roles":["product", "add"],
-          "active":[
-            ["admin", "product","add"]
-          ]
-        },{
-          "text":"Danh mục",
-          "url":"URL_ADMIN\/product\/category",
-          "roles":["product", "category"],
-          "active":[
-            ["admin", "product","category"]
-          ]
-        },{
-          "text":"Brand",
-          "url":"URL_ADMIN\/product\/brand",
-          "roles":["product", "brand"],
-          "active":[
-            ["admin", "product","brand"]
-          ]
+            "text": "Sản phầm",
+            "icon": "<i class='zmdi zmdi-shopping-cart'><\/i>",
+            "child": [
+                {
+                    "text": "Tất cả sản phẩm",
+                    "url": "URL_ADMIN\/product\/",
+                    "roles": [
+                        "product",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "product",
+                            ""
+                        ],
+                        [
+                            "admin",
+                            "product",
+                            "detail"
+                        ],
+                        [
+                            "admin",
+                            "product",
+                            "update"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm mới",
+                    "url": "URL_ADMIN\/product\/add",
+                    "roles": [
+                        "product",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "product",
+                            "add"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Danh mục",
+                    "url": "URL_ADMIN\/product\/category",
+                    "roles": [
+                        "product",
+                        "category"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "product",
+                            "category"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Brand",
+                    "url": "URL_ADMIN\/product\/brand",
+                    "roles": [
+                        "product",
+                        "brand"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "product",
+                            "brand"
+                        ]
+                    ]
+                }
+            ]
         }
-      ]
+    ],
+    "role_structure": {
+        "product": {
+            "manager": false,
+            "add": false,
+            "update": false,
+            "category": false,
+            "brand": false,
+            "delete": false
+        }
+    },
+    "role_text": {
+        "": "Quản lý sản phẩm",
+        "manager": "Quản lý sản phẩm",
+        "add": "Thêm sản phẩm",
+        "update": "Cập nhật sản phẩm",
+        "category": "Quản lý danh mục sản phẩm",
+        "brand": "Quản lý Brand",
+        "delete": "Xoá sản phẩm"
     }
-  ],
-  "role_structure":{
-    "product":{
-      "manager"   : false,
-      "add"       : false,
-      "update"    : false,
-      "category"  : false,
-      "brand"     : false,
-      "delete"    : false
-    }
-  },
-  "role_text":{
-    ""          : "Quản lý sản phẩm",
-    "manager"   : "Quản lý sản phẩm",
-    "add"       : "Thêm sản phẩm",
-    "update"    : "Cập nhật sản phẩm",
-    "category"  : "Quản lý danh mục sản phẩm",
-    "brand"     : "Quản lý Brand",
-    "delete"    : "Xoá sản phẩm"
-  }
 }

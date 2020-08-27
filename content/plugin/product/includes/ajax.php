@@ -275,4 +275,12 @@ switch ($path[2]){
         $action     = $product->delete($path[3]);
         echo encode_json($action);
         break;
+    case 'cart':
+        switch ($path[3]){
+            case 'add':
+                $cart = new Cart($database);
+                echo encode_json($cart->add());
+                Break;
+        }
+        Break;
 }

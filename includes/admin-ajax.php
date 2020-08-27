@@ -25,12 +25,19 @@ switch ($path[1]){
                         break;
                     }
 
-                    $path_config = ABSPATH . PATH_PLUGIN . "{$_REQUEST['plugin']}/config.json";
-                    $config = file_get_contents($path_config);
+                    $path_config    = ABSPATH . PATH_PLUGIN . "{$_REQUEST['plugin']}/config.json";
+                    $config         = file_get_contents($path_config);
+
                     if($_REQUEST['status'] == 'active'){
-                        $config = str_replace('"status":"not_active"', '"status":"active"',  $config);
+                        $config = json_decode($config, true);
+                        $config['status'] = 'active';
+                        $config = json_encode($config, JSON_PRETTY_PRINT);
+                        //$config = str_replace('"status":"not_active"', '"status":"active"',  $config);
                     }else{
-                        $config = str_replace('"status":"active"', '"status":"not_active"',  $config);
+                        $config = json_decode($config, true);
+                        $config['status'] = 'not_active';
+                        $config = json_encode($config, JSON_PRETTY_PRINT);
+                        //$config = str_replace('"status":"active"', '"status":"not_active"',  $config);
                     }
 
                     if(file_put_contents($path_config, $config)){

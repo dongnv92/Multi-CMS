@@ -1,37 +1,49 @@
 {
-  "name":"Thanh toán trực tuyến MOMO",
-  "unique_identifier":"momo",
-  "version":"0.1",
-  "banner":"assets/images/banner.jpg",
-  "description":"Plugin quản lý lịch sử giao dịch MOMO, Check và xác nhận đơn hàng.",
-  "status":"active",
-  "author":"MULTICMS PLUGIN",
-  "website":"http:\/\/localhost\/dong\/multicms\/",
-  "source" : {"javascript" :  "", "ajax" :  ""},
-  "public_class" : ["includes/class.momo.php"],
-  "menu":[
-    {
-      "text":"MOMO",
-      "icon":"<i class=\"zmdi zmdi-money\"></i>",
-      "child":[
+    "name": "Thanh to\u00e1n tr\u1ef1c tuy\u1ebfn MOMO",
+    "unique_identifier": "momo",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Plugin qu\u1ea3n l\u00fd l\u1ecbch s\u1eed giao d\u1ecbch MOMO, Check v\u00e0 x\u00e1c nh\u1eadn \u0111\u01a1n h\u00e0ng.",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "",
+        "ajax": ""
+    },
+    "public_class": [
+        "includes\/class.momo.php"
+    ],
+    "menu": [
         {
-          "text":"Lịch sử giao dịch",
-          "url":"URL_ADMIN\/momo\/",
-          "roles":["momo", "manager"],
-          "active":[
-            ["admin", "momo",""]
-          ]
+            "text": "MOMO",
+            "icon": "<i class=\"zmdi zmdi-money\"><\/i>",
+            "child": [
+                {
+                    "text": "L\u1ecbch s\u1eed giao d\u1ecbch",
+                    "url": "URL_ADMIN\/momo\/",
+                    "roles": [
+                        "momo",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "momo",
+                            ""
+                        ]
+                    ]
+                }
+            ]
         }
-      ]
+    ],
+    "role_structure": {
+        "momo": {
+            "manager": false
+        }
+    },
+    "role_text": {
+        "": "L\u1ecbch s\u1eed giao d\u1ecbch MOMO",
+        "manager": "Qu\u1ea3n l\u00fd giao d\u1ecbch MOMO"
     }
-  ],
-  "role_structure":{
-    "momo":{
-      "manager":false
-    }
-  },
-  "role_text":{
-    "":"Lịch sử giao dịch MOMO",
-    "manager":"Quản lý giao dịch MOMO"
-  }
 }

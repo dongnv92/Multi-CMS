@@ -83,7 +83,7 @@ function admin_top_bar(){
                             <li><a href="#"><i class="zmdi zmdi-receipt"></i><span>Giao dịch</span></a></li>
                             <li><a href="#"><i class="zmdi zmdi-accounts-list"></i><span>Danh bạ</span></a></li>
                             <li><a href="#"><i class="zmdi zmdi-comment-outline"></i><span>Tin Nhắn</span></a></li>
-                            <li><a href="#"?>"><i class="zmdi zmdi-trending-up"></i><span>Thống Kê</span></a></li>
+                            <li><a href="#"?><i class="zmdi zmdi-trending-up"></i><span>Thống Kê</span></a></li>
                         </ul>
                     </li>
                 </ul>
