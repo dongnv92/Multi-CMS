@@ -1,0 +1,49 @@
+{
+    "name": "BOT ch\u00e1t n\u1ec1n t\u00e0ng Telegram",
+    "unique_identifier": "telegram",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Bot ch\u00e1t n\u1ec1n t\u1ea3ng Telegram. C\u00f3 th\u1ec3 c\u00e0i \u0111\u1eb7t c\u00e2u tr\u1ea3 l\u1eddi t\u00f9y \u00fd th\u00edch c\u1ee7a b\u1ea1n.",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "",
+        "ajax": ""
+    },
+    "public_class": [
+        "includes\/class.telegram.php"
+    ],
+    "menu": [
+        {
+            "text": "Telegram",
+            "icon": "<i class=\"zmdi zmdi-comments\"><\/i>\n",
+            "child": [
+                {
+                    "text": "C\u00e0i \u0111\u1eb7t c\u1ea5u h\u00ecnh",
+                    "url": "URL_ADMIN\/telegram\/",
+                    "roles": [
+                        "telegram",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "telegram",
+                            ""
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "telegram": {
+            "manager": false
+        }
+    },
+    "role_text": {
+        "": "C\u00e0i \u0111\u1eb7t Telegram",
+        "manager": "C\u00e0i \u0111\u1eb7t c\u1ea5u h\u00ecnh"
+    }
+}

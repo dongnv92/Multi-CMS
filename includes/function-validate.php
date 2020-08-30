@@ -23,3 +23,10 @@ function validate_int($value){
         return false;
     return true;
 }
+
+function validate_url($value){
+    if(!filter_var($value, FILTER_VALIDATE_URL))
+        return false;
+    return true;
+}
+
