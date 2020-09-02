@@ -56,7 +56,9 @@ foreach (get_list_plugin() AS $_init_plugin){
     $_init_plugin_config    = json_decode($_init_plugin_config, true);
     if(is_array($_init_plugin_config['public_class']) && count($_init_plugin_config['public_class']) && $_init_plugin_config['status'] == 'active'){
         foreach ($_init_plugin_config['public_class'] AS $_init_plugin_class){
-            require_once "$_init_plugin_path/$_init_plugin_class";
+            if(validate_isset($_init_plugin_class)){
+                require_once "$_init_plugin_path/$_init_plugin_class";
+            }
         }
     }
 }

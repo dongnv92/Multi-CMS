@@ -1,0 +1,65 @@
+{
+    "name": "POS b\u00e1n h\u00e0ng",
+    "unique_identifier": "pos",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.png",
+    "description": "Giao di\u1ec7n POS B\u00e1n h\u00e0ng, nh\u1eadp h\u00e0ng ...",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "",
+        "ajax": ""
+    },
+    "public_class": [
+        ""
+    ],
+    "menu": [
+        {
+            "text": "POS",
+            "icon": "<i class=\"zmdi zmdi-devices\"><\/i>",
+            "child": [
+                {
+                    "text": "B\u00e1n H\u00e0ng",
+                    "url": "URL_ADMIN\/pos\/",
+                    "roles": [
+                        "pos",
+                        "sell"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "pos",
+                            ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Nh\u1eadp H\u00e0ng",
+                    "url": "URL_ADMIN\/pos\/buy",
+                    "roles": [
+                        "pos",
+                        "buy"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "pos",
+                            "buy"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "pos": {
+            "sell": false,
+            "buy": false
+        }
+    },
+    "role_text": {
+        "sell": "B\u00e1n h\u00e0ng",
+        "buy": "Nh\u1eadp h\u00e0ng"
+    }
+}
