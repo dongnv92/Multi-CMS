@@ -8,7 +8,7 @@
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
-        "javascript": "",
+        "javascript": "includes/javascript.php",
         "ajax": ""
     },
     "public_class": [
