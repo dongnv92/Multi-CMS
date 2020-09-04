@@ -15,14 +15,77 @@ class Cart {
         }
     }
 
-    public function add(){
+    public function cart_detail(){
+        $data = [];
+        $data['product_total']      = 0;
+        $data['total_money']        = 0; // Tổng tiền giá niêm yết
+        $data['money_difference']   = 0; // Tổng tiền được khuyến mãi
+        $data['total_sell']         = 0; // Tổng tiền thực phải trả
+
+        foreach ($_SESSION['cart']['products'] AS $product){
+            $data['product_total']      += $product['product_amount'];
+            $data['total_money']        += ($product['product_amount'] * $product['product_price']);
+            $data['money_difference']   += ($product['product_difference'] * $product['product_amount']);
+            $data['total_sell']         += ($product['product_price_sell'] * $product['product_amount']);
+        }
+
+        if($_SESSION['cart']['ship'] > 0){
+
+        }
+    }
+
+    public function update(){
+        if(count($_SESSION['cart']['products']) < 1){
+            return get_response_array(309, 'Giỏ hàng đang trống.');
+        }
+        if($_REQUEST['ship'] && validate_int($_REQUEST['ship'])){
+            $_SESSION['cart']['ship'] = $_REQUEST['ship'];
+        }
+
+        if($_REQUEST['sale'] && validate_int($_REQUEST['sale'])){
+            $_SESSION['cart']['sale'] = $_REQUEST['sale'];
+        }
+
+        if($_REQUEST['message'] && validate_int($_REQUEST['message'])){
+            $_SESSION['cart']['message'] = $_REQUEST['message'];
+        }
+        return get_response_array(200, 'Update giỏ hàng thành công.');
+    }
+
+    public function delete($product_id){
         // Kiểm tra id sản phẩm
-        if(!validate_isset($_REQUEST['cart_product']) || !validate_int($_REQUEST['cart_product']) || $_REQUEST['cart_product'] < 0){
+        if(!validate_isset($product_id) || !validate_int($product_id) || $product_id < 0){
+            return get_response_array(309, 'ID sản phẩm không chính xác.');
+        }
+        $product = new Product($this->db);
+        $product = $product->get_product(['product_id' => $product_id]);
+
+        if(!$product){
+            return get_response_array(309, 'Sản phẩm không tồn tại.');
+        }
+
+        // Delete Product in Cart
+        foreach ($_SESSION['cart']['products'] AS $key => $value){
+            if($value['product_id'] == $product['product_id']){
+                unset($_SESSION['cart']['products'][$key]);
+            }
+        }
+        return get_response_array(200, 'Xoá sản phẩm trong giỏ hàng thành công.');
+    }
+
+    public function set_empty(){
+        unset($_SESSION['cart']);
+        return get_response_array(200, 'Làm trống giỏ hàng thành công.');
+    }
+
+    public function add($product_id){
+        // Kiểm tra id sản phẩm
+        if(!validate_isset($product_id) || !validate_int($product_id) || $product_id < 0){
             return get_response_array(309, 'ID sản phẩm không chính xác.');
         }
 
         $product = new Product($this->db);
-        $product = $product->get_product(['product_id' => $_REQUEST['cart_product']]);
+        $product = $product->get_product(['product_id' => $product_id]);
 
         if(!$product){
             return get_response_array(309, 'Sản phẩm không tồn tại.');
@@ -53,7 +116,7 @@ class Cart {
         }
 
         // Kiểm tra sản phẩm đã có trong giỏ hàng chưa?
-        if(!$this->checkItem($_SESSION['cart']['products'], 'product_id', $_REQUEST['cart_product'])){
+        if(!$this->checkItem($_SESSION['cart']['products'], 'product_id', $product_id)){
             // Thêm mới sản phẩm vào giỏ hàng nếu sản phẩm này chưa có trong giỏ hàng.
             $data = [
                 'product_id'            => $product['product_id'],
@@ -67,7 +130,7 @@ class Cart {
             $_SESSION['cart']['products'][] = $data;
         }else{
             foreach ($_SESSION['cart']['products'] AS &$products){
-                if($products['product_id'] == $_REQUEST['cart_product']){
+                if($products['product_id'] == $product_id){
                     if($_REQUEST['cart_amount']){
                         $products['cart_amount'] = $_REQUEST['cart_amount'];
                     }
