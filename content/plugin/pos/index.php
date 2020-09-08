@@ -1,8 +1,11 @@
 <?php
 switch ($path[2]){
     default:
+        $header['css']      = [
+            URL_HOME . '/' . PATH_PLUGIN . $path[1] . "/assets/css/jquery.auto-complete.css"
+        ];
         $header['js']       = [
-            URL_HOME . '/' . PATH_PLUGIN . $path[1] . "/assets/js/jquery.autocomplete.js",
+            URL_HOME . '/' . PATH_PLUGIN . $path[1] . "/assets/js/jquery.auto-complete.min.js",
             URL_JS . "{$path[1]}"
         ];
         $header['title']    = 'POS';
@@ -19,7 +22,7 @@ switch ($path[2]){
                             <div class="input-group m-t-10">
                                 <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
                                 <div class="form-line">
-                                    <input id="autocomplete" type="text" autofocus name="search" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Nhập mã Barcode hoặc tên sản phẩm ...">
+                                    <input type="text" autofocus name="search_product" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Nhập mã Barcode hoặc tên sản phẩm ...">
                                 </div>
                             </div>
                         </div>

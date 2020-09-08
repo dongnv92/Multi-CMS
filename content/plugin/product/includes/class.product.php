@@ -122,7 +122,7 @@ class Product{
             return get_response_array(311, 'Số trang không được lớn hơn số dữ liệu có.');
 
         // Hiển thị dữ liệu theo số liệu nhập vào
-        $db->select('*')->from(self::table);
+        $db->select($_REQUEST['field'] ? $_REQUEST['field'] : '*')->from(self::table);
         if($_REQUEST['search']){
             $db->where(get_query_search($_REQUEST['search'], [
                 self::product_barcode,

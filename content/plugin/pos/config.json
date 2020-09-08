@@ -9,10 +9,10 @@
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
         "javascript": "includes/javascript.php",
-        "ajax": ""
+        "ajax": "includes/ajax.php"
     },
     "public_class": [
-        ""
+        "includes/class.pos.php"
     ],
     "menu": [
         {
