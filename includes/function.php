@@ -317,20 +317,29 @@ function redirect($url){
     header('location:'.$url);
 }
 
-function get_path_uri(){
+function get_path_uri($type = 'domain'){
     $path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
-    $root = ROOTPATH;
     $path = explode('/', $path);
-    foreach ($path AS $key => $value){
-        if($value == $root){
-            unset($path[$key]);
+
+    switch ($type){
+        case 'domain':
+            array_shift($path);
             break;
-        }else{
-            unset($path[$key]);
-        }
+        case 'local':
+            $root = ROOTPATH;
+            foreach ($path AS $key => $value){
+                if($value == $root){
+                    unset($path[$key]);
+                    break;
+                }else{
+                    unset($path[$key]);
+                }
+            }
+            $path = implode('/', $path);
+            $path = explode('/', $path);
+            break;
     }
-    $path = implode('/', $path);
-    $path = explode('/', $path);
+
     return $path;
 }
 

@@ -11,8 +11,16 @@ switch ($path[2]){
             </div>
             <div class="body">
             <?php
-                $telegram = new Telegram('rentcode');
-                echo $telegram->getUpdates();
+            $rentcode_apikey    = 'MsxlaU40YLImmynR8ByMAGEaosizG9YOeNa9TI/RpsQ=';
+            $rentcode_service   = 258; // 258: Kplus, Dịch vụ khác: 2
+            $telegram = new Telegram('rentcode');
+            $url_fetch  = 'https://api.rentcode.net/api/v2/order/request';
+            if(isset($message[1]) && in_array($message[1], [258, 2])){
+                $rentcode_service = $message[1];
+            }
+            $fetch  = $telegram->get_data($url_fetch, ['apiKey' => $rentcode_apikey, 'ServiceProviderId' => $rentcode_service], 'GET');
+            $fetch  = json_decode($fetch, true);
+            print_r($fetch);
             ?>
             </div>
         </div>

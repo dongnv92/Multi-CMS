@@ -69,4 +69,4 @@ $role = $role->get_meta($me['user_role'], 'meta_info');
 $role = unserialize($role['data']['meta_info']);
 
 // Lấy đường đẫn hiện tại
-$path = get_path_uri();
+$path = get_path_uri('local');

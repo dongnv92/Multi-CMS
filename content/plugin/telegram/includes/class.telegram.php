@@ -69,7 +69,7 @@ class Telegram{
     }
 
     // Gọi CURL để lấy data
-    private function get_data($url, $data = '', $method = 'GET'){
+    public function get_data($url, $data = '', $method = 'GET'){
         if ($method == 'GET') {
             $ch = curl_init($url.($data ? '?'.http_build_query($data) : ''));
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13');
