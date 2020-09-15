@@ -1,0 +1,65 @@
+{
+    "name": "KPLUS.VN",
+    "unique_identifier": "kplus",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "KPLUS.VN List",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "",
+        "ajax": "",
+        "api" : "includes/api.php"
+    },
+    "public_class": [
+        "includes\/class.kplus.php"
+    ],
+    "menu": [
+        {
+            "text": "Kplus",
+            "icon": "<i class=\"zmdi zmdi-comments\"><\/i>\n",
+            "child": [
+                {
+                    "text": "Danh sách",
+                    "url": "URL_ADMIN\/kplus\/",
+                    "roles": [
+                        "kplus",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "kplus",
+                            ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm mới",
+                    "url": "URL_ADMIN\/kplus\/add",
+                    "roles": [
+                        "kplus",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "kplus",
+                            "add"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "kplus": {
+            "manager": false
+        }
+    },
+    "role_text": {
+        "": "KPLUS",
+        "manager": "Quản lý"
+    }
+}
