@@ -10,20 +10,19 @@ switch ($path[2]){
         $message            = strtolower($update["message"]["text"]);
         $message            = explode(' ', $message);
         $telegram           = new Telegram('rentcode');
+        $telegram->set_chatid($chatId);
         switch ($message[0]){
             case 'new':
                 $url_fetch  = 'https://api.rentcode.net/api/v2/order/request';
                 if(isset($message[1]) && in_array($message[1], [258, 2])){
                     $rentcode_service = $message[1];
                 }
-                $fetch  = $telegram->get_data($url_fetch, ['apiKey' => $rentcode_apikey, 'ServiceProviderId' => $rentcode_service], 'GET');
+                $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey, 'ServiceProviderId' => $rentcode_service], 'GET');
                 $fetch  = json_decode($fetch, true);
-                if($fetch['success'] == true && !validate_isset($fetch['id']) && !validate_int($fetch['id'])){
-                    $telegram->set_chatid($chatId);
+                if(validate_int($fetch['id'])){
                     $telegram->sendMessage("Tạo vận đơn mới thành công.");
-                    $telegram->sendMessage("check {$fetch['id']}.");
+                    $telegram->sendMessage("check {$fetch['id']}");
                 }else{
-                    $telegram->set_chatid($chatId);
                     $telegram->sendMessage("Tạo vận đơn mới không thành công.");
                 }
                 break;
@@ -36,22 +35,19 @@ switch ($path[2]){
                     $telegram->sendMessage("Mã đơn sai định dạng.");
                     break;
                 }
-                $url_fetch  = "https://api.rentcode.net/api/v2/order/request/{$message[1]}/check";
-                $fetch  = $telegram->get_data($url_fetch, ['apiKey' => $rentcode_apikey], 'GET');
+                $url_fetch  = "https://api.rentcode.net/api/v2/order/{$message[1]}/check";
+                $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey], 'GET');
                 $fetch  = json_decode($fetch, true);
                 if(!$fetch['phoneNumber']){
                     $telegram->sendMessage("Chưa tính toán được số điện thoại.");
                     break;
                 }
                 $telegram->sendMessage($fetch['phoneNumber']);
-                if(!$fetch['messages']['message']){
+                if(!$fetch['messages'][0]['message']){
                     $telegram->sendMessage("Chưa có mã gửi đến.");
-                    $telegram->sendMessage("check {$message[1]}");
                     break;
                 }
-                $code = $fetch['messages']['message'];
-                $code = explode(' ', $code);
-                $telegram->sendMessage($code[0]);
+                $telegram->sendMessage($fetch['messages'][0]['message']);
                 break;
             default:
                 $telegram->sendMessage("Câu lệnh không được hỗ trợ.");
