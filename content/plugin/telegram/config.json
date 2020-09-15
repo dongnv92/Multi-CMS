@@ -9,7 +9,8 @@
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
         "javascript": "",
-        "ajax": ""
+        "ajax": "",
+        "api" : "includes/api.php"
     },
     "public_class": [
         "includes\/class.telegram.php"
