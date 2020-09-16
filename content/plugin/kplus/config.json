@@ -32,6 +32,11 @@
                             "admin",
                             "kplus",
                             ""
+                        ],
+                        [
+                            "admin",
+                            "kplus",
+                            "update"
                         ]
                     ]
                 },
