@@ -8,8 +8,8 @@
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
-        "javascript": "",
-        "ajax": "",
+        "javascript": "includes/js.php",
+        "ajax": "includes/ajax.php",
         "api" : "includes/api.php"
     },
     "public_class": [
@@ -40,7 +40,7 @@
                     "url": "URL_ADMIN\/kplus\/add",
                     "roles": [
                         "kplus",
-                        "manager"
+                        "add"
                     ],
                     "active": [
                         [
@@ -55,11 +55,13 @@
     ],
     "role_structure": {
         "kplus": {
-            "manager": false
+            "manager": false,
+            "add": false
         }
     },
     "role_text": {
         "": "KPLUS",
-        "manager": "Quản lý"
+        "manager": "Quản lý",
+        "add": "Thêm mới"
     }
 }

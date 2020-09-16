@@ -1,6 +1,20 @@
 <?php
 switch ($path[2]){
     case 'add':
+        // Kiểm tra quyền truy cập
+        if(!$role['kplus']['add']){
+            $header['title'] = 'Lỗi quyền truy cập';
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
+            echo admin_error('Thêm mới', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+
+        $header['js']       = [
+            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
         $header['title'] = 'Thêm dữ liệu';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
         echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
@@ -15,6 +29,7 @@ switch ($path[2]){
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane in active" id="first">
+                        <?=formOpen('POST', ['id' => 'add'])?>
                         <?=formInputText('kplus_code', [
                             'layout'        => 'horizonta',
                             'label'         => '<code>*</code> Mã thẻ',
@@ -26,17 +41,35 @@ switch ($path[2]){
                             'label'         => '<code>*</code> Hết hạn',
                             'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
                         ])?>
+                        <?=formInputText('kplus_name', [
+                            'layout'        => 'horizonta',
+                            'label'         => 'Tên chủ thẻ',
+                            'autofocus'     => 'true',
+                            'placeholder'   => 'Tên chủ thẻ. Có thể để trống'
+                        ])?>
                         <div class="text-center">
                             <?=formButton('THÊM MỚI', [
                                 'id' => 'button_add'
                             ])?>
                         </div>
+                        <?=formClose()?>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="second">
+                        <?=formOpen('POST', ['id' => 'adds'])?>
+                        <?=formInputText('kplus_expired', [
+                            'label'         => '<code>*</code> Hết hạn',
+                            'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
+                        ])?>
                         <?=formInputTextarea('content', [
                             'placeholder'   => 'Mỗi mã thẻ phân cách bằng dấu xuống dòng. (VD: 135298654521/ - 24/02/1992)',
                             'rows'          =>  10
                         ])?>
+                        <div class="text-center">
+                            <?=formButton('THÊM MỚI', [
+                                'id' => 'button_adds'
+                            ])?>
+                        </div>
+                        <?=formClose()?>
                     </div>
                 </div>
             </div>
