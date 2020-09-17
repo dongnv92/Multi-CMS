@@ -158,6 +158,7 @@ switch ($path[2]){
         $kplus  = new Kplus($database);
         $data   = $kplus->get_all();
         $param  = get_param_defaul();
+        $static = $kplus->getStatics();
 
         $header['css']      = [
             URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
@@ -173,9 +174,10 @@ switch ($path[2]){
         ?>
         <div class="row">
             <div class="col-lg-12">
-                <a href="<?=URL_ADMIN . "/{$path[1]}"?>" class="text-small">Chưa đăng ký</a> |
-                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=wait"?>" class="text-small text-success">Đang chờ đăng ký</a> |
-                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=registered"?>" class="text-small text-danger">Đã đăng ký</a>
+                <a href="<?=URL_ADMIN . "/{$path[1]}"?>" class="text-small text-success">Chưa đăng ký (<?=$static['unregistered']?>)</a> |
+                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=wait"?>" class="text-small text-info">Đang chờ đăng ký (<?=$static['wait']?>)</a> |
+                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=registered"?>" class="text-small text-danger">Đã đăng ký (<?=$static['registered']?>)</a> |
+                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=error"?>" class="text-small text-danger">Thẻ Lỗi (<?=$static['error']?>)</a>
             </div>
             <div class="col-lg-12">
                 <div class="card action_bar m-t-15">
@@ -235,7 +237,7 @@ switch ($path[2]){
                                         <?=$kplus->caculatorDate($row['kplus_expired'])?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$row['kplus_status'] == 'unregistered' ? '<span class="text-success">Chưa đăng ký</span>' : '<span class="text-danger">Đã đăng ký</span>'?>
+                                        <?=$kplus->getStatus($row['kplus_status'])?>
                                     </td>
                                     <td class="text-center align-middle">
                                         <?=view_date_time($row['kplus_time'])?>

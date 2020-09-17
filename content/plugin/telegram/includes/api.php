@@ -79,6 +79,12 @@ switch ($path[2]){
                             exit();
                         }
                         $kplus  = new Kplus($database);
+                        // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
+                        if(!$kplus->checkChatId($chatId)){
+                            $telegram->sendMessage("Bạn cần đánh dấu trạng thái trẻ trước trước khi lấy mã mới.");
+                            exit();
+                        }
+
                         $search = $kplus->searchCode($message[2]);
                         if(!$search){
                             $telegram->sendMessage("Hiện tài khoản ứng với số tháng bạn chọn hiện không còn. Vui lòng chọn tháng khác.");
@@ -89,32 +95,23 @@ switch ($path[2]){
                             $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
                             exit();
                         }
-                        $telegram->sendMessage("Lấy thông tin mã thẻ thành công.");
-                        $telegram->sendMessage($search['kplus_code']);
-                        $telegram->sendMessage($search['kplus_expired']);
-                        $telegram->sendMessage($kplus->caculatorDate($search['kplus_expired']));
+                        $telegram->sendMessage("Lấy thông tin mã thẻ thành công.\n{$search['kplus_code']}\n{$search['kplus_expired']}\n".$kplus->caculatorDate($search['kplus_expired']));
+                        $telegram->sendMessage("/kplus_update_{$search['kplus_code']}_registered - Đánh dấu đăng ký thành công.\n/kplus_update_{$search['kplus_code']}_unregistered - Đánh dấu không sử dụng nữa.\n/kplus_update_{$search['kplus_code']}_error - Đánh dấu mã lỗi.");
                         break;
-                    case 'update-status-reg': // Update trạng thái đã đăng ký thành công.
-
-                        break;
-                    case 'update-status-unreg': // Update trạng thái lỗi không đăng ký được.
-
-                        break;
-                    case 'update-status-remove': // Update không dùng mã thẻ nữa.
-
+                    case 'update': // Update trạng thái đã đăng ký thành công.
+                        $kplus_code     = $message[2];
+                        $kplus_status   = $message[3];
+                        $kplus  = new Kplus($database);
+                        $update = $kplus->updateStatusBot($kplus_code, $chatId, $kplus_status);
+                        if($update['response'] != 200){
+                            $telegram->sendMessage("{$update['message']}.");
+                            break;
+                        }
+                        $telegram->sendMessage($update['message']);
                         break;
                     default:
                         $telegram->sendMessage("Câu lệnh không được hỗ trợ.");
-                        $telegram->sendMessage("/kplus_new_3 - Lấy mã 3 tháng.\n
-                        /kplus_new_4 - Lấy mã 4 tháng.\n
-                        /kplus_new_5 - Lấy mã 5 tháng.\n
-                        /kplus_new_6 - Lấy mã 6 tháng.\n
-                        /kplus_new_7 - Lấy mã 7 tháng.\n
-                        /kplus_new_8 - Lấy mã 8 tháng.\n
-                        /kplus_new_9 - Lấy mã 9 tháng.\n
-                        /kplus_new_10 - Lấy mã 10 tháng.\n
-                        /kplus_new_11 - Lấy mã 11 tháng.\n
-                        /kplus_new_12 - Lấy mã 12 tháng.");
+                        $telegram->sendMessage("/kplus_new_3 - Lấy mã 3 tháng.\n/kplus_new_4 - Lấy mã 4 tháng.\n/kplus_new_5 - Lấy mã 5 tháng.\n/kplus_new_6 - Lấy mã 6 tháng.\n/kplus_new_7 - Lấy mã 7 tháng.\n/kplus_new_8 - Lấy mã 8 tháng.\n/kplus_new_9 - Lấy mã 9 tháng.\n/kplus_new_10 - Lấy mã 10 tháng.\n/kplus_new_11 - Lấy mã 11 tháng.\n/kplus_new_12 - Lấy mã 12 tháng.");
                         break;
                 }
                 break;

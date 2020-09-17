@@ -9,7 +9,7 @@ class Kplus{
     const kplus_status  = 'kplus_status'; // unregistered|registered
     const kplus_note    = 'kplus_note';
     const kplus_time    = 'kplus_time';
-    const kplus_status_value        = ['unregistered', 'registered', 'wait']; // unregistered|registered
+    const kplus_status_value        = ['unregistered', 'registered', 'wait', 'error']; // unregistered|registered
     const kplus_register_at         = 'kplus_register_at';      // Đăng ký lúc
     const kplus_register_by         = 'kplus_register_by';      // Người đăng ký
     const kplus_register_by_defaule = '823657709';              // ID chát của tôi
@@ -17,6 +17,45 @@ class Kplus{
 
     public function __construct($database){
         $this->db = $database;
+    }
+
+    public function getStatics($type = ''){
+        $db = $this->db;
+        switch ($type){
+            default:
+                $data_unreg = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'unregistered')->fetch_first();
+                $data_reg   = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'registered')->fetch_first();
+                $data_wait  = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'wait')->fetch_first();
+                $data_error = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'error')->fetch_first();
+                return ['unregistered' => $data_unreg['count'], 'registered' => $data_reg['count'], 'wait' => $data_wait['count'], 'error' => $data_error['count']];
+                break;
+        }
+    }
+
+    function checkChatId($chatid){
+        $db     = $this->db;
+        $check  = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'wait')->fetch_first();
+        if($check['count'] > 0){
+            return false;
+        }
+        return true;
+    }
+
+    public function getStatus($status){
+        switch ($status){
+            case 'unregistered':
+                return '<span class="text-success">Chưa đăng ký</span>';
+                break;
+            case 'registered':
+                return '<span class="text-danger">Đã đăng ký</span>';
+                break;
+            case 'wait':
+                return '<span class="text-info">Đang đăng ký</span>';
+                break;
+            case 'error':
+                return '<span class="text-danger">Thẻ lỗi</span>';
+                break;
+        }
     }
 
     private function validateCode($code){
@@ -243,13 +282,46 @@ class Kplus{
             return get_response_array(309, 'Mã thẻ không tồn tại.');
         }
         if(!in_array($status, self::kplus_status_value)){
-            return get_response_array(309, 'Trạng thái không đúng định dạng. '.$status);
+            return get_response_array(309, 'Trạng thái không đúng định dạng.');
         }
+
+        if(in_array($check[self::kplus_status], ['error', 'registered'])){
+            return get_response_array(309, 'Thẻ đã đánh dấu đăng ký xong hoặc lỗi không để update lại.');
+        }
+
         $data = [
             self::kplus_status              => $db->escape($status),
             self::kplus_register_at         => get_date_time(),
             self::kplus_register_by         => self::kplus_register_by_defaule,
             self::kplus_register_payment    => 'paid'
+        ];
+
+        $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
+        if(!$action){
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        }
+        return ['response' => 200, 'message' => 'Cập nhật dữ liệu thành công'];
+    }
+
+    public function updateStatusBot($kplus_code, $chatid, $status = 'registered'){
+        $db = $this->db;
+        $check = $this->getData($kplus_code);
+        if(!$check){
+            return get_response_array(309, 'Mã thẻ không tồn tại.');
+        }
+        if(!in_array($status, self::kplus_status_value)){
+            return get_response_array(309, 'Trạng thái không đúng định dạng.');
+        }
+
+        if(in_array($check[self::kplus_status], ['error', 'registered'])){
+            return get_response_array(309, 'Thẻ đã đánh dấu đăng ký xong hoặc lỗi không để update lại.');
+        }
+
+        $data = [
+            self::kplus_status              => $db->escape($status),
+            self::kplus_register_at         => get_date_time(),
+            self::kplus_register_by         => $chatid,
+            self::kplus_register_payment    => 'unpaid'
         ];
 
         $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
