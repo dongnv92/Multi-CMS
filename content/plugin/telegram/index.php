@@ -14,6 +14,7 @@ switch ($path[2]){
             $rentcode_apikey    = 'MsxlaU40YLImmynR8ByMAGEaosizG9YOeNa9TI/RpsQ=';
             $rentcode_service   = 258; // 258: Kplus, Dịch vụ khác: 2
             $telegram = new Telegram('rentcode');
+
             ?>
             </div>
         </div>

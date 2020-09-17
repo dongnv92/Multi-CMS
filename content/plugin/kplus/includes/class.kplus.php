@@ -9,7 +9,11 @@ class Kplus{
     const kplus_status  = 'kplus_status'; // unregistered|registered
     const kplus_note    = 'kplus_note';
     const kplus_time    = 'kplus_time';
-    const kplus_status_value  = ['unregistered', 'registered', 'wait']; // unregistered|registered
+    const kplus_status_value        = ['unregistered', 'registered', 'wait']; // unregistered|registered
+    const kplus_register_at         = 'kplus_register_at';      // Đăng ký lúc
+    const kplus_register_by         = 'kplus_register_by';      // Người đăng ký
+    const kplus_register_by_defaule = '823657709';              // ID chát của tôi
+    const kplus_register_payment    = 'kplus_register_payment'; // Tình trạng thanh toán
 
     public function __construct($database){
         $this->db = $database;
@@ -127,6 +131,7 @@ class Kplus{
         return $response;
     }
 
+    // Check Code. Nếu code đã được sử dụng hoặc lỗi thì trả về false
     public function checkCodeAvailable($code){
         $db = $this->db;
         if(!$this->validateCode($code)){
@@ -241,7 +246,10 @@ class Kplus{
             return get_response_array(309, 'Trạng thái không đúng định dạng. '.$status);
         }
         $data = [
-            self::kplus_status  => $db->escape($status),
+            self::kplus_status              => $db->escape($status),
+            self::kplus_register_at         => get_date_time(),
+            self::kplus_register_by         => self::kplus_register_by_defaule,
+            self::kplus_register_payment    => 'paid'
         ];
 
         $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
@@ -262,5 +270,112 @@ class Kplus{
             return get_response_array(309, 'Lỗi không xóa được.');
         }
         return get_response_array(200, 'Xóa thẻ thành công.');
+    }
+
+    private function getCodeByDate($date){
+        $db = $this->db;
+        $check_date = explode('-', $date);
+        if(!checkdate($check_date[1], $check_date[2], $check_date[0])){
+            return false;
+        }
+        $data = $db->select()->from(self::table)->where([self::kplus_status => 'unregistered', self::kplus_expired => $date])->fetch_first();
+        if(!$data){
+            return false;
+        }
+        return $data;
+    }
+
+    // Check xem ngày này có mã nào không?
+    // Date định dạng Y-m-d
+    public function checkCodeDate($date){
+        $db = $this->db;
+        $check_date = explode('-', $date);
+        if(!checkdate($check_date[1], $check_date[2], $check_date[0])){
+            return false;
+        }
+        $check = $db->select('COUNT(*) AS count')->from(self::table)->where([self::kplus_status => 'unregistered', self::kplus_expired => $date])->fetch_first();
+        if($check['count'] > 0){
+            return true;
+        }
+        return false;
+    }
+
+    private function searchCodeDate($date){
+        // Lặp từ -8 ngày đến +8 ngày
+        for ($i=-8; $i<=8; $i++){
+            $newdate    = strtotime(($i >= 0 ? '+' : '')."$i days", strtotime($date));
+            $newdate    = date('Y-m-d', $newdate);
+            if($this->checkCodeDate($newdate)){
+                return $newdate;
+                break;
+            }
+        }
+
+        // Lặp từ 9 đến 90 ngày
+        for ($i=9; $i<=90; $i++){
+            $newdate    = strtotime("+$i days", strtotime($date));
+            $newdate    = date('Y-m-d', $newdate);
+            if($this->checkCodeDate($newdate)){
+                return $newdate;
+                break;
+            }
+        }
+
+        // Lặp Từ -9 đến -90
+        for ($i=-9; $i>=-90; $i--){
+            $newdate    = strtotime("$i days", strtotime($date));
+            $newdate    = date('Y-m-d', $newdate);
+            if($this->checkCodeDate($newdate)){
+                return $newdate;
+                break;
+            }
+        }
+        return false;
+    }
+
+    // Nhập số tháng cần đăng ký và tìm 1 mã phù hợp nhất
+    function searchCode($month){
+        if(!in_array($month, [3,4,5,6,7,8,9,10,11,12])){
+            return false;
+        }
+        $today      = date('Y-m-d', time());
+        $newdate    = strtotime("+$month month", strtotime($today));
+        $newdate    = date('Y-m-d', $newdate);
+        // Nếu ngày này có mã thẻ thì trả về ngày hợp lệ
+        if($this->checkCodeDate($newdate)){
+            $data = $this->getCodeByDate($newdate);
+            if($data){
+                return $data;
+            }
+        }
+        $search_date = $this->searchCodeDate($newdate);
+        if($search_date){
+            $data = $this->getCodeByDate($search_date);
+            if($data){
+                return $data;
+            }
+        }
+        return false;
+    }
+
+    // Update trạng thái sau khi tìm được mã thẻ
+    public function updateSearchCode($kplus_code, $chat_id = self::kplus_register_by_defaule){
+        $db     = $this->db;
+        $count  = $db->select('COUNT(*) AS count')->from(self::table)->where([self::kplus_code => $kplus_code, self::kplus_status => 'unregistered'])->fetch_first();
+        if($count == 0){
+            return false;
+        }
+        $data = [
+            self::kplus_status              => $db->escape('wait'),
+            self::kplus_register_at         => get_date_time(),
+            self::kplus_register_by         => $chat_id,
+            self::kplus_register_payment    => 'unpaid'
+        ];
+
+        $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
+        if(!$action){
+            return false;
+        }
+        return true;
     }
 }

@@ -206,7 +206,9 @@ switch ($path[2]){
                             <thead>
                             <tr>
                                 <th style="width: 20%" class="text-left align-middle">Mã thẻ</th>
-                                <th style="width: 20%" class="text-left align-middle">Ngày hết hạn</th>
+                                <th style="width: 20%" class="text-left align-middle">
+                                    <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] .'?sort=kplus_expired.desc">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] .'">Ngày hết hạn</a>'?>
+                                </th>
                                 <th style="width: 15%" class="text-left align-middle">Đếm ngày</th>
                                 <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
                                 <th style="width: 10%" class="text-center align-middle">Ngày thêm</th>
