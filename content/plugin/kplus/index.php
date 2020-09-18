@@ -211,10 +211,11 @@ switch ($path[2]){
                                 <th style="width: 20%" class="text-left align-middle">
                                     <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] .'?sort=kplus_expired.desc">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] .'">Ngày hết hạn</a>'?>
                                 </th>
-                                <th style="width: 15%" class="text-left align-middle">Đếm ngày</th>
+                                <th style="width: 10%" class="text-left align-middle">Đếm ngày</th>
+                                <th style="width: 10%" class="text-center align-middle">Người Đkí</th>
                                 <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
                                 <th style="width: 10%" class="text-center align-middle">Ngày thêm</th>
-                                <th style="width: 20%" class="text-center align-middle">Quản lý</th>
+                                <th style="width: 15%" class="text-center align-middle">Quản lý</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -235,6 +236,9 @@ switch ($path[2]){
                                     </td>
                                     <td class="text-left align-middle">
                                         <?=$kplus->caculatorDate($row['kplus_expired'])?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <?=$kplus->getNameByChatId($row['kplus_register_by'])?>
                                     </td>
                                     <td class="text-center align-middle">
                                         <?=$kplus->getStatus($row['kplus_status'])?>

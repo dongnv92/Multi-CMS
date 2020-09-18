@@ -95,8 +95,10 @@ switch ($path[2]){
                             $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
                             exit();
                         }
-                        $telegram->sendMessage("Lấy thông tin mã thẻ thành công.\n{$search['kplus_code']}\n{$search['kplus_expired']}\n".$kplus->caculatorDate($search['kplus_expired']));
-                        $telegram->sendMessage("/kplus_update_{$search['kplus_code']}_registered - Đánh dấu đăng ký thành công.\n/kplus_update_{$search['kplus_code']}_unregistered - Đánh dấu không sử dụng nữa.\n/kplus_update_{$search['kplus_code']}_error - Đánh dấu mã lỗi.");
+                        $kplus->updateRegisterMonth($search['kplus_code'], $message[2]);
+                        $content = "Lấy thông tin mã thẻ thành công.\n{$search['kplus_code']} - ". (date('d/m/Y', strtotime($search['kplus_expired']))) ."\n".$kplus->caculatorDate($search['kplus_expired'])."\n";
+                        $content .= "/kplus_update_{$search['kplus_code']}_registered - Đăng ký thành công.\n/kplus_update_{$search['kplus_code']}_unregistered - Không dùng nữa.\n/kplus_update_{$search['kplus_code']}_error - Mã lỗi.";
+                        $telegram->sendMessage($content);
                         break;
                     case 'update': // Update trạng thái đã đăng ký thành công.
                         $kplus_code     = $message[2];
@@ -110,8 +112,18 @@ switch ($path[2]){
                         $telegram->sendMessage($update['message']);
                         break;
                     default:
-                        $telegram->sendMessage("Câu lệnh không được hỗ trợ.");
-                        $telegram->sendMessage("/kplus_new_3 - Lấy mã 3 tháng.\n/kplus_new_4 - Lấy mã 4 tháng.\n/kplus_new_5 - Lấy mã 5 tháng.\n/kplus_new_6 - Lấy mã 6 tháng.\n/kplus_new_7 - Lấy mã 7 tháng.\n/kplus_new_8 - Lấy mã 8 tháng.\n/kplus_new_9 - Lấy mã 9 tháng.\n/kplus_new_10 - Lấy mã 10 tháng.\n/kplus_new_11 - Lấy mã 11 tháng.\n/kplus_new_12 - Lấy mã 12 tháng.");
+                        $content = "Câu lệnh không được hỗ trợ.\n";
+                        $content .= "/kplus_new_3 - Lấy mã 3 tháng.\n";
+                        $content .= "/kplus_new_4 - Lấy mã 4 tháng.\n";
+                        $content .= "/kplus_new_5 - Lấy mã 5 tháng.\n";
+                        $content .= "/kplus_new_6 - Lấy mã 6 tháng.\n";
+                        $content .= "/kplus_new_7 - Lấy mã 7 tháng.\n";
+                        $content .= "/kplus_new_8 - Lấy mã 8 tháng.\n";
+                        $content .= "/kplus_new_9 - Lấy mã 9 tháng.\n";
+                        $content .= "/kplus_new_10 - Lấy mã 10 tháng.\n";
+                        $content .= "/kplus_new_11 - Lấy mã 11 tháng.\n";
+                        $content .= "/kplus_new_12 - Lấy mã 12 tháng.\n";
+                        $telegram->sendMessage($content);
                         break;
                 }
                 break;

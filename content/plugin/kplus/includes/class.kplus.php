@@ -12,11 +12,23 @@ class Kplus{
     const kplus_status_value        = ['unregistered', 'registered', 'wait', 'error']; // unregistered|registered
     const kplus_register_at         = 'kplus_register_at';      // Đăng ký lúc
     const kplus_register_by         = 'kplus_register_by';      // Người đăng ký
+    const kplus_register_month      = 'kplus_register_month';   // Người đăng ký
     const kplus_register_by_defaule = '823657709';              // ID chát của tôi
     const kplus_register_payment    = 'kplus_register_payment'; // Tình trạng thanh toán
 
     public function __construct($database){
         $this->db = $database;
+    }
+
+    public function getNameByChatId($chatid){
+        switch ($chatid){
+            case '823657709':
+                return 'Tôi';
+                break;
+            default:
+                return '---';
+                break;
+        }
     }
 
     public function getStatics($type = ''){
@@ -32,9 +44,16 @@ class Kplus{
         }
     }
 
+    public function getListChatid(){
+        global $database;
+        $data   = $database->query("SELECT DISTINCT ". self::kplus_register_by ." FROM ". self::table)->fetch();
+        $return = '';
+        return $data;
+    }
+
     function checkChatId($chatid){
         $db     = $this->db;
-        $check  = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'wait')->fetch_first();
+        $check  = $db->select('COUNT(*) AS count')->from(self::table)->where([self::kplus_status => 'wait', self::kplus_register_by => $chatid])->fetch_first();
         if($check['count'] > 0){
             return false;
         }
@@ -344,6 +363,26 @@ class Kplus{
         return get_response_array(200, 'Xóa thẻ thành công.');
     }
 
+    public function updateRegisterMonth($kplus_code, $month){
+        $db = $this->db;
+        $check = $this->getData($kplus_code);
+        if(!$check){
+            return get_response_array(309, 'Mã thẻ không tồn tại.');
+        }
+        if(!in_array($month, [3,4,5,6,7,8,9,10,11,12])){
+            return get_response_array(309, 'Mã thẻ không tồn tại.');
+        }
+        $data = [
+            self::kplus_register_month  => $db->escape($month)
+        ];
+
+        $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
+        if(!$action){
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        }
+        return ['response' => 200, 'message' => 'Cập nhật dữ liệu thành công'];
+    }
+
     private function getCodeByDate($date){
         $db = $this->db;
         $check_date = explode('-', $date);
@@ -374,8 +413,9 @@ class Kplus{
 
     private function searchCodeDate($date){
         // Lặp từ -8 ngày đến +8 ngày
-        for ($i=-8; $i<=8; $i++){
-            $newdate    = strtotime(($i >= 0 ? '+' : '')."$i days", strtotime($date));
+        $list_change = ['+1 days', '-1 days', '+2 days', '-2 days', '+3 days', '-3 days', '+4 days', '-4 days', '+5 days', '-5 days', '+6 days', '-6 days', '+7 days', '-7 days', '+8 days', '-8 days'];
+        foreach ($list_change AS $_list_change){
+            $newdate    = strtotime($_list_change, strtotime($date));
             $newdate    = date('Y-m-d', $newdate);
             if($this->checkCodeDate($newdate)){
                 return $newdate;
@@ -384,7 +424,7 @@ class Kplus{
         }
 
         // Lặp từ 9 đến 90 ngày
-        for ($i=9; $i<=90; $i++){
+        for ($i=9; $i<=60; $i++){
             $newdate    = strtotime("+$i days", strtotime($date));
             $newdate    = date('Y-m-d', $newdate);
             if($this->checkCodeDate($newdate)){
