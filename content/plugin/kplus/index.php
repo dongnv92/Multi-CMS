@@ -30,27 +30,35 @@ switch ($path[2]){
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane in active" id="first">
                         <?=formOpen('POST', ['id' => 'add'])?>
-                        <?=formInputText('kplus_code', [
-                            'layout'        => 'horizonta',
-                            'label'         => '<code>*</code> Mã thẻ',
-                            'autofocus'     => 'true',
-                            'placeholder'   => 'Mã thẻ gồm 12 chữ số'
-                        ])?>
-                        <?=formInputText('kplus_expired', [
-                            'layout'        => 'horizonta',
-                            'label'         => '<code>*</code> Hết hạn',
-                            'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
-                        ])?>
-                        <?=formInputText('kplus_name', [
-                            'layout'        => 'horizonta',
-                            'label'         => 'Tên chủ thẻ',
-                            'autofocus'     => 'true',
-                            'placeholder'   => 'Tên chủ thẻ. Có thể để trống'
-                        ])?>
-                        <div class="text-center">
-                            <?=formButton('THÊM MỚI', [
-                                'id' => 'button_add'
-                            ])?>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <?=formInputText('kplus_code', [
+                                    'layout'        => 'horizonta',
+                                    'label'         => '<code>*</code> Mã thẻ',
+                                    'autofocus'     => 'true',
+                                    'placeholder'   => 'Mã thẻ gồm 12 chữ số'
+                                ])?>
+                            </div>
+                            <div class="col-lg-12">
+                                <?=formInputText('kplus_expired', [
+                                    'layout'        => 'horizonta',
+                                    'label'         => '<code>*</code> Hết hạn',
+                                    'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
+                                ])?>
+                            </div>
+                            <div class="col-lg-12">
+                                <?=formInputText('kplus_name', [
+                                    'layout'        => 'horizonta',
+                                    'label'         => 'Tên chủ thẻ',
+                                    'autofocus'     => 'true',
+                                    'placeholder'   => 'Tên chủ thẻ. Có thể để trống'
+                                ])?>
+                            </div>
+                            <div class="col-lg-12 text-center">
+                                <?=formButton('THÊM MỚI', [
+                                    'type' => 'submit', 'name' => 'submit', 'value' => 'submit','id' => 'button_add'
+                                ])?>
+                            </div>
                         </div>
                         <?=formClose()?>
                     </div>
@@ -159,6 +167,27 @@ switch ($path[2]){
         $data   = $kplus->get_all();
         $param  = get_param_defaul();
         $static = $kplus->getStatics();
+        $list_chatid    = $kplus->getListChatid();
+        $select_chatid  = ['' => 'Tất cả'];
+
+        foreach ($list_chatid AS $_list_chatid){
+            $select_chatid[$_list_chatid] = $kplus->getNameByChatId($_list_chatid);
+        }
+
+        $select_payment = [
+            ''  => 'Thanh toán',
+            'paid'  => 'Đã thanh toán',
+            'unpaid'  => 'Chưa thanh toán'
+        ];
+
+        $select_status = [
+            '' => 'Tất cả ('. $static['all'] .')',
+            'unregistered'  => 'Chưa đăng ký ('. $static['unregistered'] .')',
+            'wait'          => 'Đang chờ ('. $static['wait'] .')',
+            'registered'    => 'Đã đăng ký ('. $static['registered'] .')',
+            'error'         => 'Thẻ lỗi ('. $static['error'] .')'
+        ];
+
 
         $header['css']      = [
             URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
@@ -173,11 +202,13 @@ switch ($path[2]){
         echo admin_breadcrumbs('Kplus', 'Danh sách mã thẻ','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
         ?>
         <div class="row">
-            <div class="col-lg-12">
-                <a href="<?=URL_ADMIN . "/{$path[1]}"?>" class="text-small text-success">Chưa đăng ký (<?=$static['unregistered']?>)</a> |
-                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=wait"?>" class="text-small text-info">Đang chờ đăng ký (<?=$static['wait']?>)</a> |
-                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=registered"?>" class="text-small text-danger">Đã đăng ký (<?=$static['registered']?>)</a> |
-                <a href="<?=URL_ADMIN . "/{$path[1]}/?kplus_status=error"?>" class="text-small text-danger">Thẻ Lỗi (<?=$static['error']?>)</a>
+            <div class="col-lg-6">
+                Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.<br />
+                <a href="<?=URL_ADMIN."/{$path[1]}/"?>">Làm mới</a> | <a href="<?=URL_ADMIN."/{$path[1]}/add"?>">Thêm mới</a>
+            </div>
+            <div class="col-lg-6">
+                <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
             </div>
             <div class="col-lg-12">
                 <div class="card action_bar m-t-15">
@@ -192,10 +223,16 @@ switch ($path[2]){
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
-                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
+                            <?=formInputSelect('kplus_status', $select_status, ['data-live-search' => 'true', 'selected' => $_REQUEST['kplus_status']])?>
                         </div>
-                        <div class="col-lg-6 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
-                            <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('kplus_register_by', $select_chatid, ['data-live-search' => 'true', 'selected' => $_REQUEST['kplus_register_by']])?>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formInputSelect('kplus_register_payment', $select_payment, ['data-live-search' => 'true', 'selected' => $_REQUEST['kplus_register_payment']])?>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
+                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
                         </div>
                     </div>
                     <?=formClose()?>
@@ -212,9 +249,9 @@ switch ($path[2]){
                                     <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] .'?sort=kplus_expired.desc">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] .'">Ngày hết hạn</a>'?>
                                 </th>
                                 <th style="width: 10%" class="text-left align-middle">Đếm ngày</th>
-                                <th style="width: 10%" class="text-center align-middle">Người Đkí</th>
+                                <th style="width: 10%" class="text-center align-middle">Người Đkí/Tháng</th>
                                 <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
-                                <th style="width: 10%" class="text-center align-middle">Ngày thêm</th>
+                                <th style="width: 10%" class="text-center align-middle">Ngày thêm/Đkí</th>
                                 <th style="width: 15%" class="text-center align-middle">Quản lý</th>
                             </tr>
                             </thead>
@@ -238,13 +275,13 @@ switch ($path[2]){
                                         <?=$kplus->caculatorDate($row['kplus_expired'])?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$kplus->getNameByChatId($row['kplus_register_by'])?>
+                                        <?=$kplus->getNameByChatId($row['kplus_register_by']).($row['kplus_register_month'] ? '<br />'.$row['kplus_register_month'].' tháng' : '')?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=$kplus->getStatus($row['kplus_status'])?>
+                                        <?=$kplus->getStatus($row['kplus_status']).($row['kplus_status'] == 'registered' ? '<br />'.($row['kplus_register_payment'] == 'paid' ? '<span class="text-success">Đã thanh toán</span>' : '<span class="text-danger">Chưa thanh toán</span>') : '')?>
                                     </td>
                                     <td class="text-center align-middle">
-                                        <?=view_date_time($row['kplus_time'])?>
+                                        <?=view_date_time($row['kplus_time']).($row['kplus_register_at'] ? '<br />'.date('d/m/Y', strtotime($row['kplus_register_at'])) : '')?>
                                     </td>
                                     <td class="text-center align-middle">
                                         <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['kplus_code']}"?>" title="Sửa mã thẻ này"><i class="material-icons">mode_edit</i></a>
@@ -264,7 +301,7 @@ switch ($path[2]){
                     </div>
                 </div>
                 <div class="text-center clearfix">
-                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
+
                 </div>
             </div>
         </div>

@@ -39,7 +39,13 @@ class Kplus{
                 $data_reg   = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'registered')->fetch_first();
                 $data_wait  = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'wait')->fetch_first();
                 $data_error = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'error')->fetch_first();
-                return ['unregistered' => $data_unreg['count'], 'registered' => $data_reg['count'], 'wait' => $data_wait['count'], 'error' => $data_error['count']];
+                return [
+                    'all'           => $data_unreg['count'] + $data_reg['count'] + $data_wait['count'] + $data_error['count'],
+                    'unregistered'  => $data_unreg['count'],
+                    'registered'    => $data_reg['count'],
+                    'wait'          => $data_wait['count'],
+                    'error'         => $data_error['count']
+                ];
                 break;
         }
     }
@@ -47,8 +53,12 @@ class Kplus{
     public function getListChatid(){
         global $database;
         $data   = $database->query("SELECT DISTINCT ". self::kplus_register_by ." FROM ". self::table)->fetch();
-        $return = '';
-        return $data;
+        $return = [];
+        foreach ($data AS $_data){
+            $return[] = $_data['kplus_register_by'];
+        }
+        $return = array_filter($return);
+        return $return;
     }
 
     function checkChatId($chatid){
@@ -121,11 +131,22 @@ class Kplus{
         $offset     = $param['offset'];
         $where      = [];
         $pagination = [];
-        $where[self::kplus_status] = 'unregistered';
+        //$where[self::kplus_status] = 'unregistered';
 
         // Lọc trạng thái
         if(in_array($_REQUEST[self::kplus_status], self::kplus_status_value)){
             $where[self::kplus_status] = $_REQUEST[self::kplus_status];
+        }
+
+        // Lọc thanh toán
+        if(in_array($_REQUEST[self::kplus_register_payment], ['paid', 'unpaid'])){
+            $where[self::kplus_register_payment] = $_REQUEST[self::kplus_register_payment];
+        }
+
+        // Lọc người đăng ký
+        $list_register_by = $this->getListChatid();
+        if(in_array($_REQUEST[self::kplus_register_by], $list_register_by)){
+            $where[self::kplus_register_by] = $_REQUEST[self::kplus_register_by];
         }
 
         // Tính tổng data
