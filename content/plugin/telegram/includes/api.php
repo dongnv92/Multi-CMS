@@ -70,7 +70,7 @@ switch ($path[2]){
                 switch ($message[1]){
                     case 'n':
                         // Check quyền truy cập
-                        if(!in_array($chatId, ['823657709'])){
+                        if(!in_array($chatId, ['823657709', '1150103183'])){
                             $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
                             exit();
                         }
@@ -102,6 +102,11 @@ switch ($path[2]){
                         $telegram->sendMessage($content);
                         break;
                     case 'u': // Update trạng thái đã đăng ký thành công.
+                        // Check quyền truy cập
+                        if(!in_array($chatId, ['823657709', '1150103183'])){
+                            $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
+                            exit();
+                        }
                         $kplus_code     = $message[2];
                         $kplus_status   = $message[3];
                         $kplus  = new Kplus($database);

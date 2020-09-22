@@ -25,6 +25,9 @@ class Kplus{
             case '823657709':
                 return 'Tôi';
                 break;
+            case '1150103183':
+                return 'Tây';
+                break;
             default:
                 return '---';
                 break;
