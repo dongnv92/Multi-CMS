@@ -15,9 +15,9 @@ switch ($path[2]){
             '823657709'         // Me
         ];
         switch ($message[0]){
-            case '/rentcode':
+            case '/r':
                 switch ($message[1]){
-                    case 'new':
+                    case 'n':
                         // Check quyền truy cập
                         if(!in_array($chatId, ['823657709'])){
                             $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
@@ -30,12 +30,12 @@ switch ($path[2]){
                         $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey, 'ServiceProviderId' => $rentcode_service], 'GET');
                         $fetch  = json_decode($fetch, true);
                         if(validate_int($fetch['id'])){
-                            $telegram->sendMessage("Tạo vận đơn mới thành công.\n/rentcode_check_{$fetch['id']}");
+                            $telegram->sendMessage("Tạo vận đơn mới thành công.\n/r_c_{$fetch['id']}");
                         }else{
-                            $telegram->sendMessage("Tạo vận đơn mới không thành công.\nTạo vận đơn khác.\n/rentcode_new");
+                            $telegram->sendMessage("Tạo vận đơn mới không thành công.\nTạo vận đơn khác.\n/r_n");
                         }
                         break;
-                    case 'check':
+                    case 'c':
                         if(!$message[2]){
                             $telegram->sendMessage("Thiếu mã đơn.");
                             break;
@@ -48,27 +48,27 @@ switch ($path[2]){
                         $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey], 'GET');
                         $fetch  = json_decode($fetch, true);
                         if(!$fetch['phoneNumber']){
-                            $telegram->sendMessage("Chưa tính toán được số điện thoại. Click lệnh dưới đây để check lại.\n/rentcode_check_{$message[2]}");
+                            $telegram->sendMessage("Chưa tính toán được số điện thoại. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
                             break;
                         }
                         $telegram->sendMessage($fetch['phoneNumber']);
                         if(!$fetch['messages'][0]['message']){
-                            $telegram->sendMessage("Chưa có mã gửi đến. Click lệnh dưới đây để check lại.\n/rentcode_check_{$message[2]}");
+                            $telegram->sendMessage("Chưa có mã gửi đến. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
                             break;
                         }
                         $telegram->sendMessage($fetch['messages'][0]['message']);
                         break;
                     default:
-                        $telegram->sendMessage("Câu lệnh không được hỗ trợ.\n/rentcode_new : Tạo mã đơn hàng mới.\n/rentcode_new 2: Tạo mã đơn hàng mới với dịch vụ khác.\n/rentcode_check_{id}: Check đơn hàng.");
+                        $telegram->sendMessage("Câu lệnh không được hỗ trợ.\n/r_n : Tạo mã đơn hàng mới.\n/r_n_2: Tạo mã đơn hàng mới với dịch vụ khác.\n/r_c_{id}: Check đơn hàng.");
                         break;
                 }
                 break;
             case '/getchatid':
                 $telegram->sendMessage("Mã chát ID của bạn là: $chatId");
                 break;
-            case '/kplus':
+            case '/k':
                 switch ($message[1]){
-                    case 'new':
+                    case 'n':
                         // Check quyền truy cập
                         if(!in_array($chatId, ['823657709'])){
                             $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
@@ -81,26 +81,27 @@ switch ($path[2]){
                         $kplus  = new Kplus($database);
                         // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
                         if(!$kplus->checkChatId($chatId)){
-                            $telegram->sendMessage("Bạn cần đánh dấu trạng thái trẻ trước trước khi lấy mã mới.");
+                            $telegram->sendMessage("Bạn cần cập nhật trạng thái mã trẻ trước trước trước khi lấy mã mới.");
                             exit();
                         }
 
                         $search = $kplus->searchCode($message[2]);
                         if(!$search){
-                            $telegram->sendMessage("Hiện tài khoản ứng với số tháng bạn chọn hiện không còn. Vui lòng chọn tháng khác.");
+                            $telegram->sendMessage("Hiện tài khoản ứng với số tháng bạn chọn hiện không còn. Vui lòng chọn số tháng khác.");
                             exit();
                         }
+
                         $update = $kplus->updateSearchCode($search['kplus_code'], $chatId);
                         if(!$update){
                             $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
                             exit();
                         }
                         $kplus->updateRegisterMonth($search['kplus_code'], $message[2]);
-                        $content = "Lấy thông tin mã thẻ thành công.\n{$search['kplus_code']} - ". (date('d/m/Y', strtotime($search['kplus_expired']))) ."\n".$kplus->caculatorDate($search['kplus_expired'])."\n";
-                        $content .= "/kplus_update_{$search['kplus_code']}_registered - Đăng ký thành công.\n/kplus_update_{$search['kplus_code']}_unregistered - Không dùng nữa.\n/kplus_update_{$search['kplus_code']}_error - Mã lỗi.";
+                        $content = "- Lấy mã thẻ thành công.\n{$search['kplus_code']}\n". (date('d/m/Y', strtotime($search['kplus_expired'])))." - ".$kplus->caculatorDate($search['kplus_expired'])."\n";
+                        $content .= "/k_u_{$search['kplus_code']}_registered - Thành công.\n/k_u_{$search['kplus_code']}_unregistered - Không dùng nữa.\n/k_u_{$search['kplus_code']}_error - Mã lỗi.";
                         $telegram->sendMessage($content);
                         break;
-                    case 'update': // Update trạng thái đã đăng ký thành công.
+                    case 'u': // Update trạng thái đã đăng ký thành công.
                         $kplus_code     = $message[2];
                         $kplus_status   = $message[3];
                         $kplus  = new Kplus($database);
@@ -111,18 +112,23 @@ switch ($path[2]){
                         }
                         $telegram->sendMessage($update['message']);
                         break;
+                    case 'cp':
+                        $kplus  = new Kplus($database);
+                        $month  = $kplus->getMonthUnPaid($chatId);
+                        $telegram->sendMessage("Số tháng bạn chưa thanh toán là: ". ($month > 0 ? $month : '0') ." tháng.");
+                        break;
                     default:
                         $content = "Câu lệnh không được hỗ trợ.\n";
-                        $content .= "/kplus_new_3 - Lấy mã 3 tháng.\n";
-                        $content .= "/kplus_new_4 - Lấy mã 4 tháng.\n";
-                        $content .= "/kplus_new_5 - Lấy mã 5 tháng.\n";
-                        $content .= "/kplus_new_6 - Lấy mã 6 tháng.\n";
-                        $content .= "/kplus_new_7 - Lấy mã 7 tháng.\n";
-                        $content .= "/kplus_new_8 - Lấy mã 8 tháng.\n";
-                        $content .= "/kplus_new_9 - Lấy mã 9 tháng.\n";
-                        $content .= "/kplus_new_10 - Lấy mã 10 tháng.\n";
-                        $content .= "/kplus_new_11 - Lấy mã 11 tháng.\n";
-                        $content .= "/kplus_new_12 - Lấy mã 12 tháng.\n";
+                        $content .= "/k_n_3 - Lấy mã 3 tháng.\n";
+                        $content .= "/k_n_4 - Lấy mã 4 tháng.\n";
+                        $content .= "/k_n_5 - Lấy mã 5 tháng.\n";
+                        $content .= "/k_n_6 - Lấy mã 6 tháng.\n";
+                        $content .= "/k_n_7 - Lấy mã 7 tháng.\n";
+                        $content .= "/k_n_8 - Lấy mã 8 tháng.\n";
+                        $content .= "/k_n_9 - Lấy mã 9 tháng.\n";
+                        $content .= "/k_n_10 - Lấy mã 10 tháng.\n";
+                        $content .= "/k_n_11 - Lấy mã 11 tháng.\n";
+                        $content .= "/k_n_12 - Lấy mã 12 tháng.\n";
                         $telegram->sendMessage($content);
                         break;
                 }

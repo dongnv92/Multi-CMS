@@ -1,5 +1,25 @@
 <?php
 switch ($path[2]){
+    case 'paid':
+        if(!$role['kplus']['manager']){
+            exit('Forbidden');
+        }
+        $kplus  = new Kplus($database);
+        $action = $kplus->paid($path[3]);
+        echo encode_json($action);
+        break;
+    case 'check_name':
+        if(!$role['kplus']['manager']){
+            exit('Forbidden');
+        }
+        $kplus  = new Kplus($database);
+        $action = $kplus->checkName($_REQUEST['kplus_name']);
+        if($action){
+            echo encode_json(['response' => 404, 'message' => 'Tên đã có trong danh sách']);
+        }else{
+            echo encode_json(['response' => 200, 'message' => 'Tên chưa có trong danh sách']);
+        }
+        break;
     case 'update_status':
         if(!$role['kplus']['manager']){
             exit('Forbidden');

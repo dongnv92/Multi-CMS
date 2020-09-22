@@ -110,6 +110,33 @@ class Kplus{
         return $interval->m . " Tháng, " . $interval->d . " Ngày";
     }
 
+    public function checkName($name){
+        global $database;
+        $check = $database->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_name, trim($name))->fetch_first();
+        if($check['count'] > 0){
+            return true;
+        }
+        return false;
+    }
+
+    public function getMonthUnPaid($chatid){
+        global $database;
+        $data = $database->select('SUM('. self::kplus_register_month .') AS count')->from(self::table)->where([self::kplus_register_by => $chatid, self::kplus_register_payment => 'unpaid', self::kplus_status => 'registered'])->fetch_first();
+        return $data['count'];
+    }
+
+    public function paid($chatid){
+        global $database;
+        $data = [
+            self::kplus_register_payment => 'paid'
+        ];
+        $action = $database->where(self::kplus_register_by, $chatid)->update(self::table, $data);
+        if(!$action){
+            return get_response_array(311, 'Update lỗi.');
+        }
+        return get_response_array(200, 'Update thanh toán thành công.');
+    }
+
     // dd/mm/yyyy VD 24/02/1992
     private function checkDate($date){
         if(strlen(trim($date)) != 10){

@@ -46,12 +46,17 @@ switch ($path[2]){
                                     'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
                                 ])?>
                             </div>
-                            <div class="col-lg-12">
+                            <div class="col-lg-10">
                                 <?=formInputText('kplus_name', [
                                     'layout'        => 'horizonta',
                                     'label'         => 'Tên chủ thẻ',
                                     'autofocus'     => 'true',
                                     'placeholder'   => 'Tên chủ thẻ. Có thể để trống'
+                                ])?>
+                            </div>
+                            <div class="col-lg-2 text-left">
+                                <?=formButton('CHECK NAME', [
+                                    'id' => 'button_checkname'
                                 ])?>
                             </div>
                             <div class="col-lg-12 text-center">
@@ -85,7 +90,7 @@ switch ($path[2]){
         <?php
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
         break;
-        case 'update':
+    case 'update':
         // Kiểm tra quyền truy cập
         if(!$role['kplus']['manager']){
             $header['title'] = 'Lỗi quyền truy cập';
@@ -204,7 +209,16 @@ switch ($path[2]){
         <div class="row">
             <div class="col-lg-6">
                 Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
-                Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.<br />
+                Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                <?php
+                if($_REQUEST['kplus_register_by'] && $_REQUEST['kplus_register_payment']){
+                    $month_unpaid = $kplus->getMonthUnPaid($_REQUEST['kplus_register_by']);
+                    if($month_unpaid > 0){
+                        echo "<strong>$month_unpaid</strong> tháng chưa thanh toán. <a href='javascript:;' id='confirm_paid' data-id='{$_REQUEST['kplus_register_by']}'>Xác nhận thanh toán</a>";
+                    }
+                }
+                ?>
+                <br />
                 <a href="<?=URL_ADMIN."/{$path[1]}/"?>">Làm mới</a> | <a href="<?=URL_ADMIN."/{$path[1]}/add"?>">Thêm mới</a>
             </div>
             <div class="col-lg-6">
@@ -246,7 +260,7 @@ switch ($path[2]){
                             <tr>
                                 <th style="width: 20%" class="text-left align-middle">Mã thẻ</th>
                                 <th style="width: 20%" class="text-left align-middle">
-                                    <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] .'?sort=kplus_expired.desc">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] .'">Ngày hết hạn</a>'?>
+                                    <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => 'kplus_expired.desc']) .'">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => '']) .'">Ngày hết hạn</a>'?>
                                 </th>
                                 <th style="width: 10%" class="text-left align-middle">Đếm ngày</th>
                                 <th style="width: 10%" class="text-center align-middle">Người Đkí/Tháng</th>

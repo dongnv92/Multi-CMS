@@ -46,6 +46,37 @@ switch ($path[2]) {
         ?>
         //<script>
         $(document).ready(function () {
+
+            $('#button_checkname').on('click', function () {
+                var ajax = $.ajax({
+                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/check_name"?>',
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : $('form[id="add"]').serialize(),
+                    beforeSend  : function () {
+                        $('#button_checkname').attr('disabled', true);
+                        $('#button_checkname').html('ĐANG KIỂM TRA ...');
+                    }
+                });
+                ajax.done(function (data) {
+                    if(data.response == 200){
+                        show_notify(data.message, 'bg-green');
+                        $('#button_checkname').attr('disabled', false);
+                        $('#button_checkname').html('CHECK NAME');
+                    }else{
+                        show_notify(data.message, 'bg-red');
+                        $('#button_checkname').attr('disabled', false);
+                        $('#button_checkname').html('CHECK NAME');
+                    }
+                });
+
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $('#button_checkname').attr('disabled', false);
+                    $('#button_checkname').html('CHECK NAME');
+                    alert( "Request failed: " + jqXHR.responseText );
+                });
+            });
+
             $('#button_adds').on('click', function () {
                 var ajax = $.ajax({
                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/adds"?>',
@@ -115,6 +146,41 @@ switch ($path[2]) {
         ?>
         //<script>
         $(document).ready(function () {
+
+            // Paid
+            $('#confirm_paid').on('click', function () {
+                var id = $(this).data('id');
+                swal({
+                    title: "Cập nhật thanh toán",
+                    text: "Bạn có muốn xác nhận thanh toán không?",
+                    type: "warning",
+                    showCancelButton: true,
+                    closeOnConfirm: false,
+                    showLoaderOnConfirm: true,
+                }, function () {
+                    setTimeout(function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/paid/"?>' + id,
+                            method      : 'POST',
+                            dataType    : 'json',
+                        });
+                        ajax.done(function (data) {
+                            if(data.response == 200){
+                                swal("Cập nhật thanh toán", "Cập nhật thanh toán thành công!", "success");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            }else{
+                                swal("Cập nhật thanh toán", data.message, "error");
+                            }
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            console.log("Request failed: " + textStatus );
+                        });
+                    }, 2000);
+                });
+            });
+
             // Delete
             $('a[data-type=delete]').on('click', function () {
                 var kpkus_code = $(this).data('id');
