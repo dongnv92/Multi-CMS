@@ -18,23 +18,19 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/plugin/kplus/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1921">
-              <caret line="276" column="37" selection-start-line="276" selection-start-column="37" selection-end-line="276" selection-end-column="37" />
-              <folding>
-                <element signature="e#29#4567#0#PHP" />
-              </folding>
+            <state relative-caret-position="255">
+              <caret line="42" column="63" selection-start-line="42" selection-start-column="50" selection-end-line="42" selection-end-column="63" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/js.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="234" column="53" selection-start-line="234" selection-start-column="53" selection-end-line="234" selection-end-column="53" />
+            <state relative-caret-position="272">
+              <caret line="126" column="52" selection-start-line="126" selection-start-column="52" selection-end-line="126" selection-end-column="52" />
               <folding>
                 <element signature="e#30#1626#0#PHP" />
-                <element signature="e#1631#4552#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -43,13 +39,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+            <state relative-caret-position="425">
+              <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="357">
@@ -58,11 +54,6 @@
                 <element signature="e#783#1885#0#PHP" />
                 <element signature="e#1906#3226#0#PHP" />
                 <element signature="e#3247#3469#0#PHP" />
-                <element signature="e#3720#5808#0#PHP" />
-                <element signature="e#5829#6437#0#PHP" />
-                <element signature="e#6458#6747#0#PHP" />
-                <element signature="e#6768#7599#0#PHP" />
-                <element signature="e#7529#7631#0#PHP" />
               </folding>
             </state>
           </provider>
@@ -153,10 +144,10 @@
         <option value="$PROJECT_DIR$/content/plugin/telegram/index.php" />
         <option value="$PROJECT_DIR$/test.php" />
         <option value="$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/js.php" />
         <option value="$PROJECT_DIR$/content/plugin/kplus/index.php" />
         <option value="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" />
         <option value="$PROJECT_DIR$/content/plugin/telegram/includes/api.php" />
+        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/js.php" />
       </list>
     </option>
   </component>
@@ -378,17 +369,18 @@
       <workItem from="1600656799341" duration="594000" />
       <workItem from="1600739709243" duration="7971000" />
       <workItem from="1600783626057" duration="1613000" />
+      <workItem from="1600873941479" duration="676000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="608604000" />
+    <option name="totallyTimeSpent" value="609280000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20121029" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.204236" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -824,27 +816,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1921">
-          <caret line="276" column="37" selection-start-line="276" selection-start-column="37" selection-end-line="276" selection-end-column="37" />
-          <folding>
-            <element signature="e#29#4567#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1054">
-          <caret line="234" column="53" selection-start-line="234" selection-start-column="53" selection-end-line="234" selection-end-column="53" />
-          <folding>
-            <element signature="e#30#1626#0#PHP" />
-            <element signature="e#1631#4552#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -854,8 +825,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
+        <state relative-caret-position="425">
+          <caret line="25" column="9" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
         </state>
       </provider>
     </entry>
@@ -867,11 +838,23 @@
             <element signature="e#783#1885#0#PHP" />
             <element signature="e#1906#3226#0#PHP" />
             <element signature="e#3247#3469#0#PHP" />
-            <element signature="e#3720#5808#0#PHP" />
-            <element signature="e#5829#6437#0#PHP" />
-            <element signature="e#6458#6747#0#PHP" />
-            <element signature="e#6768#7599#0#PHP" />
-            <element signature="e#7529#7631#0#PHP" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="42" column="63" selection-start-line="42" selection-start-column="50" selection-end-line="42" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/js.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="126" column="52" selection-start-line="126" selection-start-column="52" selection-end-line="126" selection-end-column="52" />
+          <folding>
+            <element signature="e#30#1626#0#PHP" />
           </folding>
         </state>
       </provider>

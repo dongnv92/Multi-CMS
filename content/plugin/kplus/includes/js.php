@@ -123,6 +123,8 @@ switch ($path[2]) {
                         show_notify(data.message, 'bg-green');
                         $('#button_add').attr('disabled', false);
                         $('#button_add').html('THÊM MỚI');
+                        $('input[name="kplus_code"]').val('');
+                        $('input[name="kplus_expired"]').val('');
                     }else{
                         show_notify(data.message, 'bg-red');
                         $('#button_add').attr('disabled', false);
