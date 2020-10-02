@@ -175,27 +175,31 @@ class user{
     // Lấy thông tin user qua user_token
     function init_get_me(){
         /** Kiểm tra cookie, nếu có thì gán cho Session */
-        if ($_COOKIE['access_token'])
+        if ($_COOKIE['access_token']) {
             $_SESSION['access_token'] = $_COOKIE['access_token'];
+        }
 
         // Nếu Session không tồn tại thì thoát
-        if(!$_SESSION['access_token'])
+        if(!$_SESSION['access_token']){
             return false;
+        }
 
         // Check Access Token xem có gợp lệ không?
         $check_token = $this->check_access_token($_SESSION['access_token']);
 
         // Nếu không hợp lệ thì thoát
-        if(!$check_token)
+        if(!$check_token){
             return false;
+        }
 
         // lấy thông tin thành viên
         $fields_return  = "{$this->user_id}, {$this->user_login}, {$this->user_name}, {$this->user_address}, {$this->user_phone}, {$this->user_email}, {$this->user_gender}, {$this->user_birthday}, {$this->user_married}, {$this->user_note}, {$this->user_avatar}, {$this->user_role}, {$this->user_status}, {$this->user_invite}, {$this->user_token}, {$this->user_time}";
         $data_user      = $this->get_user(["{$this->user_token}" => $_SESSION['access_token']], $fields_return);
 
         // Nếu thông tin không chính xác thì thoát
-        if(!$data_user)
+        if(!$data_user){
             return false;
+        }
 
         define('ACCESS_TOKEN', $data_user["{$this->user_token}"]);
         return $data_user;

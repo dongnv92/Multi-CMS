@@ -282,7 +282,7 @@ class Kplus{
 
     public function add(){
         $db = $this->db;
-        $_REQUEST[self::kplus_code] = str_replace(' ', '', $_REQUEST[self::kplus_code]);
+        $_REQUEST[self::kplus_code] = str_replace(' ', '', trim($_REQUEST[self::kplus_code]));
 
         if(!$this->validateCode($_REQUEST[self::kplus_code])){
             return get_response_array(309, 'Mã thẻ trống hoặc sai định dạng.');
@@ -293,10 +293,10 @@ class Kplus{
         if(!validate_isset($_REQUEST[self::kplus_expired])){
             return get_response_array(309, 'Bạn cần nhập ngày hết hạn.');
         }
-        if(!$this->checkDate($_REQUEST[self::kplus_expired])){
+        if(!$this->checkDate(trim($_REQUEST[self::kplus_expired]))){
             return get_response_array(309, 'Ngày hết hạn không hợp lệ.');
         }
-        $kplus_expired = explode('/', $_REQUEST[self::kplus_expired]);
+        $kplus_expired = explode('/', trim($_REQUEST[self::kplus_expired]));
 
         $data = [
             self::kplus_code        => $db->escape($_REQUEST[self::kplus_code]),

@@ -3,12 +3,12 @@ header('Content-Type: application/json');
 
 switch ($path[2]){
     case 'bot':
-        $rentcode_apikey    = 'MsxlaU40YLImmynR8ByMAGEaosizG9YOeNa9TI/RpsQ=';
-        $rentcode_service   = 258; // 258: Kplus, Dịch vụ khác: 2
+        $simthue_apikey     = 'GSp5Du68ELUTTWe9_d0Fw579j';
+        $simthue_service    = 28; // 258: Kplus, Dịch vụ khác: 2
         $update             = json_decode(file_get_contents("php://input"), TRUE);
         $chatId             = $update["message"]["chat"]["id"];
         $message_chat       = strtolower($update["message"]["text"]);
-        $message            = explode('_', $message_chat);
+        $message            = explode('_', $update["message"]["text"]);
         $telegram           = new Telegram('rentcode');
         $telegram->set_chatid($chatId);
         $list_user = [
@@ -23,16 +23,13 @@ switch ($path[2]){
                             $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
                             exit();
                         }
-                        $url_fetch  = 'https://api.rentcode.net/api/v2/order/request';
-                        if(isset($message[2]) && in_array($message[2], [258, 2])){
-                            $rentcode_service = $message[2];
-                        }
-                        $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey, 'ServiceProviderId' => $rentcode_service], 'GET');
-                        $fetch  = json_decode($fetch, true);
-                        if(validate_int($fetch['id'])){
+                        $url_fetch  = 'http://api.simthue.com/request/create';
+                        $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
+                        $fetch      = json_decode($fetch, true);
+                        if($fetch['id']){
                             $telegram->sendMessage("Tạo vận đơn mới thành công.\n/r_c_{$fetch['id']}");
                         }else{
-                            $telegram->sendMessage("Tạo vận đơn mới không thành công.\nTạo vận đơn khác.\n/r_n");
+                            $telegram->sendMessage("Tạo vận đơn mới không thành công.\nLỗi: {$fetch['message']}\nTạo vận đơn khác.\n/r_n");
                         }
                         break;
                     case 'c':
@@ -40,23 +37,26 @@ switch ($path[2]){
                             $telegram->sendMessage("Thiếu mã đơn.");
                             break;
                         }
-                        if(!validate_int($message[2])){
-                            $telegram->sendMessage("Mã đơn sai định dạng.");
-                            break;
-                        }
-                        $url_fetch  = "https://api.rentcode.net/api/v2/order/{$message[2]}/check";
-                        $fetch  = curl($url_fetch, ['apiKey' => $rentcode_apikey], 'GET');
+                        $url_fetch  = "http://api.simthue.com/request/check";
+                        $fetch  = curl($url_fetch, ['key' => $simthue_apikey, 'id' => $message[2]], 'GET');
                         $fetch  = json_decode($fetch, true);
-                        if(!$fetch['phoneNumber']){
+                        if(!$fetch['number']){
                             $telegram->sendMessage("Chưa tính toán được số điện thoại. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
                             break;
                         }
-                        $telegram->sendMessage($fetch['phoneNumber']);
-                        if(!$fetch['messages'][0]['message']){
+                        $number = $fetch['number'];
+                        $number = substr($number, 2, 9);
+                        $number = "0$number";
+                        $telegram->sendMessage($number);
+                        if(!$fetch['sms'][0]){
                             $telegram->sendMessage("Chưa có mã gửi đến. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
                             break;
                         }
-                        $telegram->sendMessage($fetch['messages'][0]['message']);
+                        $code = explode('|', $fetch['sms'][0]);
+                        $code = $code[2];
+                        $code = explode(' ', $code);
+                        $code = $code[0];
+                        $telegram->sendMessage($code);
                         break;
                     default:
                         $telegram->sendMessage("Câu lệnh không được hỗ trợ.\n/r_n : Tạo mã đơn hàng mới.\n/r_n_2: Tạo mã đơn hàng mới với dịch vụ khác.\n/r_c_{id}: Check đơn hàng.");
