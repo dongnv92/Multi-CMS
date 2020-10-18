@@ -7,139 +7,142 @@ switch ($path[2]){
         $simthue_service    = 28; // 258: Kplus, Dịch vụ khác: 2
         $update             = json_decode(file_get_contents("php://input"), TRUE);
         $chatId             = $update["message"]["chat"]["id"];
-        $message_chat       = strtolower($update["message"]["text"]);
+        $message_chat       = $update["message"]["text"];
         $message            = explode('_', $update["message"]["text"]);
+        $message_key        = $message[0];
+        $message_value      = str_replace("{$message_key}_", '', $message_chat);
         $telegram           = new Telegram('rentcode');
-        $telegram->set_chatid($chatId);
         $list_user = [
             '823657709'         // Me
         ];
-        switch ($message[0]){
-            case '/r':
-                switch ($message[1]){
-                    case 'n':
-                        // Check quyền truy cập
-                        if(!in_array($chatId, ['823657709'])){
-                            $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
-                            exit();
-                        }
-                        $url_fetch  = 'http://api.simthue.com/request/create';
-                        $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
-                        $fetch      = json_decode($fetch, true);
-                        if($fetch['id']){
-                            $telegram->sendMessage("Tạo vận đơn mới thành công.\n/r_c_{$fetch['id']}");
-                        }else{
-                            $telegram->sendMessage("Tạo vận đơn mới không thành công.\nLỗi: {$fetch['message']}\nTạo vận đơn khác.\n/r_n");
-                        }
-                        break;
-                    case 'c':
-                        if(!$message[2]){
-                            $telegram->sendMessage("Thiếu mã đơn.");
-                            break;
-                        }
-                        $url_fetch  = "http://api.simthue.com/request/check";
-                        $fetch  = curl($url_fetch, ['key' => $simthue_apikey, 'id' => $message[2]], 'GET');
-                        $fetch  = json_decode($fetch, true);
-                        if(!$fetch['number']){
-                            $telegram->sendMessage("Chưa tính toán được số điện thoại. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
-                            break;
-                        }
-                        $number = $fetch['number'];
-                        $number = substr($number, 2, 9);
-                        $number = "0$number";
-                        $telegram->sendMessage($number);
-                        if(!$fetch['sms'][0]){
-                            $telegram->sendMessage("Chưa có mã gửi đến. Click lệnh dưới đây để check lại.\n/r_c_{$message[2]}");
-                            break;
-                        }
-                        $code = explode('|', $fetch['sms'][0]);
-                        $code = $code[2];
-                        $code = explode(' ', $code);
-                        $code = $code[0];
-                        $telegram->sendMessage($code);
-                        break;
-                    default:
-                        $telegram->sendMessage("Câu lệnh không được hỗ trợ.\n/r_n : Tạo mã đơn hàng mới.\n/r_n_2: Tạo mã đơn hàng mới với dịch vụ khác.\n/r_c_{id}: Check đơn hàng.");
-                        break;
+        $telegram->set_chatid($chatId);
+        switch ($message_key){
+            // KPLUS CHECK
+            case '/kc':
+                $kplus  = new Kplus($database);
+                $month  = $kplus->getMonthUnPaid($chatId);
+                $telegram->sendMessage("Số tháng bạn chưa thanh toán là: ". ($month > 0 ? $month : '0') ." tháng.");
+                break;
+            case '/kr':
+            case '/ku':
+            case '/ke':
+                // Check quyền truy cập
+                if(!in_array($chatId, ['823657709', '1150103183'])){
+                    $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
+                    exit();
+                }
+                $kplus_code     = $message_value;
+                $kplus_status   = substr($message_key, 2, 1);
+                if($kplus_status == 'r'){
+                    $status = 'registered';
+                }else if($kplus_status == 'u'){
+                    $status = 'unregistered';
+                }else{
+                    $status = 'error';
+                }
+                $kplus  = new Kplus($database);
+                $update = $kplus->updateStatusBot($kplus_code, $chatId, $status);
+                if($update['response'] != 200){
+                    $telegram->sendMessage("{$update['message']}.");
+                    break;
+                }
+                $telegram->sendMessage($update['message']);
+                break;
+            // Kplus New
+            case '/k3':
+            case '/k4':
+            case '/k5':
+            case '/k6':
+            case '/k7':
+            case '/k8':
+            case '/k9':
+            case '/k10':
+            case '/k11':
+            case '/k12':
+                // Check quyền truy cập
+                if(!in_array($chatId, ['823657709', '1150103183'])){
+                    $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
+                    exit();
+                }
+                // Lấy số tháng cần lấy
+                $month = substr($message_key, 2, (strlen($message_key) == 4 ? 2 : 1));
+                $kplus  = new Kplus($database);
+                // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
+                if(!$kplus->checkChatId($chatId)){
+                    $telegram->sendMessage("Cập nhật trạng thái mã thẻ cuối trước trước khi lấy mã mới!");
+                    exit();
+                }
+                // Tìm số tháng gần đúng nhất
+                $search = $kplus->searchCode($month);
+                if(!$search){
+                    $telegram->sendMessage("Tài khoản ứng với số tháng hiện không còn. Vui lòng chọn số tháng khác.");
+                    exit();
+                }
+
+                $update = $kplus->updateSearchCode($search['kplus_code'], $chatId);
+                if(!$update){
+                    $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
+                    exit();
+                }
+                $kplus->updateRegisterMonth($search['kplus_code'], $month);
+                $content = "{$search['kplus_code']}\nNgày Hết Hạn: ". (date('d/m/Y', strtotime($search['kplus_expired'])))." (".$kplus->caculatorDate($search['kplus_expired']).")";
+                $telegram->sendMessage($content);
+                $content = "/kr_{$search['kplus_code']} - Thành công.\n/ku_{$search['kplus_code']} - Không dùng.\n/ke_{$search['kplus_code']} - Mã lỗi.";
+                $telegram->sendMessage($content);
+                if($chatId != '823657709'){
+                    $telegram->set_chatid('823657709');
+                    $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy 1 mã thẻ $month tháng.";
+                    $telegram->sendMessage($content);
                 }
                 break;
-            case '/getchatid':
+            // CHAT ID
+            case '/ci':
                 $telegram->sendMessage("Mã chát ID của bạn là: $chatId");
                 break;
-            case '/k':
-                switch ($message[1]){
-                    case 'n':
-                        // Check quyền truy cập
-                        if(!in_array($chatId, ['823657709', '1150103183'])){
-                            $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
-                            exit();
-                        }
-                        if(!$message[2] || !in_array($message[2], [3,4,5,6,7,8,9,10,11,12])){
-                            $telegram->sendMessage("Số tháng không hợp lệ. Vui lòng nhập lại.");
-                            exit();
-                        }
-                        $kplus  = new Kplus($database);
-                        // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
-                        if(!$kplus->checkChatId($chatId)){
-                            $telegram->sendMessage("Bạn cần cập nhật trạng thái mã trẻ trước trước trước khi lấy mã mới.");
-                            exit();
-                        }
-
-                        $search = $kplus->searchCode($message[2]);
-                        if(!$search){
-                            $telegram->sendMessage("Hiện tài khoản ứng với số tháng bạn chọn hiện không còn. Vui lòng chọn số tháng khác.");
-                            exit();
-                        }
-
-                        $update = $kplus->updateSearchCode($search['kplus_code'], $chatId);
-                        if(!$update){
-                            $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
-                            exit();
-                        }
-                        $kplus->updateRegisterMonth($search['kplus_code'], $message[2]);
-                        $content = "- Lấy mã thẻ thành công.\n{$search['kplus_code']}\n". (date('d/m/Y', strtotime($search['kplus_expired'])))." - ".$kplus->caculatorDate($search['kplus_expired'])."\n";
-                        $content .= "/k_u_{$search['kplus_code']}_registered - Thành công.\n/k_u_{$search['kplus_code']}_unregistered - Không dùng nữa.\n/k_u_{$search['kplus_code']}_error - Mã lỗi.";
-                        $telegram->sendMessage($content);
-                        break;
-                    case 'u': // Update trạng thái đã đăng ký thành công.
-                        // Check quyền truy cập
-                        if(!in_array($chatId, ['823657709', '1150103183'])){
-                            $telegram->sendMessage("Xin lỗi, bạn không có quyền truy cập tính năng này.");
-                            exit();
-                        }
-                        $kplus_code     = $message[2];
-                        $kplus_status   = $message[3];
-                        $kplus  = new Kplus($database);
-                        $update = $kplus->updateStatusBot($kplus_code, $chatId, $kplus_status);
-                        if($update['response'] != 200){
-                            $telegram->sendMessage("{$update['message']}.");
-                            break;
-                        }
-                        $telegram->sendMessage($update['message']);
-                        break;
-                    case 'cp':
-                        $kplus  = new Kplus($database);
-                        $month  = $kplus->getMonthUnPaid($chatId);
-                        $telegram->sendMessage("Số tháng bạn chưa thanh toán là: ". ($month > 0 ? $month : '0') ." tháng.");
-                        break;
-                    default:
-                        $content = "Câu lệnh không được hỗ trợ.\n";
-                        $content .= "/k_n_3 - Lấy mã 3 tháng.\n";
-                        $content .= "/k_n_4 - Lấy mã 4 tháng.\n";
-                        $content .= "/k_n_5 - Lấy mã 5 tháng.\n";
-                        $content .= "/k_n_6 - Lấy mã 6 tháng.\n";
-                        $content .= "/k_n_7 - Lấy mã 7 tháng.\n";
-                        $content .= "/k_n_8 - Lấy mã 8 tháng.\n";
-                        $content .= "/k_n_9 - Lấy mã 9 tháng.\n";
-                        $content .= "/k_n_10 - Lấy mã 10 tháng.\n";
-                        $content .= "/k_n_11 - Lấy mã 11 tháng.\n";
-                        $content .= "/k_n_12 - Lấy mã 12 tháng.\n";
-                        $telegram->sendMessage($content);
-                        break;
+            // SMS NEW
+            case '/sn':
+                // Check quyền truy cập
+                if(!in_array($chatId, ['823657709'])){
+                    $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
+                    exit();
+                }
+                $url_fetch  = 'http://api.simthue.com/request/create';
+                $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
+                $fetch      = json_decode($fetch, true);
+                if($fetch['id']){
+                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: {$fetch['balance']}");
+                }else{
+                    $telegram->sendMessage("Lỗi: {$fetch['message']}\nTạo vận đơn khác.\n/sn");
                 }
                 break;
+            // SMS CHECK
+            case '/sc':
+                if(!$message_value){
+                    $telegram->sendMessage("Thiếu mã đơn SMS.");
+                    break;
+                }
+                $url_fetch  = "http://api.simthue.com/request/check";
+                $fetch  = curl($url_fetch, ['key' => $simthue_apikey, 'id' => $message_value], 'GET');
+                $fetch  = json_decode($fetch, true);
+                if(!$fetch['number']){
+                    $telegram->sendMessage("Chưa tìm được số điện thoại.\n/sc_{$message_value}");
+                    break;
+                }
+                $number = $fetch['number'];
+                $number = substr($number, 2, 9);
+                $number = "0$number";
+                if(!$fetch['sms'][0]){
+                    $telegram->sendMessage("$number\nCheck lại: /sc_{$message_value}\n-> Thời gian còn lại: {$fetch['timeleft']} giây");
+                    break;
+                }
+                $code = explode('|', $fetch['sms'][0]);
+                $code = $code[2];
+                $code = explode(' ', $code);
+                $code = $code[0];
+                $telegram->sendMessage($code);
+                break;
             default:
-                $telegram->sendMessage("Câu lệnh không được hỗ trợ.");
+                $telegram->sendMessage("Tôi không hiểu bạn đang nói gì?");
                 break;
         }
         break;

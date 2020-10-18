@@ -282,7 +282,12 @@ class Kplus{
 
     public function add(){
         $db = $this->db;
-        $_REQUEST[self::kplus_code] = str_replace(' ', '', trim($_REQUEST[self::kplus_code]));
+        $_REQUEST[self::kplus_code]     = str_replace(' ', '', trim($_REQUEST[self::kplus_code]));
+        $_REQUEST[self::kplus_expired]  = trim($_REQUEST[self::kplus_expired]);
+        $count_expired = explode('-', $_REQUEST[self::kplus_expired]);
+        if(count($count_expired) == 2){
+            $_REQUEST[self::kplus_expired] = trim($count_expired[1]);
+        }
 
         if(!$this->validateCode($_REQUEST[self::kplus_code])){
             return get_response_array(309, 'Mã thẻ trống hoặc sai định dạng.');

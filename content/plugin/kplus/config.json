@@ -22,7 +22,7 @@
             "child": [
                 {
                     "text": "Danh sách",
-                    "url": "URL_ADMIN\/kplus\/",
+                    "url": "URL_ADMIN\/kplus\/?kplus_status=unregistered",
                     "roles": [
                         "kplus",
                         "manager"
