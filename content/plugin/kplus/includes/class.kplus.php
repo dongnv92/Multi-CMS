@@ -7,6 +7,7 @@ class Kplus{
     const kplus_expired = 'kplus_expired';
     const kplus_name    = 'kplus_name';
     const kplus_status  = 'kplus_status'; // unregistered|registered
+    const kplus_verify  = 'kplus_verify'; // verify|unchecked
     const kplus_note    = 'kplus_note';
     const kplus_time    = 'kplus_time';
     const kplus_status_value        = ['unregistered', 'registered', 'wait', 'error']; // unregistered|registered
@@ -32,6 +33,21 @@ class Kplus{
                 return '---';
                 break;
         }
+    }
+
+    public function update_verify($kplus_code){
+        global $database;
+        if(!$this->validateCode($kplus_code)){
+            return false;
+        }
+        $status = $database->select(self::kplus_verify)->from(self::table)->where(self::kplus_code, $kplus_code)->fetch_first();
+        $status = $status[self::kplus_verify];
+        $data   = [self::kplus_verify => ($status == 'verify' ? 'unchecked' : 'verify')];
+        $update = $database->where(self::kplus_code, $kplus_code)->update(self::table, $data);
+        if(!$update){
+            return false;
+        }
+        return true;
     }
 
     public function getStatics($type = ''){
@@ -316,6 +332,39 @@ class Kplus{
             return get_response_array(208, "Thêm dữ liệu không thành công.");
         }
         return ['response' => 200, 'message' => 'Thêm dữ liệu thành công', 'data' => $action];
+    }
+
+    public function get_multi_month($month, $number, $chatid){
+        $text = '';
+        if(!in_array($month, [3,4,5,6,7,8,9,10])){
+            return ['response' => 309, 'message' => 'Số tháng không hợp lệ. Hãy nhập số tháng từ 3 đến 10 tháng.'];
+        }
+        if(!in_array($number, [2,3,4,5,6,7,8,9,10])){
+            return ['response' => 309, 'message' => 'Số tài khoản không hợp lệ. Hãy nhập số tài khoản từ 2 đến 10 tài khoản.'];
+        }
+        for($i = 1; $i <= $number; $i++){
+            // Tìm số tháng gần đúng nhất
+            $search = $this->searchCode($month);
+            if(!$search){
+                $text .= "Mã thẻ $month tháng đã hết, vui lòng chọn số tháng khác.\n";
+            }
+
+            // Update trạng thái mã thẻ thành wait và unpaid
+            $update = $this->updateSearchCode($search['kplus_code'], $chatid);
+            if(!$update){
+                $text .= "Update trạng thái mã thẻ {$search['kplus_code']} không thành công.\n";
+            }
+
+            // Update trạng thái mã thẻ thành số tháng tính từ lúc lấy mã
+            $this->updateRegisterMonth($search['kplus_code'], $chatid);
+
+            // Update các mã thành đăng ký thành công
+            $this->updateStatusBot($search['kplus_code'], $chatid, 'registered');
+
+            // Thêm text trả về
+            $text .= "{$search['kplus_code']} - ". (date('d/m/Y', strtotime($search['kplus_expired']))) . "\n";
+        }
+        return ['response' => 200, 'message' => $text];
     }
 
     public function update($kplus_code){

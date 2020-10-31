@@ -72,6 +72,12 @@ if($me){
 
 <script>
     $(document).ready(function () {
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
         $('#submit_login').on('click', function () {
             var ajax = $.ajax({
                 url         : '<?=URL_ADMIN_AJAX . "login"?>',
@@ -92,6 +98,9 @@ if($me){
                     }, 2000);
                 } else {
                     setTimeout(function () {
+                        if($('#rememberme:checkbox:checked').length > 0){
+                            setCookie('access_token', data.data.user_token, 30);
+                        }
                         show_notify(data.message, 'bg-green');
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');

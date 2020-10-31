@@ -8,7 +8,7 @@ switch ($path[2]){
         $update             = json_decode(file_get_contents("php://input"), TRUE);
         $chatId             = $update["message"]["chat"]["id"];
         $message_chat       = $update["message"]["text"];
-        $message            = explode('_', $update["message"]["text"]);
+        $message            = explode('_', $message_chat);
         $message_key        = $message[0];
         $message_value      = str_replace("{$message_key}_", '', $message_chat);
         $telegram           = new Telegram('rentcode');
@@ -65,8 +65,22 @@ switch ($path[2]){
                     exit();
                 }
                 // Lấy số tháng cần lấy
-                $month = substr($message_key, 2, (strlen($message_key) == 4 ? 2 : 1));
+                $month  = substr($message_key, 2, (strlen($message_key) == 4 ? 2 : 1));
                 $kplus  = new Kplus($database);
+
+                if(count($message) > 1){
+                    $data = $kplus->get_multi_month($month, $message_value, $chatId);
+                    $telegram->sendMessage($data['message']);
+
+                    // Nếu không phải admin thì thông báo cho admin khi có người lấy thẻ
+                    if($chatId != '823657709'){
+                        $telegram->set_chatid('823657709');
+                        $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy $message_value mã thẻ $month tháng.";
+                        $telegram->sendMessage($content);
+                    }
+                    break;
+                }
+
                 // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
                 if(!$kplus->checkChatId($chatId)){
                     $telegram->sendMessage("Cập nhật trạng thái mã thẻ cuối trước trước khi lấy mã mới!");
@@ -79,16 +93,25 @@ switch ($path[2]){
                     exit();
                 }
 
+                // Update trạng thái mã thẻ thành wait và unpaid
                 $update = $kplus->updateSearchCode($search['kplus_code'], $chatId);
                 if(!$update){
                     $telegram->sendMessage("Có sự cố khi cập nhật mã thẻ.");
                     exit();
                 }
+
+                // Update trạng thái mã thẻ thành số tháng tính từ lúc lấy mã
                 $kplus->updateRegisterMonth($search['kplus_code'], $month);
+
+                // Gửi thông tin thẻ và ngày hết hạn
                 $content = "{$search['kplus_code']}\nNgày Hết Hạn: ". (date('d/m/Y', strtotime($search['kplus_expired'])))." (".$kplus->caculatorDate($search['kplus_expired']).")";
                 $telegram->sendMessage($content);
+
+                // Gửi mã lệnh update trạng thái thẻ khi đăng ký xong
                 $content = "/kr_{$search['kplus_code']} - Thành công.\n/ku_{$search['kplus_code']} - Không dùng.\n/ke_{$search['kplus_code']} - Mã lỗi.";
                 $telegram->sendMessage($content);
+
+                // Nếu không phải admin thì thông báo cho admin khi có người lấy thẻ
                 if($chatId != '823657709'){
                     $telegram->set_chatid('823657709');
                     $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy 1 mã thẻ $month tháng.";

@@ -1,6 +1,12 @@
 <?php
 
-$text   = '20/02/2021 - 22/02/2021';
-$count  = explode('-', $text);
-$text_n = trim($count[1]);
-echo $text_n;
+$message_chat       = '/k10_3';
+$message            = explode('_', $message_chat);
+$message_key        = $message[0];
+$message_value      = str_replace("{$message_key}_", '', $message_chat);
+
+if(count($message) > 1){
+    echo "Có";
+}else{
+    echo "Không";
+}

@@ -30,7 +30,7 @@ switch ($path[1]){
         }else{
             $header['title'] = 'Trang quản trị';
             require_once 'admin-header.php';
-
+            echo 'Cookie: '.$_COOKIE['access_token'];
             require_once 'admin-footer.php';
         }
         break;

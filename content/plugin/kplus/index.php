@@ -280,7 +280,7 @@ switch ($path[2]){
                                 ?>
                                 <tr>
                                     <td class="text-left align-middle">
-                                        <?=$row['kplus_code']?>
+                                        <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'veriify' ? '<i class="zmdi zmdi-check-circle text-primary"></i>' : ''?>
                                     </td>
                                     <td class="text-left align-middle">
                                         <?=date('d/m/Y', strtotime($row['kplus_expired']))?>
@@ -301,6 +301,7 @@ switch ($path[2]){
                                         <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['kplus_code']}"?>" title="Sửa mã thẻ này"><i class="material-icons">mode_edit</i></a>
                                         <a href="javascript:;" title="Xóa mã thẻ này" class="text-danger" data-type="delete" data-id="<?=$row['kplus_code']?>"><i class="material-icons">delete</i></a>
                                         <a href="javascript:;" title="Cập nhật trạng thái" class="text-info" data-type="update_status" data-status="<?=in_array($row['kplus_status'], ['unregistered', 'wait']) ? 'registered' : 'unregistered'?>" data-id="<?=$row['kplus_code']?>"><i class="material-icons">flash_on</i></a>
+                                        <a href="javascript:;" title="Cập nhật xác nhận" class="text-warning text-small" data-type="update_verify" data-id="<?=$row['kplus_code']?>"><i class="material-icons">verified_user</i></a>
                                     </td>
                                 </tr>
                             <?php }?>
