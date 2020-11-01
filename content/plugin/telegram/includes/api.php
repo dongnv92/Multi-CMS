@@ -68,6 +68,13 @@ switch ($path[2]){
                 $month  = substr($message_key, 2, (strlen($message_key) == 4 ? 2 : 1));
                 $kplus  = new Kplus($database);
 
+                // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
+                if(!$kplus->checkChatId($chatId)){
+                    $telegram->sendMessage("Cập nhật trạng thái mã thẻ cuối trước trước khi lấy mã mới!");
+                    exit();
+                }
+
+                // Lấy nhiều mã thẻ 1 lúc
                 if(count($message) > 1){
                     $data = $kplus->get_multi_month($month, $message_value, $chatId);
                     $telegram->sendMessage($data['message']);
@@ -81,11 +88,6 @@ switch ($path[2]){
                     break;
                 }
 
-                // Nếu 1 giao dịch chưa hoàn thành thì thông báo lỗi
-                if(!$kplus->checkChatId($chatId)){
-                    $telegram->sendMessage("Cập nhật trạng thái mã thẻ cuối trước trước khi lấy mã mới!");
-                    exit();
-                }
                 // Tìm số tháng gần đúng nhất
                 $search = $kplus->searchCode($month);
                 if(!$search){
@@ -104,7 +106,7 @@ switch ($path[2]){
                 $kplus->updateRegisterMonth($search['kplus_code'], $month);
 
                 // Gửi thông tin thẻ và ngày hết hạn
-                $content = "{$search['kplus_code']}\nNgày Hết Hạn: ". (date('d/m/Y', strtotime($search['kplus_expired'])))." (".$kplus->caculatorDate($search['kplus_expired']).")";
+                $content = "{$search['kplus_code']}\nNgày Hết Hạn: ". (date('d/m/Y', strtotime($search['kplus_expired'])))." (".$kplus->caculatorDate($search['kplus_expired']).")".($search['kplus_verify'] == 'verify' ? "\n✅ mã đã được xác thực." : '');
                 $telegram->sendMessage($content);
 
                 // Gửi mã lệnh update trạng thái thẻ khi đăng ký xong
@@ -125,7 +127,7 @@ switch ($path[2]){
             // SMS NEW
             case '/sn':
                 // Check quyền truy cập
-                if(!in_array($chatId, ['823657709'])){
+                if(!in_array($chatId, ['823657709', '1150103183'])){
                     $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
                     exit();
                 }

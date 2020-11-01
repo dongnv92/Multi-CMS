@@ -280,7 +280,7 @@ switch ($path[2]){
                                 ?>
                                 <tr>
                                     <td class="text-left align-middle">
-                                        <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'veriify' ? '<i class="zmdi zmdi-check-circle text-primary"></i>' : ''?>
+                                        <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'verify' ? '<i class="zmdi zmdi-check-circle text-primary"></i>' : ''?>
                                     </td>
                                     <td class="text-left align-middle">
                                         <?=date('d/m/Y', strtotime($row['kplus_expired']))?>

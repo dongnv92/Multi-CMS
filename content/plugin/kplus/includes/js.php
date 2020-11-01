@@ -152,8 +152,8 @@ switch ($path[2]) {
             $('a[data-type=update_verify]').on('click', function () {
                 var id = $(this).data('id');
                 swal({
-                    title: "Cập nhật thanh toán",
-                    text: "Bạn có muốn xác nhận thanh toán không?",
+                    title: "Cập nhật trạng thái xác nhận",
+                    text: "Bạn có muốn cập nhật trạng thái xác nhận không?",
                     type: "warning",
                     showCancelButton: true,
                     closeOnConfirm: false,
@@ -161,18 +161,18 @@ switch ($path[2]) {
                 }, function () {
                     setTimeout(function () {
                         var ajax = $.ajax({
-                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/paid/"?>' + id,
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/update_verify/"?>' + id,
                             method      : 'POST',
                             dataType    : 'json',
                         });
                         ajax.done(function (data) {
                             if(data.response == 200){
-                                swal("Cập nhật thanh toán", "Cập nhật thanh toán thành công!", "success");
+                                swal("Cập nhật trạng thái xác nhận", data.message, "success");
                                 setTimeout(function () {
                                     location.reload();
-                                }, 2000);
+                                }, 1500);
                             }else{
-                                swal("Cập nhật thanh toán", data.message, "error");
+                                swal("Cập nhật trạng thái xác nhận", data.message, "error");
                             }
                         });
                         ajax.fail(function( jqXHR, textStatus ) {
