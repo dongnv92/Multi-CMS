@@ -1,5 +1,17 @@
 <?php
 switch ($path[2]){
+    case 'update_verify':
+        if(!$role['kplus']['manager']){
+            exit('Forbidden');
+        }
+        $kplus  = new Kplus($database);
+        $action = $kplus->update_verify($path[3]);
+        if($action){
+            echo encode_json(['response' => 200, 'message' => 'Cập nhật trạng thái xác nhận thành công.']);
+        }else{
+            echo encode_json(['response' => 309, 'message' => 'Cập nhật trạng thái xác nhận không thành công.']);
+        }
+        break;
     case 'paid':
         if(!$role['kplus']['manager']){
             exit('Forbidden');
