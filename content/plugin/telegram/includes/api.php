@@ -165,7 +165,8 @@ switch ($path[2]){
                 $telegram->sendMessage($code);
                 break;
             default:
-                $telegram->sendMessage("Tôi không hiểu bạn đang nói gì?");
+                echo $telegram->sendMessage("Tôi không hiểu bạn đang nói gì?");
+                echo 'Tôi không hiểu bạn đang nói gì?';
                 break;
         }
         break;
