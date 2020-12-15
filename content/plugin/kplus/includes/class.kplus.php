@@ -595,4 +595,17 @@ class Kplus{
         }
         return true;
     }
+
+    // Lấy tên mới nhất được thêm
+    public function getLastNameAdd(){
+        global $database;
+        $database->select(self::kplus_name)->from(self::table);
+        $database->order_by(self::kplus_time, 'DESC');
+        $database->limit(1);
+        $data = $database->fetch_first();
+        if(!$data){
+            return false;
+        }
+        return $data[self::kplus_name];
+    }
 }
