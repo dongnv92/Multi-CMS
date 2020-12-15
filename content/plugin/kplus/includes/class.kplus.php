@@ -331,7 +331,7 @@ class Kplus{
         if(!$action){
             return get_response_array(208, "Thêm dữ liệu không thành công.");
         }
-        return ['response' => 200, 'message' => 'Thêm dữ liệu thành công', 'data' => $action];
+        return ['response' => 200, 'message' => 'Thêm dữ liệu thành công', 'data' => $action, 'meta' => [self::kplus_code => $_REQUEST[self::kplus_code], self::kplus_expired => $kplus_expired[2].'-'.$kplus_expired[1].'-'.$kplus_expired[0], self::kplus_name => $_REQUEST[self::kplus_name]]];
     }
 
     public function get_multi_month($month, $number, $chatid){

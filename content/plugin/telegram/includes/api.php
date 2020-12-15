@@ -37,13 +37,16 @@ switch ($path[2]){
 
                 if($kplus_status == 'r'){
                     $status         = 'registered';
-                    $text_notify    = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành đã đăng ký thành công.';
+                    $text_notify_ad = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành đã đăng ký thành công.';
+                    $text_notify    = 'Cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành đã đăng ký thành công.'."\n#update_registed";
                 }else if($kplus_status == 'u'){
                     $status         = 'unregistered';
-                    $text_notify    = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành không đăng ký nữa.';
+                    $text_notify_ad = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành không đăng ký nữa.';
+                    $text_notify    = 'Cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành không đăng ký nữa.'."\n#update_unregisted";
                 }else{
                     $status         = 'error';
-                    $text_notify    = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành mã thẻ bị lỗi.';
+                    $text_notify_ad = 'Thông báo: '. $kplus->getNameByChatId($chatId) .' cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành mã thẻ bị lỗi.';
+                    $text_notify    = 'Cập nhật trạng thái mã thẻ "'. $kplus_code .'" thành mã thẻ bị lỗi.'."\n#update_error";
                 }
 
                 $update = $kplus->updateStatusBot($kplus_code, $chatId, $status);
@@ -51,12 +54,12 @@ switch ($path[2]){
                     $telegram->sendMessage("{$update['message']}.");
                     break;
                 }
-                $telegram->sendMessage($update['message']);
+                $telegram->sendMessage($text_notify);
 
                 // Nếu không phải admin thì thông báo cho admin khi có người update thẻ
                 if($chatId != '823657709'){
                     $telegram->set_chatid('823657709');
-                    $telegram->sendMessage($text_notify);
+                    $telegram->sendMessage($text_notify_ad."\n#notify_{$chatId}_update_code");
                 }
                 break;
             // Kplus New
@@ -88,12 +91,12 @@ switch ($path[2]){
                 // Lấy nhiều mã thẻ 1 lúc
                 if(count($message) > 1){
                     $data = $kplus->get_multi_month($month, $message_value, $chatId);
-                    $telegram->sendMessage($data['message']);
+                    $telegram->sendMessage($data['message']."\n#get_multiple_code");
 
                     // Nếu không phải admin thì thông báo cho admin khi có người lấy thẻ
                     if($chatId != '823657709'){
                         $telegram->set_chatid('823657709');
-                        $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy $message_value mã thẻ $month tháng.";
+                        $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy $message_value mã thẻ $month tháng.\n#notify_{$chatId}_get_multiple_code";
                         $telegram->sendMessage($content);
                     }
                     break;
@@ -122,12 +125,12 @@ switch ($path[2]){
 
                 // Gửi mã lệnh update trạng thái thẻ khi đăng ký xong
                 $content = "/kr_{$search['kplus_code']} - Thành công.\n/ku_{$search['kplus_code']} - Không dùng.\n/ke_{$search['kplus_code']} - Mã lỗi.";
-                $telegram->sendMessage($content);
+                $telegram->sendMessage($content."\n#get_code");
 
                 // Nếu không phải admin thì thông báo cho admin khi có người lấy thẻ
                 if($chatId != '823657709'){
                     $telegram->set_chatid('823657709');
-                    $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy 1 mã thẻ $month tháng.";
+                    $content = 'Thông báo: '.$kplus->getNameByChatId($chatId)." vừa lấy 1 mã thẻ $month tháng.\n#notify_{$chatId}_get_code";
                     $telegram->sendMessage($content);
                 }
                 break;
@@ -146,12 +149,12 @@ switch ($path[2]){
                 $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
                 $fetch      = json_decode($fetch, true);
                 if($fetch['id']){
-                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: {$fetch['balance']}");
+                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: {$fetch['balance']}\n#get_sms");
                     // Nếu không phải admin thì thông báo cho admin khi có thêm đơn SMS mới
                     $kplus  = new Kplus($database);
                     if($chatId != '823657709'){
                         $telegram->set_chatid('823657709');
-                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId).' vừa thêm 1 đơn SMS mới.');
+                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId)." vừa thêm 1 đơn SMS mới.\n/sc_{$fetch['id']}\n#notify_{$chatId}_get_sms");
                     }
                 }else{
                     $telegram->sendMessage("Lỗi: {$fetch['message']}\nTạo vận đơn khác.\n/sn");
@@ -186,6 +189,16 @@ switch ($path[2]){
             case '/t':
                 echo $telegram->sendMessage("Đây là tin nhắn phản hồi lại từ Server.");
                 break;
+            // CHECK NAME
+            case '/cn':
+                  $kplus = new Kplus($database);
+                  $check = $kplus->checkName($message_value);
+                  if(!$check){
+                      $telegram->sendMessage("Hiện chưa có thuê bao nào trong danh sách có tên: \"$message_value\".");
+                      break;
+                  }
+                $telegram->sendMessage("Tên: \"$message_value\" đã có trong danh sách.");
+                break;
             default: // Thêm mã thẻ
                 $message = explode("\n", $message_chat);
                 if(!in_array(count($message), [2, 3])){
@@ -196,7 +209,11 @@ switch ($path[2]){
                 $_REQUEST['kplus_expired']  = trim($message[1]);
                 $_REQUEST['kplus_name']     = $message[2] ? trim($message[2]) : trim($kplus->getLastNameAdd());
                 $add = $kplus->add();
-                echo $telegram->sendMessage($add['message']);
+                if($add['response'] != 200){
+                    $telegram->sendMessage("Lỗi khi thêm mã thẻ: {$add['message']}.");
+                    break;
+                }
+                $telegram->sendMessage("Thêm mã thẻ mới thành công.\nMã thẻ: {$add['meta']['kplus_code']}\nNgày hết hạn: {$add['meta']['kplus_expired']}\nTên chủ thuê bao: {$add['meta']['kplus_name']}.\n#add_code");
                 break;
         }
         break;
