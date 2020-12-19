@@ -185,6 +185,7 @@ switch ($path[2]){
                 $code = explode(' ', $code);
                 $code = $code[0];
                 $telegram->sendMessage($code);
+                $telegram->sendMessage($number);
                 break;
             case '/t':
                 echo $telegram->sendMessage("Đây là tin nhắn phản hồi lại từ Server.");
