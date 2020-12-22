@@ -149,7 +149,10 @@ switch ($path[2]){
                 $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
                 $fetch      = json_decode($fetch, true);
                 if($fetch['id']){
-                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: {$fetch['balance']}\n#get_sms");
+                    function convert_number_to_money($number){
+                        return number_format($number, 0, '', '.');
+                    }
+                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: ". convert_number_to_money($fetch['balance']) ."₫\n#get_sms");
                     // Nếu không phải admin thì thông báo cho admin khi có thêm đơn SMS mới
                     $kplus  = new Kplus($database);
                     if($chatId != '823657709'){
@@ -214,7 +217,7 @@ switch ($path[2]){
                     $telegram->sendMessage("Lỗi khi thêm mã thẻ: {$add['message']}.");
                     break;
                 }
-                $telegram->sendMessage("Thêm mã thẻ mới thành công.\nMã thẻ: {$add['meta']['kplus_code']}\nNgày hết hạn: {$add['meta']['kplus_expired']}\nTên chủ thuê bao: {$add['meta']['kplus_name']}.\n#add_code");
+                $telegram->sendMessage("Thêm mã thẻ mới thành công.\nMã thẻ: {$add['meta']['kplus_code']}\nNgày hết hạn: {$add['meta']['kplus_expired']}\nTên chủ thuê bao: {$add['meta']['kplus_name']}.\nSố thuê bao chưa đăng ký: {$add['statics']['unregistered']}\n#add_code");
                 break;
         }
         break;
