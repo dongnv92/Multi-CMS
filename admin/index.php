@@ -30,53 +30,37 @@ switch ($path[1]){
         }else{
             $header['title'] = 'Trang quản trị';
             require_once 'admin-header.php';
+            echo admin_breadcrumbs('Trang Chủ', [URL_ADMIN => 'Trang test'], 'Đang ở đây');
             ?>
-            <div class="nk-block-head nk-block-head-sm">
-                <div class="nk-block-between">
-                    <div class="nk-block-head-content">
-                        <h3 class="nk-block-title page-title">Sales Overview</h3>
-                        <div class="nk-block-des text-soft">
-                            <nav>
-                                <ul class="breadcrumb">
-                                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                    <li class="breadcrumb-item active">Library</li>
-                                </ul>
-                            </nav>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card card-bordered">
+                        <div class="card-inner border-bottom">
+                            <!-- Title -->
+                            <div class="card-title-group">
+                                <div class="card-title"><h6 class="title">Card</h6></div>
+                                <div class="card-tools">
+                                    <a href="#" class="link">Xem tất cả</a>
+                                </div>
+                            </div>
+                            <!-- Title -->
                         </div>
-                    </div><!-- .nk-block-head-content -->
-                    <div class="nk-block-head-content">
-                        <div class="toggle-wrap nk-block-tools-toggle">
-                            <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
-                            <div class="toggle-expand-content" data-content="pageMenu">
-                                <ul class="nk-block-tools g-3">
-                                    <li>
-                                        <div class="drodown">
-                                            <a href="#" class="dropdown-toggle btn btn-white btn-dim btn-outline-light" data-toggle="dropdown"><em class="d-none d-sm-inline icon ni ni-calender-date"></em><span><span class="d-none d-md-inline">Last</span> 30 Days</span><em class="dd-indc icon ni ni-chevron-right"></em></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><span>Last 30 Days</span></a></li>
-                                                    <li><a href="#"><span>Last 6 Months</span></a></li>
-                                                    <li><a href="#"><span>Last 1 Years</span></a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="nk-block-tools-opt"><a href="#" class="btn btn-primary"><em class="icon ni ni-reports"></em><span>Reports</span></a></li>
-                                </ul>
+                        <!-- Content -->
+                        <div class="card-inner">
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <input type="text" value="Hello" class="form-control form-control-outlined" id="outlined">
+                                    <label class="form-label-outlined" for="outlined">Tên đăng nhập</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-control-wrap">
+                                    <input type="password" class="form-control form-control-outlined">
+                                    <label class="form-label-outlined" for="outlined">Mật khẩu</label>
+                                </div>
                             </div>
                         </div>
-                    </div><!-- .nk-block-head-content -->
-                </div><!-- .nk-block-between -->
-            </div><!-- .nk-block-head -->
-            <div class="nk-block">
-                <div class="row g-gs">
-                    <div class="col-xxl-6">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <input type="text" class="form-control form-control-outlined" id="outlined" placeholder="Input placeholder">
-                                <label class="form-label-outlined" for="outlined">Input text label</label>
-                            </div>
-                        </div>
+                        <!-- End Content -->
                     </div>
                 </div>
             </div>

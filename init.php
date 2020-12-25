@@ -11,7 +11,7 @@ define( 'ROOTPATH'          , basename(__DIR__) );
 define( 'PATH_ADMIN'        , 'admin');
 define( 'PATH_PLUGIN'       , 'content/plugin/');
 
-define( 'URL_HOME'          , 'http://localhost/dong/cmsnew');
+define( 'URL_HOME'          , 'http://localhost/dong/multicms');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
 define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
 define( 'URL_BLOG'          , URL_HOME . '/blog/');

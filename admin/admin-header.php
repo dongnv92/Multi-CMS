@@ -3,7 +3,6 @@ $header = $header ? $header : ['title' => 'Trang quản trị'];
 ?>
 <!DOCTYPE html>
 <html lang="vn" class="js">
-
 <head>
     <meta charset="utf-8">
     <meta name="author" content="DONG NGUYEN">
@@ -11,7 +10,7 @@ $header = $header ? $header : ['title' => 'Trang quản trị'];
     <!-- Fav Icon  -->
     <link rel="shortcut icon" href="<?=URL_HOME."/content/assets/images/system/favicon.png"?>">
     <!-- Page Title  -->
-    <title><?=$title?></title>
+    <title><?=$header['title']?></title>
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/dashlite.css?ver=2.2.0">
     <link id="skin-default" rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/theme.css?ver=2.2.0">
