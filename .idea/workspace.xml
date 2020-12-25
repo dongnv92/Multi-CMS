@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ee76d34d-36d1-4716-9e1a-1768c6867951" name="Default Changelist" comment="" />
+    <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,134 +14,109 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/admin-header.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="154" column="120" selection-start-line="154" selection-start-column="120" selection-end-line="154" selection-end-column="120" />
-              <folding>
-                <element signature="e#836#1094#0#PHP" />
-                <element signature="e#1155#3370#0#PHP" />
-                <element signature="e#3626#6909#0#PHP" />
-              </folding>
+            <state relative-caret-position="544">
+              <caret line="32" column="53" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
+        <entry file="file://$PROJECT_DIR$/admin/admin-footer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="460">
-              <caret line="65" column="33" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="33" />
+            <state>
+              <caret column="24" selection-start-column="24" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="128" column="110" selection-start-line="128" selection-start-column="110" selection-end-line="128" selection-end-column="110" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/init.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="419">
+              <caret line="49" column="16" lean-forward="true" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="417">
+              <caret line="206" column="29" selection-start-line="206" selection-start-column="20" selection-end-line="206" selection-end-column="29" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content/plugin/telegram/config.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="20" column="60" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/Downloads/Compressed/dashliteadmin-22/dashliteadmin-22/dashlite-template/demo1/src/html/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="535">
+              <caret line="620" column="63" lean-forward="true" selection-start-line="618" selection-start-column="32" selection-end-line="620" selection-end-column="63" />
+              <folding>
+                <element signature="n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/admin/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="722">
+              <caret line="78" column="30" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="tsconfig.json" />
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>add_magic_quotes</find>
-      <find>slug</find>
-      <find>esc</find>
-      <find>getQuerySearch</find>
-      <find>mk</find>
-      <find>get_all</find>
-      <find>curl</find>
-      <find>meta_images</find>
-      <find>image</find>
-      <find>conv</find>
-      <find>dele</find>
-      <find>getCodeByDate</find>
-      <find>check</find>
-      <find>checkN</find>
-    </findStrings>
-    <replaceStrings>
-      <replace />
-      <replace>meta_image</replace>
-    </replaceStrings>
-    <dirStrings>
-      <dir>C:\xampp\htdocs\dong\multicsm</dir>
-    </dirStrings>
-  </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/admin/test.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.meta.php" />
-        <option value="$PROJECT_DIR$/includes/function-javascript.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/function-nomal.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.media.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/js.php" />
-        <option value="$PROJECT_DIR$/../review/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/momo/includes/class.momo.php" />
-        <option value="$PROJECT_DIR$/../review/src/pages/backend/index.php" />
-        <option value="$PROJECT_DIR$/../review/src/class/function.php" />
-        <option value="$PROJECT_DIR$/../review/src/class/javascript.php" />
-        <option value="$PROJECT_DIR$/../review/src/pages/backend/profile.php" />
-        <option value="$PROJECT_DIR$/content/plugin/momo/index.php" />
-        <option value="$PROJECT_DIR$/../CMS/src/pages/admin-ajax.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/config.json" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/ajax.php" />
-        <option value="$PROJECT_DIR$/includes/function-admin.php" />
-        <option value="$PROJECT_DIR$/includes/function-validate.php" />
-        <option value="$PROJECT_DIR$/content/plugin/telegram/includes/class.telegram.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/class.cart.php" />
-        <option value="$PROJECT_DIR$/includes/function-form.php" />
-        <option value="$PROJECT_DIR$/content/plugin/pos/config.json" />
-        <option value="$PROJECT_DIR$/content/plugin/pos/includes/javascript.php" />
-        <option value="$PROJECT_DIR$/.htaccess" />
-        <option value="$PROJECT_DIR$/includes/api.php" />
-        <option value="$PROJECT_DIR$/content/plugin/telegram/config.json" />
         <option value="$PROJECT_DIR$/init.php" />
-        <option value="$PROJECT_DIR$/content/plugin/product/includes/class.product.php" />
-        <option value="$PROJECT_DIR$/content/plugin/telegram/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php" />
-        <option value="$PROJECT_DIR$/includes/class/class.user.php" />
-        <option value="$PROJECT_DIR$/../test/index.php" />
-        <option value="$PROJECT_DIR$/../test/class.php" />
-        <option value="$PROJECT_DIR$/../test/ajax.php" />
-        <option value="$PROJECT_DIR$/test/assets/js.js" />
-        <option value="$PROJECT_DIR$/test/js.js" />
-        <option value="$PROJECT_DIR$/test/ajax.php" />
-        <option value="$PROJECT_DIR$/test/class.php" />
-        <option value="$PROJECT_DIR$/test/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/config.json" />
-        <option value="$PROJECT_DIR$/test.php" />
-        <option value="$PROJECT_DIR$/content/plugin/pos/index.php" />
-        <option value="$PROJECT_DIR$/admin/index.php" />
         <option value="$PROJECT_DIR$/login.php" />
-        <option value="$PROJECT_DIR$/includes/admin-ajax.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/js.php" />
-        <option value="$PROJECT_DIR$/../d/index.php" />
-        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" />
-        <option value="$PROJECT_DIR$/content/plugin/telegram/includes/api.php" />
+        <option value="$USER_HOME$/Downloads/Compressed/dashliteadmin-22/dashliteadmin-22/dashlite-template/demo1/src/html/index.html" />
+        <option value="$PROJECT_DIR$/content/plugin/customer/config.json" />
+        <option value="$PROJECT_DIR$/content/plugin/kplus/config.json" />
+        <option value="$PROJECT_DIR$/content/plugin/momo/config.json" />
+        <option value="$PROJECT_DIR$/content/plugin/pos/config.json" />
+        <option value="$PROJECT_DIR$/content/plugin/product/config.json" />
+        <option value="$PROJECT_DIR$/content/plugin/telegram/config.json" />
+        <option value="$PROJECT_DIR$/includes/class/class.user.php" />
+        <option value="$PROJECT_DIR$/includes/function-admin.php" />
+        <option value="$PROJECT_DIR$/admin/admin-header.php" />
+        <option value="$PROJECT_DIR$/admin/admin-footer.php" />
+        <option value="$PROJECT_DIR$/admin/index.php" />
       </list>
     </option>
-  </component>
-  <component name="PhpServers">
-    <servers />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="width" value="676" />
     <option name="height" value="788" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -152,54 +127,31 @@
         <subPane>
           <expand>
             <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="cmsnew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmsnew" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="cmsnew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmsnew" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="cmsnew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmsnew" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="product" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="cmsnew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmsnew" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="product" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="cmsnew" type="b2602c69:ProjectViewProjectNode" />
+              <item name="cmsnew" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
               <item name="telegram" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="content" type="462c0819:PsiDirectoryNode" />
-              <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="telegram" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -208,29 +160,10 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.PHP" />
-  </component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\Dong\multicms\test" />
-      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin\pos\assets" />
-      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin\momo\includes" />
-      <recent name="C:\xampp\htdocs\Dong\multicms\content\plugin\customer\assets\images" />
-      <recent name="C:\xampp\htdocs\Dong\multicms\includes" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin\customer\assets\js" />
-      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin\telegram" />
-      <recent name="C:\xampp\htdocs\Dong\multicms\content\assets-admin\images" />
-      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin\momo" />
-      <recent name="C:\xampp\htdocs\Dong\multicms\content" />
-    </key>
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -249,168 +182,30 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ee76d34d-36d1-4716-9e1a-1768c6867951" name="Default Changelist" comment="" />
-      <created>1591366378338</created>
+      <changelist id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="" />
+      <created>1608866459970</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1591366378338</updated>
-      <workItem from="1591366379573" duration="6456000" />
-      <workItem from="1591429340528" duration="2533000" />
-      <workItem from="1591455958432" duration="4097000" />
-      <workItem from="1591543261378" duration="2790000" />
-      <workItem from="1591709446328" duration="8764000" />
-      <workItem from="1591877615856" duration="5403000" />
-      <workItem from="1591974604313" duration="1225000" />
-      <workItem from="1592055612051" duration="3621000" />
-      <workItem from="1592120448223" duration="8347000" />
-      <workItem from="1592448354458" duration="652000" />
-      <workItem from="1592465353316" duration="594000" />
-      <workItem from="1592532462718" duration="2386000" />
-      <workItem from="1592809180736" duration="6313000" />
-      <workItem from="1592834660873" duration="2035000" />
-      <workItem from="1592877266995" duration="13331000" />
-      <workItem from="1592923419829" duration="2608000" />
-      <workItem from="1592963338124" duration="18754000" />
-      <workItem from="1593004051792" duration="4352000" />
-      <workItem from="1593050449603" duration="8415000" />
-      <workItem from="1593094031674" duration="3014000" />
-      <workItem from="1593135883272" duration="18256000" />
-      <workItem from="1593222818014" duration="9771000" />
-      <workItem from="1593269595424" duration="3539000" />
-      <workItem from="1593356928442" duration="1251000" />
-      <workItem from="1593396970534" duration="12966000" />
-      <workItem from="1593436684100" duration="9006000" />
-      <workItem from="1593486254899" duration="1503000" />
-      <workItem from="1593504938627" duration="594000" />
-      <workItem from="1593527517073" duration="4502000" />
-      <workItem from="1593567436947" duration="15465000" />
-      <workItem from="1593612820936" duration="2581000" />
-      <workItem from="1593695453847" duration="5159000" />
-      <workItem from="1593743187084" duration="595000" />
-      <workItem from="1593759673640" duration="4722000" />
-      <workItem from="1594001213361" duration="351000" />
-      <workItem from="1594093782790" duration="3008000" />
-      <workItem from="1594134350283" duration="3379000" />
-      <workItem from="1594174345915" duration="8661000" />
-      <workItem from="1594262959553" duration="8333000" />
-      <workItem from="1594298551829" duration="3036000" />
-      <workItem from="1594365078038" duration="5567000" />
-      <workItem from="1594605662681" duration="594000" />
-      <workItem from="1594697294914" duration="8992000" />
-      <workItem from="1594722177560" duration="1000" />
-      <workItem from="1594735551399" duration="3823000" />
-      <workItem from="1594822962374" duration="3149000" />
-      <workItem from="1594909155358" duration="1938000" />
-      <workItem from="1594951322291" duration="13205000" />
-      <workItem from="1594989075229" duration="2735000" />
-      <workItem from="1595037101982" duration="1891000" />
-      <workItem from="1595059556634" duration="6578000" />
-      <workItem from="1595084002374" duration="4296000" />
-      <workItem from="1595216419870" duration="1826000" />
-      <workItem from="1595238069776" duration="4169000" />
-      <workItem from="1595296233836" duration="8050000" />
-      <workItem from="1595338839029" duration="4455000" />
-      <workItem from="1595386238388" duration="1921000" />
-      <workItem from="1595431391311" duration="2604000" />
-      <workItem from="1595471197029" duration="9268000" />
-      <workItem from="1595555582953" duration="15091000" />
-      <workItem from="1595640654675" duration="6566000" />
-      <workItem from="1595816389601" duration="4732000" />
-      <workItem from="1595832322168" duration="119000" />
-      <workItem from="1595832463117" duration="3553000" />
-      <workItem from="1595940525153" duration="6937000" />
-      <workItem from="1595953057707" duration="5000" />
-      <workItem from="1595986330973" duration="8255000" />
-      <workItem from="1596027191050" duration="6395000" />
-      <workItem from="1596037746281" duration="919000" />
-      <workItem from="1596114969149" duration="11527000" />
-      <workItem from="1596162566215" duration="11439000" />
-      <workItem from="1596211331488" duration="1957000" />
-      <workItem from="1596249765737" duration="2345000" />
-      <workItem from="1596368494641" duration="2565000" />
-      <workItem from="1596420195485" duration="9170000" />
-      <workItem from="1596461650070" duration="4171000" />
-      <workItem from="1596508318573" duration="11768000" />
-      <workItem from="1596545598651" duration="5974000" />
-      <workItem from="1596682421602" duration="5994000" />
-      <workItem from="1596810037014" duration="3637000" />
-      <workItem from="1596859122061" duration="1179000" />
-      <workItem from="1597024597581" duration="5842000" />
-      <workItem from="1597204594354" duration="1352000" />
-      <workItem from="1597287221581" duration="3481000" />
-      <workItem from="1597391375979" duration="2073000" />
-      <workItem from="1597716956353" duration="1793000" />
-      <workItem from="1597803742930" duration="1199000" />
-      <workItem from="1597887482835" duration="9750000" />
-      <workItem from="1598235882586" duration="594000" />
-      <workItem from="1598325132283" duration="1820000" />
-      <workItem from="1598407568377" duration="4455000" />
-      <workItem from="1598513445879" duration="6219000" />
-      <workItem from="1598537435187" duration="4297000" />
-      <workItem from="1598717144697" duration="1295000" />
-      <workItem from="1598799496998" duration="3608000" />
-      <workItem from="1598968682693" duration="797000" />
-      <workItem from="1599024312645" duration="2499000" />
-      <workItem from="1599206221697" duration="5515000" />
-      <workItem from="1599230370507" duration="2702000" />
-      <workItem from="1599403042137" duration="1206000" />
-      <workItem from="1600095196029" duration="2174000" />
-      <workItem from="1600227561796" duration="11971000" />
-      <workItem from="1600266934461" duration="8123000" />
-      <workItem from="1600306927605" duration="20522000" />
-      <workItem from="1600392919808" duration="8472000" />
-      <workItem from="1600438773711" duration="4074000" />
-      <workItem from="1600521984250" duration="594000" />
-      <workItem from="1600530865933" duration="798000" />
-      <workItem from="1600614099866" duration="682000" />
-      <workItem from="1600656799341" duration="594000" />
-      <workItem from="1600739709243" duration="7971000" />
-      <workItem from="1600783626057" duration="1613000" />
-      <workItem from="1600873941479" duration="676000" />
-      <workItem from="1601351075040" duration="2067000" />
-      <workItem from="1601518041699" duration="4644000" />
-      <workItem from="1601604342733" duration="4515000" />
-      <workItem from="1601692291790" duration="645000" />
-      <workItem from="1601861685546" duration="6535000" />
-      <workItem from="1601889907035" duration="3086000" />
-      <workItem from="1601948585477" duration="3502000" />
-      <workItem from="1602063226377" duration="606000" />
-      <workItem from="1602130509908" duration="3404000" />
-      <workItem from="1602207415413" duration="603000" />
-      <workItem from="1602571564534" duration="594000" />
-      <workItem from="1602581406975" duration="601000" />
-      <workItem from="1602768329304" duration="5890000" />
-      <workItem from="1602859649900" duration="1256000" />
-      <workItem from="1603029485146" duration="1196000" />
-      <workItem from="1603094400394" duration="1622000" />
-      <workItem from="1603179284454" duration="4413000" />
-      <workItem from="1603251198856" duration="2033000" />
-      <workItem from="1603423811530" duration="595000" />
-      <workItem from="1603703371718" duration="596000" />
-      <workItem from="1603851482044" duration="3291000" />
-      <workItem from="1604111734369" duration="3751000" />
-      <workItem from="1604294565262" duration="594000" />
-      <workItem from="1605773413422" duration="4774000" />
-      <workItem from="1607936225142" duration="1410000" />
-      <workItem from="1607998816657" duration="6646000" />
-      <workItem from="1608037185122" duration="3927000" />
-      <workItem from="1608171706195" duration="595000" />
-      <workItem from="1608262934214" duration="2569000" />
-      <workItem from="1608351763289" duration="703000" />
-      <workItem from="1608605573846" duration="2764000" />
+      <updated>1608866459970</updated>
+      <workItem from="1608866461064" duration="12223000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="692307000" />
+    <option name="totallyTimeSpent" value="12223000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16791044" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16151386" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -418,293 +213,41 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3846154" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="File Transfer" order="12" weight="0.14084508" />
+      <window_info anchor="right" id="Database" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16791044" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Database Changes" order="8" />
-      <window_info anchor="bottom" id="Version Control" order="9" />
-      <window_info anchor="bottom" id="Terminal" order="10" weight="0.3846154" />
-      <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
-      <window_info anchor="bottom" id="File Transfer" order="12" weight="0.14084508" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.16151386" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="4" />
+      <window_info anchor="bottom" id="Message" order="5" />
+      <window_info anchor="bottom" id="Find" order="6" />
+      <window_info anchor="bottom" id="Run" order="7" />
+      <window_info anchor="bottom" id="Debug" order="8" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" />
+      <window_info anchor="right" id="Database" order="0" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="1" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/../review/api/telegram/func.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-515">
-          <caret line="172" column="66" selection-start-line="172" selection-start-column="62" selection-end-line="172" selection-end-column="66" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/customer/content/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="46" column="18" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="18" />
-          <folding>
-            <element signature="e#29#1723#0#PHP" />
-            <element signature="e#1728#3546#0#PHP" />
-            <element signature="e#3551#5295#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/pos/assets/js/jquery.autocomplete.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/pos/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="22" selection-start-line="2" selection-start-column="5" selection-end-line="2" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/customer/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="357" column="33" selection-start-line="357" selection-start-column="12" selection-end-line="357" selection-end-column="33" />
-          <folding>
-            <element signature="e#133#7662#0#PHP" />
-            <element signature="e#7667#14431#0#PHP" />
-            <element signature="e#14436#19126#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5882">
-          <caret line="346" column="80" selection-start-line="346" selection-start-column="80" selection-end-line="346" selection-end-column="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/pos/includes/javascript.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="50" selection-start-line="11" selection-start-column="50" selection-end-line="11" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="34" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/telegram/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="29" lean-forward="true" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/index.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-validate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="9" selection-start-line="12" selection-start-column="9" selection-end-line="12" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.cart.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-396">
-          <caret line="15" column="5" lean-forward="true" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="43">
-          <caret line="589" column="52" lean-forward="true" selection-start-line="589" selection-start-column="52" selection-end-line="589" selection-end-column="52" />
-          <folding>
-            <element signature="e#30#6281#0#PHP" />
-            <element signature="e#6286#16900#0#PHP" />
-            <element signature="e#22171#28830#0#PHP" />
-            <element signature="e#22194#22267#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1836">
-          <caret line="1045" column="159" selection-start-line="1044" selection-start-column="48" selection-end-line="1045" selection-end-column="159" />
-          <folding>
-            <element signature="e#105#14477#0#PHP" />
-            <element signature="e#14482#28874#0#PHP" />
-            <element signature="e#28879#43395#0#PHP" />
-            <element signature="e#43400#54430#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/blog.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="699" column="44" selection-start-line="699" selection-start-column="44" selection-end-line="699" selection-end-column="44" />
-          <folding>
-            <element signature="e#29#7290#0#PHP" />
-            <element signature="e#7295#21475#0#PHP" />
-            <element signature="e#21480#29581#0#PHP" />
-            <element signature="e#29586#39462#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.meta.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="197">
-          <caret line="33" column="20" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../sms/apisms/function.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11096" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../test/index.php" />
-    <entry file="file://$PROJECT_DIR$/../test/class.php" />
-    <entry file="file://$PROJECT_DIR$/../test/ajax.php" />
-    <entry file="file://$PROJECT_DIR$/includes/function-javascript.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="101" column="55" lean-forward="true" selection-start-line="101" selection-start-column="55" selection-end-line="101" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1445">
-          <caret line="85" column="45" selection-start-line="85" selection-start-column="45" selection-end-line="85" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.post.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="6" selection-start-line="1" selection-start-column="6" selection-end-line="1" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="7" selection-start-line="11" selection-start-column="7" selection-end-line="11" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/js.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="49" selection-start-line="14" selection-start-column="49" selection-end-line="14" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="20" column="43" selection-start-line="20" selection-start-column="43" selection-end-line="20" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="106" selection-start-line="31" selection-start-column="106" selection-end-line="31" selection-end-column="106" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/test.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="24" column="72" selection-start-line="24" selection-start-column="72" selection-end-line="24" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/api.php">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="14" selection-start-line="5" selection-end-line="5" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/pos/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="31" column="92" selection-start-line="31" selection-start-column="92" selection-end-line="31" selection-end-column="92" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/init.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="419">
-          <caret line="49" column="17" selection-start-line="49" selection-start-column="17" selection-end-line="49" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
-          <folding>
-            <element signature="e#244#310#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../CMS/login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2856" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/admin-ajax.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="230" column="33" lean-forward="true" selection-start-line="230" selection-start-column="33" selection-end-line="230" selection-end-column="33" />
+          <caret line="230" column="28" selection-start-line="230" selection-start-column="28" selection-end-line="230" selection-end-column="28" />
           <folding>
             <element signature="e#57#2191#0#PHP" />
             <element signature="e#2196#4635#0#PHP" />
@@ -715,124 +258,118 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/login.php">
+    <entry file="file://$PROJECT_DIR$/../multicms/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="570">
-          <caret line="104" column="67" selection-start-line="104" selection-start-column="67" selection-end-line="104" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="266" column="32" selection-start-line="266" selection-start-column="22" selection-end-line="266" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2533">
-          <caret line="303" column="145" selection-start-line="303" selection-start-column="132" selection-end-line="303" selection-end-column="145" />
-          <folding>
-            <element signature="e#29#4825#0#PHP" />
-            <element signature="e#4830#8186#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="168" column="53" selection-start-line="168" selection-start-column="53" selection-end-line="168" selection-end-column="53" />
-          <folding>
-            <element signature="e#30#1626#0#PHP" />
-            <element signature="e#1631#6106#0#PHP" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/class.telegram.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="32" column="5" lean-forward="true" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="63" column="32" lean-forward="true" selection-start-line="63" selection-start-column="8" selection-end-line="63" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../d/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-374">
-          <caret line="26" column="42" selection-start-line="26" selection-start-column="42" selection-end-line="26" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/telegram/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="460">
-          <caret line="65" column="33" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/formatting.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2227">
-          <caret line="131" column="1" lean-forward="true" selection-start-line="131" selection-start-column="1" selection-end-line="131" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/function-nomal.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" selection-start-line="2" selection-end-line="4" selection-end-column="1" />
+        <state relative-caret-position="969">
+          <caret line="57" column="138" selection-start-line="57" selection-start-column="126" selection-end-line="57" selection-end-column="138" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/includes/function.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5270">
-          <caret line="478" column="25" lean-forward="true" selection-start-line="478" selection-start-column="25" selection-end-line="478" selection-end-column="25" />
+        <state relative-caret-position="434">
+          <caret line="327" column="19" selection-start-line="327" selection-start-column="14" selection-end-line="327" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.product.php">
+    <entry file="file://$PROJECT_DIR$/login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="20" lean-forward="true" selection-start-line="1" selection-start-column="20" selection-end-line="1" selection-end-column="21" />
+        <state relative-caret-position="357">
+          <caret line="33" column="101" lean-forward="true" selection-start-line="33" selection-start-column="78" selection-end-line="33" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/customer/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" column="63" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/momo/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="64" selection-start-line="19" selection-start-column="64" selection-end-line="19" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/pos/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="19" column="67" selection-start-line="19" selection-start-column="67" selection-end-line="19" selection-end-column="67" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/product/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="20" column="61" selection-start-line="20" selection-start-column="61" selection-end-line="20" selection-end-column="61" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/telegram/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="60" selection-start-line="20" selection-start-column="60" selection-end-line="20" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/init.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="419">
+          <caret line="49" column="16" lean-forward="true" selection-start-line="49" selection-start-column="16" selection-end-line="49" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="206" column="29" selection-start-line="206" selection-start-column="20" selection-end-line="206" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="128" column="110" selection-start-line="128" selection-start-column="110" selection-end-line="128" selection-end-column="110" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/admin-header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="53" selection-start-line="32" selection-start-column="53" selection-end-line="32" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/admin-footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="24" selection-start-column="24" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/Compressed/dashliteadmin-22/dashliteadmin-22/dashlite-template/demo1/src/html/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="620" column="63" lean-forward="true" selection-start-line="618" selection-start-column="32" selection-end-line="620" selection-end-column="63" />
           <folding>
-            <element signature="n#check_product#0;n#Product#0;n#!!top" />
-            <element signature="n#get_sale_percent#0;n#Product#0;n#!!top" />
-            <element signature="n#check_category#0;n#Product#0;n#!!top" />
-            <element signature="n#check_brand#0;n#Product#0;n#!!top" />
-            <element signature="n#get_unit#0;n#Product#0;n#!!top" />
-            <element signature="n#create_barcode#0;n#Product#0;n#!!top" />
-            <element signature="n#update_image#0;n#Product#0;n#!!top" />
-            <element signature="n#update#0;n#Product#0;n#!!top" />
+            <element signature="n#div#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
+    <entry file="file://$PROJECT_DIR$/admin/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="154" column="120" selection-start-line="154" selection-start-column="120" selection-end-line="154" selection-end-column="120" />
-          <folding>
-            <element signature="e#836#1094#0#PHP" />
-            <element signature="e#1155#3370#0#PHP" />
-            <element signature="e#3626#6909#0#PHP" />
-          </folding>
+        <state relative-caret-position="722">
+          <caret line="78" column="30" selection-start-line="78" selection-start-column="30" selection-end-line="78" selection-end-column="30" />
         </state>
       </provider>
     </entry>

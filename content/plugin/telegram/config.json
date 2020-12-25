@@ -18,7 +18,7 @@
     "menu": [
         {
             "text": "Telegram",
-            "icon": "<i class=\"zmdi zmdi-comments\"><\/i>\n",
+            "icon": "<em class=\"icon ni ni-telegram\"></em>\n",
             "child": [
                 {
                     "text": "C\u00e0i \u0111\u1eb7t c\u1ea5u h\u00ecnh",

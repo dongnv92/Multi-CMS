@@ -4,72 +4,118 @@ if($me){
     redirect(URL_ADMIN);
 }
 ?>
-<!doctype html>
-<html class="no-js " lang="en">
+<!-- New -->
+<!DOCTYPE html>
+<html lang="vi" class="js">
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Đăng nhập hệ thống.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="<?=URL_HOME."/content/assets/images/system/favicon.png"?>">
+    <!-- Page Title  -->
     <title>Đăng Nhập</title>
-    <!-- Favicon-->
-    <link rel="icon" href="<?=URL_ADMIN_ASSETS?>images/favicon.ico" type="image/x-icon">
-    <!-- Custom Css -->
-    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>plugins/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/main.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/authentication.css">
-    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>css/color_skins.css">
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/dashlite.css?ver=2.2.0">
+    <link id="skin-default" rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/theme.css?ver=2.2.0">
 </head>
-<body class="theme-orange">
-<div class="authentication">
-    <div class="card">
-        <div class="body">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="header slideDown">
-                        <div class="logo">
-                            <a href="<?=URL_HOME?>"><img src="<?=get_config('logo')?>" style="max-height: 50px" alt="Logo"></a>
+<body class="nk-body bg-white npc-general pg-auth">
+<div class="nk-app-root">
+    <!-- main @s -->
+    <div class="nk-main ">
+        <!-- wrap @s -->
+        <div class="nk-wrap nk-wrap-nosidebar">
+            <!-- content @s -->
+            <div class="nk-content ">
+                <div class="nk-block nk-block-middle nk-auth-body  wide-xs">
+                    <div class="brand-logo pb-4 text-center">
+                        <a href="<?=URL_HOME?>" class="logo-link">
+                            <img class="logo-light logo-img logo-img-lg" src="<?=get_config('logo')?>" srcset="<?=get_config('logo')?> 2x" alt="logo">
+                            <img class="logo-dark logo-img logo-img-lg" src="<?=get_config('logo')?>" srcset="<?=get_config('logo')?> 2x" alt="logo-dark">
+                        </a>
+                    </div>
+                    <div class="card card-bordered">
+                        <div class="card-inner card-inner-lg">
+                            <div class="nk-block-head">
+                                <div class="nk-block-head-content">
+                                    <h4 class="nk-block-title">Đăng Nhập</h4>
+                                    <div class="nk-block-des">
+                                        <p>Đăng nhập vào hệ thống.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form action="<?=URL_HOME?>" method="post" id="sign_in">
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="default-01">Email hoặc Tên đăng nhập</label>
+                                    </div>
+                                    <input type="text" class="form-control form-control-lg" name="user_login" id="default-01" placeholder="Nhập Email hoặc tên đăng nhập">
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label" for="password">Mật Khẩu</label>
+                                        <a class="link link-primary link-sm" href="#">Quên mật khẩu?</a>
+                                    </div>
+                                    <div class="form-control-wrap">
+                                        <a href="#" class="form-icon form-icon-right passcode-switch" data-target="password">
+                                            <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                            <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                        </a>
+                                        <input type="password" class="form-control form-control-lg" name="user_pass" id="password" placeholder="Nhập mật khẩu">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-lg btn-primary btn-block" type="submit" name="submit" value="sunmit" id="submit_login">Đăng Nhập</button>
+                                </div>
+                            </form>
+                            <div class="form-note-s2 text-center pt-4"> Đăng nhập với? <a href="#">Tạo tài khoản mới</a>
+                            </div>
+                            <div class="text-center pt-4 pb-3">
+                                <h6 class="overline-title overline-title-sap"><span>Hoặc</span></h6>
+                            </div>
+                            <ul class="nav justify-center gx-4">
+                                <li class="nav-item"><a class="nav-link" href="#">Facebook</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Google</a></li>
+                            </ul>
                         </div>
-                        <h1 class="text-white">MULTICMS LOGIN</h1>
                     </div>
                 </div>
-                <form class="col-lg-12" id="sign_in" method="POST">
-                    <div class="form-group form-float">
-                        <div class="form-line">
-                            <input type="text" class="form-control" value="" name="user_login" required>
-                            <label class="form-label">Tên Đăng Nhập</label>
+                <div class="nk-footer nk-auth-footer-full">
+                    <div class="container wide-lg">
+                        <div class="row g-3">
+                            <div class="col-lg-6 order-lg-last">
+                                <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Quy định sử dụng</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Pháp lý</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Hỗ trợ</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="nk-block-content text-center text-lg-left">
+                                    <p class="text-soft">&copy; 20121 All Rights Reserved By Dong Nguyen.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group form-float">
-                        <div class="form-line">
-                            <input type="password" name="user_pass" value="" class="form-control" required>
-                            <label class="form-label">Mật Khẩu</label>
-                        </div>
-                    </div>
-                    <div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 text-left align-middle">
-                            <input type="checkbox" name="rememberme" id="rememberme" value="1" class="filled-in chk-col-cyan">
-                            <label for="rememberme">Ghi Nhớ</label>
-                        </div>
-                        <div class="col-lg-8 text-right">
-                            <?=formButton('ĐĂNG NHẬP', ['type' => 'submit', 'name' => 'submit', 'value' => 'submit', 'id' => 'submit_login'])?>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
+            <!-- wrap @e -->
         </div>
+        <!-- content @e -->
     </div>
+    <!-- main @e -->
 </div>
-<!-- Jquery Core Js -->
-<script src="<?=URL_ADMIN_ASSETS?>bundles/libscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN_ASSETS?>bundles/vendorscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN_ASSETS?>bundles/mainscripts.bundle.js"></script>
-<script src="<?=URL_ADMIN_ASSETS?>plugins/bootstrap-notify/bootstrap-notify.js"></script>
-<script src="<?=URL_ADMIN_ASSETS?>js/init.js"></script>
-
+<!-- app-root @e -->
+<!-- JavaScript -->
+<script src="<?=URL_ADMIN_ASSETS?>assets/js/bundle.js?ver=2.2.0"></script>
+<script src="<?=URL_ADMIN_ASSETS?>assets/js/scripts.js?ver=2.2.0"></script>
 <script>
     $(document).ready(function () {
         function setCookie(cname, cvalue, exdays) {
@@ -92,7 +138,10 @@ if($me){
             ajax.done(function (data) {
                 if (data.response != 200){
                     setTimeout(function () {
-                        show_notify(data.message, 'bg-red');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'error',{
+                            position: 'top-right'
+                        });
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');
                     }, 2000);
@@ -101,7 +150,10 @@ if($me){
                         if($('#rememberme:checkbox:checked').length > 0){
                             setCookie('access_token', data.data.user_token, 30);
                         }
-                        show_notify(data.message, 'bg-green');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'success',{
+                            position: 'top-right'
+                        });
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');
                         setTimeout(function () {
@@ -121,5 +173,5 @@ if($me){
         })
     })
 </script>
-</body>
 </html>
+<!-- New -->

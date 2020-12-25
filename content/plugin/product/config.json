@@ -18,7 +18,7 @@
     "menu": [
         {
             "text": "Sản phầm",
-            "icon": "<i class='zmdi zmdi-shopping-cart'><\/i>",
+            "icon": "<em class=\"icon ni ni-cart-fill\"></em>",
             "child": [
                 {
                     "text": "Tất cả sản phẩm",

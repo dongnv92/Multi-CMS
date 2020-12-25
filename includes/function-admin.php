@@ -39,103 +39,128 @@ function admin_breadcrumbs($title, $title_des = '', $title_active = '', $list_ur
     return $text;
 }
 
-// Hiển thị hiệu ứng đang tải khi đang tải trang
-function admin_page_loader_start(){
-    return '<!-- Page Loader -->
-<div class="page-loader-wrapper">
-    <div class="loader">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-        <p>Vui lòng chờ ...</p>
-    </div>
-</div>';
-}
-
-// Hiển thị thanh tìm kiếm trên Header
-function admin_header_search_bar(){
-    return '<!-- Overlay For Sidebars -->
-<div class="overlay"></div><!-- Search  -->
-<div class="search-bar">
-    <div class="search-icon"> <i class="material-icons">search</i> </div>
-    <input type="text" placeholder="Tìm kiếm ...">
-    <div class="close-search"> <i class="material-icons">close</i> </div>
-</div>';
-}
 
 // Hiển thị thanh Topbar
-function admin_top_bar(){
-    return '<nav class="navbar">
-    <div class="col-12">
-        <div class="navbar-header text-center">
-            <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="'. URL_ADMIN .'">..:: MULTICMS ::..</a>
-        </div>
-        <ul class="nav navbar-nav navbar-left">
-            <li><a href="javascript:void(0);" class="ls-toggle-btn" data-close="true"><i class="zmdi zmdi-swap"></i></a></li>
-            <li><a href="#" class="inbox-btn hidden-sm-down" data-close="true"><i class="material-icons">settings</i></a></li>
-            <li><a href="#" class="inbox-btn hidden-sm-down" data-close="true"><i class="zmdi zmdi-mail-send"></i></a></li>
-            <li><a href="#" class="inbox-btn hidden-sm-down" data-close="true"><i class="zmdi zmdi-trending-up"></i></a></li>
-            <li class="dropdown menu-app hidden-sm-down"><a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"> <i class="zmdi zmdi-apps"></i> </a>
-                <ul class="dropdown-menu slideDown">
-                    <li class="body">
-                        <ul class="menu">
-                            <li><a href="#"><i class="zmdi zmdi-receipt"></i><span>Giao dịch</span></a></li>
-                            <li><a href="#"><i class="zmdi zmdi-accounts-list"></i><span>Danh bạ</span></a></li>
-                            <li><a href="#"><i class="zmdi zmdi-comment-outline"></i><span>Tin Nhắn</span></a></li>
-                            <li><a href="#"?><i class="zmdi zmdi-trending-up"></i><span>Thống Kê</span></a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-            <li>Tài Khoản <span class="font-bold text-danger">N-A</span></li>
-            <li><a href="javascript:void(0);" class="js-search" data-close="true"><i class="zmdi zmdi-search"></i></a></li>
-            <li class="dropdown">
-                <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button">
-                    <i class="zmdi zmdi-notifications"></i><div class="notify"><span class="heartbit"></span><span class="point"></span></div>
-                </a>
-                <ul class="dropdown-menu slideDown">
-                    <li class="header">THÔNG BÁO</li>
-                    <li class="body">
-                        <ul class="menu list-unstyled">
-                            <li>
-                                <a href="#">
-                                    <div class="icon-circle l-blue"> <i class="material-icons">search</i> </div>
-                                    <div class="menu-info">
-                                        <h4 class="font-bold">Nội dung thông báo</h4>
-                                        <p> <i class="material-icons">access_time</i> Thời gian </p>
+function admin_main_header(){
+    global $me;
+    return '<!-- main header @s -->
+    <div class="nk-header nk-header-fixed is-light">
+        <div class="container-fluid">
+            <div class="nk-header-wrap">
+                <div class="nk-menu-trigger d-xl-none ml-n1">
+                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                </div>
+                <div class="nk-header-brand d-xl-none">
+                    <a href="'. URL_ADMIN .'" class="logo-link">
+                        <img class="logo-light logo-img" src="'. get_config('logo') .'" srcset="'. get_config('logo') .' 2x" alt="logo">
+                        <img class="logo-dark logo-img" src="'. get_config('logo') .'" srcset="'. get_config('logo') .' 2x" alt="logo-dark">
+                    </a>
+                </div><!-- .nk-header-brand -->
+                <div class="nk-header-news d-none d-xl-block">
+                    <div class="nk-news-list">
+                        <a class="nk-news-item" href="#">
+                            <div class="nk-news-icon">
+                                <em class="icon ni ni-card-view"></em>
+                            </div>
+                            <div class="nk-news-text">
+                                <p>Bản tin nhanh <span> Website đang trong thời gian xây dựng</span></p>
+                                <em class="icon ni ni-external"></em>
+                            </div>
+                        </a>
+                    </div>
+                </div><!-- .nk-header-news -->
+                <div class="nk-header-tools">
+                    <ul class="nk-quick-nav">
+                        <li class="dropdown user-dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <div class="user-toggle">
+                                    <div class="user-avatar sm">
+                                        <em class="icon ni ni-user-alt"></em>
                                     </div>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="footer"> <a href="#">Xem tất cả thông báo</a> </li>
-                </ul>
-            </li>
-            <li><a href="#" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a></li>
-        </ul>
+                                    <div class="user-info d-none d-md-block">
+                                        <div class="user-status">'. $me['meta_name'] .'</div>
+                                        <div class="user-name dropdown-indicator">'. $me['user_name'] .'</div>
+                                    </div>
+                                </div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
+                                <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                    <div class="user-card">
+                                        <div class="user-avatar">
+                                            <span>ĐN</span>
+                                        </div>
+                                        <div class="user-info">
+                                            <span class="lead-text">'. $me['user_name'] .'</span>
+                                            <span class="sub-text">'. ($me['user_phone'] ? $me['user_phone'] : '---') .'</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-inner">
+                                    <ul class="link-list">
+                                        <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>Xem hồ sơ</span></a></li>
+                                        <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Cài đặt tài khoản</span></a></li>
+                                        <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Nhật ký hoạt động</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="dropdown-inner">
+                                    <ul class="link-list">
+                                        <li><a href="#"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li><!-- .dropdown -->
+                        <li class="dropdown notification-dropdown mr-n1">
+                            <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
+                                <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-s1">
+                                <div class="dropdown-head">
+                                    <span class="sub-title nk-dropdown-title">Thông báo</span>
+                                    <a href="#">Đánh dấu đã đọc tất cả</a>
+                                </div>
+                                <div class="dropdown-body">
+                                    <div class="nk-notification">
+                                        <div class="nk-notification-item dropdown-inner">
+                                            <div class="nk-notification-icon">
+                                                <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                            </div>
+                                            <div class="nk-notification-content">
+                                                <div class="nk-notification-text">Đây là thông báo mẫu</div>
+                                                <div class="nk-notification-time">Không xác định thời gian gửi</div>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-notification -->
+                                </div><!-- .nk-dropdown-body -->
+                                <div class="dropdown-foot center">
+                                    <a href="#">Xem tất cả</a>
+                                </div>
+                            </div>
+                        </li><!-- .dropdown -->
+                    </ul><!-- .nk-quick-nav -->
+                </div><!-- .nk-header-tools -->
+            </div><!-- .nk-header-wrap -->
+        </div><!-- .container-fliud -->
     </div>
-</nav>';
+    <!-- main header @e -->';
 }
 
 function admin_left_side_bar(){
-    global $me;
     $menu = get_menu_header_structure();
-    $text = '<aside id="leftsidebar" class="sidebar">
-    <!-- User Info -->
-    <div class="user-info">
-        <div class="image">
-            <img src="'. ($me['user_avatar'] ? URL_HOME.'/'.$me['user_avatar'] : URL_HOME.'/content/assets/images/avatar/'. rand(1, 11) .'.png') .'" width="48" height="48" alt="Avatar" />
+    $text = '<div class="nk-sidebar nk-sidebar-fixed is-dark " data-content="sidebarMenu">';
+    $text .= '
+    <div class="nk-sidebar-element nk-sidebar-head">
+        <div class="nk-sidebar-brand">
+            <a href="'. URL_ADMIN .'" class="logo-link nk-sidebar-logo">
+                <img class="logo-light logo-img" src="'. get_config('logo') .'" srcset="'. get_config('logo') .' 2x" alt="logo">
+                <img class="logo-dark logo-img" src="'. get_config('logo') .'" srcset="'. get_config('logo') .' 2x" alt="logo-dark">
+            </a>
         </div>
-        <div class="info-container">
-            <div class="name" data-toggle="dropdown">'. $me['user_name'] .'</div>
-            '. ($me['user_phone'] ? $me['user_phone'] : 'No Info') .'
+        <div class="nk-menu-trigger mr-n2">
+            <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
         </div>
-    </div>';
+    </div><!-- .nk-sidebar-element -->';
     $text .= get_menu_header($menu);
-    $text .= '</aside>';
+    $text .= '</div>';
     return $text;
 }
 
@@ -160,13 +185,18 @@ function check_menu_active($path, $list_active){
 
 function view_menu_header_li($data = []){
     $data['url'] = str_replace('URL_ADMIN', URL_ADMIN, $data['url']);
-    return '<li '. ($data['class'] ? 'class="'. $data['class'] .'"' : '') .'><a href="'. $data['url'] .'">'. $data['icon'] .' <span>'. $data['text'] .'</span></a></li>';
+    return '<li '. ($data['class'] ? 'class="'. $data['class'] .'"' : '') .'>
+        <a href="'. $data['url'] .'" class="nk-menu-link">
+            '. ($data['icon'] ? '<span class="nk-menu-icon">'. $data['icon'] .'</span>' : '') .'
+            <span class="nk-menu-text">'. $data['text'] .'</span>
+        </a>
+    </li>';
 }
 
 function get_menu_header($menu){
     global $path, $role;
     //$role   = role_structure();
-    $result = '<div class="menu"><ul class="list">'."\n";
+    $result = '<div class="nk-sidebar-element"><div class="nk-sidebar-content"><div class="nk-sidebar-menu" data-simplebar><ul class="nk-menu">'."\n";
     foreach ($menu AS $_menu){
         if(count($_menu['child']) > 0){
             // Kiểm tra xem menu con
@@ -181,22 +211,22 @@ function get_menu_header($menu){
                 }
             }
             if($permission){
-                $result .= '<li '. ($li_active ? 'class="active open"' : '') .'>'."\n";
-                $result .= '<a href="javascript:void(0);" class="menu-toggle">'. $_menu['icon'] .' <span>'. $_menu['text'] .'</span></a><ul class="ml-menu">';
+                $result .= '<li '. ($li_active ? 'class="nk-menu-item has-sub active current-page"' : 'class="nk-menu-item has-sub"') .'>'."\n";
+                $result .= '<a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">'. $_menu['icon'] .' </span><span class="nk-menu-text">'. $_menu['text'] .'</span></a><ul class="nk-menu-sub">';
                 foreach ($_menu['child'] AS $_child){
                     if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
-                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'active' : '')])."\n";
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'nk-menu-item active current-page' : 'nk-menu-item')])."\n";
                     }
                 }
                 $result .= '</ul></li>'."\n";
             }
         }else{
             if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
-                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'active' : '')])."\n";
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'nk-menu-item active current-page' : 'nk-menu-item')])."\n";
             }
         }
     }
-    $result .= '</ul></div>';
+    $result .= '</ul><!-- .nk-menu --></div><!-- .nk-sidebar-menu --></div><!-- .nk-sidebar-content --></div><!-- .nk-sidebar-element -->';
     return $result;
 }
 
@@ -205,13 +235,13 @@ function get_menu_header_structure(){
         [
             'roles'     => [],
             'text'      => 'Trang quản trị',
-            'icon'      => '<i class="zmdi zmdi-home"></i>',
+            'icon'      => '<em class="icon ni ni-home-alt"></em>',
             'url'       => URL_ADMIN,
             'active'    => [[PATH_ADMIN, '']]
         ],
         [
             'text'  => 'Thành viên',
-            'icon'  => '<i class="zmdi zmdi-accounts-alt"></i>',
+            'icon'  => '<em class="icon ni ni-users"></em>',
             'child' => [
                 [
                     'text'      => 'Danh sách thành viên',
@@ -235,7 +265,7 @@ function get_menu_header_structure(){
         ],
         [
             'text'  => 'Thông tin cá nhân',
-            'icon'  => '<i class="zmdi zmdi-account"></i>',
+            'icon'  => '<em class="icon ni ni-account-setting-alt"></em>',
             'child' => [
                 [
                     'text'      => 'Sửa hồ sơ',
@@ -253,7 +283,7 @@ function get_menu_header_structure(){
         ],
         [
             'text'  => 'Bài viết',
-            'icon'  => '<i class="zmdi zmdi-border-color"></i>',
+            'icon'  => '<em class="icon ni ni-article"></em>',
             'child' => [
                 [
                     'text'      => 'Bài viết',
@@ -277,7 +307,7 @@ function get_menu_header_structure(){
         ],
         [
             'text'  => 'Plugin',
-            'icon'  => '<i class="zmdi zmdi-layers"></i>',
+            'icon'  => '<em class="icon ni ni-grid-add-c"></em>',
             'child' => [
                 [
                     'text'      => 'Tất cả Plugin',
@@ -309,14 +339,14 @@ function get_menu_header_structure(){
         [
             'roles'     => [],
             'text'      => 'Các phần tử',
-            'icon'      => '<i class="zmdi zmdi-delicious"></i>',
+            'icon'      => '<em class="icon ni ni-link-group"></em>',
             'url'       => URL_ADMIN.'/elements/',
             'active'    => [[PATH_ADMIN, 'elements', '']]
         ],
         [
             'roles'     => [],
             'text'      => 'Đăng xuất',
-            'icon'      => '<i class="zmdi zmdi-power"></i>',
+            'icon'      => '<em class="icon ni ni-arrow-from-left"></em>',
             'url'       => URL_LOGOUT,
             'active'    => []
         ]

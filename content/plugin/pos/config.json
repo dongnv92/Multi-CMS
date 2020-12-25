@@ -17,7 +17,7 @@
     "menu": [
         {
             "text": "POS",
-            "icon": "<i class=\"zmdi zmdi-devices\"><\/i>",
+            "icon": "<em class=\"icon ni ni-note-add-fill-c\"></em>",
             "child": [
                 {
                     "text": "B\u00e1n H\u00e0ng",

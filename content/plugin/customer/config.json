@@ -12,7 +12,7 @@
   "menu":[
     {
       "text":"Khách hàng",
-      "icon":"<i class=\"zmdi zmdi-accounts-outline\"><\/i>\n",
+      "icon":"<em class=\"icon ni ni-user-list\"></em>\n",
       "child":[
         {
           "text":"Khách hàng, Đối tác",

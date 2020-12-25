@@ -18,7 +18,7 @@
     "menu": [
         {
             "text": "Kplus",
-            "icon": "<i class=\"zmdi zmdi-comments\"><\/i>\n",
+            "icon": "<em class=\"icon ni ni-kickstarter\"></em>\n",
             "child": [
                 {
                     "text": "Danh sách",

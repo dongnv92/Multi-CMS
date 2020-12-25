@@ -174,6 +174,7 @@ class user{
 
     // Lấy thông tin user qua user_token
     function init_get_me(){
+        $db = $this->db;
         /** Kiểm tra cookie, nếu có thì gán cho Session */
         if ($_COOKIE['access_token']) {
             $_SESSION['access_token'] = $_COOKIE['access_token'];
@@ -200,6 +201,10 @@ class user{
         if(!$data_user){
             return false;
         }
+
+        // Lấy thông tin chức năng thành viên
+        $role = $db->select('meta_name')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $data_user['user_role']])->fetch_first();
+        $data_user['meta_name'] = $role['meta_name'];
 
         define('ACCESS_TOKEN', $data_user["{$this->user_token}"]);
         return $data_user;
