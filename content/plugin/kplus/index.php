@@ -15,77 +15,46 @@ switch ($path[2]){
             URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_JS . "{$path[1]}/{$path[2]}"
         ];
-        $header['title'] = 'Thêm dữ liệu';
+        $header['title'] = 'Thêm mã thẻ mới';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
+        echo admin_breadcrumbs('Thêm mã thẻ mới', [URL_ADMIN."/kplus" => 'Kplus'], 'Thêm mã mới');
         ?>
-        <div class="card">
-            <div class="body">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#first">Thêm một mã</a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#second">Thêm nhiều mã 1 lúc</a></li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane in active" id="first">
-                        <?=formOpen('POST', ['id' => 'add'])?>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <?=formInputText('kplus_code', [
-                                    'layout'        => 'horizonta',
-                                    'label'         => '<code>*</code> Mã thẻ',
-                                    'autofocus'     => 'true',
-                                    'placeholder'   => 'Mã thẻ gồm 12 chữ số'
-                                ])?>
-                            </div>
-                            <div class="col-lg-12">
-                                <?=formInputText('kplus_expired', [
-                                    'layout'        => 'horizonta',
-                                    'label'         => '<code>*</code> Hết hạn',
-                                    'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
-                                ])?>
-                            </div>
-                            <div class="col-lg-10">
-                                <?=formInputText('kplus_name', [
-                                    'layout'        => 'horizonta',
-                                    'label'         => 'Tên chủ thẻ',
-                                    'autofocus'     => 'true',
-                                    'placeholder'   => 'Tên chủ thẻ. Có thể để trống'
-                                ])?>
-                            </div>
-                            <div class="col-lg-2 text-left">
-                                <?=formButton('CHECK NAME', [
-                                    'id' => 'button_checkname'
-                                ])?>
-                            </div>
-                            <div class="col-lg-12 text-center">
-                                <?=formButton('THÊM MỚI', [
-                                    'type' => 'submit', 'name' => 'submit', 'value' => 'submit','id' => 'button_add'
-                                ])?>
-                            </div>
-                        </div>
-                        <?=formClose()?>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="second">
-                        <?=formOpen('POST', ['id' => 'adds'])?>
-                        <?=formInputText('kplus_expired', [
-                            'label'         => '<code>*</code> Hết hạn',
-                            'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)'
-                        ])?>
-                        <?=formInputTextarea('content', [
-                            'placeholder'   => 'Mỗi mã thẻ phân cách bằng dấu xuống dòng. (VD: 135298654521/ - 24/02/1992)',
-                            'rows'          =>  10
-                        ])?>
-                        <div class="text-center">
-                            <?=formButton('THÊM MỚI', [
-                                'id' => 'button_adds'
-                            ])?>
-                        </div>
-                        <?=formClose()?>
-                    </div>
+        <div class="card card-bordered">
+            <div class="card-inner border-bottom">
+                <!-- Title -->
+                <div class="card-title-group">
+                    <div class="card-title"><h6 class="title">Thêm mã thẻ mới</h6></div>
+                    <div class="card-tools"><a href="<?=URL_ADMIN . "/{$path[1]}/"?>" class="link">Danh sách</a></div>
                 </div>
+                <!-- Title -->
             </div>
+            <!-- Content -->
+            <div class="card-inner">
+                <?=formOpen('POST', ['id' => 'add'])?>
+                <?=formInputText('kplus_code', [
+                    'layout'        => 'outlined',
+                    'label'         => 'Mã thẻ (12 chữ số) *'
+                ])?>
+                <?=formInputText('kplus_expired', [
+                    'layout'        => 'outlined',
+                    'label'         => 'Ngày hết hạn (VD: 31/12/2020) *'
+                ])?>
+                <?=formInputText('kplus_name', [
+                    'layout'        => 'outlined',
+                    'label'         => 'Tên chủ thuê bao'
+                ])?>
+                <div class="text-center">
+                    <?=formButton('CHECK NAME', [
+                        'id'    => 'button_checkname',
+                        'class' => 'btn btn-danger'
+                    ])?>
+                    <?=formButton('THÊM MỚI', [
+                        'id' => 'button_adds'
+                    ])?>
+                </div>
+                <?=formClose()?>
+            </div>
+            <!-- End Content -->
         </div>
         <?php
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";

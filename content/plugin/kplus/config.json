@@ -23,36 +23,18 @@
                 {
                     "text": "Danh sách",
                     "url": "URL_ADMIN\/kplus\/?kplus_status=unregistered",
-                    "roles": [
-                        "kplus",
-                        "manager"
-                    ],
+                    "roles": ["kplus","manager"],
                     "active": [
-                        [
-                            "admin",
-                            "kplus",
-                            ""
-                        ],
-                        [
-                            "admin",
-                            "kplus",
-                            "update"
-                        ]
+                        ["admin", "kplus", ""],
+                        ["admin", "kplus", "update"]
                     ]
                 },
                 {
                     "text": "Thêm mới",
                     "url": "URL_ADMIN\/kplus\/add",
-                    "roles": [
-                        "kplus",
-                        "add"
-                    ],
+                    "roles": ["kplus","add"],
                     "active": [
-                        [
-                            "admin",
-                            "kplus",
-                            "add"
-                        ]
+                        ["admin","kplus","add"]
                     ]
                 }
             ]

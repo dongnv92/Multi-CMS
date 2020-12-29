@@ -46,7 +46,6 @@ switch ($path[2]) {
         ?>
         //<script>
         $(document).ready(function () {
-
             $('#button_checkname').on('click', function () {
                 var ajax = $.ajax({
                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/check_name"?>',
@@ -60,11 +59,17 @@ switch ($path[2]) {
                 });
                 ajax.done(function (data) {
                     if(data.response == 200){
-                        show_notify(data.message, 'bg-green');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'success',{
+                            position: 'bottom-right'
+                        });
                         $('#button_checkname').attr('disabled', false);
                         $('#button_checkname').html('CHECK NAME');
                     }else{
-                        show_notify(data.message, 'bg-red');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'error',{
+                            position: 'top-right'
+                        });
                         $('#button_checkname').attr('disabled', false);
                         $('#button_checkname').html('CHECK NAME');
                     }
@@ -90,11 +95,17 @@ switch ($path[2]) {
                 });
                 ajax.done(function (data) {
                     if(data.response == 200){
-                        show_notify(data.message, 'bg-green');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'success',{
+                            position: 'top-right'
+                        });
                         $('#button_adds').attr('disabled', false);
                         $('#button_adds').html('THÊM MỚI');
                     }else{
-                        show_notify(data.message, 'bg-red');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'error',{
+                            position: 'top-right'
+                        });
                         $('#button_adds').attr('disabled', false);
                         $('#button_adds').html('THÊM MỚI');
                     }
@@ -120,13 +131,19 @@ switch ($path[2]) {
                 });
                 ajax.done(function (data) {
                     if(data.response == 200){
-                        show_notify(data.message, 'bg-green');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'success',{
+                            position: 'top-right'
+                        });
                         $('#button_add').attr('disabled', false);
                         $('#button_add').html('THÊM MỚI');
                         $('input[name="kplus_code"]').val('');
                         $('input[name="kplus_expired"]').val('');
                     }else{
-                        show_notify(data.message, 'bg-red');
+                        toastr.clear();
+                        NioApp.Toast(data.message, 'error',{
+                            position: 'top-right'
+                        });
                         $('#button_add').attr('disabled', false);
                         $('#button_add').html('THÊM MỚI');
                     }

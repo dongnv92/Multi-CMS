@@ -9,12 +9,8 @@ require_once 'admin-header.php';
             <div class="card card-bordered">
                 <div class="card-inner border-bottom">
                     <div class="card-title-group">
-                        <div class="card-title">
-                            <h6 class="title">Card</h6>
-                        </div>
-                        <div class="card-tools">
-                            <a href="#" class="link">Xem tất cả</a>
-                        </div>
+                        <div class="card-title"><h6 class="title">Card</h6></div>
+                        <div class="card-tools"><a href="#" class="link">Xem tất cả</a></div>
                     </div>
                 </div>
                 <div class="card-inner">
@@ -24,17 +20,15 @@ require_once 'admin-header.php';
         <!-- Title -->
         <div class="card-title-group">
             <div class="card-title"><h6 class="title">Card</h6></div>
-            <div class="card-tools">
-                <a href="#" class="link">Xem tất cả</a>
-            </div>
+            <div class="card-tools"><a href="#" class="link">Xem tất cả</a></div>
         </div>
         <!-- Title -->
-        <!-- Content -->
-        <div class="card-inner">
-        
-        </div>
-        <!-- End Content -->
     </div>
+    <!-- Content -->
+    <div class="card-inner">
+    
+    </div>
+    <!-- End Content -->
 </div>');
                     ?>
                 </div>

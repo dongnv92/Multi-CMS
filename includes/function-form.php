@@ -88,17 +88,17 @@ function formInputText($name, $attribute = ['']){
                 </div>
             </div>';
             break;
-        case 'floating_label':
+        case 'outlined':
             // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control form-control-outlined';
             $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group form-float";
-            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-control-wrap";
             $error              = '';
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
-                        $label .= $value ? "<label class=\"form-label\">$value</label>" : '';
+                        $label .= $value ? "<label class=\"form-label-outlined\">$value</label>" : '';
                         break;
                     case 'error':
                         $error .= formError($value);
@@ -178,6 +178,40 @@ function formInputPassword($name, $attribute = ['']){
     $div_class_child    = '';
     $layout             = $attribute['layout'];
     switch ($layout){
+        case 'outlined':
+            // Thiết lập các giá trị mặc định
+            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control form-control-outlined';
+            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
+            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-control-wrap";
+            $error              = '';
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? "<label class=\"form-label-outlined\">$value</label>" : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
+                        break;
+                    case 'div_class_parent' :
+                    case 'div_class_child'  :
+                    case 'layout'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= '
+            <div class="'. $div_class_parent .'">
+                <div class="'. $div_class_child .'">
+                    <input type="password" name="'. $name .'" '. $form_attribute .'>
+                    '. ($label ? $label : '') .'
+                </div>
+                '. ($error ? $error : '') .'
+            </div>';
+            break;
         default:
             // Thiết lập các giá trị mặc định
             $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
@@ -519,7 +553,7 @@ function formInputCheckbox($name, $data, $attribute = []){
 function formButton($text, $attribute = []){
     $content            = '';
     $form_attribute     = '';
-    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-raised bg-blue waves-effect';
+    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-dark';
     $attribute['type']  = $attribute['type']    ? $attribute['type']    : 'button';
     foreach ($attribute AS $key => $value){
         switch ($key){
