@@ -23,3 +23,25 @@ $(document).ready(function () {
         });
     });
 })
+
+var ajax = $.ajax({
+    url         : '<?=URL_ADMIN_AJAX . "login"?>',
+    method      : 'POST',
+    dataType    : 'json',
+    data        : $('form').serialize(),
+    beforeSend  : function () {
+        $('#submit_login').attr('disabled', true);
+        $('#submit_login').html('Text Disable ...');
+    }
+});
+ajax.done(function (data) {
+    $('#id').attr('disabled', false);
+    $('#id').html('Text Enable');
+    alert(data.message);
+});
+
+ajax.fail(function( jqXHR, textStatus ) {
+    $('#id').attr('disabled', false);
+    $('#id').html('Text Enable');
+    alert( "Request failed: " + textStatus );
+});

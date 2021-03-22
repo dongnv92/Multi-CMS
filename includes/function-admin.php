@@ -217,14 +217,14 @@ function get_menu_header($menu){
                 $result .= '<a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">'. $_menu['icon'] .' </span><span class="nk-menu-text">'. $_menu['text'] .'</span></a><ul class="nk-menu-sub">';
                 foreach ($_menu['child'] AS $_child){
                     if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
-                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'nk-menu-item active current-page' : 'nk-menu-item')])."\n";
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'nk-menu-item active current-page text-white' : 'nk-menu-item')])."\n";
                     }
                 }
                 $result .= '</ul></li>'."\n";
             }
         }else{
             if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
-                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'nk-menu-item active current-page' : 'nk-menu-item')])."\n";
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'nk-menu-item active current-page text-white' : 'nk-menu-item')])."\n";
             }
         }
     }
@@ -291,7 +291,7 @@ function get_menu_header_structure(){
                     'text'      => 'Bài viết',
                     'url'       => URL_ADMIN . "/blog/",
                     'roles'     => ['blog', 'manager'],
-                    'active'    => [[PATH_ADMIN, 'blog', ''], [PATH_ADMIN, 'blog', 'update'], [PATH_ADMIN, 'blog', 'detail']]
+                    'active'    => [[PATH_ADMIN, 'blog', ' '], [PATH_ADMIN, 'blog', 'update'], [PATH_ADMIN, 'blog', 'detail']]
                 ],
                 [
                     'text'      => 'Thêm bài viết',

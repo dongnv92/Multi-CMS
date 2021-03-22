@@ -4,52 +4,52 @@ $header['css']          = [URL_ADMIN_ASSETS."plugins/prism/prism.css"];
 $header['js']           = [URL_ADMIN_ASSETS."plugins/prism/prism.js"];
 require_once 'admin-header.php';
 ?>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card card-bordered">
-                <div class="card-inner border-bottom">
-                    <div class="card-title-group">
-                        <div class="card-title"><h6 class="title">Card</h6></div>
-                    </div>
+    <div class="components-preview wide-md mx-auto">
+        <div class="nk-block nk-block-lg">
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h4 class="title nk-block-title">Mẫu Card</h4>
+                    <p>Mẫu Card.</p>
                 </div>
-                <div class="card-inner">
+            </div>
+            <div class="code-block">
+                <h6 class="overline-title title">Code Mẫu</h6>
+                <button class="btn btn-sm clipboard-init" title="Copy to clipboard" data-clipboard-target="#cardTT" data-clip-success="Đã Copy nội dung" data-clip-text="Copy"><span class="clipboard-text">Copy</span></button>
+                <pre class="prettyprint lang-html" id="cardTT">
                     <?php
-                    echo sanitize_string_code_sample('<div class="card card-bordered">
-    <div class="card-inner border-bottom">
-        <!-- Title -->
-        <div class="card-title-group">
-            <div class="card-title"><h6 class="title">Card</h6></div>
-            <div class="card-tools">
-                <a href="#" class="link">Xem tất cả</a>
+                echo sanitize_string_code_sample('<div class="card card-bordered">
+        <div class="card-inner border-bottom">
+            <!-- Title -->
+            <div class="card-title-group">
+                <div class="card-title"><h6 class="title">Tiêu đề</h6></div>
+                <div class="card-tools">
+                    <a href="#" class="link">Xem tất cả</a>
+                </div>
             </div>
+            <!-- Title -->
         </div>
-        <!-- Title -->
-    </div>
-    <!-- Content -->
-    <div class="card-inner">
-        Hello
-    </div>
-    <!-- End Content -->
-</div>');
+        <!-- Content -->
+        <div class="card-inner">
+            Nội dung
+        </div>
+        <!-- End Content -->
+    </div>');
                     ?>
+                </pre>
+            </div><!-- .code-block -->
+        </div>
+<!-- -------------------------------------------------------------------------------- -->
+        <div class="nk-block nk-block-lg">
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h4 class="title nk-block-title">Mẫu Ajax</h4>
+                    <p>Mẫu gửi một request Ajax.</p>
                 </div>
             </div>
-        </div>
-
-        <div class="col-lg-12">
-            <div class="card card-bordered">
-                <div class="card-inner border-bottom">
-                    <!-- Title -->
-                    <div class="card-title-group">
-                        <div class="card-title"><h6 class="title">Ajax</h6></div>
-                        <div class="card-tools">
-                            <a href="#" class="link">Xem tất cả</a>
-                        </div>
-                    </div>
-                    <!-- Title -->
-                </div>
-                <!-- Content -->
-                <div class="card-inner">
+            <div class="code-block">
+                <h6 class="overline-title title">Code Mẫu</h6>
+                <button class="btn btn-sm clipboard-init" title="Copy to clipboard" data-clipboard-target="#ex_ajax" data-clip-success="Đã Copy nội dung" data-clip-text="Copy"><span class="clipboard-text">Copy</span></button>
+                <pre class="prettyprint lang-js" id="ex_ajax">
                     <?php
                     echo sanitize_string_code_sample("var ajax = $.ajax({
     url         : '<?=URL_ADMIN_AJAX . \"login\"?>',
@@ -71,88 +71,158 @@ ajax.fail(function( jqXHR, textStatus ) {
     $('#id').attr('disabled', false);
     $('#id').html('Text Enable');
     alert( \"Request failed: \" + textStatus );
-});", 'javascript');
-                ?>
-                </div>
-                <!-- End Content -->
+});");
+                    ?>
+                </pre>
+            </div><!-- .code-block -->
+        </div>
+<!-- -------------------------------------------------------------------------------- -->
+    <div class="nk-block nk-block-lg">
+        <div class="nk-block-head">
+            <div class="nk-block-head-content">
+                <h4 class="title nk-block-title">Mẫu Bảng</h4>
+                <p>Mẫu bảng data.</p>
             </div>
         </div>
-        <!-- #END# Basic Examples -->
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-lg-6 text-left"><h2>Bảng demo</h2></div>
+        <div class="code-block">
+            <h6 class="overline-title title">Code Mẫu</h6>
+            <button class="btn btn-sm clipboard-init" title="Copy to clipboard" data-clipboard-target="#ex_table" data-clip-success="Đã Copy nội dung" data-clip-text="Copy"><span class="clipboard-text">Copy</span></button>
+            <pre class="prettyprint lang-js" id="ex_table">
+                <?php
+                echo sanitize_string_code_sample('<div class="nk-block">
+            <div class="card card-bordered card-stretch">
+                <div class="card-inner-group">
+                    <div class="card-inner position-relative card-tools-toggle">
+                        <div class="card-title-group">
+                            <div class="card-tools">
+                                <div class="form-inline flex-nowrap gx-3">
+                                    <?=formInputText(\'search\', [\'label\' => \'Tìm kiếm\', \'value\' => \'Hihiii\'])?>
+                                    <div class="form-wrap w-150px">
+                                        <select class="form-select form-select-sm" data-search="off" data-placeholder="Bulk Action">
+                                            <option value="">Bulk Action</option>
+                                            <option value="email">Send Email</option>
+                                            <option value="group">Change Group</option>
+                                            <option value="suspend">Suspend User</option>
+                                            <option value="delete">Delete User</option>
+                                        </select>
+                                    </div>
+                                    <div class="btn-wrap">
+                                        <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">Apply</button></span>
+                                        <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
+                                    </div>
+                                </div><!-- .form-inline -->
+                            </div><!-- .card-tools -->
+                            <div class="card-tools mr-n1">
+                                <ul class="btn-toolbar gx-1">
+                                    <li class="btn-toolbar-sep"></li><!-- li -->
+                                    <li>
+                                        <div class="toggle-wrap">
+                                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                            <div class="toggle-content" data-content="cardTools">
+                                                <ul class="btn-toolbar gx-1">
+                                                    <li class="toggle-close">
+                                                        <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
+                                                    </li><!-- li -->
+                                                    <li>
+                                                        <div class="dropdown">
+                                                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
+                                                                <em class="icon ni ni-setting"></em>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
+                                                                <ul class="link-check">
+                                                                    <li><span>Show</span></li>
+                                                                    <li class="active"><a href="#">10</a></li>
+                                                                    <li><a href="#">20</a></li>
+                                                                    <li><a href="#">50</a></li>
+                                                                </ul>
+                                                                <ul class="link-check">
+                                                                    <li><span>Order</span></li>
+                                                                    <li class="active"><a href="#">DESC</a></li>
+                                                                    <li><a href="#">ASC</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div><!-- .dropdown -->
+                                                    </li><!-- li -->
+                                                </ul><!-- .btn-toolbar -->
+                                            </div><!-- .toggle-content -->
+                                        </div><!-- .toggle-wrap -->
+                                    </li><!-- li -->
+                                </ul><!-- .btn-toolbar -->
+                            </div><!-- .card-tools -->
+                        </div><!-- .card-title-group -->
+                    </div><!-- .card-inner -->
+                    <div class="card-inner p-0">
+                        <table class="table table-tranx table-hover">
+                            <thead>
+                            <tr class="tb-tnx-head">
+                                <th class="tb-tnx-id"><span class="">#</span></th>
+                                <th class="tb-tnx-info">
+                                            <span class="tb-tnx-desc d-none d-sm-inline-block">
+                                                <span>Bill For</span>
+                                            </span>
+                                    <span class="tb-tnx-date d-md-inline-block d-none">
+                                                <span class="d-md-none">Date</span>
+                                                <span class="d-none d-md-block">
+                                                    <span>Issue Date</span>
+                                                    <span>Due Date</span>
+                                                </span>
+                                            </span>
+                                </th>
+                                <th class="tb-tnx-amount is-alt">
+                                    <span class="tb-tnx-total">Total</span>
+                                    <span class="tb-tnx-status d-none d-md-inline-block">Status</span>
+                                </th>
+                                <th class="tb-tnx-action">
+                                    <span>&nbsp;</span>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr class="tb-tnx-item">
+                                <td class="tb-tnx-id">
+                                    <a href="#"><span>4947</span></a>
+                                </td>
+                                <td class="tb-tnx-info">
+                                    <div class="tb-tnx-desc">
+                                        <span class="title">Enterprize Year Subscrition</span>
+                                    </div>
+                                    <div class="tb-tnx-date">
+                                        <span class="date">10-05-2019</span>
+                                        <span class="date">10-13-2019</span>
+                                    </div>
+                                </td>
+                                <td class="tb-tnx-amount is-alt">
+                                    <div class="tb-tnx-total">
+                                        <span class="amount">$599.00</span>
+                                    </div>
+                                    <div class="tb-tnx-status">
+                                        <span class="badge badge-dot badge-warning">Due</span>
+                                    </div>
+                                </td>
+                                <td class="tb-tnx-action">
+                                    <div class="dropdown">
+                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
+                                            <ul class="link-list-plain">
+                                                <li><a href="#">View</a></li>
+                                                <li><a href="#">Edit</a></li>
+                                                <li><a href="#">Remove</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div>
-                <div class="content table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                        <tr>
-                            <th style="width: 20%" class="text-center align-middle">Nội Dung</th>
-                            <th style="width: 20%" class="text-center align-middle">Giá</th>
-                            <th style="width: 20%" class="text-center align-middle">Trạng Thái</th>
-                            <th style="width: 20%" class="text-center align-middle">Ngày Thêm</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td class="text-center align-middle">Hiii</td>
-                            <td class="text-center align-middle">200₫</td>
-                            <td class="text-center align-middle">Chờ Gửi</td>
-                            <td class="text-center align-middle">10:40:35 09/06/2020</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center align-middle">HEllo</td>
-                            <td class="text-center align-middle">200₫</td>
-                            <td class="text-center align-middle">Hoàn Thành</td>
-                            <td class="text-center align-middle">10:00:04 08/06/2020</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center align-middle">Dong</td>
-                            <td class="text-center align-middle">200₫</td>
-                            <td class="text-center align-middle">Hoàn Thành</td>
-                            <td class="text-center align-middle">22:01:41 06/06/2020</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <?=sanitize_string_code_sample('<div class="card">
-    <div class="header">
-        <div class="row">
-            <div class="col-lg-6 text-left"><h2>Bảng demo</h2></div>
-        </div>
+                </div><!-- .card-inner-group -->
+            </div><!-- .card -->
+        </div><!-- .nk-block -->');
+                ?>
+            </pre>
+        </div><!-- .code-block -->
     </div>
-    <div class="content table-responsive">
-        <table class="table table-hover mb-0">
-            <thead>
-            <tr>
-                <th style="width: 20%" class="text-center align-middle">Nội Dung</th>
-                <th style="width: 20%" class="text-center align-middle">Giá</th>
-                <th style="width: 20%" class="text-center align-middle">Trạng Thái</th>
-                <th style="width: 20%" class="text-center align-middle">Ngày Thêm</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td class="text-center align-middle">Hiii</td>
-                <td class="text-center align-middle">200₫</td>
-                <td class="text-center align-middle">Chờ Gửi</td>
-                <td class="text-center align-middle">10:40:35 09/06/2020</td>
-            </tr>
-            <tr>
-                <td class="text-center align-middle">...</td>
-                <td class="text-center align-middle">...</td>
-                <td class="text-center align-middle">...</td>
-                <td class="text-center align-middle">...</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>', 'html')?>
-        </div>
-    </div>
+        <!-- #END# Basic Examples -->
 
 <div class="row">
     <div class="col-lg-12">
