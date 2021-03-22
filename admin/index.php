@@ -47,18 +47,39 @@ switch ($path[1]){
                         </div>
                         <!-- Content -->
                         <div class="card-inner">
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <input type="text" value="Hello" class="form-control form-control-outlined" id="outlined">
-                                    <label class="form-label-outlined" for="outlined">Tên đăng nhập</label>
+                            <?php
+                            echo formInputText('name', [
+                                'label'     => 'Input Text Default'
+                            ]);
+
+                            echo formInputSelect('select', [
+                                'option1' => 'Option',
+                                'option2' => 'Option 2'
+                            ], [
+                                'data-search'   => 'on',
+                                'multiple'      => 'multiple',
+                                'data-placeholder' => 'Hello'
+                            ]);
+                            ?>
+                        </div>
+                        <!-- End Content -->
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-bordered">
+                        <div class="card-inner border-bottom">
+                            <!-- Title -->
+                            <div class="card-title-group">
+                                <div class="card-title"><h6 class="title">Card</h6></div>
+                                <div class="card-tools">
+                                    <a href="#" class="link">Xem tất cả</a>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-control-wrap">
-                                    <input type="password" class="form-control form-control-outlined">
-                                    <label class="form-label-outlined" for="outlined">Mật khẩu</label>
-                                </div>
-                            </div>
+                            <!-- Title -->
+                        </div>
+                        <!-- Content -->
+                        <div class="card-inner">
+                            Hello
                         </div>
                         <!-- End Content -->
                     </div>

@@ -94,6 +94,19 @@ class user{
         return $data;
     }
 
+    public function get_all_user_by_role($role){
+        global $database;
+        $check_role = $database->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $role])->fetch_first();
+        if($check_role['count'] == 0){
+            return false;
+        }
+        $user = $database->select("{$this->user_id}, {$this->user_name}")->from($this->db_table)->where($this->user_role, $role)->fetch();
+        if(!$user){
+            return false;
+        }
+        return $user;
+    }
+
     // Lấy danh sách tất cả thành viên
     public function get_all(){
         $db         = $this->db;

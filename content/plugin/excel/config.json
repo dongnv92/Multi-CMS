@@ -1,0 +1,49 @@
+{
+    "name": "EXCEL",
+    "unique_identifier": "excel",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "EXCEL",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/excel\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php",
+        "api": "includes\/api.php"
+    },
+    "public_class": [
+        "includes\/class.excel.php"
+    ],
+    "menu": [
+        {
+            "text": "Excel",
+            "icon": "<em class=\"icon ni ni-list-thumb\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Danh s\u00e1ch",
+                    "url": "URL_ADMIN\/excel\/",
+                    "roles": [
+                        "excel",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "excel"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "excel": {
+            "manager": false,
+            "add": false
+        }
+    },
+    "role_text": {
+        "": "EXCEL",
+        "manager": "Qu\u1ea3n l\u00fd"
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "name": "Bốc Xếp",
+    "unique_identifier": "pickup",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Thống kê, theo dõi số lượng bốc sếp",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/pickup\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php",
+        "api": "includes\/api.php"
+    },
+    "public_class": [
+        "includes\/class.pickup.php"
+    ],
+    "menu": [
+        {
+            "text": "Bốc Xếp",
+            "icon": "<em class=\"icon ni ni-list-thumb\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Danh sách",
+                    "url": "URL_ADMIN\/pickup\/",
+                    "roles": [
+                        "pickup",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "pickup", ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm mới",
+                    "url": "URL_ADMIN\/pickup\/add",
+                    "roles": [
+                        "pickup",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "pickup", "add"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "pickup": {
+            "manager": false,
+            "add": false
+        }
+    },
+    "role_text": {
+        "": "Quản Lý Bốc Xếp",
+        "manager": "Xem dữ liệu",
+        "add": "Thêm dữ liệu"
+    }
+}

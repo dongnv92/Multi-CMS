@@ -10,7 +10,6 @@ require_once 'admin-header.php';
                 <div class="card-inner border-bottom">
                     <div class="card-title-group">
                         <div class="card-title"><h6 class="title">Card</h6></div>
-                        <div class="card-tools"><a href="#" class="link">Xem tất cả</a></div>
                     </div>
                 </div>
                 <div class="card-inner">
@@ -20,13 +19,15 @@ require_once 'admin-header.php';
         <!-- Title -->
         <div class="card-title-group">
             <div class="card-title"><h6 class="title">Card</h6></div>
-            <div class="card-tools"><a href="#" class="link">Xem tất cả</a></div>
+            <div class="card-tools">
+                <a href="#" class="link">Xem tất cả</a>
+            </div>
         </div>
         <!-- Title -->
     </div>
     <!-- Content -->
     <div class="card-inner">
-    
+        Hello
     </div>
     <!-- End Content -->
 </div>');
@@ -34,14 +35,23 @@ require_once 'admin-header.php';
                 </div>
             </div>
         </div>
+
         <div class="col-lg-12">
-            <div class="card">
-                <div class="header">
-                    <h2>Ajax</small></h2>
+            <div class="card card-bordered">
+                <div class="card-inner border-bottom">
+                    <!-- Title -->
+                    <div class="card-title-group">
+                        <div class="card-title"><h6 class="title">Ajax</h6></div>
+                        <div class="card-tools">
+                            <a href="#" class="link">Xem tất cả</a>
+                        </div>
+                    </div>
+                    <!-- Title -->
                 </div>
-                <div class="body">
-                <?php
-                echo sanitize_string_code_sample("var ajax = $.ajax({
+                <!-- Content -->
+                <div class="card-inner">
+                    <?php
+                    echo sanitize_string_code_sample("var ajax = $.ajax({
     url         : '<?=URL_ADMIN_AJAX . \"login\"?>',
     method      : 'POST',
     dataType    : 'json',
@@ -64,6 +74,7 @@ ajax.fail(function( jqXHR, textStatus ) {
 });", 'javascript');
                 ?>
                 </div>
+                <!-- End Content -->
             </div>
         </div>
         <!-- #END# Basic Examples -->

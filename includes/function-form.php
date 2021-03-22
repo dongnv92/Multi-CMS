@@ -46,99 +46,23 @@ function formError($text){
  *      - ...               : ...
  * */
 function formInputText($name, $attribute = ['']){
-    $content            = '';
-    $form_attribute     = '';
-    $label              = '';
-    $layout             = $attribute['layout'];
+    $layout  = $attribute['layout'];
+    $content = $form_attribute = $label = $icon = $error = '';
     switch ($layout){
-        case 'horizonta':
-            // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "row clearfix";
-            $error              = '';
-            foreach ($attribute AS $key => $value){
-                switch ($key){
-                    case 'label':
-                        $label .= '<div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label"><label>'. $value .'</label></div>';
-                        break;
-                    case 'error':
-                        $error .= formError($value);
-                        break;
-                    case 'div_class_parent' :
-                    case 'div_class_child'  :
-                    case 'layout'  :
-                        $form_attribute .= '';
-                        break;
-                    default:
-                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
-                        break;
-                }
-            }
-            $content .= '
-            <div class="'. $div_class_parent .'">
-                '. $label .'
-                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                    <div class="form-group">
-                        <div class="form-line">
-                            <input type="text" name="'. $name .'" '. $form_attribute .'>
-                            '. ($error ? $error : '') .'
-                        </div>
-                    </div>
-                </div>
-            </div>';
-            break;
-        case 'outlined':
-            // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control form-control-outlined';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
-            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-control-wrap";
-            $error              = '';
-            foreach ($attribute AS $key => $value){
-                switch ($key){
-                    case 'label':
-                        $label .= $value ? "<label class=\"form-label-outlined\">$value</label>" : '';
-                        break;
-                    case 'error':
-                        $error .= formError($value);
-                        break;
-                    case 'div_class_parent' :
-                    case 'div_class_child'  :
-                    case 'layout'  :
-                        $form_attribute .= '';
-                        break;
-                    default:
-                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
-                        break;
-                }
-            }
-            $content .= '
-            <div class="'. $div_class_parent .'">
-                <div class="'. $div_class_child .'">
-                    <input type="text" name="'. $name .'" '. $form_attribute .'>
-                    '. ($label ? $label : '') .'
-                </div>
-                '. ($error ? $error : '') .'
-            </div>';
-            break;
         default:
             // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
-            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
-            $error              = '';
+            $attribute['id']    = $attribute['id']  ? $attribute['id'] : "_$name";
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
-                        $label .= $value ? "<label>$value</label>" : '';
+                        $label .= $value ? '<label class="form-label-outlined" for="'. $attribute['id'] .'">'. $value .'</label>' : '';
                         break;
                     case 'error':
                         $error .= formError($value);
                         break;
-                    case 'div_class_parent' :
-                    case 'div_class_child'  :
+                    case 'icon'  :
+                        $icon .= '<div class="form-icon form-icon-right">'. $attribute['icon'] .'</div>';
+                        break;
                     case 'layout'  :
                         $form_attribute .= '';
                         break;
@@ -147,12 +71,11 @@ function formInputText($name, $attribute = ['']){
                         break;
                 }
             }
-            $content .= $label.'
-            <div class="'. $div_class_parent .'">
-                <div class="'. $div_class_child .'">
-                    <input type="text" name="'. $name .'" '. $form_attribute .'>
+
+            $content .= '<div class="form-group">
+                <div class="form-control-wrap">
+                    '. $icon .'<input type="text" class="form-control form-control-outlined" name="'. $name .'" '. $form_attribute .'>'. $label .'
                 </div>
-                '. ($error ? $error : '') .'
             </div>';
             break;
     }
@@ -171,64 +94,23 @@ function formInputText($name, $attribute = ['']){
  *      - ...               : ...
  * */
 function formInputPassword($name, $attribute = ['']){
-    $content            = '';
-    $form_attribute     = '';
-    $label              = '';
-    $div_class_parent   = '';
-    $div_class_child    = '';
-    $layout             = $attribute['layout'];
+    $layout  = $attribute['layout'];
+    $content = $form_attribute = $label = $icon = $error = '';
     switch ($layout){
-        case 'outlined':
-            // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control form-control-outlined';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
-            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-control-wrap";
-            $error              = '';
-            foreach ($attribute AS $key => $value){
-                switch ($key){
-                    case 'label':
-                        $label .= $value ? "<label class=\"form-label-outlined\">$value</label>" : '';
-                        break;
-                    case 'error':
-                        $error .= formError($value);
-                        break;
-                    case 'div_class_parent' :
-                    case 'div_class_child'  :
-                    case 'layout'  :
-                        $form_attribute .= '';
-                        break;
-                    default:
-                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
-                        break;
-                }
-            }
-            $content .= '
-            <div class="'. $div_class_parent .'">
-                <div class="'. $div_class_child .'">
-                    <input type="password" name="'. $name .'" '. $form_attribute .'>
-                    '. ($label ? $label : '') .'
-                </div>
-                '. ($error ? $error : '') .'
-            </div>';
-            break;
         default:
             // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
-            $div_class_parent   = $attribute['div_class_parent']    ? $attribute['div_class_parent']    : "form-group";
-            $div_class_child    = $attribute['div_class_child']     ? $attribute['div_class_child']     : "form-line";
-            $error              = '';
+            $attribute['id']    = $attribute['id']  ? $attribute['id'] : "_$name";
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
-                        $label .= $value ? "<label>$value</label>" : '';
+                        $label .= $value ? '<label class="form-label-outlined" for="'. $attribute['id'] .'">'. $value .'</label>' : '';
                         break;
                     case 'error':
                         $error .= formError($value);
                         break;
-                    case 'div_class_parent' :
-                    case 'div_class_child'  :
+                    case 'icon'  :
+                        $icon .= '<div class="form-icon form-icon-right">'. $attribute['icon'] .'</div>';
+                        break;
                     case 'layout'  :
                         $form_attribute .= '';
                         break;
@@ -237,12 +119,11 @@ function formInputPassword($name, $attribute = ['']){
                         break;
                 }
             }
-            $content .= $label.'
-            <div class="'. $div_class_parent .'">
-                <div class="'. $div_class_child .'">
-                    <input type="password" name="'. $name .'" '. $form_attribute .'>
+
+            $content .= '<div class="form-group">
+                <div class="form-control-wrap">
+                    '. $icon .'<input type="password" class="form-control form-control-outlined" name="'. $name .'" '. $form_attribute .'>'. $label .'
                 </div>
-                '. ($error ? $error : '') .'
             </div>';
             break;
     }
@@ -347,22 +228,22 @@ function formInputSwitch($name, $attribute = []){
  *      - class             : Mặc định "form-control"
  *      - id                : Mặc định "_$name"
  *      - ...               : ...
+ *      data-search="on"
+ *      multiple="multiple"
+ *      data-placeholder=''
  * */
 function formInputSelect($name, $data = [], $attribute = []){
-    $content            = '';
-    $form_attribute     = '';
-    $label              = '';
-    $error              = '';
-    $layout             = $attribute['layout'];
+    $content = $form_attribute = $label = $error = '';
+    $layout  = $attribute['layout'];
     switch ($layout){
         default:
             // Thiết lập các giá trị mặc định
-            $attribute['class'] = $attribute['class']               ? $attribute['class']               : 'form-control show-tick';
-            $attribute['id']    = $attribute['id']                  ? $attribute['id']                  : "_$name";
+            $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'form-select form-control form-control-lg';
+            $attribute['id']    = $attribute['id']      ? $attribute['id']      : "_$name";
             foreach ($attribute AS $key => $value){
                 switch ($key){
                     case 'label':
-                        $label .= $value ? "<label>$value</label>" : '';
+                        $label .= $value ? '<label class="form-label">'. $value .'</label>' : '';
                         break;
                     case 'error':
                         $error .= formError($value);
@@ -378,11 +259,16 @@ function formInputSelect($name, $data = [], $attribute = []){
                 }
             }
 
-            $content .= $label.'<select '. $form_attribute .' name="'. $name .'">';
-            foreach ($data AS $value => $text){
-                $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
-            }
-            $content .= '</select>'. ($error ? $error : '');
+            $content .= '<div class="form-group">
+                '. $label .'
+                <div class="form-control-wrap">
+                    <select class="'. $attribute['class'] .'" name="'. $name .'" id="'. $attribute['id'] .'" '. $form_attribute .'>';
+                    foreach ($data AS $value => $text){
+                        $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
+                    }
+            $content .= '</select>
+                 </div>
+            </div>';
             break;
     }
     return $content;
@@ -553,7 +439,7 @@ function formInputCheckbox($name, $data, $attribute = []){
 function formButton($text, $attribute = []){
     $content            = '';
     $form_attribute     = '';
-    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-dark';
+    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-raised bg-blue waves-effect';
     $attribute['type']  = $attribute['type']    ? $attribute['type']    : 'button';
     foreach ($attribute AS $key => $value){
         switch ($key){

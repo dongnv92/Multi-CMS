@@ -242,17 +242,17 @@ function get_menu_header_structure(){
             'active'    => [[PATH_ADMIN, '']]
         ],
         [
-            'text'  => 'Thành viên',
+            'text'  => 'Nhân sự',
             'icon'  => '<em class="icon ni ni-users"></em>',
             'child' => [
                 [
-                    'text'      => 'Danh sách thành viên',
+                    'text'      => 'Danh sách nhân sự',
                     'url'       => URL_ADMIN . "/user/",
                     'roles'     => ['user', 'manager'],
                     'active'    => [[PATH_ADMIN, 'user', ''], [PATH_ADMIN, 'user', 'update']]
                 ],
                 [
-                    'text'      => 'Thêm thành viên',
+                    'text'      => 'Thêm mới',
                     'url'       => URL_ADMIN . "/user/add",
                     'roles'     => ['user', 'add'],
                     'active'    => [[PATH_ADMIN, 'user', 'add']]

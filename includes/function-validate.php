@@ -24,6 +24,13 @@ function validate_int($value){
     return true;
 }
 
+function validate_numeric($value){
+    if(is_numeric($value)){
+        return true;
+    }
+    return false;
+}
+
 function validate_url($value){
     if(!filter_var($value, FILTER_VALIDATE_URL))
         return false;

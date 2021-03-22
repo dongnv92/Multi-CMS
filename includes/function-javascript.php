@@ -324,17 +324,23 @@ switch ($path[1]){
                             data        : $('form').serialize(),
                             beforeSend  : function () {
                                 $('#button_update_me').attr('disabled', true);
-                                $('#button_update_me').html('ĐANG CẬP NHẬT HỒ SƠ ...');
+                                $('#button_update_me').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n' +
+                                    '<span> Đang cập nhật dữ liệu ... </span>');
                             }
                         });
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    show_notify(data.message, 'bg-green');
+                                    NioApp.Toast(data.message, 'success',{
+                                        ui: 'is-dark'
+                                    });
                                     $('#button_update_me').attr('disabled', false);
                                     $('#button_update_me').html('CẬP NHẬT');
                                 }else{
-                                    show_notify(data.message, 'bg-red');
+                                    toastr.clear();
+                                    NioApp.Toast(data.message, 'error',{
+                                        position: 'top-right'
+                                    });
                                     $('#button_update_me').attr('disabled', false);
                                     $('#button_update_me').html('CẬP NHẬT');
                                 }
@@ -418,11 +424,15 @@ switch ($path[1]){
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    show_notify(data.message, 'bg-green');
+                                    NioApp.Toast(data.message, 'success',{
+                                        ui: 'is-dark'
+                                    });
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
                                 }else{
-                                    show_notify(data.message, 'bg-red');
+                                    NioApp.Toast(data.message, 'error',{
+                                        ui: 'is-dark'
+                                    });
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
                                 }
