@@ -266,9 +266,7 @@ function formInputSelect($name, $data = [], $attribute = []){
                     foreach ($data AS $value => $text){
                         $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
                     }
-            $content .= '</select>
-                 </div>
-            </div>';
+            $content .= '</select></div></div>';
             break;
     }
     return $content;

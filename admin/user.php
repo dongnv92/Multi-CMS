@@ -541,7 +541,7 @@ switch ($path[2]){
         // Kiểm tra quyền truy cập
         if(!$role['user']['manager']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Quản lý thành viên', '','Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_breadcrumbs('Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên'],'Quản lý thành viên');
             echo admin_error('Quản lý thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
@@ -551,96 +551,149 @@ switch ($path[2]){
         $data   = $user->get_all();
         $param  = get_param_defaul();
 
-        $header['css']      = [
-            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
-        ];
-        $header['js']       = [
-            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
-            URL_JS . "{$path[1]}/{$path[2]}",
-        ];
+        $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}",];
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Quản lý thành viên', '','Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+        echo admin_breadcrumbs('Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên'],'Quản lý thành viên');
         ?>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card action_bar m-t-15">
-                    <?=formOpen('', ['method' => 'GET'])?>
-                    <div class="row" style="margin-left : 5px; margin-right : 5px">
-                        <div class="col-lg-4 col-md-6 hidden-sm-down">
-                            <div class="input-group m-t-10">
-                                <span class="input-group-addon"><i class="zmdi zmdi-search"></i></span>
-                                <div class="form-line">
-                                    <input type="text" autofocus name="search" value="<?=$_REQUEST['search']?>" class="form-control" placeholder="Tìm kiếm ...">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
-                            <?=formInputSelect('user_status', [
-                                ''              => 'Trạng thái',
-                                'active'        => 'Hoạt động',
-                                'not_active'    => 'Chưa kích hoạt',
-                                'block'         => 'Tạm khóa',
-                                'block_forever' => 'Đã khóa'
-                            ], ['data-live-search' => 'true', 'selected' => $_REQUEST['user_status']])?>
-                        </div>
-                        <div class="col-lg-2 col-md-5 col-9 text-center d-flex justify-content-center align-items-center">
-                            <?=formButton('<i class="material-icons">search</i> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-raised btn-outline-info waves-effect'])?>
-                        </div>
-                        <div class="col-lg-3 col-md-5 col-9 text-right d-flex justify-content-end align-items-center">
-                            <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-raised bg-blue waves-effect">Thêm mới</a>
-                        </div>
-                    </div>
-                    <?=formClose()?>
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="content table-responsive">
-                        <table class="table table-hover mb-0">
+        <div class="nk-block">
+            <div class="card card-bordered card-stretch">
+                <div class="card-inner-group">
+                    <div class="card-inner position-relative card-tools-toggle">
+                        <div class="card-title-group">
+                            <div class="card-tools">
+                                <?=formOpen('', ['method' => 'GET'])?>
+                                <div class="form-inline flex-nowrap gx-3">
+                                    <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
+                                    <div class="form-wrap w-150px">
+                                        <select class="form-select form-select-sm" data-search="on" data-placeholder="Trạng thái" name="user_status">
+                                            <option value="">Tất cả</option>
+                                            <option value="active" <?=$_REQUEST['user_status'] == 'active' ? 'selected' : ''?>>Hoạt Động</option>
+                                            <option value="not_active" <?=$_REQUEST['user_status'] == 'not_active' ? 'selected' : ''?>>Chưa Kích Hoạt</option>
+                                            <option value="block" <?=$_REQUEST['user_status'] == 'block' ? 'selected' : ''?>>Tạm Khoá</option>
+                                            <option value="block_forever" <?=$_REQUEST['user_status'] == 'block_forever' ? 'selected' : ''?>>Khoá Vĩnh Viễn</option>
+                                        </select>
+                                    </div>
+                                    <div class="btn-wrap">
+                                        <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
+                                        <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
+                                    </div>
+                                </div><!-- .form-inline -->
+                                <?=formClose()?>
+                            </div><!-- .card-tools -->
+                            <div class="card-tools mr-n1">
+                                <ul class="btn-toolbar gx-1">
+                                    <li class="btn-toolbar-sep"></li><!-- li -->
+                                    <li>
+                                        <div class="toggle-wrap">
+                                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
+                                            <div class="toggle-content" data-content="cardTools">
+                                                <ul class="btn-toolbar gx-1">
+                                                    <li class="toggle-close">
+                                                        <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
+                                                    </li><!-- li -->
+                                                    <li>
+                                                        <div class="dropdown">
+                                                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
+                                                                <em class="icon ni ni-setting"></em>
+                                                            </a>
+                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
+                                                                <ul class="link-check">
+                                                                    <li><span>Show</span></li>
+                                                                    <li class="active"><a href="#">10</a></li>
+                                                                    <li><a href="#">20</a></li>
+                                                                    <li><a href="#">50</a></li>
+                                                                </ul>
+                                                                <ul class="link-check">
+                                                                    <li><span>Order</span></li>
+                                                                    <li class="active"><a href="#">DESC</a></li>
+                                                                    <li><a href="#">ASC</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </div><!-- .dropdown -->
+                                                    </li><!-- li -->
+                                                </ul><!-- .btn-toolbar -->
+                                            </div><!-- .toggle-content -->
+                                        </div><!-- .toggle-wrap -->
+                                    </li><!-- li -->
+                                </ul><!-- .btn-toolbar -->
+                            </div><!-- .card-tools -->
+                        </div><!-- .card-title-group -->
+                    </div><!-- .card-inner -->
+                    <div class="card-inner p-0">
+                        <table class="table table-tranx table-hover">
                             <thead>
-                            <tr>
-                                <th style="width: 20%" class="text-left align-middle">Tên đăng nhập</th>
-                                <th style="width: 20%" class="text-center align-middle">Tên hiển thị</th>
-                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
-                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
-                                <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
-                                <th style="width: 15%" class="text-center align-middle">Quản trị</th>
+                            <tr class="tb-tnx-head">
+                                <th style="width: 10%" class="text-left align-middle">Thông tin</th>
+                                <th style="width: 15%" class="text-center align-middle">Tên đăng nhập</th>
+                                <th style="width: 10%" class="text-center align-middle">Điện Thoại</th>
+                                <th style="width: 10%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 10%" class="text-center align-middle">Trạng thái</th>
+                                <th style="width: 10%" class="text-center align-middle">Ngày tạo</th>
+                                <th style="width: 20%" class="text-center align-middle">Quản trị</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <?php if($data['paging']['count_data'] == 0){?>
-                                <tr>
-                                    <td colspan="6" class="text-center">Dữ liệu trống</td>
-                                </tr>
-                            <?php }?>
                             <?php
                             foreach ($data['data'] AS $row){
                                 $user_role = new meta($database, 'role');
                                 $user_role = $user_role->get_meta($row['user_role'], 'meta_name');
                                 ?>
-                                <tr>
-                                    <td class="text-left align-middle font-weight-bold">
-                                        <a title="Click để chỉnh sửa" href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>"><?=$row['user_login']?></a>
+                                <tr class="tb-tnx-item">
+                                    <td class="text-left align-middle">
+                                        <div class="user-card">
+                                            <div class="user-avatar">
+                                                <img src="./images/avatar/d-sm.jpg" alt="">
+                                            </div>
+                                            <div class="user-info">
+                                                <span class="tb-lead"><?=$row['user_name']?><span class="dot dot-warning d-md-none ml-1"></span></span>
+                                                <span><?=$row['user_email'] ? $row['user_email'] : ''?></span>
+                                            </div>
+                                        </div>
                                     </td>
+                                    <td class="text-center align-middle"><?=$row['user_login']?></td>
+                                    <td class="text-center align-middle"><?=$row['user_phone'] ? $row['user_phone'] : '---'?></td>
+                                    <td class="text-center align-middle"><?=$user_role['data']['meta_name']?></td>
+                                    <td class="text-center align-middle"><?=get_status('user', $row['user_status'])?></td>
+                                    <td class="text-center align-middle"><?=view_date_time($row['user_time'])?></td>
                                     <td class="text-center align-middle">
-                                        <?=$row['user_name']?>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <?=$user_role['data']['meta_name']?>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <?=get_status('user', $row['user_status'])?>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <?=view_date_time($row['user_time'])?>
-                                    </td>
-                                    <td class="text-center align-middle">
-                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['user_id']?>" title="Xóa <?=$row['user_name']?>"><i class="material-icons text-danger">delete_forever</i></a>
-                                    </td>
+                                        <ul class="nk-tb-actions gx-1">
+                                            <li>
+                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Wallet">
+                                                    <em class="icon ni ni-notice"></em>
+                                                </a>
+                                            </li>
+                                            <li class="nk-tb-action-hidden">
+                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Send Email">
+                                                    <em class="icon ni ni-mail-fill"></em>
+                                                </a>
+                                            </li>
+                                            <li class="nk-tb-action-hidden">
+                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Suspend">
+                                                    <em class="icon ni ni-user-cross-fill"></em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <div class="drodown">
+                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <ul class="link-list-opt no-bdr">
+                                                            <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
+                                                            <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                            <li><a href="#"><em class="icon ni ni-repeat"></em><span>Transaction</span></a></li>
+                                                            <li><a href="#"><em class="icon ni ni-activity-round"></em><span>Activities</span></a></li>
+                                                            <li class="divider"></li>
+                                                            <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
+                                                            <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
+                                                            <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend User</span></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>                                    </td>
                                 </tr>
                             <?php }?>
-                            <tr>
-                                <td colspan="6" class="text-left">
+                            <tr class="tb-tnx-item">
+                                <td colspan="8" class="text-left">
                                     Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
                                     Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
                                 </td>
@@ -648,12 +701,9 @@ switch ($path[2]){
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="text-center clearfix">
-                    <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
-                </div>
-            </div>
-        </div>
+                </div><!-- .card-inner-group -->
+            </div><!-- .card -->
+        </div><!-- .nk-block -->
         <?php
         require_once 'admin-footer.php';
         break;
