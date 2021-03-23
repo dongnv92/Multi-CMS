@@ -324,8 +324,7 @@ switch ($path[1]){
                             data        : $('form').serialize(),
                             beforeSend  : function () {
                                 $('#button_update_me').attr('disabled', true);
-                                $('#button_update_me').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>\n' +
-                                    '<span> Đang cập nhật dữ liệu ... </span>');
+                                $('#button_update_me').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang cập nhật dữ liệu ... </span>');
                             }
                         });
                         ajax.done(function (data) {
@@ -418,20 +417,22 @@ switch ($path[1]){
                             data        : $('form').serialize(),
                             beforeSend  : function () {
                                 $('#button_add_user').attr('disabled', true);
-                                $('#button_add_user').html('ĐANG THÊM THÀNH VIÊN ...');
+                                $('#button_add_user').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang thêm thành viên ... </span>');
                             }
                         });
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
                                     NioApp.Toast(data.message, 'success',{
-                                        ui: 'is-dark'
+                                        ui: 'is-dark',
+                                        position: 'top-right'
                                     });
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
                                 }else{
                                     NioApp.Toast(data.message, 'error',{
-                                        ui: 'is-dark'
+                                        ui: 'is-dark',
+                                        position: 'top-right'
                                     });
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
@@ -581,17 +582,17 @@ switch ($path[1]){
                 ?>
                 //<script>
                 $(document).ready(function () {
-                    $('a[data-type=delete]').on('click', function () {
+                    $('a[data-type=delete]').on('click', function (e) {
                         var id = $(this).data('id');
-                        swal({
-                            title: "Xóa thành viên",
-                            text: "Bạn có muốn xóa thành viên này không? sau khi xóa dữ liệu sẽ không thể khôi phục được",
-                            type: "warning",
+                        Swal.fire({
+                            title: 'Xóa thành viên?',
+                            text: "Bạn có muốn xóa thành viên này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                            icon: 'danger',
                             showCancelButton: true,
-                            closeOnConfirm: false,
+                            confirmButtonText: 'Xóa',
                             showLoaderOnConfirm: true,
-                        }, function () {
-                            setTimeout(function () {
+                        }).then(function (result) {
+                            if (result.value) {
                                 var ajax = $.ajax({
                                     url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + id,
                                     method      : 'POST',
@@ -599,19 +600,20 @@ switch ($path[1]){
                                 });
                                 ajax.done(function (data) {
                                     if(data.response == 200){
-                                        swal("Xóa thành viên", "Xóa thành viên thành công!", "success");
+                                        Swal.fire("Xóa thành viên", "Xóa thành viên thành công!", "success");
                                         setTimeout(function () {
                                             location.reload();
                                         }, 2000);
                                     }else{
-                                        swal("Xóa thành viên", data.message, "error");
+                                        Swal.fire("Xóa thành viên", data.message, "error");
                                     }
                                 });
                                 ajax.fail(function( jqXHR, textStatus ) {
                                     console.log("Request failed: " + textStatus );
                                 });
-                            }, 2000);
+                            }
                         });
+                        e.preventDefault();
                     });
                 });
                 <?php

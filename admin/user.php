@@ -436,15 +436,13 @@ switch ($path[2]){
         break;
     case 'add':
         $header['js']      = [
-            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
             URL_JS . "{$path[1]}/{$path[2]}"
         ];
         $header['title']    = 'Thêm thành viên';
-
         // Kiểm tra quyền truy cập
         if(!$role['user']['add']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+            echo admin_breadcrumbs('Thành viên', [URL_ADMIN . '/user/' => 'Thành viên'], 'Thêm thành viên');
             echo admin_error('Thêm thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
@@ -453,82 +451,71 @@ switch ($path[2]){
         $user_role          = new meta($database, 'role');
         $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Thành viên', 'Thêm mới thành viên','Thêm thành viên', [URL_ADMIN . '/user/' => 'Thành viên']);
+        echo admin_breadcrumbs('Thành viên', [URL_ADMIN . '/user/' => 'Thành viên'], 'Thêm thành viên');
         echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row">
             <div class="col-lg-12">
-                <div class="card">
-                    <div class="header">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <h2>Thêm thành viên</h2>
-                            </div>
-                            <div class="col-lg-6 text-right">
-                                <a href="<?=URL_ADMIN."/{$path[1]}/"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
+                <div class="card card-bordered">
+                    <div class="card-inner border-bottom">
+                        <!-- Title -->
+                        <div class="card-title-group">
+                            <div class="card-title"><h6 class="title">Thêm thành viên</h6></div>
+                            <div class="card-tools">
+                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="link">Xem tất cả</a>
                             </div>
                         </div>
+                        <!-- Title -->
                     </div>
-                    <div class="body">
-                        <div class="row">
+                    <!-- Content -->
+                    <div class="card-inner">
+                        <div class="row g-4">
                             <div class="col-lg-6">
                                 <?=formInputText('user_login', [
                                     'label'         => 'Tên đăng nhập. <code>*</code>',
-                                    'placeholder'   => 'Nhập tên đăng nhập',
                                     'autofocus'     => ''
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputText('user_name', [
-                                    'label'         => 'Tên hiển thị. <code>*</code>',
-                                    'placeholder'   => 'Nhập tên hiển thị'
+                                    'label'         => 'Tên hiển thị. <code>*</code>'
                                 ])?>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-6">
                                 <?=formInputPassword('user_password', [
                                     'label'         => 'Mật khẩu. <code>*</code>',
-                                    'placeholder'   => 'Nhập mật khẩu',
                                     'autocomplete'  => 'new-password'
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputPassword('user_repass', [
-                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>',
-                                    'placeholder'   => 'Nhập lại mật khẩu'
+                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>'
                                 ])?>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-4">
                                 <?=formInputText('user_email', [
-                                    'label'         => 'Email.',
-                                    'placeholder'   => 'Nhập Email'
+                                    'label'         => 'Email.'
                                 ])?>
                             </div>
                             <div class="col-lg-4">
                                 <?=formInputText('user_phone', [
-                                    'label'         => 'Nhập số điện thoại.',
-                                    'placeholder'   => 'Nhập số điện thoại'
+                                    'label'         => 'Nhập số điện thoại.'
                                 ])?>
                             </div>
                             <div class="col-lg-4">
                                 <?=formInputSelect('user_role', $user_role, [
-                                        'label'             => 'Vai trò <code>*</code>',
-                                        'data-live-search'  => 'true']
+                                    'data-live-search'  => 'true']
                                 )?>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-lg-12 text-right">
                                 <?=formButton('THÊM THÀNH VIÊN', [
                                     'id'    => 'button_add_user',
-                                    'class' => 'btn btn-raised bg-blue waves-effect'
+                                    'class' => 'btn btn-secondary'
                                 ])?>
                             </div>
                         </div>
                     </div>
+                    <!-- End Content -->
                 </div>
             </div>
         </div>
@@ -623,13 +610,13 @@ switch ($path[2]){
                         <table class="table table-tranx table-hover">
                             <thead>
                             <tr class="tb-tnx-head">
-                                <th style="width: 10%" class="text-left align-middle">Thông tin</th>
-                                <th style="width: 15%" class="text-center align-middle">Tên đăng nhập</th>
+                                <th style="width: 15%" class="text-left align-middle">Thông tin</th>
+                                <th style="width: 10%" class="text-center align-middle">Tên đăng nhập</th>
                                 <th style="width: 10%" class="text-center align-middle">Điện Thoại</th>
-                                <th style="width: 10%" class="text-center align-middle">Vai trò</th>
+                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
                                 <th style="width: 10%" class="text-center align-middle">Trạng thái</th>
                                 <th style="width: 10%" class="text-center align-middle">Ngày tạo</th>
-                                <th style="width: 20%" class="text-center align-middle">Quản trị</th>
+                                <th style="width: 15%" class="text-right align-middle">Quản trị</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -642,10 +629,10 @@ switch ($path[2]){
                                     <td class="text-left align-middle">
                                         <div class="user-card">
                                             <div class="user-avatar">
-                                                <img src="./images/avatar/d-sm.jpg" alt="">
+                                                <?=strtoupper(substr($row['user_name'], 0, 2))?>
                                             </div>
                                             <div class="user-info">
-                                                <span class="tb-lead"><?=$row['user_name']?><span class="dot dot-warning d-md-none ml-1"></span></span>
+                                                <span class="tb-lead font-weight-bold"><?=$row['user_name']?></span>
                                                 <span><?=$row['user_email'] ? $row['user_email'] : ''?></span>
                                             </div>
                                         </div>
@@ -658,44 +645,30 @@ switch ($path[2]){
                                     <td class="text-center align-middle">
                                         <ul class="nk-tb-actions gx-1">
                                             <li>
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Wallet">
-                                                    <em class="icon ni ni-notice"></em>
-                                                </a>
-                                            </li>
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Send Email">
-                                                    <em class="icon ni ni-mail-fill"></em>
-                                                </a>
-                                            </li>
-                                            <li class="nk-tb-action-hidden">
-                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Suspend">
-                                                    <em class="icon ni ni-user-cross-fill"></em>
+                                                <a href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập Nhật">
+                                                    <em class="icon ni ni-account-setting-fill"></em>
                                                 </a>
                                             </li>
                                             <li>
-                                                <div class="drodown">
-                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <ul class="link-list-opt no-bdr">
-                                                            <li><a href="#"><em class="icon ni ni-focus"></em><span>Quick View</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-repeat"></em><span>Transaction</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-activity-round"></em><span>Activities</span></a></li>
-                                                            <li class="divider"></li>
-                                                            <li><a href="#"><em class="icon ni ni-shield-star"></em><span>Reset Pass</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-shield-off"></em><span>Reset 2FA</span></a></li>
-                                                            <li><a href="#"><em class="icon ni ni-na"></em><span>Suspend User</span></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <a href="#" data-type="delete" data-id="<?=$row['user_id']?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Xóa">
+                                                    <em class="icon ni ni-user-cross-fill text-danger"></em>
+                                                </a>
                                             </li>
-                                        </ul>                                    </td>
+                                        </ul>
+                                    </td>
                                 </tr>
                             <?php }?>
                             <tr class="tb-tnx-item">
                                 <td colspan="8" class="text-left">
-                                    Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
-                                    Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                    <div class="row">
+                                        <div class="col-lg-6 text-left">
+                                            Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                            Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                        </div>
+                                        <div class="col-lg-6 text-right">
+                                            <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>

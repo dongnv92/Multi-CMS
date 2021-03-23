@@ -413,7 +413,7 @@ function pagination($page_curent, $page_count, $url){
         $page_start_pt = replaceUrlPagination($url, 1, ['text' => '1']);
     }
     if ($page_count > 1 && $page_curent <= $page_count) {
-        return '<nav aria-label="Page navigation"><ul class="pagination justify-content-center">' . $link1 . $page_start_pt . $linked . $link . $page_end_pt . $link2 . '</ul></nav>';
+        return '<nav><ul class="pagination justify-content-center">' . $link1 . $page_start_pt . $linked . $link . $page_end_pt . $link2 . '</ul></nav>';
     } else {
         return false;
     }
