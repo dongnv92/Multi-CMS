@@ -87,8 +87,8 @@ switch ($path[2]){
         echo admin_breadcrumbs('Cập nhật hồ sơ', 'Cập nhật hồ sơ','Cập nhật hồ sơ', [URL_ADMIN . '/profile/' => 'Hồ sơ']);
         echo formOpen('', ['method' => 'POST']);
         ?>
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
                 <div class="card card-preview">
                     <div class="card-inner">
                         <div class="preview-block">

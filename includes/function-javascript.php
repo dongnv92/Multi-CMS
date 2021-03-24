@@ -375,17 +375,23 @@ switch ($path[1]){
                             data        : $('form').serialize(),
                             beforeSend  : function () {
                                 $('#button_update_user').attr('disabled', true);
-                                $('#button_update_user').html('ĐANG CẬP NHẬT THÀNH VIÊN ...');
+                                $('#button_update_user').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang cập nhật thành viên ... </span>');
                             }
                         });
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    show_notify(data.message, 'bg-green');
+                                    NioApp.Toast(data.message, 'success',{
+                                        ui: 'is-dark',
+                                        position: 'top-right'
+                                    });
                                     $('#button_update_user').attr('disabled', false);
                                     $('#button_update_user').html('CẬP NHẬT');
                                 }else{
-                                    show_notify(data.message, 'bg-red');
+                                    NioApp.Toast(data.message, 'error',{
+                                        ui: 'is-dark',
+                                        position: 'top-right'
+                                    });
                                     $('#button_update_user').attr('disabled', false);
                                     $('#button_update_user').html('CẬP NHẬT');
                                 }
@@ -468,17 +474,23 @@ switch ($path[1]){
                                     data        : $('form').serialize(),
                                     beforeSend  : function () {
                                         $('#button_update_role').attr('disabled', true);
-                                        $('#button_update_role').html('ĐANG CẬP NHẬT ...');
+                                        $('#button_update_role').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> ĐANG CẬP NHẬT ... </span>');
                                     }
                                 });
                                 ajax.done(function (data) {
                                     setTimeout(function () {
                                         if(data.response == 200){
-                                            show_notify(data.message, 'bg-green');
+                                            NioApp.Toast(data.message, 'success',{
+                                                ui: 'is-dark',
+                                                position: 'top-right'
+                                            });
                                             $('#button_update_role').attr('disabled', false);
                                             $('#button_update_role').html('CẬP NHẬT');
                                         }else{
-                                            show_notify(data.message, 'bg-red');
+                                            NioApp.Toast(data.message, 'error',{
+                                                ui: 'is-dark',
+                                                position: 'top-right'
+                                            });
                                             $('#button_update_role').attr('disabled', false);
                                             $('#button_update_role').html('CẬP NHẬT');
                                         }
@@ -506,17 +518,23 @@ switch ($path[1]){
                                     data        : $('form').serialize(),
                                     beforeSend  : function () {
                                         $('#button_add_role').attr('disabled', true);
-                                        $('#button_add_role').html('ĐANG THÊM VAI TRÒ ...');
+                                        $('#button_add_role').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> ĐANG THÊM ... </span>');
                                     }
                                 });
                                 ajax.done(function (data) {
                                     setTimeout(function () {
                                         if(data.response == 200){
-                                            show_notify(data.message, 'bg-green');
+                                            NioApp.Toast(data.message, 'success',{
+                                                ui: 'is-dark',
+                                                position: 'top-right'
+                                            });
                                             $('#button_add_role').attr('disabled', false);
                                             $('#button_add_role').html('THÊM');
                                         }else{
-                                            show_notify(data.message, 'bg-red');
+                                            NioApp.Toast(data.message, 'error',{
+                                                ui: 'is-dark',
+                                                position: 'top-right'
+                                            });
                                             $('#button_add_role').attr('disabled', false);
                                             $('#button_add_role').html('THÊM');
                                         }
@@ -538,15 +556,15 @@ switch ($path[1]){
                         $(document).ready(function () {
                             $('a[data-type=delete]').on('click', function () {
                                 var id = $(this).data('id');
-                                swal({
+                                Swal.fire({
                                     title: "Xóa vai trò thành viên",
                                     text: "Bạn có muốn xóa vai trò thanh viên này không?",
-                                    type: "warning",
+                                    icon: 'danger',
                                     showCancelButton: true,
-                                    closeOnConfirm: false,
+                                    confirmButtonText: 'Xóa',
                                     showLoaderOnConfirm: true,
-                                }, function () {
-                                    setTimeout(function () {
+                                }).then(function (result) {
+                                    if (result.value) {
                                         var ajax = $.ajax({
                                             url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>/delete/' + id,
                                             method      : 'POST',
@@ -554,19 +572,20 @@ switch ($path[1]){
                                         });
                                         ajax.done(function (data) {
                                             if(data.response == 200){
-                                                swal("Xóa vai trò thành viên", "Xóa vai trò thành viên thành công!", "success");
+                                                Swal.fire("Xóa vai trò thành viên", "Xóa vai trò thành viên thành công!", "success");
                                                 setTimeout(function () {
                                                     location.reload();
                                                 }, 2000);
                                             }else{
-                                                swal("Xóa vai trò thành viên", data.message, "error");
+                                                Swal.fire("Xóa vai trò thành viên", data.message, "error");
                                             }
                                         });
                                         ajax.fail(function( jqXHR, textStatus ) {
                                             console.log("Request failed: " + textStatus );
                                         });
-                                    }, 2000);
+                                    }
                                 });
+                                e.preventDefault();
                             });
                         });
                         <?php

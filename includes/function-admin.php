@@ -1,14 +1,17 @@
 <?php
 
 function admin_error($title, $content, $title_sub = ''){
-    $text = '<div class="card">
-        <div class="header">
-            <h2>'. $title .' '. ($title_sub ? '<small>'. $title_sub .'</small>' : '') .'</h2>
+    $text = '<div class="card card-bordered">
+        <div class="card-inner border-bottom">
+            <!-- Title -->
+            <div class="card-title-group"><div class="card-title"><h6 class="title">'. $title .'</h6></div></div>
+            <!-- Title -->
         </div>
-        <div class="body text-center">
-            '. $content .'<br><br>
-            <a href="'. URL_ADMIN .'" class="btn btn-raised bg-blue waves-effect">Trang Chủ</a>
+        <!-- Content -->
+        <div class="card-inner text-center">
+            '. $content .'
         </div>
+        <!-- End Content -->
     </div>';
     return $text;
 }
@@ -217,14 +220,15 @@ function get_menu_header($menu){
                 $result .= '<a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon">'. $_menu['icon'] .' </span><span class="nk-menu-text">'. $_menu['text'] .'</span></a><ul class="nk-menu-sub">';
                 foreach ($_menu['child'] AS $_child){
                     if(count($_child['roles']) == 0 || $role[$_child['roles'][0]][$_child['roles'][1]]){
-                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'nk-menu-item active current-page text-white' : 'nk-menu-item')])."\n";
+                        $result .= view_menu_header_li(['text'=>$_child['text'], 'icon' => $_child['icon'], 'url' => $_child['url'], 'class' => (check_menu_active($path, $_child['active'])  ? 'nk-menu-item' : 'nk-menu-item')])."\n";
+                        //active current-page
                     }
                 }
                 $result .= '</ul></li>'."\n";
             }
         }else{
             if(count($_menu['roles']) == 0 || $role[$_menu['roles'][0]][$_menu['roles'][1]]){
-                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'nk-menu-item active current-page text-white' : 'nk-menu-item')])."\n";
+                $result .= view_menu_header_li(['text'=>$_menu['text'], 'icon' => $_menu['icon'], 'url' => $_menu['url'], 'class' => (check_menu_active($path, $_menu['active']) ? 'nk-menu-item' : 'nk-menu-item')])."\n";
             }
         }
     }

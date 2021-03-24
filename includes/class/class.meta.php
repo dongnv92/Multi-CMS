@@ -123,6 +123,7 @@ class meta{
         // Nếu chưa có id hoặc sai định dạng int thì báo lỗi
         if(!validate_int($id) || !$id)
             return get_response_array(311, 'ID phải là dạng số.');
+
         $db     = $this->db;
         $meta   = $db->select('COUNT(*) AS count, meta_image')->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
 

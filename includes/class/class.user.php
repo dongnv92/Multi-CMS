@@ -320,6 +320,7 @@ class user{
     }
 
     public function update($id){
+        global $me;
         $db             = $this->db;
         $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_id, $id)->fetch_first();
         $check_user     = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_login, $_REQUEST[$this->user_login])->fetch_first();
@@ -329,6 +330,10 @@ class user{
 
         if(!$get_user)
             return get_response_array(309, 'Thành viên không tồn tại trên hệ thống hoặc đã bị xóa.');
+
+        // Nếu update thành viên đặc biệt thì báo lỗi
+        if(get_config('user_special') == $id && $id !=$me['user_id'])
+            return get_response_array(309, 'Bạn không thể cập nhật thành viên này.');
 
         // Kiểm tra username
         if(!validate_isset($_REQUEST[$this->user_login]))
