@@ -87,55 +87,70 @@ switch ($path[2]){
         echo admin_breadcrumbs('Cập nhật hồ sơ', 'Cập nhật hồ sơ','Cập nhật hồ sơ', [URL_ADMIN . '/profile/' => 'Hồ sơ']);
         echo formOpen('', ['method' => 'POST']);
         ?>
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
+        <div class="row">
+            <div class="col-lg-12">
                 <div class="card card-preview">
                     <div class="card-inner">
                         <div class="preview-block">
-                            <div class="row gy-4">
-                                <div class="col-lg-6">
-                                    <?=formInputText('', [
-                                        'label'         => 'Tên đăng nhập',
-                                        'value'         => $me['user_login'],
-                                        'disabled'      => 'disabled'
-                                    ])?>
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item">
+                                    <a class="nav-link active" data-toggle="tab" href="#tabInfo"><em class="icon ni ni-user"></em><span>Thông tin</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" data-toggle="tab" href="#tabAvatar"><em class="icon ni ni-camera-fill"></em><span>Đổi Avatar</span></a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tabInfo">
+                                    <div class="row gy-4">
+                                        <div class="col-lg-6">
+                                            <?=formInputText('', [
+                                                'label'         => 'Tên đăng nhập',
+                                                'value'         => $me['user_login'],
+                                                'disabled'      => 'disabled'
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <?=formInputText('user_name', [
+                                                'label'         => 'Tên hiển thị',
+                                                'value'         => $me['user_name']
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <?=formInputPassword('user_password', [
+                                                'label'         => 'Mật khẩu. (Nếu không đổi mật khẩu thì để trống)',
+                                                'autocomplete'  => 'new-password'
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <?=formInputPassword('user_repass', [
+                                                'label'         => 'Nhập lại mật khẩu.'
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <?=formInputText('user_email', [
+                                                'label'         => 'Email.',
+                                                'placeholder'   => 'Nhập Email',
+                                                'value'         => $me['user_email']
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <?=formInputText('user_phone', [
+                                                'label'         => 'Điện thoại.',
+                                                'placeholder'   => 'Nhập số điện thoại',
+                                                'value'         => $me['user_phone']
+                                            ])?>
+                                        </div>
+                                        <div class="col-lg-12 text-right">
+                                            <?=formButton('CẬP NHẬT', [
+                                                'id'    => 'button_update_me',
+                                                'class' => 'btn btn-secondary'
+                                            ])?>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <?=formInputText('user_name', [
-                                        'label'         => 'Tên hiển thị',
-                                        'value'         => $me['user_name']
-                                    ])?>
-                                </div>
-                                <div class="col-lg-6">
-                                    <?=formInputPassword('user_password', [
-                                        'label'         => 'Mật khẩu. (Nếu không đổi mật khẩu thì để trống)',
-                                        'autocomplete'  => 'new-password'
-                                    ])?>
-                                </div>
-                                <div class="col-lg-6">
-                                    <?=formInputPassword('user_repass', [
-                                        'label'         => 'Nhập lại mật khẩu.'
-                                    ])?>
-                                </div>
-                                <div class="col-lg-6">
-                                    <?=formInputText('user_email', [
-                                        'label'         => 'Email.',
-                                        'placeholder'   => 'Nhập Email',
-                                        'value'         => $me['user_email']
-                                    ])?>
-                                </div>
-                                <div class="col-lg-6">
-                                    <?=formInputText('user_phone', [
-                                        'label'         => 'Điện thoại.',
-                                        'placeholder'   => 'Nhập số điện thoại',
-                                        'value'         => $me['user_phone']
-                                    ])?>
-                                </div>
-                                <div class="col-lg-12 text-right">
-                                    <?=formButton('CẬP NHẬT', [
-                                        'id'    => 'button_update_me',
-                                        'class' => 'btn btn-secondary'
-                                    ])?>
+                                <div class="tab-pane" id="tabAvatar">
+                                    <p>content</p>
                                 </div>
                             </div>
                         </div>
