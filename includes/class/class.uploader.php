@@ -148,10 +148,10 @@ class Uploader {
         6 => "Thiếu một thư mục tạm thời.",
         7 => "Ghi tệp vào đĩa không thành công.",
         8 => "Một phần mở rộng PHP đã dừng tải lên tệp.",
-        'accept_file_types'     => "Loại tệp không được phép",
+        'accept_file_types'     => "Loại tệp tin không hợp lệ.",
         'file_uploads'          => "Tùy chọn tải lên tệp bị vô hiệu hóa trong php.ini",
         'post_max_size'         => "Tệp đã tải lên vượt quá chỉ thị post_max_size trong php.ini",
-        'max_file_size'         => "Tệp quá lớn",
+        'max_file_size'         => "Tệp tin quá kích thước cho phép.",
         'max_number_of_files'   => "Vượt quá số lượng tệp tối đa",
         'required_and_no_file'  => "Không có tập tin được chọn. Vui lòng chọn một tập tin.",
         'no_download_content'   => "Không thể tải xuống tệp."

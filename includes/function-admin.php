@@ -80,7 +80,7 @@ function admin_main_header(){
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <div class="user-toggle">
                                     <div class="user-avatar sm">
-                                        <em class="icon ni ni-user-alt"></em>
+                                        '. ($me['user_avatar'] ? '<img src="'. URL_HOME .'/'. $me['user_avatar'] .'" />' : get_config('avatar_default')) .'
                                     </div>
                                     <div class="user-info d-none d-md-block">
                                         <div class="user-status">'. $me['meta_name'] .'</div>
