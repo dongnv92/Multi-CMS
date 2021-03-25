@@ -1,53 +1,80 @@
 {
-  "name":"Quản lý khách hàng, đối tác",
-  "unique_identifier":"customer",
-  "version":"0.1",
-  "banner":"assets/images/banner.jpg",
-  "description":"Plugin quản lý khách hàng dành cho trang thương mại điện tử..",
-  "status":"active",
-  "author":"MULTICMS PLUGIN",
-  "website":"http:\/\/localhost\/dong\/multicms\/",
-  "source" : {"javascript" :  "content/js.php", "ajax" :  "content/ajax.php"},
-  "public_class" : ["includes/customer.class.php"],
-  "menu":[
-    {
-      "text":"Khách hàng",
-      "icon":"<em class=\"icon ni ni-user-list\"></em>\n",
-      "child":[
+    "name": "Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng, \u0111\u1ed1i t\u00e1c",
+    "unique_identifier": "customer",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Plugin qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng d\u00e0nh cho trang th\u01b0\u01a1ng m\u1ea1i \u0111i\u1ec7n t\u1eed..",
+    "status": "not_active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "content\/js.php",
+        "ajax": "content\/ajax.php"
+    },
+    "public_class": [
+        "includes\/customer.class.php"
+    ],
+    "menu": [
         {
-          "text":"Khách hàng, Đối tác",
-          "url":"URL_ADMIN\/customer\/",
-          "roles":["customer", "manager"],
-          "active":[
-            ["admin", "customer",""],
-            ["admin", "customer", "update"],
-            ["admin", "customer", "detail"]
-          ]
-        },
-        {
-          "text":"Thêm mới",
-          "url":"URL_ADMIN\/customer\/add",
-          "roles":["customer","add"],
-          "active":[
-            ["admin", "customer", "add"]
-          ]
+            "text": "Kh\u00e1ch h\u00e0ng",
+            "icon": "<em class=\"icon ni ni-user-list\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Kh\u00e1ch h\u00e0ng, \u0110\u1ed1i t\u00e1c",
+                    "url": "URL_ADMIN\/customer\/",
+                    "roles": [
+                        "customer",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "customer",
+                            ""
+                        ],
+                        [
+                            "admin",
+                            "customer",
+                            "update"
+                        ],
+                        [
+                            "admin",
+                            "customer",
+                            "detail"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Th\u00eam m\u1edbi",
+                    "url": "URL_ADMIN\/customer\/add",
+                    "roles": [
+                        "customer",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "customer",
+                            "add"
+                        ]
+                    ]
+                }
+            ]
         }
-      ]
+    ],
+    "role_structure": {
+        "customer": {
+            "manager": false,
+            "add": false,
+            "update": false,
+            "delete": false
+        }
+    },
+    "role_text": {
+        "": "Plugin Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng",
+        "manager": "Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng",
+        "add": "Th\u00eam kh\u00e1ch h\u00e0ng",
+        "update": "C\u1eadp nh\u1eadt kh\u00e1ch h\u00e0ng",
+        "delete": "Xo\u00e1 kh\u00e1ch h\u00e0ng"
     }
-  ],
-  "role_structure":{
-    "customer":{
-      "manager":false,
-      "add":false,
-      "update":false,
-      "delete":false
-    }
-  },
-  "role_text":{
-    "":"Plugin Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng",
-    "manager":"Qu\u1ea3n l\u00fd kh\u00e1ch h\u00e0ng",
-    "add":"Th\u00eam kh\u00e1ch h\u00e0ng",
-    "update":"C\u1eadp nh\u1eadt kh\u00e1ch h\u00e0ng",
-    "delete":"Xo\u00e1 kh\u00e1ch h\u00e0ng"
-  }
 }

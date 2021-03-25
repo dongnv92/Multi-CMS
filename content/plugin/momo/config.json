@@ -4,7 +4,7 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "Plugin qu\u1ea3n l\u00fd l\u1ecbch s\u1eed giao d\u1ecbch MOMO, Check v\u00e0 x\u00e1c nh\u1eadn \u0111\u01a1n h\u00e0ng.",
-    "status": "active",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
@@ -17,7 +17,7 @@
     "menu": [
         {
             "text": "MOMO",
-            "icon": "<em class=\"icon ni ni-medium-round\"></em>",
+            "icon": "<em class=\"icon ni ni-medium-round\"><\/em>",
             "child": [
                 {
                     "text": "L\u1ecbch s\u1eed giao d\u1ecbch",

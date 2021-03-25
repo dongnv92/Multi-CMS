@@ -625,7 +625,7 @@ switch ($path[2]){
                                     <td class="text-left align-middle">
                                         <div class="user-card">
                                             <div class="user-avatar">
-                                                <?=strtoupper(substr($row['user_name'], 0, 2))?>
+                                                <?=$row['user_avatar'] ? '<img src="'. URL_HOME .'/'. $row['user_avatar'] .'" />' : strtoupper(substr($row['user_name'], 0, 2))?>
                                             </div>
                                             <div class="user-info">
                                                 <span class="tb-lead font-weight-bold"><?=$row['user_name']?> <?=get_config('user_special') == $row['user_id'] ? '<em class="icon ni ni-shield-check-fill text-success"></em>' : ''?></span>

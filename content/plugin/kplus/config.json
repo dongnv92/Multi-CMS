@@ -4,13 +4,13 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "KPLUS.VN List",
-    "status": "active",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
-        "javascript": "includes/js.php",
-        "ajax": "includes/ajax.php",
-        "api" : "includes/api.php"
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php",
+        "api": "includes\/api.php"
     },
     "public_class": [
         "includes\/class.kplus.php"
@@ -18,23 +18,41 @@
     "menu": [
         {
             "text": "Kplus",
-            "icon": "<em class=\"icon ni ni-kickstarter\"></em>\n",
+            "icon": "<em class=\"icon ni ni-kickstarter\"><\/em>\n",
             "child": [
                 {
-                    "text": "Danh sách",
+                    "text": "Danh s\u00e1ch",
                     "url": "URL_ADMIN\/kplus\/?kplus_status=unregistered",
-                    "roles": ["kplus","manager"],
+                    "roles": [
+                        "kplus",
+                        "manager"
+                    ],
                     "active": [
-                        ["admin", "kplus", ""],
-                        ["admin", "kplus", "update"]
+                        [
+                            "admin",
+                            "kplus",
+                            ""
+                        ],
+                        [
+                            "admin",
+                            "kplus",
+                            "update"
+                        ]
                     ]
                 },
                 {
-                    "text": "Thêm mới",
+                    "text": "Th\u00eam m\u1edbi",
                     "url": "URL_ADMIN\/kplus\/add",
-                    "roles": ["kplus","add"],
+                    "roles": [
+                        "kplus",
+                        "add"
+                    ],
                     "active": [
-                        ["admin","kplus","add"]
+                        [
+                            "admin",
+                            "kplus",
+                            "add"
+                        ]
                     ]
                 }
             ]
@@ -48,7 +66,7 @@
     },
     "role_text": {
         "": "KPLUS",
-        "manager": "Quản lý",
-        "add": "Thêm mới"
+        "manager": "Qu\u1ea3n l\u00fd",
+        "add": "Th\u00eam m\u1edbi"
     }
 }

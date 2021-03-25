@@ -1,10 +1,10 @@
 {
-    "name": "Quản lý sản phẩm",
+    "name": "Qu\u1ea3n l\u00fd s\u1ea3n ph\u1ea9m",
     "unique_identifier": "product",
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
-    "description": "Plugin quản lý sản phẩm, giỏ hàng, thanh toán ...",
-    "status": "active",
+    "description": "Plugin qu\u1ea3n l\u00fd s\u1ea3n ph\u1ea9m, gi\u1ecf h\u00e0ng, thanh to\u00e1n ...",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
@@ -17,11 +17,11 @@
     ],
     "menu": [
         {
-            "text": "Sản phầm",
-            "icon": "<em class=\"icon ni ni-cart-fill\"></em>",
+            "text": "S\u1ea3n ph\u1ea7m",
+            "icon": "<em class=\"icon ni ni-cart-fill\"><\/em>",
             "child": [
                 {
-                    "text": "Tất cả sản phẩm",
+                    "text": "T\u1ea5t c\u1ea3 s\u1ea3n ph\u1ea9m",
                     "url": "URL_ADMIN\/product\/",
                     "roles": [
                         "product",
@@ -46,7 +46,7 @@
                     ]
                 },
                 {
-                    "text": "Thêm mới",
+                    "text": "Th\u00eam m\u1edbi",
                     "url": "URL_ADMIN\/product\/add",
                     "roles": [
                         "product",
@@ -61,7 +61,7 @@
                     ]
                 },
                 {
-                    "text": "Danh mục",
+                    "text": "Danh m\u1ee5c",
                     "url": "URL_ADMIN\/product\/category",
                     "roles": [
                         "product",
@@ -104,12 +104,12 @@
         }
     },
     "role_text": {
-        "": "Quản lý sản phẩm",
-        "manager": "Quản lý sản phẩm",
-        "add": "Thêm sản phẩm",
-        "update": "Cập nhật sản phẩm",
-        "category": "Quản lý danh mục sản phẩm",
-        "brand": "Quản lý Brand",
-        "delete": "Xoá sản phẩm"
+        "": "Qu\u1ea3n l\u00fd s\u1ea3n ph\u1ea9m",
+        "manager": "Qu\u1ea3n l\u00fd s\u1ea3n ph\u1ea9m",
+        "add": "Th\u00eam s\u1ea3n ph\u1ea9m",
+        "update": "C\u1eadp nh\u1eadt s\u1ea3n ph\u1ea9m",
+        "category": "Qu\u1ea3n l\u00fd danh m\u1ee5c s\u1ea3n ph\u1ea9m",
+        "brand": "Qu\u1ea3n l\u00fd Brand",
+        "delete": "Xo\u00e1 s\u1ea3n ph\u1ea9m"
     }
 }

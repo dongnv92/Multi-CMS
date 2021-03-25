@@ -19,7 +19,7 @@
         <entry file="file://$PROJECT_DIR$/admin/user.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="289">
-              <caret line="270" column="89" lean-forward="true" selection-start-line="270" selection-start-column="89" selection-end-line="270" selection-end-column="89" />
+              <caret line="627" column="121" selection-start-line="627" selection-start-column="121" selection-end-line="627" selection-end-column="121" />
             </state>
           </provider>
         </entry>
@@ -59,10 +59,10 @@
         <option value="$PROJECT_DIR$/includes/class/class.user.php" />
         <option value="$PROJECT_DIR$/includes/function-javascript.php" />
         <option value="$PROJECT_DIR$/includes/class/class.meta.php" />
-        <option value="$PROJECT_DIR$/admin/user.php" />
         <option value="$PROJECT_DIR$/includes/function-admin.php" />
         <option value="$PROJECT_DIR$/admin/profile.php" />
         <option value="$PROJECT_DIR$/includes/class/class.uploader.php" />
+        <option value="$PROJECT_DIR$/admin/user.php" />
       </list>
     </option>
   </component>
@@ -88,6 +88,11 @@
               <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
               <item name="multicms" type="462c0819:PsiDirectoryNode" />
               <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="includes" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -140,17 +145,18 @@
       <workItem from="1616551187449" duration="13931000" />
       <workItem from="1616600728292" duration="1650000" />
       <workItem from="1616642711953" duration="5845000" />
+      <workItem from="1616683619803" duration="1985000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="78623000" />
+    <option name="totallyTimeSpent" value="80608000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" weight="0.117803834" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1172466" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -171,7 +177,7 @@
       <window_info anchor="right" id="Database" order="3" />
     </layout>
     <layout-to-restore>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.117803834" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1172466" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -398,13 +404,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="82" column="155" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="155" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/includes/class/class.uploader.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4530">
@@ -422,10 +421,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2283">
+          <caret line="82" column="155" selection-start-line="82" selection-start-column="40" selection-end-line="82" selection-end-column="155" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/admin/user.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
-          <caret line="270" column="89" lean-forward="true" selection-start-line="270" selection-start-column="89" selection-end-line="270" selection-end-column="89" />
+          <caret line="627" column="121" selection-start-line="627" selection-start-column="121" selection-end-line="627" selection-end-column="121" />
         </state>
       </provider>
     </entry>

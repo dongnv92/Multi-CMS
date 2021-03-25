@@ -4,7 +4,7 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "EXCEL",
-    "status": "active",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/excel\/",
     "source": {

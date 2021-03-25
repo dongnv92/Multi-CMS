@@ -1,10 +1,10 @@
 {
-    "name": "Bốc Xếp",
+    "name": "B\u1ed1c X\u1ebfp",
     "unique_identifier": "pickup",
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
-    "description": "Thống kê, theo dõi số lượng bốc sếp",
-    "status": "active",
+    "description": "Th\u1ed1ng k\u00ea, theo d\u00f5i s\u1ed1 l\u01b0\u1ee3ng b\u1ed1c s\u1ebfp",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/pickup\/",
     "source": {
@@ -17,11 +17,11 @@
     ],
     "menu": [
         {
-            "text": "Bốc Xếp",
+            "text": "B\u1ed1c X\u1ebfp",
             "icon": "<em class=\"icon ni ni-list-thumb\"><\/em>\n",
             "child": [
                 {
-                    "text": "Danh sách",
+                    "text": "Danh s\u00e1ch",
                     "url": "URL_ADMIN\/pickup\/",
                     "roles": [
                         "pickup",
@@ -29,12 +29,13 @@
                     ],
                     "active": [
                         [
-                            "pickup", ""
+                            "pickup",
+                            ""
                         ]
                     ]
                 },
                 {
-                    "text": "Thêm mới",
+                    "text": "Th\u00eam m\u1edbi",
                     "url": "URL_ADMIN\/pickup\/add",
                     "roles": [
                         "pickup",
@@ -42,7 +43,8 @@
                     ],
                     "active": [
                         [
-                            "pickup", "add"
+                            "pickup",
+                            "add"
                         ]
                     ]
                 }
@@ -56,8 +58,8 @@
         }
     },
     "role_text": {
-        "": "Quản Lý Bốc Xếp",
-        "manager": "Xem dữ liệu",
-        "add": "Thêm dữ liệu"
+        "": "Qu\u1ea3n L\u00fd B\u1ed1c X\u1ebfp",
+        "manager": "Xem d\u1eef li\u1ec7u",
+        "add": "Th\u00eam d\u1eef li\u1ec7u"
     }
 }
