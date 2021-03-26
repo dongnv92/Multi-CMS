@@ -1,0 +1,68 @@
+{
+    "name": "Quản lý mã nguồn",
+    "unique_identifier": "code",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Quản lý, upload mã nguồn ...",
+    "status": "active",
+    "author": "MULTICMS PLUGIN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": [],
+    "public_class": [
+        "includes\/class.code.php"
+    ],
+    "menu": [
+        {
+            "text": "Quản lý Code",
+            "icon": "<em class=\"icon ni ni-file-code\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Danh sách Code",
+                    "url": "URL_ADMIN\/code\/",
+                    "roles": [
+                        "code",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "code",
+                            ""
+                        ],
+                        [
+                            "admin",
+                            "code",
+                            "update"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Upload Code",
+                    "url": "URL_ADMIN\/code\/add",
+                    "roles": [
+                        "code",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "code",
+                            "add"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "code": {
+            "manager": false,
+            "add": false
+        }
+    },
+    "role_text": {
+        "": "Mã nguồn (Code)",
+        "manager": "Quản lý Code",
+        "add": "Upload Code"
+    }
+}
