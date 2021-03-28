@@ -50,6 +50,21 @@
                             "add"
                         ]
                     ]
+                },
+                {
+                    "text": "Chuyên mục",
+                    "url": "URL_ADMIN\/category\/code",
+                    "roles": [
+                        "code",
+                        "category"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "category",
+                            "code"
+                        ]
+                    ]
                 }
             ]
         }
@@ -57,12 +72,14 @@
     "role_structure": {
         "code": {
             "manager": false,
-            "add": false
+            "add": false,
+            "category": false
         }
     },
     "role_text": {
         "": "Mã nguồn (Code)",
         "manager": "Quản lý Code",
-        "add": "Upload Code"
+        "add": "Upload Code",
+        "category": "Quản lý chuyên mục Code"
     }
 }

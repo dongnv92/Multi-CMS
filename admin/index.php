@@ -12,6 +12,7 @@ switch ($path[1]){
     case 'profile':
     case 'elements':
     case 'plugin':
+    case 'category':
     case 'test':
         require_once "{$path[1]}.php";
         break;
