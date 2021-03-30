@@ -31,12 +31,12 @@ switch ($path[1]){
                     if($_REQUEST['status'] == 'active'){
                         $config = json_decode($config, true);
                         $config['status'] = 'active';
-                        $config = json_encode($config, JSON_PRETTY_PRINT);
+                        $config = json_encode($config, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
                         //$config = str_replace('"status":"not_active"', '"status":"active"',  $config);
                     }else{
                         $config = json_decode($config, true);
                         $config['status'] = 'not_active';
-                        $config = json_encode($config, JSON_PRETTY_PRINT);
+                        $config = json_encode($config, JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT);
                         //$config = str_replace('"status":"active"', '"status":"not_active"',  $config);
                     }
 

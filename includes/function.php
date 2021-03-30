@@ -466,6 +466,20 @@ function get_list_plugin(){
     return $directory;
 }
 
+// Lấy cấu hình của Plugin, nếu không tồn tại plugin hoặc plugin chưa được kích hoạt thì trả về false
+function get_config_plugin($plugin_directory){
+    $file_config = ABSPATH . PATH_PLUGIN . $plugin_directory . '/config.json';
+    if(!file_exists($file_config))
+        return false;
+
+    $config = file_get_contents($file_config);
+    $config = json_decode($config, true);
+    if($config['status'] != 'active')
+        return false;
+
+    return $config;
+}
+
 // Gọi CURL để lấy data
 function curl($url, $data = '', $method = 'GET'){
     if ($method == 'GET') {
