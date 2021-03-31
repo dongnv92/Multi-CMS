@@ -6,8 +6,11 @@ if(in_array($path[2], $category_system)){
     $config_category = [
         'text' => [
             'title'         => 'Chuyên mục Blog',
-            'title_card'    => 'Thông tin chuyên mục'
+            'title_card'    => 'Thông tin chuyên mục',
+            'field_name'    => 'Tên chuyên mục <code>*</code>',
+            'field_url'     => 'Đường dẫn URL',
         ],
+        'fields' => ['url' => true],
         'permission' => ['blog', 'category'],
         'breadcrumbs' => [
             'title'     => 'Chuyên mục Blog',
@@ -58,7 +61,16 @@ switch ($path[2]){
                         </div>
                     </div>
                     <div class="card-inner">
-                        Nội dung
+                        <?=formInputText('category_title', [
+                            'label' => $config_category['text']['field_name']
+                        ])?>
+                        <?php
+                        if($config_category['fields']['url']){
+                            echo formInputText('category_url', [
+                                'label' => $config_category['text']['field_url']
+                            ]);
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
