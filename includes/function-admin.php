@@ -316,9 +316,9 @@ function get_menu_header_structure(){
                 ],
                 [
                     'text'      => 'Chuyên mục',
-                    'url'       => URL_ADMIN . "/blog/category",
+                    'url'       => URL_ADMIN . "/category/blog",
                     'roles'     => ['blog', 'category'],
-                    'active'    => [[PATH_ADMIN, 'blog', 'category']]
+                    'active'    => [[PATH_ADMIN, 'category', 'blog']]
                 ]
             ]
         ],

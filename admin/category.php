@@ -5,7 +5,8 @@ $check_plugin_category  = false;
 if(in_array($path[2], $category_system)){
     $config_category = [
         'text' => [
-            'title' => 'Chuyên mục Blog'
+            'title'         => 'Chuyên mục Blog',
+            'title_card'    => 'Thông tin chuyên mục'
         ],
         'permission' => ['blog', 'category'],
         'breadcrumbs' => [
@@ -44,7 +45,28 @@ switch ($path[2]){
         $header['title'] = $config_category['text']['title'];
         require_once 'admin-header.php';
         echo admin_breadcrumbs($config_category['breadcrumbs']['title'], $config_category['breadcrumbs']['url'],$config_category['breadcrumbs']['active']);
+        ?>
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card card-bordered">
+                    <div class="card-inner border-bottom">
+                        <div class="card-title-group">
+                            <div class="card-title"><h6 class="title"><?=$config_category['text']['title_card']?></h6></div>
+                            <div class="card-tools">
+                                <a href="#" class="link">Xem tất cả</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-inner">
+                        Nội dung
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
 
+            </div>
+        </div>
+        <?php
         require_once 'admin-footer.php';
         break;
 }
