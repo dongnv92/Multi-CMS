@@ -7,12 +7,15 @@ if(in_array($path[2], $category_system)){
         'text' => [
             'title'         => 'Chuyên mục Blog',
             'title_card'    => 'Thông tin chuyên mục',
+            'tool_card'     => '<a href="#" class="link">Xem tất cả</a>',
             'field_name'    => 'Tên chuyên mục <code>*</code>',
             'field_url'     => 'Đường dẫn URL',
+            'bt_add'        => 'Thêm chuyên mục mới'
         ],
-        'fields' => ['url' => true],
-        'permission' => ['blog', 'category'],
-        'breadcrumbs' => [
+        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true],
+        'permission'    => ['blog', 'category'],
+        'type'          => 'code_category',
+        'breadcrumbs'   => [
             'title'     => 'Chuyên mục Blog',
             'url'       => [URL_ADMIN . '/blog' => 'Blog'],
             'active'    => 'Chuyên mục'
@@ -45,6 +48,11 @@ switch ($path[2]){
             exit();
         }
 
+        $list_cate_option   = new meta($database, $config_category['type']);
+        $list_cate_option   = $list_cate_option->get_data_select(['0' => 'Trống']);
+        $list_cate          = new meta($database, $config_category['type']);
+        $list_cate          = $list_cate->get_data_showall();
+
         $header['title'] = $config_category['text']['title'];
         require_once 'admin-header.php';
         echo admin_breadcrumbs($config_category['breadcrumbs']['title'], $config_category['breadcrumbs']['url'],$config_category['breadcrumbs']['active']);
@@ -56,21 +64,47 @@ switch ($path[2]){
                         <div class="card-title-group">
                             <div class="card-title"><h6 class="title"><?=$config_category['text']['title_card']?></h6></div>
                             <div class="card-tools">
-                                <a href="#" class="link">Xem tất cả</a>
+                                <?=$config_category['text']['tool_card']?>
                             </div>
                         </div>
                     </div>
                     <div class="card-inner">
-                        <?=formInputText('category_title', [
-                            'label' => $config_category['text']['field_name']
+                        <?=formInputText('meta_name', [
+                            'label' => $config_category['text']['field_name'],
+                            'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.'
                         ])?>
                         <?php
                         if($config_category['fields']['url']){
-                            echo formInputText('category_url', [
-                                'label' => $config_category['text']['field_url']
+                            echo formInputText('meta_url', [
+                                'label' => $config_category['text']['field_url'],
+                                'note'  => 'Chuỗi cho đường dẫn tĩnh là phiên bản của tên hợp chuẩn với Đường dẫn (URL). Chuỗi này bao gồm chữ cái thường, số và dấu gạch ngang (-).',
+                                'icon'  => '<em class="icon ni ni-link"></em>'
+                            ]);
+                        }
+                        if($config_category['fields']['cat_parent']){
+                            echo formInputSelect('meta_parent', $list_cate_option, [
+                                'label' => 'Chuyên mục cha',
+                                'note'  => 'Chỉ định một chuyên mục Cha để tạo thứ bậc. Ví dụ, bạn tạo chuyên mục Album nhạc thì có thể làm cha của chuyên mục Album nhạc Việt Nam và Album nhạc quốc tế.'
+                            ]);
+                        }
+                        if($config_category['fields']['des']){
+                            echo formInputTextarea('meta_des', [
+                                'label'         => 'Mô tả',
+                                'placeholder'   => 'Nhập mô tả chuyên mục',
+                                'rows'          => '5',
+                                'note'          => 'Thông thường mô tả này không được sử dụng trong các giao diện, tuy nhiên có vài giao diện có thể hiển thị mô tả này.'
                             ]);
                         }
                         ?>
+                        <div class="text-right">
+                            <?=formButton($config_category['text']['bt_add'], [
+                                'id'    => 'button_add',
+                                'class' => 'btn btn-secondary',
+                                'type'  => 'submit',
+                                'name'  => 'submit',
+                                'value' => 'submit'
+                            ]);?>
+                        </div>
                     </div>
                 </div>
             </div>

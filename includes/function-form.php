@@ -47,7 +47,7 @@ function formError($text){
  * */
 function formInputText($name, $attribute = ['']){
     $layout  = $attribute['layout'];
-    $content = $form_attribute = $label = $icon = $error = '';
+    $content = $form_attribute = $label = $icon = $error = $note = '';
     switch ($layout){
         default:
             // Thiết lập các giá trị mặc định
@@ -63,6 +63,9 @@ function formInputText($name, $attribute = ['']){
                     case 'icon'  :
                         $icon .= '<div class="form-icon form-icon-right">'. $attribute['icon'] .'</div>';
                         break;
+                    case 'note':
+                        $note .= '<div class="form-note">'. $value .'</div>';
+                        break;
                     case 'layout'  :
                         $form_attribute .= '';
                         break;
@@ -76,6 +79,7 @@ function formInputText($name, $attribute = ['']){
                 <div class="form-control-wrap">
                     '. $icon .'<input type="text" class="form-control form-control-outlined" name="'. $name .'" '. $form_attribute .'>'. $label .'
                 </div>
+                '. $note .'
             </div>';
             break;
     }
@@ -146,6 +150,7 @@ function formInputTextarea($name, $attribute = []){
     $content            = '';
     $form_attribute     = '';
     $label              = '';
+    $note               = '';
     $layout             = $attribute['layout'];
     switch ($layout){
         default:
@@ -163,6 +168,9 @@ function formInputTextarea($name, $attribute = []){
                     case 'error':
                         $error .= formError($value);
                         break;
+                    case 'note':
+                        $note .= '<div class="form-note">'. $value .'</div>';
+                        break;
                     case 'div_class_parent' :
                     case 'div_class_child'  :
                     case 'layout'  :
@@ -179,6 +187,7 @@ function formInputTextarea($name, $attribute = []){
                 <div class="'. $div_class_child .'">
                     <textarea name="'. $name .'" '. $form_attribute .'>'. ($attribute['value'] ? $attribute['value'] : '') .'</textarea>
                 </div>
+                '. $note .'
                 '. ($error ? $error : '') .'
             </div>';
             break;
@@ -233,7 +242,7 @@ function formInputSwitch($name, $attribute = []){
  *      data-placeholder=''
  * */
 function formInputSelect($name, $data = [], $attribute = []){
-    $content = $form_attribute = $label = $error = '';
+    $content = $form_attribute = $label = $error = $note = '';
     $layout  = $attribute['layout'];
     switch ($layout){
         default:
@@ -247,6 +256,9 @@ function formInputSelect($name, $data = [], $attribute = []){
                         break;
                     case 'error':
                         $error .= formError($value);
+                        break;
+                    case 'note':
+                        $note .= '<div class="form-note">'. $value .'</div>';
                         break;
                     case 'layout'       :
                     case 'value'        :
@@ -266,7 +278,10 @@ function formInputSelect($name, $data = [], $attribute = []){
                     foreach ($data AS $value => $text){
                         $content .= '<option '. ($value == $attribute['selected'] ? 'selected' : '') .' value="'. $value .'">'. $text .'</option>';
                     }
-            $content .= '</select></div></div>';
+                    $content .= '</select>';
+                $content .= '</div>';
+                $content .= $note;
+            $content .= '</div>';
             break;
     }
     return $content;
