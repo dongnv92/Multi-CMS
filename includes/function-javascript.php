@@ -642,6 +642,12 @@ switch ($path[1]){
     case 'category':
         switch ($path[2]){
             default:
+                $category   = new Category($path[2]);
+                $config     = $category->getConfig();
+                if(!$config || !$role[$config['permission'][0]][$config['permission'][1]]){
+                    echo "Forbidden";
+                    exit();
+                }
                 ?>
 
                 <?php

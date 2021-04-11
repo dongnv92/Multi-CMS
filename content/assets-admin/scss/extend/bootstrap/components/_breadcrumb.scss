@@ -1,3 +1,6 @@
+$breadcrumb-arrow-ltr: $ni-forward-ios !default;
+$breadcrumb-arrow-rtl: $ni-back-ios !default;
+
 .breadcrumb{
     &-item{
         font-size: $breadcrumb-font-size;
@@ -16,10 +19,10 @@
             .breadcrumb-arrow &{
                 font-family: $nk-dashlite-font;
                 @if($rtl==false){
-                    content: $ni-forward-ios;
+                    content: $breadcrumb-arrow-ltr;
                 }
                 @if($rtl==true){
-                    content: $ni-back-ios;
+                    content: $breadcrumb-arrow-rtl;
                 }
             }
         }

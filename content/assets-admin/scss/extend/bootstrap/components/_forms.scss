@@ -1,3 +1,4 @@
+$form-control-select-icon: $ni-chevron-down !default;
 .form{
     &-icon{
         position: absolute;
@@ -312,7 +313,7 @@
     }
     &:after{
         font-family: $nk-dashlite-font;
-        content:$ni-chevron-down;
+        content:$form-control-select-icon;
         pointer-events: none;
         position: absolute;
         display: inline-flex;
@@ -351,7 +352,6 @@ textarea{
 }
 
 // validation
-
 .custom-file-input,.form-control{
     ~ .error, ~ .invalid{
         color: $field-error-color;

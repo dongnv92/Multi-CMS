@@ -1,3 +1,6 @@
+$datatable-collapsed-unfold : $ni-plus-sm !default;
+$datatable-collapsed-fold : $ni-minus-sm !default;
+
 table.dataTable {
   clear: both;
   max-width: none !important;
@@ -265,7 +268,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr:not(.child)>td:first-child,
 table.dataTable.dtr-inline.collapsed>tbody>tr:not(.child)>th:first-child{
   cursor: pointer;
   &:before{
-    content: $ni-plus-sm;
+    content: $datatable-collapsed-unfold;
     font-family: $nk-dashlite-font;
     @if($rtl==false){
       margin-right: 0.4rem;
@@ -279,7 +282,7 @@ table.dataTable.dtr-inline.collapsed>tbody>tr:not(.child)>th:first-child{
 table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child,
 table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child{
   &:before{
-    content: $ni-minus-sm;
+    content: $datatable-collapsed-fold;
   }
 }
 

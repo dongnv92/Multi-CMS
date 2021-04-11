@@ -3,8 +3,8 @@ header('Content-Type: application/json');
 
 switch ($path[2]){
     case 'bot':
-        $simthue_apikey     = 'GSp5Du68ELUTTWe9_d0Fw579j';
-        $simthue_service    = 256; // 256: Kplus, Dịch vụ khác: 28
+        $otpsim_apikey      = 'c0de81ffe776dc041b0efeabdbdc7d07';
+        $otpsim_service     = 103; // 256: Kplus, Dịch vụ khác: 28
         $update             = json_decode(file_get_contents("php://input"), TRUE);
         $chatId             = $update["message"]["chat"]["id"];
         $message_chat       = $update["message"]["text"];
@@ -145,19 +145,27 @@ switch ($path[2]){
                     $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
                     exit();
                 }
-                $url_fetch  = 'http://api.simthue.com/request/create';
-                $fetch      = curl($url_fetch, ['key' => $simthue_apikey, 'service_id' => $simthue_service], 'GET');
+
+                /*$telegram->sendMessage("Hiện tại hệ thống SMS đang bảo trì, vui lòng truy cập lại sau.");
+                exit();*/
+
+                $url_fetch  = 'http://otpsim.com/api/phones/request';
+                $fetch      = curl($url_fetch, ['token' => $otpsim_apikey, 'service' => $otpsim_service, 'exceptPrefix' => '88'], 'GET');
                 $fetch      = json_decode($fetch, true);
-                if($fetch['id']){
-                    function convert_number_to_money($number){
-                        return number_format($number, 0, '', '.');
+                if($fetch['status_code'] == 200){
+                    function otpsim_get_balance(){
+                        global $otpsim_apikey;
+                        $url_fetch  = 'http://otpsim.com/api/users/balance';
+                        $fetch      = curl($url_fetch, ['token' => $otpsim_apikey], 'GET');
+                        $fetch      = json_decode($fetch, true);
+                        return number_format($fetch['data']['balance'], 0, '', '.');
                     }
-                    $telegram->sendMessage("/sc_{$fetch['id']}\nSố dư: ". convert_number_to_money($fetch['balance']) ."₫\n#get_sms");
+                    $telegram->sendMessage("Phone: 0{$fetch['data']['phone_number']}\nSố dư: ". otpsim_get_balance() ."₫\n/sc_{$fetch['data']['session']}\n#get_sms");
                     // Nếu không phải admin thì thông báo cho admin khi có thêm đơn SMS mới
                     $kplus  = new Kplus($database);
                     if($chatId != '823657709'){
                         $telegram->set_chatid('823657709');
-                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId)." vừa thêm 1 đơn SMS mới.\n/sc_{$fetch['id']}\n#notify_{$chatId}_get_sms");
+                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId)." vừa thêm 1 đơn SMS mới.\n/sc_{$fetch['data']['session']}\n#notify_{$chatId}_get_sms");
                     }
                 }else{
                     $telegram->sendMessage("Lỗi: {$fetch['message']}\nTạo vận đơn khác.\n/sn");
@@ -169,26 +177,22 @@ switch ($path[2]){
                     $telegram->sendMessage("Thiếu mã đơn SMS.");
                     break;
                 }
-                $url_fetch  = "http://api.simthue.com/request/check";
-                $fetch  = curl($url_fetch, ['key' => $simthue_apikey, 'id' => $message_value], 'GET');
+                $url_fetch  = "http://otpsim.com/api/sessions/{$message_value}";
+                $fetch  = curl($url_fetch, ['token' => $otpsim_apikey], 'GET');
                 $fetch  = json_decode($fetch, true);
-                if(!$fetch['number']){
-                    $telegram->sendMessage("Chưa tìm được số điện thoại.\n/sc_{$message_value}");
+                if($fetch['data']['status'] == 1){
+                    $telegram->sendMessage("Chưa nhận được tin nhắn OTP.\n/sc_{$message_value}");
                     break;
                 }
-                $number = $fetch['number'];
-                $number = substr($number, 2, 9);
-                $number = "0$number";
-                if(!$fetch['sms'][0]){
-                    $telegram->sendMessage("$number\nCheck lại: /sc_{$message_value}\n-> Thời gian còn lại: {$fetch['timeleft']} giây");
+                if($fetch['data']['status'] == 2){
+                    $telegram->sendMessage("Phiên đã hết hạn.");
                     break;
                 }
-                $code = explode('|', $fetch['sms'][0]);
-                $code = $code[2];
-                $code = explode(' ', $code);
-                $code = $code[0];
-                $telegram->sendMessage($code);
-                $telegram->sendMessage($number);
+                if($fetch['data']['status'] == 0){
+                    $telegram->sendMessage($fetch['data']['messages'][0]['otp']);
+                    $telegram->sendMessage('0'.$fetch['data']['phone_number']);
+                    break;
+                }
                 break;
             case '/t':
                 echo $telegram->sendMessage("Đây là tin nhắn phản hồi lại từ Server.");

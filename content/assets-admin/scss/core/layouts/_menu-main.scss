@@ -78,6 +78,13 @@ $menu-footer-link-fs:    $fx-sz-12;
 $menu-footer-link-lh:    1.125rem;
 $menu-footer-icon-color: $accent-color;
 
+// Icon
+$menu-toggle-icon-ltr: $ni-chevron-right !default;
+$menu-toggle-icon-rtl: $ni-chevron-left !default;
+$menu-main-toggle-icon: $ni-chevron-down !default;
+$menu-main-sub-toggle-icon-ltr: $ni-chevron-right !default;
+$menu-main-sub-toggle-icon-rtl: $ni-chevron-left !default;
+
 /////////////////////////
 /// Menu Navigation
 /////////////////////////
@@ -188,6 +195,7 @@ $menu-footer-icon-color: $accent-color;
         width: $menu-icon-width-base;
         line-height: 1;
         flex-grow: 0; 
+        flex-shrink: 0;
         color: $menu-icon-color-base;
         @if($menu_dark_theme_option==true) {
             .is-theme &{
@@ -224,6 +232,7 @@ $menu-footer-icon-color: $accent-color;
     &-text{
         flex-grow: 1;
         display: inline-block;
+        white-space: nowrap;
     }
     &-badge{
         border-radius: $border-radius-sm;
@@ -270,6 +279,7 @@ $menu-footer-icon-color: $accent-color;
         }
         .overline-title {
             color: inherit;
+            white-space: nowrap;
         }
         span{
             font-size: $fx-sz-13;
@@ -336,17 +346,17 @@ $menu-footer-icon-color: $accent-color;
             font-family: $nk-dashlite-font;
             top: 50%;
             @if($rtl==false){
-                content: $ni-chevron-right;
+                content: $menu-toggle-icon-ltr;
                 right: 1.25rem;
             }
             @if($rtl==true){
-                content: $ni-chevron-left;
+                content: $menu-toggle-icon-rtl;
                 left: 1.25rem;
             }
             transform: translateY(-50%);
             font-size: 1rem;
             color: $base-light;
-            transition: transform .3s, color .1s;
+            transition: transform .3s, color .1s, opacity .3s ease .3s;
             @if($menu_dark_option==true or $menu_dark_theme_option==true) {
                  .is-dark &, .is-theme & {
                     color: rgba($white, 0.4);
@@ -382,6 +392,90 @@ $menu-footer-icon-color: $accent-color;
         right: 0;
         bottom: 0;
         left: 0;
+    }
+    &-trigger{
+        margin-left: -0.25rem;
+        margin-right: 1.125rem;
+    }
+}
+@include media-breakpoint-up(xl){
+    .is-compact{
+        &:not(.has-hover){
+            .nk-menu{
+                &-text{
+                    opacity: 0;
+                    transition: .4s linear;
+                }
+                &-badge,&-toggle:after{
+                    transition: none;
+                    opacity: 0;
+                    pointer-events: none;
+                }
+                &-sub{
+                    display: none !important;
+                }
+                &-heading{
+                    position: relative;
+                    .overline-title{
+                        opacity: 0;
+                    }
+                    &:not(:first-child){
+                        &:before{
+                            position: absolute;
+                            content: '';
+                            height: 1px;
+                            width: 100%;
+                            @if($rtl==false){
+                                left: 0;
+                            }
+                            @if($rtl==true){
+                                right: 0;
+                            }
+                            top: 50%;
+                            background-color: $border-light;
+                        }
+                    }
+                }
+            }
+        }
+        @if($menu_dark_theme_option==true) {
+            &.is-theme{
+                &:not(.has-hover){
+                    .nk-menu{
+                        &-heading{
+                            &:not(:first-child){
+                                &:before{
+                                    background-color: $sidebar-border-theme-color;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        @if($menu_dark_option==true) {
+            &.is-dark{
+                &:not(.has-hover){
+                    .nk-menu{
+                        &-heading{
+                            &:not(:first-child){
+                                &:before{
+                                    background-color: $sidebar-border-dark-color;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .nk-menu{
+            &-badge{
+                transition: opacity .3s ease .3s;
+            }
+            &-text{
+                white-space: nowrap;
+            }
+        }
     }
 }
 /////////////////////
@@ -638,7 +732,7 @@ $menu-footer-icon-color: $accent-color;
                         line-height: 1;
                         position: static;
                         transform: translateY(0);
-                        content: $ni-chevron-down;
+                        content: $menu-main-toggle-icon;
                         vertical-align: middle;
                         @if($rtl==false){
                             margin-left: 0.5rem;
@@ -715,7 +809,12 @@ $menu-footer-icon-color: $accent-color;
                 }
                 .nk-menu-toggle{
                     &:after {
-                        content: $ni-chevron-right;
+                        @if($rtl==false){
+                            content: $menu-main-sub-toggle-icon-ltr;
+                        }
+                        @if($rtl==true){
+                            content: $menu-main-sub-toggle-icon-rtl;
+                        }
                     }
                 }
             }

@@ -1,3 +1,6 @@
+$custom-checkbox-icon: $ni-check-thick !default;
+$custom-radio-icon: $ni-bullet-fill !default;
+
 .custom{
     &-control{
         display: inline-flex;
@@ -35,10 +38,10 @@
                 color: $custom-control-indicator-checked-color;
                 opacity: 0;
                 .custom-checkbox &{
-                    content: $ni-check-thick;
+                    content: $custom-checkbox-icon;
                 }
                 .custom-radio &{
-                    content: $ni-bullet-fill;
+                    content: $custom-radio-icon;
                 }
             }
         }

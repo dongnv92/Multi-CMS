@@ -1,35 +1,10 @@
 <?php
-$category_system        = ['blog'];
-$check_plugin_category  = false;
-
-if(in_array($path[2], $category_system)){
-    $config_category = [
-        'text' => [
-            'title'         => 'Chuyên mục Blog',
-            'title_card'    => 'Thông tin chuyên mục',
-            'tool_card'     => '<a href="#" class="link">Xem tất cả</a>',
-            'field_name'    => 'Tên chuyên mục <code>*</code>',
-            'field_url'     => 'Đường dẫn URL',
-            'bt_add'        => 'Thêm chuyên mục mới'
-        ],
-        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true],
-        'permission'    => ['blog', 'category'],
-        'type'          => 'code_category',
-        'breadcrumbs'   => [
-            'title'     => 'Chuyên mục Blog',
-            'url'       => [URL_ADMIN . '/blog' => 'Blog'],
-            'active'    => 'Chuyên mục'
-        ]
-    ];
-}else{
-    $check_plugin = get_config_plugin($path[2]);
-    if($check_plugin){
-        $check_plugin_category = true;
-    }
-}
 switch ($path[2]){
     default:
-        if(!in_array($path[2], $category_system) && !$check_plugin_category){
+        $category   = new Category($path[2]);
+        $config     = $category->getConfig();
+
+        if(!$config){
             $header['title'] = 'Chuyên mục';
             require_once 'admin-header.php';
             echo admin_breadcrumbs('Chuyên mục', [URL_ADMIN . '/category' => 'Chuyên mục'],'Chuyên mục');
@@ -39,7 +14,7 @@ switch ($path[2]){
         }
 
         // Kiểm tra sự cho phép truy cập
-        if(!$role[$config_category['permission'][0]][$config_category['permission'][1]]){
+        if(!$role[$config['permission'][0]][$config['permission'][1]]){
             $header['title'] = 'Chuyên mục';
             require_once 'admin-header.php';
             echo admin_breadcrumbs('Chuyên mục', [URL_ADMIN . '/category' => 'Chuyên mục'],'Chuyên mục');
@@ -48,46 +23,50 @@ switch ($path[2]){
             exit();
         }
 
-        $list_cate_option   = new meta($database, $config_category['type']);
+        $list_cate_option   = new meta($database, $config['type']);
         $list_cate_option   = $list_cate_option->get_data_select(['0' => 'Trống']);
-        $list_cate          = new meta($database, $config_category['type']);
+        $list_cate          = new meta($database, $config['type']);
         $list_cate          = $list_cate->get_data_showall();
 
-        $header['title'] = $config_category['text']['title'];
+        $header['js']    = [
+            URL_JS."{$path[1]}/{$path[2]}"
+        ];
+        $header['title'] = $config['text']['title'];
         require_once 'admin-header.php';
-        echo admin_breadcrumbs($config_category['breadcrumbs']['title'], $config_category['breadcrumbs']['url'],$config_category['breadcrumbs']['active']);
+        echo admin_breadcrumbs($config['breadcrumbs']['title'], $config['breadcrumbs']['url'],$config['breadcrumbs']['active']);
+        echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row">
             <div class="col-lg-4">
                 <div class="card card-bordered">
                     <div class="card-inner border-bottom">
                         <div class="card-title-group">
-                            <div class="card-title"><h6 class="title"><?=$config_category['text']['title_card']?></h6></div>
+                            <div class="card-title"><h6 class="title"><?=$config['text']['title_card']?></h6></div>
                             <div class="card-tools">
-                                <?=$config_category['text']['tool_card']?>
+                                <?=$config['text']['tool_card']?>
                             </div>
                         </div>
                     </div>
                     <div class="card-inner">
                         <?=formInputText('meta_name', [
-                            'label' => $config_category['text']['field_name'],
+                            'label' => $config['text']['field_name'],
                             'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.'
                         ])?>
                         <?php
-                        if($config_category['fields']['url']){
+                        if($config['fields']['url']){
                             echo formInputText('meta_url', [
-                                'label' => $config_category['text']['field_url'],
+                                'label' => $config['text']['field_url'],
                                 'note'  => 'Chuỗi cho đường dẫn tĩnh là phiên bản của tên hợp chuẩn với Đường dẫn (URL). Chuỗi này bao gồm chữ cái thường, số và dấu gạch ngang (-).',
                                 'icon'  => '<em class="icon ni ni-link"></em>'
                             ]);
                         }
-                        if($config_category['fields']['cat_parent']){
+                        if($config['fields']['cat_parent']){
                             echo formInputSelect('meta_parent', $list_cate_option, [
                                 'label' => 'Chuyên mục cha',
                                 'note'  => 'Chỉ định một chuyên mục Cha để tạo thứ bậc. Ví dụ, bạn tạo chuyên mục Album nhạc thì có thể làm cha của chuyên mục Album nhạc Việt Nam và Album nhạc quốc tế.'
                             ]);
                         }
-                        if($config_category['fields']['des']){
+                        if($config['fields']['des']){
                             echo formInputTextarea('meta_des', [
                                 'label'         => 'Mô tả',
                                 'placeholder'   => 'Nhập mô tả chuyên mục',
@@ -97,8 +76,8 @@ switch ($path[2]){
                         }
                         ?>
                         <div class="text-right">
-                            <?=formButton($config_category['text']['bt_add'], [
-                                'id'    => 'button_add',
+                            <?=formButton($config['text']['bt_add'], [
+                                'id'    => 'category_add',
                                 'class' => 'btn btn-secondary',
                                 'type'  => 'submit',
                                 'name'  => 'submit',
@@ -113,6 +92,7 @@ switch ($path[2]){
             </div>
         </div>
         <?php
+        echo formClose();
         require_once 'admin-footer.php';
         break;
 }

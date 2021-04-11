@@ -9,9 +9,9 @@
     if ($(_basic).exists()) {
       $(_basic).each(function () {
         $(this).summernote({
-          placeholder: 'Nhập nội dung',
+          placeholder: 'Hello stand alone ui',
           tabsize: 2,
-          height: 200,
+          height: 120,
           toolbar: [['style', ['style']], ['font', ['bold', 'underline', 'strikethrough', 'clear']], ['font', ['superscript', 'subscript']], ['color', ['color']], ['fontsize', ['fontsize', 'height']], ['para', ['ul', 'ol', 'paragraph']], ['table', ['table']], ['insert', ['link', 'picture', 'video']], ['view', ['fullscreen', 'codeview', 'help']]]
         });
       });

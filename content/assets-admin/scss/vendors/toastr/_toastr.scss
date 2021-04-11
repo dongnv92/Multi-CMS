@@ -1,3 +1,5 @@
+$toast-close-icon: $ni-cross !default;
+
 #toast-container {
     position: fixed;
     z-index: 999999;
@@ -145,7 +147,7 @@
         text-indent: 0;
         color: $base-light;
         font-family: $nk-dashlite-font;
-        content: $ni-cross;
+        content: $toast-close-icon;
         font-size: 18px;
         line-height: 32px;
         width: 100%;
