@@ -150,7 +150,7 @@ switch ($path[2]){
                 exit();*/
 
                 $url_fetch  = 'http://otpsim.com/api/phones/request';
-                $fetch      = curl($url_fetch, ['token' => $otpsim_apikey, 'service' => $otpsim_service, 'exceptPrefix' => '88'], 'GET');
+                $fetch      = curl($url_fetch, ['token' => $otpsim_apikey, 'service' => $otpsim_service, 'network' => '3'], 'GET');
                 $fetch      = json_decode($fetch, true);
                 if($fetch['status_code'] == 200){
                     function otpsim_get_balance(){

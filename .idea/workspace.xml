@@ -14,18 +14,12 @@
     </execution>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="178" column="17" lean-forward="true" selection-end-line="227" selection-end-column="1" />
-              <folding>
-                <element signature="e#836#1094#0#PHP" />
-                <element signature="e#1155#3370#0#PHP" />
-                <element signature="e#3626#6909#0#PHP" />
-                <element signature="e#6945#7053#0#PHP" />
-              </folding>
+            <state relative-caret-position="297">
+              <caret line="152" column="120" selection-start-line="152" selection-start-column="120" selection-end-line="152" selection-end-column="120" />
             </state>
           </provider>
         </entry>
@@ -192,14 +186,15 @@
       <workItem from="1618049932838" duration="1518000" />
       <workItem from="1618067973149" duration="4331000" />
       <workItem from="1618104914653" duration="3272000" />
+      <workItem from="1618224383673" duration="50000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116430000" />
+    <option name="totallyTimeSpent" value="116480000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20045386" />
@@ -565,14 +560,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="178" column="17" lean-forward="true" selection-end-line="227" selection-end-column="1" />
-          <folding>
-            <element signature="e#836#1094#0#PHP" />
-            <element signature="e#1155#3370#0#PHP" />
-            <element signature="e#3626#6909#0#PHP" />
-            <element signature="e#6945#7053#0#PHP" />
-          </folding>
+        <state relative-caret-position="297">
+          <caret line="152" column="120" selection-start-line="152" selection-start-column="120" selection-end-line="152" selection-end-column="120" />
         </state>
       </provider>
     </entry>
