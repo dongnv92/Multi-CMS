@@ -38,53 +38,53 @@ switch ($path[2]){
         ?>
         <div class="row">
             <div class="col-lg-4">
-                <div class="card card-bordered">
-                    <div class="card-inner border-bottom">
-                        <div class="card-title-group">
-                            <div class="card-title"><h6 class="title"><?=$config['text']['title_card']?></h6></div>
-                            <div class="card-tools">
-                                <?=$config['text']['tool_card']?>
-                            </div>
-                        </div>
+                <?=formInputText('meta_name', [
+                    'label' => $config['text']['field_name'],
+                    'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.',
+                    'icon'  => '<em class="icon ni ni-slack-hash"></em>'
+                ])?>
+                <?php
+                if($config['fields']['url']){
+                    echo formInputText('meta_url', [
+                        'label' => $config['text']['field_url'],
+                        'note'  => 'Chuỗi cho đường dẫn tĩnh là phiên bản của tên hợp chuẩn với Đường dẫn (URL). Chuỗi này bao gồm chữ cái thường, số và dấu gạch ngang (-).',
+                        'icon'  => '<em class="icon ni ni-link"></em>'
+                    ]);
+                }
+                if($config['fields']['cat_parent']){
+                    echo formInputSelect('meta_parent', $list_cate_option, [
+                        'label' => 'Chuyên mục cha',
+                        'note'  => 'Chỉ định một chuyên mục Cha để tạo thứ bậc. Ví dụ, bạn tạo chuyên mục Album nhạc thì có thể làm cha của chuyên mục Album nhạc Việt Nam và Album nhạc quốc tế.'
+                    ]);
+                }
+                if($config['fields']['des']){
+                    echo formInputTextarea('meta_des', [
+                        'label'         => 'Mô tả',
+                        'placeholder'   => 'Nhập mô tả chuyên mục',
+                        'rows'          => '5',
+                        'note'          => 'Thông thường mô tả này không được sử dụng trong các giao diện, tuy nhiên có vài giao diện có thể hiển thị mô tả này.'
+                    ]);
+                }
+                if($config['fields']['image']){
+                ?>
+                <div class="upload-zone">
+                    <div class="dz-message" data-dz-message>
+                        <span class="dz-message-text">Drag and drop file</span>
+                        <span class="dz-message-or">or</span>
+                        <button class="btn btn-primary">SELECT</button>
                     </div>
-                    <div class="card-inner">
-                        <?=formInputText('meta_name', [
-                            'label' => $config['text']['field_name'],
-                            'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.'
-                        ])?>
-                        <?php
-                        if($config['fields']['url']){
-                            echo formInputText('meta_url', [
-                                'label' => $config['text']['field_url'],
-                                'note'  => 'Chuỗi cho đường dẫn tĩnh là phiên bản của tên hợp chuẩn với Đường dẫn (URL). Chuỗi này bao gồm chữ cái thường, số và dấu gạch ngang (-).',
-                                'icon'  => '<em class="icon ni ni-link"></em>'
-                            ]);
-                        }
-                        if($config['fields']['cat_parent']){
-                            echo formInputSelect('meta_parent', $list_cate_option, [
-                                'label' => 'Chuyên mục cha',
-                                'note'  => 'Chỉ định một chuyên mục Cha để tạo thứ bậc. Ví dụ, bạn tạo chuyên mục Album nhạc thì có thể làm cha của chuyên mục Album nhạc Việt Nam và Album nhạc quốc tế.'
-                            ]);
-                        }
-                        if($config['fields']['des']){
-                            echo formInputTextarea('meta_des', [
-                                'label'         => 'Mô tả',
-                                'placeholder'   => 'Nhập mô tả chuyên mục',
-                                'rows'          => '5',
-                                'note'          => 'Thông thường mô tả này không được sử dụng trong các giao diện, tuy nhiên có vài giao diện có thể hiển thị mô tả này.'
-                            ]);
-                        }
-                        ?>
-                        <div class="text-right">
-                            <?=formButton($config['text']['bt_add'], [
-                                'id'    => 'category_add',
-                                'class' => 'btn btn-secondary',
-                                'type'  => 'submit',
-                                'name'  => 'submit',
-                                'value' => 'submit'
-                            ]);?>
-                        </div>
-                    </div>
+                </div>
+                <?php
+                }
+                ?>
+                <div class="text-right">
+                    <?=formButton($config['text']['bt_add'], [
+                        'id'    => 'category_add',
+                        'class' => 'btn btn-secondary',
+                        'type'  => 'submit',
+                        'name'  => 'submit',
+                        'value' => 'submit'
+                    ]);?>
                 </div>
             </div>
             <div class="col-lg-8">

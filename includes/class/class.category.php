@@ -22,9 +22,9 @@ class Category{
                             'field_url'     => 'Đường dẫn URL',
                             'bt_add'        => 'Thêm chuyên mục mới'
                         ],
-                        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true],
+                        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true, 'image' => true],
                         'permission'    => ['blog', 'category'],
-                        'type'          => 'code_category',
+                        'type'          => 'blog_category',
                         'breadcrumbs'   => [
                             'title'     => 'Chuyên mục Blog',
                             'url'       => [URL_ADMIN . '/blog' => 'Blog'],
