@@ -49,7 +49,7 @@ class meta{
 
     public function get_data_showall(){
         $db     = $this->db;
-        $data   = $db->select("{$this->meta_id}, {$this->meta_des}, {$this->meta_name}, {$this->meta_parent}, {$this->meta_time}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
+        $data   = $db->select("{$this->meta_image}, {$this->meta_id}, {$this->meta_des}, {$this->meta_name}, {$this->meta_parent}, {$this->meta_time}, {$this->meta_url}")->from($this->db_table)->where($this->meta_type, $this->type)->fetch();
         $data   = $this->recursiveDatabase($data);
         return $data;
     }
@@ -122,7 +122,7 @@ class meta{
     public function delete($id){
         // Nếu chưa có id hoặc sai định dạng int thì báo lỗi
         if(!validate_int($id) || !$id)
-            return get_response_array(311, 'ID phải là dạng số.');
+            return get_response_array(311, 'ID phải là dạng số. '.$id);
 
         $db     = $this->db;
         $meta   = $db->select('COUNT(*) AS count, meta_image')->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->fetch_first();
@@ -134,10 +134,10 @@ class meta{
         if($this->type == 'role'){
             // Nếu id là id đặc biệt thì báo lỗi
             if($id == get_config('role_special'))
-                return get_response_array(302, 'Không thể xóa dữ liệu này!');
+                return get_response_array(302, 'Không thể xóa dữ liệu này, đây là vai trò thành viên đặc biệt!');
             // Nếu id là id mặc định thì báo lỗi
             if($id == get_config('role_default'))
-                return get_response_array(302, 'Không thể xóa dữ liệu này!');
+                return get_response_array(302, 'Không thể xóa dữ liệu này! đây là vai trò thành viên mặc định');
 
         }
 
@@ -319,7 +319,7 @@ class meta{
             'meta_des'      => $db->escape($_REQUEST[$this->meta_des]),
             'meta_url'      => $db->escape($_REQUEST[$this->meta_url]),
             'meta_info'     => $meta_info ? $db->escape($meta_info) : '',
-            'meta_image'   => get_config('no_image'),
+            'meta_image'    => get_config('no_image'),
             'meta_parent'   => $db->escape($_REQUEST[$this->meta_parent]),
             'meta_user'     => $me['user_id'],
             'meta_time'     => get_date_time()

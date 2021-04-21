@@ -1,7 +1,66 @@
 <?php
 require '../init.php';
+$text[] = '';
+$text['404'] = '404';
+$text['Forbidden'] = 'Forbidden';
+
 header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
+    case 'category':
+        switch ($path[2]){
+            default:
+                $category   = new Category($path[2]);
+                $config     = $category->getConfig();
+                if(!$config){
+                    exit($text['404']);
+                }
+
+                // Kiểm tra sự cho phép truy cập
+                if(!$role[$config['permission'][0]][$config['permission'][1]]){
+                    exit($text['Forbidden']);
+                }
+                ?>
+                //<script>
+                $(document).ready(function () {
+                    // Xóa chuyên mục
+                    $('a[data-type=delete]').on('click', function (e) {
+                        var id = $(this).data('id');
+                        Swal.fire({
+                            title: "Xóa chuyên mục",
+                            text: "Bạn có muốn xóa chuyên mục này không?",
+                            icon: 'danger',
+                            showCancelButton: true,
+                            confirmButtonText: 'Xóa',
+                            showLoaderOnConfirm: true,
+                        }).then(function (result) {
+                            if (result.value) {
+                                var ajax = $.ajax({
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/delete/{$path[2]}"?>/' + id,
+                                    method      : 'POST',
+                                    dataType    : 'json',
+                                });
+                                ajax.done(function (data) {
+                                    if(data.response == 200){
+                                        Swal.fire("Xóa chuyên mục", "Xóa chuyên mục thành công!", "success");
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }else{
+                                        Swal.fire("Xóa chuyên mục", data.message, "error");
+                                    }
+                                });
+                                ajax.fail(function( jqXHR, textStatus ) {
+                                    console.log("Request failed: " + textStatus );
+                                });
+                            }
+                        });
+                        e.preventDefault();
+                    });
+                });
+                <?php
+                break;
+        }
+        break;
     case 'plugin':
             switch ($path[2]){
                 default:
@@ -635,21 +694,6 @@ switch ($path[1]){
                         e.preventDefault();
                     });
                 });
-                <?php
-                break;
-        }
-        break;
-    case 'category':
-        switch ($path[2]){
-            default:
-                $category   = new Category($path[2]);
-                $config     = $category->getConfig();
-                if(!$config || !$role[$config['permission'][0]][$config['permission'][1]]){
-                    echo "Forbidden";
-                    exit();
-                }
-                ?>
-
                 <?php
                 break;
         }

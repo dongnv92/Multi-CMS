@@ -4,7 +4,7 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "KPLUS.VN List",
-    "status": "not_active",
+    "status": "active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
@@ -21,7 +21,7 @@
             "icon": "<em class=\"icon ni ni-kickstarter\"><\/em>\n",
             "child": [
                 {
-                    "text": "Danh s\u00e1ch",
+                    "text": "Danh sách",
                     "url": "URL_ADMIN\/kplus\/?kplus_status=unregistered",
                     "roles": [
                         "kplus",
@@ -41,7 +41,7 @@
                     ]
                 },
                 {
-                    "text": "Th\u00eam m\u1edbi",
+                    "text": "Thêm mới",
                     "url": "URL_ADMIN\/kplus\/add",
                     "roles": [
                         "kplus",
@@ -66,7 +66,7 @@
     },
     "role_text": {
         "": "KPLUS",
-        "manager": "Qu\u1ea3n l\u00fd",
-        "add": "Th\u00eam m\u1edbi"
+        "manager": "Quản lý",
+        "add": "Thêm mới"
     }
 }

@@ -1,6 +1,7 @@
 <?php
 require_once '../init.php';
 require_once ABSPATH . 'includes/function-admin.php';
+require_once ABSPATH . PATH_ADMIN .'/includes/function.php';
 
 if(!$me){
     redirect(URL_LOGIN);

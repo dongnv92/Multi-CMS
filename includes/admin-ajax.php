@@ -1,6 +1,32 @@
 <?php
 require_once '../init.php';
+$text[] = '';
+$text['404'] = '404';
+$text['Forbidden'] = 'Forbidden';
+$text['not_login'] = 'Error Login';
 switch ($path[1]){
+    case 'category':
+        switch ($path[2]){
+            case 'delete':
+                if(!$me){
+                    exit($text['not_login']);
+                }
+                $category   = new Category($path[3]);
+                $config     = $category->getConfig();
+                if(!$config){
+                    exit($text['404']);
+                }
+                // Kiểm tra sự cho phép truy cập
+                if(!$role[$config['permission'][0]][$config['permission'][1]]){
+                    exit($text['Forbidden']);
+                }
+
+                $role   = new meta($database, $config['type']);
+                $delete = $role->delete($path[4]);
+                echo encode_json($delete);
+                break;
+        }
+        break;
     case 'plugin':
             switch ($path[2]){
                 default:

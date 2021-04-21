@@ -11,6 +11,36 @@
     "public_class": [
         "includes\/class.code.php"
     ],
+    "category" : {
+        "text": {
+            "title": "Chuyên mục mã nguồn",
+            "title_update": "Cập nhật chuyên mục mã nguồn",
+            "title_card": "Thông tin chuyên mục mã nguồn",
+            "tool_card": "<a href=\"#\" class=\"link\">Xem tất cả<\/a>",
+            "field_name": "Tên chuyên mục",
+            "field_des": "Mô tả",
+            "field_url": "Đường dẫn",
+            "bt_add": "Thêm chuyên mục mới",
+            "bt_update": "Cập nhật chuyên mục"
+        },
+        "fields": {
+            "url": true,
+            "cat_parent": true,
+            "des": true
+        },
+        "permission": [
+            "code",
+            "category"
+        ],
+        "type": "code_category",
+        "breadcrumbs": {
+            "title": "Chuyên mục mã nguồn",
+            "url": {
+                "URL_ADMIN\/code": "Blog"
+            },
+            "active": "Chuyên mục"
+        }
+    },
     "menu": [
         {
             "text": "Quản lý Code",
