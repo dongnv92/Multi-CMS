@@ -29,6 +29,9 @@ class Kplus{
             case '1150103183':
                 return 'Tây';
                 break;
+            case '811726046':
+                return 'Ronaldo';
+                break;
             default:
                 return '---';
                 break;

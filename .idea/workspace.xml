@@ -18,8 +18,22 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="152" column="120" selection-start-line="152" selection-start-column="120" selection-end-line="152" selection-end-column="120" />
+            <state relative-caret-position="310">
+              <caret line="164" column="173" selection-start-line="164" selection-start-column="173" selection-end-line="164" selection-end-column="173" />
+              <folding>
+                <element signature="e#843#1101#0#PHP" />
+                <element signature="e#1162#3377#0#PHP" />
+                <element signature="e#3633#6916#0#PHP" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="350">
+              <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -75,6 +89,7 @@
         <option value="$PROJECT_DIR$/includes/class/class.category.php" />
         <option value="$PROJECT_DIR$/admin/category.php" />
         <option value="$PROJECT_DIR$/includes/function-javascript.php" />
+        <option value="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" />
         <option value="$PROJECT_DIR$/content/plugin/telegram/includes/api.php" />
       </list>
     </option>
@@ -191,10 +206,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="116480000" />
+    <option name="totallyTimeSpent" value="117967000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20045386" />
@@ -300,13 +315,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="334">
           <caret line="25" column="10" lean-forward="true" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6417">
-          <caret line="609" column="20" selection-start-line="609" selection-start-column="20" selection-end-line="609" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -558,10 +566,22 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="350">
+          <caret line="32" column="31" selection-start-line="32" selection-start-column="31" selection-end-line="32" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/telegram/includes/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="152" column="120" selection-start-line="152" selection-start-column="120" selection-end-line="152" selection-end-column="120" />
+        <state relative-caret-position="310">
+          <caret line="164" column="173" selection-start-line="164" selection-start-column="173" selection-end-line="164" selection-end-column="173" />
+          <folding>
+            <element signature="e#843#1101#0#PHP" />
+            <element signature="e#1162#3377#0#PHP" />
+            <element signature="e#3633#6916#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>

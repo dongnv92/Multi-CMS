@@ -5,6 +5,7 @@ switch ($path[2]){
     case 'bot':
         $otpsim_apikey      = 'c0de81ffe776dc041b0efeabdbdc7d07';
         $otpsim_service     = 103; // 256: Kplus, Dịch vụ khác: 28
+        $otpsim_service_vie = 239; // 256: Vie ON, Dịch vụ khác: 28
         $update             = json_decode(file_get_contents("php://input"), TRUE);
         $chatId             = $update["message"]["chat"]["id"];
         $message_chat       = $update["message"]["text"];
@@ -140,8 +141,9 @@ switch ($path[2]){
                 break;
             // SMS NEW
             case '/sn':
+            case '/sv':
                 // Check quyền truy cập
-                if(!in_array($chatId, ['823657709', '1150103183'])){
+                if(!in_array($chatId, ['823657709', '1150103183', '811726046'])){
                     $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
                     exit();
                 }
@@ -150,7 +152,7 @@ switch ($path[2]){
                 exit();*/
 
                 $url_fetch  = 'http://otpsim.com/api/phones/request';
-                $fetch      = curl($url_fetch, ['token' => $otpsim_apikey, 'service' => $otpsim_service, 'network' => '3'], 'GET');
+                $fetch      = curl($url_fetch, ['token' => $otpsim_apikey, 'service' => ($message_key == '/sn' ? $otpsim_service : $otpsim_service_vie), 'network' => '3'], 'GET');
                 $fetch      = json_decode($fetch, true);
                 if($fetch['status_code'] == 200){
                     function otpsim_get_balance(){
@@ -160,7 +162,7 @@ switch ($path[2]){
                         $fetch      = json_decode($fetch, true);
                         return number_format($fetch['data']['balance'], 0, '', '.');
                     }
-                    $telegram->sendMessage("Phone: 0{$fetch['data']['phone_number']}\nSố dư: ". otpsim_get_balance() ."₫\n/sc_{$fetch['data']['session']}\n#get_sms");
+                    $telegram->sendMessage("Phone: 0{$fetch['data']['phone_number']}\nSố dư: ". ($chatId == '823657709' ? otpsim_get_balance() : 'You do not have permission.') ."₫\n/sc_{$fetch['data']['session']}\n#get_sms");
                     // Nếu không phải admin thì thông báo cho admin khi có thêm đơn SMS mới
                     $kplus  = new Kplus($database);
                     if($chatId != '823657709'){
