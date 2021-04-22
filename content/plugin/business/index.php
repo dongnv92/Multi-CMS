@@ -125,6 +125,11 @@ switch ($path[2]){
                     require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
                     exit();
                 }
+
+                $report = new pBusiness();
+                $data   = $report->getMyReport();
+                $param  = get_param_defaul();
+
                 $header['title']    = 'Báo cáo KD';
                 require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                 echo admin_breadcrumbs('Báo cáo KD', [URL_ADMIN . "/{$path[1]}/" => 'Phòng Kinh Doanh', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Báo cáo'],'Báo cáo');
@@ -195,63 +200,38 @@ switch ($path[2]){
                                 <table class="table table-tranx table-hover">
                                     <thead>
                                     <tr class="tb-tnx-head">
-                                        <th class="tb-tnx-id"><span class="">#</span></th>
-                                        <th class="tb-tnx-info">
-                                            <span class="tb-tnx-desc d-none d-sm-inline-block">
-                                                <span>Bill For</span>
-                                            </span>
-                                            <span class="tb-tnx-date d-md-inline-block d-none">
-                                                <span class="d-md-none">Date</span>
-                                                <span class="d-none d-md-block">
-                                                    <span>Issue Date</span>
-                                                    <span>Due Date</span>
-                                                </span>
-                                            </span>
-                                        </th>
-                                        <th class="tb-tnx-amount is-alt">
-                                            <span class="tb-tnx-total">Total</span>
-                                            <span class="tb-tnx-status d-none d-md-inline-block">Status</span>
-                                        </th>
-                                        <th class="tb-tnx-action">
-                                            <span>&nbsp;</span>
-                                        </th>
+                                        <th width="5%">STT</th>
+                                        <th width="10%">Tên Cty</th>
+                                        <th width="10%">Địa chỉ</th>
+                                        <th width="10%">Liên hệ</th>
+                                        <th width="5%">Nhu cầu VC</th>
+                                        <th width="10%">DVKH Đang Dùng</th>
+                                        <th>Nhu cầu KH</th>
+                                        <th>Cách tiếp cận</th>
+                                        <th>Loại KH</th>
+                                        <th>Ghi chú</th>
+                                        <th>Thời gian</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="tb-tnx-item">
-                                        <td class="tb-tnx-id">
-                                            <a href="#"><span>4947</span></a>
-                                        </td>
-                                        <td class="tb-tnx-info">
-                                            <div class="tb-tnx-desc">
-                                                <span class="title">Enterprize Year Subscrition</span>
-                                            </div>
-                                            <div class="tb-tnx-date">
-                                                <span class="date">10-05-2019</span>
-                                                <span class="date">10-13-2019</span>
-                                            </div>
-                                        </td>
-                                        <td class="tb-tnx-amount is-alt">
-                                            <div class="tb-tnx-total">
-                                                <span class="amount">$599.00</span>
-                                            </div>
-                                            <div class="tb-tnx-status">
-                                                <span class="badge badge-dot badge-warning">Due</span>
-                                            </div>
-                                        </td>
-                                        <td class="tb-tnx-action">
-                                            <div class="dropdown">
-                                                <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-xs">
-                                                    <ul class="link-list-plain">
-                                                        <li><a href="#">View</a></li>
-                                                        <li><a href="#">Edit</a></li>
-                                                        <li><a href="#">Remove</a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    <?php $i = 0; foreach ($data['data'] AS $_data){ $i++;?>
+                                        <tr class="tb-tnx-item">
+                                            <td><?=$i?></td>
+                                            <td><?=$_data['report_company_name']?></td>
+                                            <td><?=$_data['report_company_address']?></td>
+                                            <td>
+                                                <p><?=$_data['report_contact_name'] . ' ('. $_data['report_contact_phone'] .')'?></p>
+                                                <?=$_data['report_company_email']?$_data['report_company_email']:'---'?>
+                                            </td>
+                                            <td><?=$report->listCustomerNeedOption('', $_data['report_customer_need'])?></td>
+                                            <td><?=$_data['report_using_company']?$_data['report_using_company']:'---'?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    <?php }?>
                                     </tbody>
                                 </table>
                             </div>

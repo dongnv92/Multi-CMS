@@ -16,15 +16,6 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/business/includes/class.business.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="481">
-              <caret line="72" column="96" selection-start-line="72" selection-start-column="77" selection-end-line="72" selection-end-column="96" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/content/plugin/business/includes/ajax.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="238">
@@ -36,20 +27,34 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/content/plugin/business/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="736">
-              <caret line="259" column="40" selection-start-line="259" selection-start-column="40" selection-end-line="259" selection-end-column="40" />
+            <state relative-caret-position="369">
+              <caret line="226" column="117" selection-start-line="226" selection-start-column="117" selection-end-line="226" selection-end-column="117" />
               <folding>
-                <element signature="e#15197#15203#1#HTML" expanded="true" />
+                <element signature="e#83#7042#0#PHP" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.product.php">
+        <entry file="file://$PROJECT_DIR$/content/plugin/business/includes/class.business.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="372" column="91" lean-forward="true" selection-start-line="372" selection-start-column="91" selection-end-line="372" selection-end-column="91" />
+            <state relative-caret-position="170">
+              <caret line="10" column="59" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-103">
+              <folding>
+                <element signature="e#105#14477#0#PHP" />
+                <element signature="e#14482#28874#0#PHP" />
+                <element signature="e#28879#43395#0#PHP" />
+                <element signature="e#43400#54430#0#PHP" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -128,6 +133,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -185,7 +191,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -247,19 +252,20 @@
       <workItem from="1618104914653" duration="3272000" />
       <workItem from="1618224383673" duration="50000" />
       <workItem from="1618972138370" duration="12357000" />
+      <workItem from="1619105440680" duration="3026000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="146364000" />
+    <option name="totallyTimeSpent" value="149390000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14232409" />
+      <window_info content_ui="combo" id="Project" order="2" weight="0.14447807" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -280,7 +286,7 @@
     <layout-to-restore>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14232409" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14447807" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -303,20 +309,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/content/plugin/kplus/includes/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="63" column="52" lean-forward="true" selection-start-line="63" selection-start-column="52" selection-end-line="63" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/customer/config.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="334">
-          <caret line="25" column="10" lean-forward="true" selection-start-line="25" selection-start-column="10" selection-end-line="25" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test/index.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -620,15 +612,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/class.product.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="770">
-          <caret line="372" column="91" lean-forward="true" selection-start-line="372" selection-start-column="91" selection-end-line="372" selection-end-column="91" />
+        <state relative-caret-position="306">
+          <caret line="162" column="5" lean-forward="true" selection-start-line="71" selection-start-column="4" selection-end-line="162" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/business/includes/class.business.php">
+    <entry file="file://$PROJECT_DIR$/content/plugin/product/includes/ajax.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/product/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="72" column="96" selection-start-line="72" selection-start-column="77" selection-end-line="72" selection-end-column="96" />
+        <state relative-caret-position="-103">
+          <folding>
+            <element signature="e#105#14477#0#PHP" />
+            <element signature="e#14482#28874#0#PHP" />
+            <element signature="e#28879#43395#0#PHP" />
+            <element signature="e#43400#54430#0#PHP" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -639,12 +639,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/business/includes/class.business.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="59" selection-start-line="10" selection-start-column="39" selection-end-line="10" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/business/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="736">
-          <caret line="259" column="40" selection-start-line="259" selection-start-column="40" selection-end-line="259" selection-end-column="40" />
+        <state relative-caret-position="369">
+          <caret line="226" column="117" selection-start-line="226" selection-start-column="117" selection-end-line="226" selection-end-column="117" />
           <folding>
-            <element signature="e#15197#15203#1#HTML" expanded="true" />
+            <element signature="e#83#7042#0#PHP" />
           </folding>
         </state>
       </provider>
