@@ -25,7 +25,7 @@ class Category{
                             'bt_add'        => 'Thêm chuyên mục mới',
                             'bt_update'     => 'Cập nhật chuyên mục'
                         ],
-                        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true],
+                        'fields' => ['url' => true, 'cat_parent' => true, 'des' => true, 'image' => true],
                         'permission'    => ['blog', 'category'],
                         'type'          => 'blog_category',
                         'breadcrumbs'   => [

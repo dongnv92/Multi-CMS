@@ -1,0 +1,66 @@
+{
+    "name": "Phòng Kinh Doanh",
+    "unique_identifier": "business",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Quản lý, BC phòng Kinh Doanh ...",
+    "status": "active",
+    "author": "DONG NGUYEN",
+    "website": "http:\/\/localhost\/dong\/multicms\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php"
+    },
+    "public_class": [
+        "includes\/class.business.php"
+    ],
+    "menu": [
+        {
+            "text": "Phòng KD",
+            "icon": "<em class=\"icon ni ni-growth\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Báo cáo KD",
+                    "url": "URL_ADMIN\/business\/report",
+                    "roles": [
+                        "business",
+                        "report"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "business",
+                            "report"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Báo cáo Telesale",
+                    "url": "URL_ADMIN\/business\/telesale",
+                    "roles": [
+                        "business",
+                        "telesale"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "business",
+                            "telesale"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "business": {
+            "report": false,
+            "telesale": false
+        }
+    },
+    "role_text": {
+        "": "Quản lý phòng KD",
+        "report": "Báo cáo KD",
+        "telesale": "Báo cáo Telesale"
+    }
+}

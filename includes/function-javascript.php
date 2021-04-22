@@ -72,7 +72,7 @@ switch ($path[1]){
                     ?>
                     //<script>
                     $(document).ready(function () {
-                        $('button[data-action=change_status]').on('click', function () {
+                        $('a[data-action=change_status]').on('click', function () {
                             var status  = $(this).data('type');
                             var name    = $(this).data('name');
                             var text    = (status == 'active' ? 'NGỪNG KÍCH HOẠT' : 'KÍCH HOẠT');

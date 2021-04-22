@@ -4,14 +4,14 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "Quản lý, upload mã nguồn ...",
-    "status": "active",
+    "status": "not_active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": [],
     "public_class": [
         "includes\/class.code.php"
     ],
-    "category" : {
+    "category": {
         "text": {
             "title": "Chuyên mục mã nguồn",
             "title_update": "Cập nhật chuyên mục mã nguồn",

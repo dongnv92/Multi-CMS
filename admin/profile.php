@@ -18,7 +18,7 @@ switch ($path[2]){
                     'onRemove'      => 'onFilesRemoveCallback'//A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
                 ));
 
-/*                echo '<pre>';
+                /*echo '<pre>';
                 print_r($data_upload);
                 echo '</pre>';
                 break;*/
@@ -112,7 +112,7 @@ switch ($path[2]){
         $user_role          = new meta($database, 'role');
         $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Cập nhật hồ sơ', 'Cập nhật hồ sơ','Cập nhật hồ sơ', [URL_ADMIN . '/profile/' => 'Hồ sơ']);
+        echo admin_breadcrumbs('Cập nhật hồ sơ', [URL_ADMIN . '/profile/' => 'Hồ sơ'],'Cập nhật hồ sơ');
         echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row justify-content-center">

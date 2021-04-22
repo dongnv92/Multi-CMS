@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th3 26, 2021 lúc 11:30 AM
+-- Thời gian đã tạo: Th4 22, 2021 lúc 12:45 PM
 -- Phiên bản máy phục vụ: 10.1.35-MariaDB
 -- Phiên bản PHP: 7.2.9
 
@@ -21,6 +21,37 @@ SET time_zone = "+00:00";
 --
 -- Cơ sở dữ liệu: `cms`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `dong_business_report`
+--
+
+CREATE TABLE `dong_business_report` (
+  `report_id` int(11) NOT NULL COMMENT 'ID',
+  `report_company_name` varchar(1000) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Tên công ty',
+  `report_company_address` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Địa chỉ công ty',
+  `report_company_email` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Email Công ty',
+  `report_contact_phone` varchar(100) COLLATE utf8_unicode_ci NOT NULL COMMENT 'Số điện thoại liên hệ',
+  `report_contact_name` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Tên người liên hệ',
+  `report_shipping_needs` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Nhu cầu vận chuyển (Bộ,Bay, Theo chuyến)',
+  `report_using_company` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'KH đang dùng đơn vị vận chuyển nào?',
+  `report_customer_need` varchar(2000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Nhu cầu KH',
+  `report_approach` varchar(500) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Cách tiếp cận KH',
+  `report_feedback` varchar(3000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Phản hồi của KH',
+  `report_customer_type` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Loại KH, mới, cũ',
+  `report_note` varchar(3000) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'Ghi chú',
+  `report_user` int(11) NOT NULL,
+  `report_time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `dong_business_report`
+--
+
+INSERT INTO `dong_business_report` (`report_id`, `report_company_name`, `report_company_address`, `report_company_email`, `report_contact_phone`, `report_contact_name`, `report_shipping_needs`, `report_using_company`, `report_customer_need`, `report_approach`, `report_feedback`, `report_customer_type`, `report_note`, `report_user`, `report_time`) VALUES
+(2, 'Công Ty Dược Phẩm Đa Phúc', '395 Nguyễn Khang, Hà Nội', '', '0393506779', 'Ms Khánh', 'các thùng dược, sản lượng khoảng 100 kg', 'Thành Danh', 'vehicle_fly', 'direct', ' Tầm cuối tháng 4, đầu tháng 5 sẽ test thử 1 đơn\r\n', 'old', ' gửi báo giá cho khách hàng tham khảo', 1, '2021-04-22 17:09:38');
 
 -- --------------------------------------------------------
 
@@ -4696,10 +4727,10 @@ CREATE TABLE `dong_meta` (
 --
 
 INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_image`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Administrator', 'Người quản trị, sáng lập và điều hành ứng dụng.', 'administrator', 'a:4:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:4:\"code\";a:2:{s:7:\"manager\";b:1;s:3:\"add\";b:1;}}', '', 0, 1, '2020-06-24 17:13:25'),
+(1, 'role', 'Administrator', 'Người quản trị, sáng lập và điều hành ứng dụng.', 'administrator', 'a:4:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:8:\"business\";a:2:{s:6:\"report\";b:1;s:8:\"telesale\";b:1;}}', '', 0, 1, '2020-06-24 17:13:25'),
 (2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', 'quan-tri-vien', 'a:11:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}s:5:\"excel\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:5:\"kplus\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:4:\"momo\";a:1:{s:7:\"manager\";b:0;}s:6:\"pickup\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:3:\"pos\";a:2:{s:4:\"sell\";b:0;s:3:\"buy\";b:0;}s:7:\"product\";a:6:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:8:\"category\";b:0;s:5:\"brand\";b:0;s:6:\"delete\";b:0;}s:8:\"telegram\";a:1:{s:7:\"manager\";b:0;}}', '', 0, 1, '2020-06-24 17:14:52'),
 (4, 'role', 'Thành viên', 'Thành viên bình thường', 'thanh-vien', 'a:11:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"customer\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}s:5:\"excel\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:5:\"kplus\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:4:\"momo\";a:1:{s:7:\"manager\";b:0;}s:6:\"pickup\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:3:\"pos\";a:2:{s:4:\"sell\";b:0;s:3:\"buy\";b:0;}s:7:\"product\";a:6:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:8:\"category\";b:0;s:5:\"brand\";b:0;s:6:\"delete\";b:0;}s:8:\"telegram\";a:1:{s:7:\"manager\";b:0;}}', '', 0, 1, '2020-06-26 15:09:13'),
-(5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', '', 0, 1, '2020-07-03 14:00:31'),
+(5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', 'content/uploads/category/2021/04/22/byO9McxaRYLr2P5.jpg', 0, 1, '2020-07-03 14:00:31'),
 (6, 'blog_category', 'Tin tức', '', 'tin-tuc', '', '', 0, 1, '2020-07-03 14:16:01'),
 (10, 'blog_category', 'Công nghệ', 'Tin tức công nghệ', 'cong-nghe', '', '', 6, 1, '2020-07-08 10:05:45'),
 (11, 'blog_category', 'Thời sự', 'Tin tức thời sự', 'thoi-su', '', '', 6, 1, '2020-07-08 10:30:43'),
@@ -4853,6 +4884,12 @@ INSERT INTO `dong_user` (`user_id`, `user_login`, `user_password`, `user_name`, 
 --
 
 --
+-- Chỉ mục cho bảng `dong_business_report`
+--
+ALTER TABLE `dong_business_report`
+  ADD PRIMARY KEY (`report_id`);
+
+--
 -- Chỉ mục cho bảng `dong_code`
 --
 ALTER TABLE `dong_code`
@@ -4918,6 +4955,12 @@ ALTER TABLE `dong_user`
 --
 
 --
+-- AUTO_INCREMENT cho bảng `dong_business_report`
+--
+ALTER TABLE `dong_business_report`
+  MODIFY `report_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID', AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT cho bảng `dong_code`
 --
 ALTER TABLE `dong_code`
@@ -4951,7 +4994,7 @@ ALTER TABLE `dong_kplus`
 -- AUTO_INCREMENT cho bảng `dong_meta`
 --
 ALTER TABLE `dong_meta`
-  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `meta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT cho bảng `dong_post`

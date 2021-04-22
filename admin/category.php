@@ -28,13 +28,39 @@ switch ($path[2]){
 
         // Cập nhật
         if($path[3] && in_array($path[3], ['update'])){
-
             if($_REQUEST['submit']){
-                $add = $meta->update($path[4]);
-                if($add['response'] != '200'){
-                    $notice = alert('error', $add['message']);
+                $update = $meta->update($path[4]);
+                if($update['response'] != '200'){
+                    $notice = alert('error', $update['message']);
                 }else{
-                    $notice = alert('success', $add['message']);
+                    $notice = alert('success', $update['message']);
+                    require_once ABSPATH . 'includes/class/class.uploader.php';
+                    if($_FILES['meta_image']){
+                        $path_upload        = 'content/uploads/category/'.date('Y', time()).'/'.date('m', time()).'/'.date('d', time()).'/';
+                        $uploader           = new Uploader();
+                        $data_upload        = $uploader->upload($_FILES['meta_image'], array(
+                            'limit'         => 1, //Maximum Limit of files. {null, Number}
+                            'maxSize'       => 2, //Maximum Size of files {null, Number(in MB's)}
+                            'extensions'    => ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'], //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
+                            'required'      => true, //Minimum one file is required for upload {Boolean}
+                            'uploadDir'     => ABSPATH . $path_upload, //Upload directory {String}
+                            'title'         => array('auto', 15), //New file name {null, String, Array} *please read documentation in README.md
+                            'removeFiles'   => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
+                            'replace'       => false, //Replace the file if it already exists {Boolean}
+                            'onRemove'      => 'onFilesRemoveCallback'//A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
+                        ));
+
+                        if($data_upload['isSuccess']){
+                            $data_images    = $path_upload . $data_upload['data']['metas'][0]['name'];
+                            $update_image   = $meta->update_image($path[4], $data_images);
+                            if($update_image['response'] != 200){
+                                $notice_image   = alert('error', $update_image['message']);
+                            }
+                        }
+                        if($data_upload['hasErrors']){
+                            $notice_image   = alert('error', $data_upload['errors'][0][0]);
+                        }
+                    }
                 }
             }
 
@@ -51,11 +77,12 @@ switch ($path[2]){
             $header['title'] = $config['text']['title_update'];
             require_once 'admin-header.php';
             echo admin_breadcrumbs($config['breadcrumbs']['title'], $config['breadcrumbs']['url'],$config['breadcrumbs']['active']);
-            echo formOpen('', ['method' => 'POST']);
+            echo formOpen('', ['method' => 'POST', 'enctype' => true]);
             ?>
             <div class="row">
                 <div class="col-lg-8">
                     <?=$notice?$notice:''?>
+                    <?=$notice_image?$notice_image:''?>
                     <?=formInputText('meta_name', [
                         'label' => $config['text']['field_name'].' <code>*</code>',
                         'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.',
@@ -86,6 +113,19 @@ switch ($path[2]){
                             'note'          => 'Thông thường mô tả này không được sử dụng trong các giao diện, tuy nhiên có vài giao diện có thể hiển thị mô tả này.'
                         ]);
                     }
+                    if($config['fields']['image']){
+                        ?>
+                        <div class="form-group">
+                            <label class="form-label" for="customFileLabel">Ảnh</label>
+                            <div class="form-control-wrap">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="meta_image" id="meta_image_add">
+                                    <label class="custom-file-label" for="meta_image_add">Chọn File</label>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                    }
                     ?>
                     <div class="text-right">
                         <?=formButton($config['text']['bt_update'], [
@@ -103,6 +143,8 @@ switch ($path[2]){
             require_once 'admin-footer.php';
             break;
         }
+        // Cập nhật
+
 
         if($_REQUEST['submit']){
             $add = $meta->add();
@@ -110,6 +152,33 @@ switch ($path[2]){
                 $notice = alert('error', $add['message']);
             }else{
                 $notice = alert('success', $add['message']);
+                require_once ABSPATH . 'includes/class/class.uploader.php';
+                if($_FILES['meta_image']){
+                    $path_upload        = 'content/uploads/category/'.date('Y', time()).'/'.date('m', time()).'/'.date('d', time()).'/';
+                    $uploader           = new Uploader();
+                    $data_upload        = $uploader->upload($_FILES['meta_image'], array(
+                        'limit'         => 1, //Maximum Limit of files. {null, Number}
+                        'maxSize'       => 2, //Maximum Size of files {null, Number(in MB's)}
+                        'extensions'    => ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'], //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
+                        'required'      => true, //Minimum one file is required for upload {Boolean}
+                        'uploadDir'     => ABSPATH . $path_upload, //Upload directory {String}
+                        'title'         => array('auto', 15), //New file name {null, String, Array} *please read documentation in README.md
+                        'removeFiles'   => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
+                        'replace'       => false, //Replace the file if it already exists {Boolean}
+                        'onRemove'      => 'onFilesRemoveCallback'//A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
+                    ));
+
+                    if($data_upload['isSuccess']){
+                        $data_images    = $path_upload . $data_upload['data']['metas'][0]['name'];
+                        $update_image   = $meta->update_image($add['data'], $data_images);
+                        if($update_image['response'] != 200){
+                            $notice_image   = alert('error', $update_image['message']);
+                        }
+                    }
+                    if($data_upload['hasErrors']){
+                        $notice_image   = alert('error', $data_upload['errors'][0][0]);
+                    }
+                }
             }
         }
         $header['js']    = [
@@ -118,11 +187,12 @@ switch ($path[2]){
         $header['title'] = $config['text']['title'];
         require_once 'admin-header.php';
         echo admin_breadcrumbs($config['breadcrumbs']['title'], $config['breadcrumbs']['url'],$config['breadcrumbs']['active']);
-        echo formOpen('', ['method' => 'POST']);
+        echo formOpen('', ['method' => 'POST', 'enctype' => true]);
         ?>
         <div class="row">
             <div class="col-lg-4">
                 <?=$notice?$notice:''?>
+                <?=$notice_image?$notice_image:''?>
                 <?=formInputText('meta_name', [
                     'label' => $config['text']['field_name'].' <code>*</code>',
                     'note'  => 'Tên riêng sẽ hiển thị trên trang mạng của bạn.'
@@ -148,6 +218,19 @@ switch ($path[2]){
                         'rows'          => '5',
                         'note'          => 'Thông thường mô tả này không được sử dụng trong các giao diện, tuy nhiên có vài giao diện có thể hiển thị mô tả này.'
                     ]);
+                }
+                if($config['fields']['image']){
+                    ?>
+                    <div class="form-group">
+                        <label class="form-label" for="customFileLabel">Ảnh</label>
+                        <div class="form-control-wrap">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" name="meta_image" id="meta_image_add">
+                                <label class="custom-file-label" for="meta_image_add">Chọn File</label>
+                            </div>
+                        </div>
+                    </div>
+                    <?php
                 }
                 ?>
                 <div class="text-right">
@@ -190,8 +273,8 @@ switch ($path[2]){
                                                 </span>
                                             </a>
                                         </td>
-                                        <td><a href="#"><span><?=$_list_cate['meta_des']?$_list_cate['meta_des']:'---'?></span></a></td>
-                                        <td><a href="#"><span><?=$_list_cate['meta_url']?$_list_cate['meta_url']:'---'?></span></a></td>
+                                        <td><span><?=$_list_cate['meta_des']?$_list_cate['meta_des']:'---'?></span></td>
+                                        <td><span><?=$_list_cate['meta_url']?$_list_cate['meta_url']:'---'?></span></td>
                                         <td class="text-right">
                                             <ul class="nk-tb-actions gx-1">
                                                 <li>
