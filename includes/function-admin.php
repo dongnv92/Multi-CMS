@@ -1,5 +1,4 @@
 <?php
-
 function admin_error($title, $content, $title_sub = ''){
     $text = '<div class="card card-bordered">
         <div class="card-inner border-bottom">

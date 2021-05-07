@@ -14,6 +14,7 @@ $header = $header ? $header : ['title' => 'Trang quản trị'];
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/dashlite.css?ver=2.2.0">
     <link id="skin-default" rel="stylesheet" href="<?=URL_ADMIN_ASSETS?>assets/css/theme.css?ver=2.2.0">
+    <link rel="stylesheet" type="text/css" href="<?=URL_ADMIN_ASSETS?>assets/css/libs/bootstrap-icons.css">
     <?php foreach ($header['css'] AS $css){echo '<link rel="stylesheet" href="'. $css .'">'."\n";}?>
 </head>
 <body class="nk-body bg-lighter npc-general has-sidebar ">

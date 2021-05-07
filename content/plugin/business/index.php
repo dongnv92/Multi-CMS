@@ -197,7 +197,7 @@ switch ($path[2]){
                                 </div><!-- .card-title-group -->
                             </div><!-- .card-inner -->
                             <div class="card-inner p-0">
-                                <table class="table table-tranx table-hover">
+                                <table class="table table-responsive table-hover">
                                     <thead>
                                     <tr class="tb-tnx-head">
                                         <th width="5%">STT</th>

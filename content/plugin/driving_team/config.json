@@ -1,0 +1,66 @@
+{
+    "name": "Tổ Lái Xe",
+    "unique_identifier": "driving_team",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Quản lý tổ lái xe ...",
+    "status": "active",
+    "author": "DONG NGUYEN",
+    "website": "http:\/\/localhost\/dong\/driving_team\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php"
+    },
+    "public_class": [
+        "includes\/class.driving.php"
+    ],
+    "menu": [
+        {
+            "text": "Tổ Lái Xe",
+            "icon": "<i class=\"bi bi-truck\"></i>\n",
+            "child": [
+                {
+                    "text": "Kế Hoạch",
+                    "url": "URL_ADMIN\/driving_team\/plan",
+                    "roles": [
+                        "driving_team",
+                        "plan"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "driving_team",
+                            "plan"
+                        ]
+                    ]
+                },
+                {
+                    "text": "Báo cáo",
+                    "url": "URL_ADMIN\/driving_team\/report",
+                    "roles": [
+                        "driving_team",
+                        "report"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "driving_team",
+                            "report"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "driving_team": {
+            "plan": false,
+            "report": false
+        }
+    },
+    "role_text": {
+        "": "Quản lý tổ lái xe",
+        "plan": "Kế hoạch phát",
+        "report": "Xem báo cáo"
+    }
+}
