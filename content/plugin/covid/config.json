@@ -1,0 +1,65 @@
+{
+    "name": "Covid 2021",
+    "unique_identifier": "covid",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Quản lý danh sách các F huyện Mê Linh ...",
+    "status": "active",
+    "author": "DONG NGUYEN",
+    "website": "http:\/\/localhost\/dong\/covid\/",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php"
+    },
+    "public_class": [
+        "includes\/class.covid.php"
+    ],
+    "menu": [
+        {
+            "text": "Danh sách các F",
+            "icon": "<em class=\"icon ni ni-virus\"><\/em>\n",
+            "child": [
+                {
+                    "text": "Danh sách",
+                    "url": "URL_ADMIN\/covid\/",
+                    "roles": [
+                        "covid",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "covid",
+                            ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm danh sách",
+                    "url": "URL_ADMIN\/covid\/add",
+                    "roles": [
+                        "covid",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "covid",
+                            "add"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "covid": {
+            "manager": false,
+            "add": false
+        }
+    },
+    "role_text": {
+        "": "Quản lý tổ lái xe",
+        "manager": "Quản lý sanh sách",
+        "add": "Thêm danh sách"
+    }
+}

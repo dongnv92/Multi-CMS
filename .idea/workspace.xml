@@ -15,38 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/driving_team/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="40" column="37" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/code/config.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="3" column="12" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/includes/class/class.category.php">
+        <entry file="file://$PROJECT_DIR$/content/plugin/covid/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" column="104" selection-start-line="27" selection-start-column="104" selection-end-line="27" selection-end-column="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/content/plugin/driving_team/index.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
+            <state relative-caret-position="77">
+              <caret line="65" column="72" lean-forward="true" selection-start-line="65" selection-start-column="72" selection-end-line="65" selection-end-column="72" />
             </state>
           </provider>
         </entry>
@@ -64,11 +37,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/login.php" />
-        <option value="$USER_HOME$/Downloads/Compressed/dashliteadmin-22/dashliteadmin-22/dashlite-template/demo1/src/html/index.html" />
-        <option value="$PROJECT_DIR$/content/plugin/customer/config.json" />
-        <option value="$PROJECT_DIR$/content/plugin/momo/config.json" />
-        <option value="$PROJECT_DIR$/content/plugin/pos/config.json" />
         <option value="$PROJECT_DIR$/content/plugin/product/config.json" />
         <option value="$PROJECT_DIR$/content/plugin/telegram/config.json" />
         <option value="$PROJECT_DIR$/admin/admin-footer.php" />
@@ -89,7 +57,6 @@
         <option value="$PROJECT_DIR$/content/assets-admin/assets/js/editors.js" />
         <option value="$PROJECT_DIR$/content/assets-admin/assets/js/libs/editors/summernote.js" />
         <option value="$PROJECT_DIR$/includes/function.php" />
-        <option value="$PROJECT_DIR$/includes/function-form.php" />
         <option value="$PROJECT_DIR$/includes/class/Category.php" />
         <option value="$PROJECT_DIR$/init.php" />
         <option value="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" />
@@ -115,10 +82,16 @@
         <option value="$PROJECT_DIR$/content/plugin/driving_team/includes/class.driving.php" />
         <option value="$PROJECT_DIR$/content/plugin/driving_team/config.json" />
         <option value="$PROJECT_DIR$/content/plugin/driving_team/index.php" />
+        <option value="$PROJECT_DIR$/content/plugin/covid/includes/ajax.php" />
+        <option value="$PROJECT_DIR$/content/plugin/covid/includes/js.php" />
+        <option value="$PROJECT_DIR$/content/plugin/covid/includes/class.covid.php" />
+        <option value="$PROJECT_DIR$/content/plugin/covid/config.json" />
+        <option value="$PROJECT_DIR$/includes/function-form.php" />
+        <option value="$PROJECT_DIR$/content/plugin/covid/index.php" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-8" />
     <option name="width" value="676" />
     <option name="height" value="788" />
@@ -128,7 +101,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -139,6 +111,11 @@
             <path>
               <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
               <item name="multicms" type="462c0819:PsiDirectoryNode" />
+              <item name="admin" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
+              <item name="multicms" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -152,32 +129,27 @@
               <item name="multicms" type="462c0819:PsiDirectoryNode" />
               <item name="content" type="462c0819:PsiDirectoryNode" />
               <item name="plugin" type="462c0819:PsiDirectoryNode" />
-              <item name="code" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="multicms" type="b2602c69:ProjectViewProjectNode" />
-              <item name="multicms" type="462c0819:PsiDirectoryNode" />
-              <item name="includes" type="462c0819:PsiDirectoryNode" />
-              <item name="class" type="462c0819:PsiDirectoryNode" />
+              <item name="covid" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/content/plugin" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\dong\multicms\content\plugin" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -234,19 +206,20 @@
       <workItem from="1619147911997" duration="1271000" />
       <workItem from="1620095210281" duration="3061000" />
       <workItem from="1620183118376" duration="1301000" />
+      <workItem from="1620525245679" duration="4608000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155023000" />
+    <option name="totallyTimeSpent" value="159631000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14605543" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14750378" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -267,7 +240,7 @@
     <layout-to-restore>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="1" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.14447807" />
+      <window_info active="true" content_ui="combo" id="Project" order="2" visible="true" weight="0.1482602" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -290,41 +263,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/includes/class/class.user.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4245">
-          <caret line="244" column="71" lean-forward="true" selection-start-line="244" selection-start-column="71" selection-end-line="244" selection-end-column="71" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/includes/class/class.uploader.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4530">
-          <caret line="519" column="27" selection-start-line="519" selection-start-column="21" selection-end-line="519" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/code/includes/js.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="12" selection-start-line="2" selection-start-column="12" selection-end-line="2" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/code/includes/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="41" selection-start-line="1" selection-start-column="41" selection-end-line="1" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/code/includes/ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/code/assets/images/banner.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -472,20 +410,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/includes/function-form.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="241" column="24" lean-forward="true" selection-start-line="241" selection-start-column="8" selection-end-line="241" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/category.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="243" column="22" lean-forward="true" selection-start-line="235" selection-start-column="16" selection-end-line="243" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/kplus/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
@@ -616,13 +540,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/content/plugin/driving_team/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/driving_team/config.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="680">
@@ -632,8 +549,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/content/plugin/code/config.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="51">
           <caret line="3" column="12" selection-start-line="3" selection-start-column="5" selection-end-line="3" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/driving_team/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="54" selection-start-line="18" selection-start-column="54" selection-end-line="18" selection-end-column="54" />
         </state>
       </provider>
     </entry>
@@ -641,6 +565,55 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="459">
           <caret line="27" column="104" selection-start-line="27" selection-start-column="104" selection-end-line="27" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/covid/includes/ajax.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/covid/includes/class.covid.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="1" lean-forward="true" selection-start-line="3" selection-start-column="1" selection-end-line="3" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/covid/includes/js.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="8" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/covid/config.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="62" column="30" selection-start-line="62" selection-start-column="30" selection-end-line="62" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/category.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1018">
+          <caret line="243" column="22" lean-forward="true" selection-start-line="235" selection-start-column="16" selection-end-line="243" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/includes/function-form.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-14">
+          <caret line="278" column="9" selection-start-line="278" selection-start-column="9" selection-end-line="278" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/content/plugin/covid/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="65" column="72" lean-forward="true" selection-start-line="65" selection-start-column="72" selection-end-line="65" selection-end-column="72" />
         </state>
       </provider>
     </entry>

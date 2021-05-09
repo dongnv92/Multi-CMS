@@ -49,6 +49,41 @@ function formInputText($name, $attribute = ['']){
     $layout  = $attribute['layout'];
     $content = $form_attribute = $label = $icon = $error = $note = '';
     switch ($layout){
+        case 'date':
+            // Thiết lập các giá trị mặc định
+            $attribute['id']    = $attribute['id']  ? $attribute['id'] : "_$name";
+            foreach ($attribute AS $key => $value){
+                switch ($key){
+                    case 'label':
+                        $label .= $value ? '<label class="form-label-outlined" for="'. $attribute['id'] .'">'. $value .'</label>' : '';
+                        break;
+                    case 'error':
+                        $error .= formError($value);
+                        break;
+                    case 'icon'  :
+                        $icon .= '<div class="form-icon form-icon-right">'. $attribute['icon'] .'</div>';
+                        break;
+                    case 'note':
+                        $note .= '<div class="form-note">'. $value .'</div>';
+                        break;
+                    case 'layout'  :
+                        $form_attribute .= '';
+                        break;
+                    default:
+                        $form_attribute .= !$value ? " $key " : ' '. $key .'="'. $value .'" ';
+                        break;
+                }
+            }
+            $content .= '<div class="form-group">
+                <div class="form-control-wrap">
+                    <div class="form-icon form-icon-left">
+                        <em class="icon ni ni-calendar"></em>
+                    </div>
+                    <input type="text" name="'. $name .'" '. $form_attribute .' class="form-control date-picker form-control-outlined" data-date-format="yyyy-mm-dd">
+                </div>
+                <div class="form-note">Định dạng <code>yyyy-mm-dd (năm-tháng-ngày)</code></div>
+            </div>';
+            break;
         default:
             // Thiết lập các giá trị mặc định
             $attribute['id']    = $attribute['id']  ? $attribute['id'] : "_$name";
