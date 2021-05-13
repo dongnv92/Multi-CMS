@@ -10,9 +10,11 @@ switch ($path[2]){
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
         }
-        $header['title'] = 'Thêm danh sách các F huyện Mê Linh';
+        $header['title']    = 'Thêm danh sách các F huyện Mê Linh';
+        $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"];
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
         echo admin_breadcrumbs('Thêm danh sách các F', [URL_ADMIN . "/{$path[1]}/" => 'Covid Mê Linh'],'Thêm danh sách các F');
+        echo formOpen('', ['method' => 'GET', 'id' => 'form_covid_add']);
         ?>
         <div class="row">
             <div class="col-lg-9">
@@ -29,13 +31,21 @@ switch ($path[2]){
                         ])?>
                     </div>
                     <div class="col-4">
-                        <?=formInputSelect('covid_gioitinh', [
-                            ' ' => 'Chọn giới tính',
-                            '1' => 'Nam',
-                            '2' => 'Nữ'
-                        ], [
-                            'data-search' => 'on'
-                        ])?>
+                        <div class="form-group">
+                            GIỚI TÍNH:
+                            <div class="custom-control custom-radio custom-control-sm">
+                                <input type="radio" id="customRadio1" value="1" name="covid_gioitinh" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio1">NAM </label>
+                            </div>
+                            <div class="custom-control custom-control-sm custom-radio">
+                                <input type="radio" id="customRadio2" value="2" name="covid_gioitinh" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio2">NỮ </label>
+                            </div>
+                            <div class="custom-control custom-control-sm custom-radio">
+                                <input type="radio" id="customRadio3" value="3" name="covid_gioitinh" class="custom-control-input">
+                                <label class="custom-control-label" for="customRadio3">KHÁC</label>
+                            </div>
+                        </div>
                     </div>
 
                     <!--Line 2-->
@@ -73,7 +83,7 @@ switch ($path[2]){
                     </div>
                     <div class="col-4">
                         <?=formInputText('covid_nghe', [
-                            'label' => 'Nghề nghiệp <code>*</code>'
+                            'label' => 'Nghề nghiệp'
                         ])?>
                     </div>
 
@@ -198,10 +208,7 @@ switch ($path[2]){
                         <div class="text-center">
                             <?=formButton('THÊM MỚI', [
                                 'id'    => 'button_covid_add',
-                                'class' => 'btn btn-secondary',
-                                'type'  => 'submit',
-                                'name'  => 'submit',
-                                'value' => 'submit'
+                                'class' => 'btn btn-secondary'
                             ])?>
                         </div>
                     </div>
@@ -219,33 +226,16 @@ switch ($path[2]){
                         <?=formInputText('covid_user_name', [
                             'label' => 'Họ và tên'
                         ])?>
-                    </div>
-                    <!-- End Content -->
-                </div>
-                <div class="card card-bordered">
-                    <div class="card-inner border-bottom">
-                        <!-- Title -->
-                        <div class="card-title-group">
-                            <div class="card-title"><h6 class="title">File dữ liệu</h6></div>
-                        </div>
-                        <!-- Title -->
-                    </div>
-                    <!-- Content -->
-                    <div class="card-inner">
-                        <div class="form-group">
-                            <div class="form-control-wrap">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" name="meta_image" id="meta_image_add">
-                                    <label class="custom-file-label" for="meta_image_add">Chọn File</label>
-                                </div>
-                            </div>
-                        </div>
+                        <?=formInputText('covid_user_phone', [
+                            'label' => 'Số điện thoại'
+                        ])?>
                     </div>
                     <!-- End Content -->
                 </div>
             </div>
         </div>
         <?php
+        echo formClose();
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
         break;
 }
