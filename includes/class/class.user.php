@@ -83,7 +83,7 @@ class user{
         return true;
     }
 
-    // Lấy thông tin của User
+    // Lấy thông tin toàn bộ của User
     public function get_user($where = [], $field = '*'){
         $db = $this->db;
         $db->select("$field")->from("{$this->db_table}");
@@ -93,6 +93,21 @@ class user{
             return false;
         return $data;
     }
+
+    // Lấy thông tin toàn bộ của User Option
+    public function get_all_user_option($where = []){
+        $db     = $this->db;
+        $data   = $db->select("{$this->user_id}, {$this->user_name}")->from("{$this->db_table}")->where($where)->fetch();
+        $return = [];
+        if(!$data)
+            return false;
+
+        foreach ($data AS $_data){
+            $return[$_data[$this->user_id]] = $_data[$this->user_name];
+        }
+        return $return;
+    }
+
 
     public function get_all_user_by_role($role){
         global $database;

@@ -14,6 +14,36 @@
     "public_class": [
         "includes\/class.driving.php"
     ],
+    "category": {
+        "text": {
+            "title": "Danh sách xe",
+            "title_update": "Cập nhật danh sách xe",
+            "title_card": "Thông tin xe",
+            "tool_card": "<a href=\"#\" class=\"link\">Xem tất cả<\/a>",
+            "field_name": "Biển số xe",
+            "field_des": "Mô tả",
+            "field_url": "Đường dẫn",
+            "bt_add": "Thêm xe mới",
+            "bt_update": "Cập nhật xe"
+        },
+        "fields": {
+            "url": false,
+            "cat_parent": false,
+            "des": true
+        },
+        "permission": [
+            "driving_team",
+            "car"
+        ],
+        "type": "listcar_category",
+        "breadcrumbs": {
+            "title": "Danh sách xe",
+            "url": {
+                "URL_ADMIN\/driving_team": "Danh sách xe"
+            },
+            "active": "Xe"
+        }
+    },
     "menu": [
         {
             "text": "Tổ Lái Xe",
@@ -48,6 +78,21 @@
                             "report"
                         ]
                     ]
+                },
+                {
+                    "text": "Danh sách xe",
+                    "url": "URL_ADMIN\/category\/driving_team",
+                    "roles": [
+                        "driving_team",
+                        "car"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "driving_team",
+                            "car"
+                        ]
+                    ]
                 }
             ]
         }
@@ -55,12 +100,14 @@
     "role_structure": {
         "driving_team": {
             "plan": false,
-            "report": false
+            "report": false,
+            "car"   : false
         }
     },
     "role_text": {
         "": "Quản lý tổ lái xe",
         "plan": "Kế hoạch phát",
-        "report": "Xem báo cáo"
+        "report": "Xem báo cáo",
+        "car": "Quản lý xe"
     }
 }

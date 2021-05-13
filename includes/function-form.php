@@ -81,7 +81,6 @@ function formInputText($name, $attribute = ['']){
                     </div>
                     <input type="text" name="'. $name .'" '. $form_attribute .' class="form-control date-picker form-control-outlined" data-date-format="yyyy-mm-dd">
                 </div>
-                <div class="form-note">Định dạng <code>yyyy-mm-dd (năm-tháng-ngày)</code></div>
             </div>';
             break;
         default:
