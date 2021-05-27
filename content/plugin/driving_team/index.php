@@ -1,5 +1,83 @@
 <?php
 switch ($path[2]){
+    case 'oil':
+        switch ($path[3]){
+            case 'add':
+                // Kiểm tra quyền truy cập
+                if(!$role['driving_team']['oil_add']){
+                    $header['title'] = 'Lỗi quyền truy cập';
+                    require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+                    echo admin_breadcrumbs('Thêm đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Kế đổ dầu'],'Thêm đổ dầu');
+                    echo admin_error('Thêm mới', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+                    exit();
+                }
+                $list_car   = new Category('driving_team');
+                $list_car   = $list_car->getOptionSelect();
+                $list_user  = new user($database);
+                $list_user  = $list_user->get_all_user_option();
+
+                $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"];
+                $header['title']    = 'Thêm kế hoạch xe';
+                require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+                echo admin_breadcrumbs('Thêm kế hoạch xe', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Kế hoạch xe'],'Thêm kế hoạch');
+                echo formOpen('', ['method' => 'GET'])
+                ?>
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <div class="card card-bordered">
+                            <div class="card-inner border-bottom">
+                                <!-- Title -->
+                                <div class="card-title-group">
+                                    <div class="card-title"><h6 class="title">Thêm kế hoạch xe</h6></div>
+                                    <div class="card-tools">
+                                        <a href="#" class="link">Danh sách</a>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                            </div>
+                            <!-- Content -->
+                            <div class="card-inner">
+                                <?=formInputText('carplan_date', [
+                                    'placeholder'   => 'Chọn ngày đổ dầu',
+                                    'layout'        => 'date'
+                                ])?>
+                                <?=formInputSelect('plan_car', $list_car, [
+                                    'label'         => 'Biển Số Xe',
+                                    'data-search'   => 'on'
+                                ])?>
+                                <?=formInputSelect('plan_lx', $list_user, [
+                                    'label'             => 'Lái xe đổ dầu',
+                                    'data-search'       => 'on',
+                                    'data-placeholder'  => 'Chọn lái xe đổ dầu'
+                                ])?>
+                                <?=formInputText('oil_lit', [
+                                    'label'         => 'Số lượng dầu (Lít)'
+                                ])?>
+                                <?=formInputTextarea('plan_note', [
+                                    'label' => 'Ghi chú'
+                                ])?>
+                                <div class="text-center">
+                                    <?=formButton('THÊM MỚI', [
+                                        'id'    => 'button_plan_add',
+                                        'class' => 'btn btn-secondary',
+                                        'type'  => 'submit',
+                                        'name'  => 'submit',
+                                        'value' => 'submit'
+                                    ])?>
+                                </div>
+                            </div>
+                            <!-- End Content -->
+                        </div>
+                    </div>
+                </div>
+                <?php
+                echo formClose();
+                require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+
+                break;
+        }
+        break;
     case 'plan':
         switch ($path[3]){
             case 'add':
@@ -39,7 +117,7 @@ switch ($path[2]){
                             </div>
                             <!-- Content -->
                             <div class="card-inner">
-                                <?=formInputText('plan_date', [
+                                <?=formInputText('carplan_date', [
                                     'label'         => 'Tiêu đề kế hoạch',
                                     'placeholder'   => 'Chọn ngày phát hàng',
                                     'layout'        => 'date'

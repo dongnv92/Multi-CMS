@@ -101,13 +101,15 @@
         "driving_team": {
             "plan": false,
             "report": false,
-            "car"   : false
+            "car"   : false,
+            "oil_add"   : false
         }
     },
     "role_text": {
         "": "Quản lý tổ lái xe",
         "plan": "Kế hoạch phát",
         "report": "Xem báo cáo",
-        "car": "Quản lý xe"
+        "car": "Quản lý xe",
+        "oil_add": "Thêm đổ dầu xe"
     }
 }
