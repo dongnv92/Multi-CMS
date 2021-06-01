@@ -4,7 +4,7 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "EXCEL",
-    "status": "not_active",
+    "status": "active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/excel\/",
     "source": {
@@ -21,7 +21,7 @@
             "icon": "<em class=\"icon ni ni-list-thumb\"><\/em>\n",
             "child": [
                 {
-                    "text": "Danh sách",
+                    "text": "Danh s\u00e1ch",
                     "url": "URL_ADMIN\/excel\/",
                     "roles": [
                         "excel",
@@ -44,6 +44,6 @@
     },
     "role_text": {
         "": "EXCEL",
-        "manager": "Quản lý"
+        "manager": "Qu\u1ea3n l\u00fd"
     }
 }

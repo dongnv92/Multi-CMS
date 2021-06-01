@@ -101,14 +101,13 @@ function admin_main_header(){
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="html/user-profile-regular.html"><em class="icon ni ni-user-alt"></em><span>Xem hồ sơ</span></a></li>
-                                        <li><a href="html/user-profile-setting.html"><em class="icon ni ni-setting-alt"></em><span>Cài đặt tài khoản</span></a></li>
-                                        <li><a href="html/user-profile-activity.html"><em class="icon ni ni-activity-alt"></em><span>Nhật ký hoạt động</span></a></li>
+                                        <li><a href="'. URL_ADMIN .'/profile/"><em class="icon ni ni-user-alt"></em><span>Xem hồ sơ</span></a></li>
+                                        <li><a href="'. URL_ADMIN .'/profile/"><em class="icon ni ni-setting-alt"></em><span>Cài đặt tài khoản</span></a></li>
                                     </ul>
                                 </div>
                                 <div class="dropdown-inner">
                                     <ul class="link-list">
-                                        <li><a href="#"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
+                                        <li><a href="'. URL_LOGOUT .'"><em class="icon ni ni-signout"></em><span>Đăng xuất</span></a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -352,13 +351,13 @@ function get_menu_header_structure(){
     }
 
     $menu_logout = [
-        [
+        /*[
             'roles'     => [],
             'text'      => 'Các phần tử',
             'icon'      => '<em class="icon ni ni-link-group"></em>',
             'url'       => URL_ADMIN.'/elements/',
             'active'    => [[PATH_ADMIN, 'elements', '']]
-        ],
+        ],*/
         [
             'roles'     => [],
             'text'      => 'Đăng xuất',

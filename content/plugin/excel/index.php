@@ -4,9 +4,9 @@ switch ($path[2]){
         require_once ABSPATH . 'content/plugin/excel/includes/PHPExcel.php';
         $excel  = new ExcelByMe();
         $bks    = $excel->getListBks($path[3]);
-        $atd    = $excel->getListAtd($path[3], $_REQUEST['excel_bks']);
-        $date_move    = $excel->getListDateMove($path[3], $_REQUEST['excel_bks']);
-        $product_name = $excel->getSumProductName($path[3], $_REQUEST['excel_bks'], $_REQUEST['excel_atd'], $_REQUEST['excel_date_move']);
+        //$atd    = $excel->getListAtd($path[3], $_REQUEST['excel_bks']);
+        //$date_move    = $excel->getListDateMove($path[3], $_REQUEST['excel_bks']);
+        $product_name = $excel->getSumProductName($path[3], $_REQUEST['excel_bks'], '', '');
         $cal_count  = 0;
         $cal_weight = 0;
         foreach ($product_name AS $caculator){
@@ -20,7 +20,7 @@ switch ($path[2]){
         ];
         $header['title'] = 'Thêm dữ liệu';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        echo admin_breadcrumbs('Công Cụ Excel', 'Test','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'excel']);
+        echo admin_breadcrumbs('Công Cụ Excel', [URL_ADMIN . "/{$path[1]}/" => 'excel'],'Danh sách');
         ?>
         <div class="nk-block">
             <div class="card card-stretch">
@@ -36,28 +36,6 @@ switch ($path[2]){
                                             <?php
                                             foreach ($bks AS $_bks){
                                                 echo '<option value="'. $_bks .'" '. ($_REQUEST['excel_bks'] == $_bks ? 'selected' : '') .'>'. $_bks .'</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-wrap w-150px">
-                                        NGÀY ATD
-                                        <select class="form-select form-select-sm" data-search="on" name="excel_atd" data-placeholder="NGÀY ATD">
-                                            <option value="">NGÀY ATD</option>
-                                            <?php
-                                            foreach ($atd AS $_atd){
-                                                echo '<option value="'. $_atd .'" '. ($_REQUEST['excel_atd'] == $_atd ? 'selected' : '') .'>'. $_atd .'</option>';
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                    <div class="form-wrap w-150px">
-                                        Ngày Vận Chuyển
-                                        <select class="form-select form-select-sm" data-search="on" name="excel_date_move" data-placeholder="Ngày vận chuyển">
-                                            <option value="">NGÀY VẬN CHUYỂN</option>
-                                            <?php
-                                            foreach ($date_move AS $_date_move){
-                                                echo '<option value="'. $_date_move .'" '. ($_REQUEST['excel_date_move'] == $_date_move ? 'selected' : '') .'>'. $_date_move .'</option>';
                                             }
                                             ?>
                                         </select>
@@ -78,7 +56,7 @@ switch ($path[2]){
                     </div>
                 </div>
             </div>
-            <?php if($_REQUEST['excel_bks'] && $_REQUEST['excel_atd']){?>
+            <?php if($_REQUEST['excel_bks']){?>
             <div class="card card-bordered">
                 <div class="card-inner border-bottom">
                     <div class="text-center">
@@ -194,19 +172,20 @@ switch ($path[2]){
                     if($success){
                     $excel  = new ExcelByMe();
                     $data   = $excel->readExcel(ABSPATH.$data_images);
+
                     foreach ($data AS $_data){
                         $_REQUEST['excel_filename']     = $data_upload['data']['metas'][0]['name'];
-                        $_REQUEST['excel_bill']         = $_data[2];
-                        $_REQUEST['excel_bks']          = $_data[6];
-                        $_REQUEST['excel_atd']          = $_data[19];
-                        $_REQUEST['excel_date_move']    = $_data[17];
-                        $_REQUEST['excel_shopname']     = $_data[10];
-                        $_REQUEST['excel_address']      = $_data[12];
-                        $_REQUEST['excel_district']     = $_data[13];
-                        $_REQUEST['excel_product_name'] = $_data[14];
-                        $_REQUEST['excel_amount']       = $_data[15];
-                        $_REQUEST['excel_weight']       = $_data[16];
-                        $_REQUEST['excel_price']        = $_data[22];
+                        $_REQUEST['excel_bill']         = $_data[1];
+                        $_REQUEST['excel_bks']          = $_data[5];
+                        $_REQUEST['excel_atd']          = '';
+                        $_REQUEST['excel_date_move']    = '';
+                        $_REQUEST['excel_shopname']     = $_data[12];
+                        $_REQUEST['excel_address']      = $_data[13];
+                        $_REQUEST['excel_district']     = $_data[16];
+                        $_REQUEST['excel_product_name'] = $_data[18];
+                        $_REQUEST['excel_amount']       = $_data[20];
+                        $_REQUEST['excel_weight']       = $_data[21];
+                        $_REQUEST['excel_price']        = $_data[8];
                         $excel->add_row();
                     }
                     ?>

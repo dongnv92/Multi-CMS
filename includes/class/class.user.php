@@ -363,8 +363,8 @@ class user{
         // Kiểm tra tên hiển thị
         if(!validate_isset($_REQUEST[$this->user_name]))
             return get_response_array(309, 'Bạn cần nhập tên hiển thị.');
-        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 20)
-            return get_response_array(309, 'Tên hiển thị từ 4 đến 20 ký tự.');
+        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 100)
+            return get_response_array(309, 'Tên hiển thị từ 4 đến 100 ký tự.');
 
         // Kiểm tra mật khẩu
         if(validate_isset($_REQUEST[$this->user_password])){
@@ -481,8 +481,8 @@ class user{
         // Kiểm tra username
         if(!validate_isset($_REQUEST[$this->user_login]))
             return get_response_array(309, 'Bạn cần nhập tên đăng nhập.');
-        if(strlen($_REQUEST[$this->user_login]) < 4 || strlen($_REQUEST[$this->user_login]) > 20)
-            return get_response_array(309, 'Tên đăng nhập từ 4 đến 20 ký tự.');
+        if(strlen($_REQUEST[$this->user_login]) < 4 || strlen($_REQUEST[$this->user_login]) > 30)
+            return get_response_array(309, 'Tên đăng nhập từ 4 đến 30 ký tự.');
         if(!validate_username($_REQUEST[$this->user_login]))
             return get_response_array(309, 'Tên đăng nhập chỉ bao gồm chữ, số, ký tự _ hoặc dấu chấm.');
         if($this->check_user($_REQUEST[$this->user_login]))
@@ -491,8 +491,8 @@ class user{
         // Kiểm tra tên hiển thị
         if(!validate_isset($_REQUEST[$this->user_name]))
             return get_response_array(309, 'Bạn cần nhập tên hiển thị.');
-        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 20)
-            return get_response_array(309, 'Tên hiển thị từ 4 đến 20 ký tự.');
+        if(strlen($_REQUEST[$this->user_name]) < 4 || strlen($_REQUEST[$this->user_name]) > 100)
+            return get_response_array(309, 'Tên hiển thị từ 4 đến 100 ký tự.');
 
         // Kiểm tra mật khẩu
         if(!validate_isset($_REQUEST[$this->user_password]))
