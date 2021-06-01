@@ -93,6 +93,38 @@
                             "car"
                         ]
                     ]
+                },
+                {
+                    "text": "Danh sách đổ dầu",
+                    "url": "URL_ADMIN\/driving_team\/oil/",
+                    "roles": [
+                        "driving_team",
+                        "oil_manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "driving_team",
+                            "oil",
+                            ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm đổ dầu",
+                    "url": "URL_ADMIN\/driving_team\/oil/add",
+                    "roles": [
+                        "driving_team",
+                        "oil_add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "driving_team",
+                            "oil",
+                            "add"
+                        ]
+                    ]
                 }
             ]
         }
@@ -101,13 +133,17 @@
         "driving_team": {
             "plan": false,
             "report": false,
-            "car"   : false
+            "car" : false,
+            "oil_manager" : false,
+            "oil_add" : false
         }
     },
     "role_text": {
         "": "Quản lý tổ lái xe",
         "plan": "Kế hoạch phát",
         "report": "Xem báo cáo",
-        "car": "Quản lý xe"
+        "car": "Quản lý xe",
+        "oil_manager": "Danh sách đổ dầu",
+        "oil_add": "Thêm đổ dầu xe"
     }
 }

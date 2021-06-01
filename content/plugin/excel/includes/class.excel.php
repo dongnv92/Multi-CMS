@@ -96,7 +96,7 @@ class ExcelByMe{
             self::excel_product_name    => $database->escape($_REQUEST[self::excel_product_name]),
             self::excel_amount          => $database->escape($_REQUEST[self::excel_amount]),
             self::excel_weight          => $database->escape($_REQUEST[self::excel_weight]),
-            self::excel_price           => $database->escape($_REQUEST[self::excel_price]),
+            self::excel_price           => $database->escape($_REQUEST[self::excel_price])
         ];
         $add = $database->insert(self::table, $data);
         if(!$add){
@@ -140,14 +140,15 @@ class ExcelByMe{
             //----Lặp cột
             for ($j = 0; $j < $TotalCol; $j++) {
                 // Tiến hành lấy giá trị của từng ô đổ vào mảng
-                if(in_array($j, [17, 19])){
+                /*if(in_array($j, [17, 19])){
                     //$data[$i - 2][$j] = date('d-m-Y',PHPExcel_Shared_Date::ExcelToPHP($sheet->getCellByColumnAndRow($i,$j)->getValue()));
                     $UNIX_DATE = (($sheet->getCellByColumnAndRow($j, $i)->getValue()) - 25569) * 86400;
                     $UNIX_DATE = gmdate("d-m-Y", $UNIX_DATE);
                     $data[$i - 2][$j] = $UNIX_DATE;
                 }else{
                     $data[$i - 2][$j] = $sheet->getCellByColumnAndRow($j, $i)->getValue();
-                }
+                }*/
+                $data[$i - 2][$j] = $sheet->getCellByColumnAndRow($j, $i)->getValue();
             }
         }
         return $data;
