@@ -4,7 +4,7 @@ switch ($path[2]){
         switch ($path[3]){
             case 'view':
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_add'] && !$role['driving_team']['oil_add']){
+                if(!$role['driving_team']['oil_manager'] && !$role['driving_team']['oil_add']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Chi tiết đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Chi tiết đổ dầu');
@@ -264,6 +264,13 @@ switch ($path[2]){
                     exit();
                 }
 
+                $car   = new Category('driving_team');
+                $list_car   = $car->getOptionSelect(['0' => ' Chọn Xe Ô Tô ']);
+
+                $data_user  = new user($database);
+                $list_tx    = $data_user->get_all_user_option([], ['0' => ' Chọn Lái Xe Đổ Dầu ']);
+                $list_user  = $data_user->get_all_user_option([], ['0' => ' Chọn Người Nhập ']);
+
                 $oil    = new pDriving();
                 $data   = $oil->get_all();
                 $param  = get_param_defaul();
@@ -280,59 +287,34 @@ switch ($path[2]){
                         <div class="card-inner-group">
                             <div class="card-inner position-relative card-tools-toggle">
                                 <div class="card-title-group">
-                                    <div class="card-tools">
+
                                         <?=formOpen('', ['method' => 'GET'])?>
-                                        <div class="form-inline flex-nowrap gx-3">
+                                        <div class="form-inline flex-nowrap gx-4">
                                             <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
-                                            <div class="btn-wrap">
+                                            <div class="form-wrap w-150px">
+                                                <?=formInputSelect('caroil_bsx', $list_car, [
+                                                    'data-search'   => 'on',
+                                                    'selected'      => $_REQUEST['caroil_bsx']
+                                                ])?>
+                                            </div>
+                                            <div class="form-wrap w-150px">
+                                                <?=formInputSelect('caroil_tx', $list_tx, [
+                                                    'data-search'   => 'on',
+                                                    'selected'      => $_REQUEST['caroil_tx']
+                                                ])?>
+                                            </div>
+                                            <div class="form-wrap w-150px">
+                                                <?=formInputSelect('caroil_user', $list_user, [
+                                                    'data-search'   => 'on',
+                                                    'selected'      => $_REQUEST['caroil_user']
+                                                ])?>
+                                            </div>
+                                            <div class="btn-wrap w-150px">
                                                 <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
                                                 <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
                                             </div>
                                         </div><!-- .form-inline -->
                                         <?=formClose()?>
-                                    </div><!-- .card-tools -->
-                                    <div class="card-tools mr-n1">
-                                        <ul class="btn-toolbar gx-1">
-                                            <li>
-                                                <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/add"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Thêm thành viên mới">
-                                                    <em class="icon ni ni-user-add"></em>
-                                                </a>
-                                            </li>
-                                            <li class="btn-toolbar-sep"></li><!-- li -->
-                                            <li>
-                                                <div class="toggle-wrap">
-                                                    <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
-                                                    <div class="toggle-content" data-content="cardTools">
-                                                        <ul class="btn-toolbar gx-1">
-                                                            <li class="toggle-close">
-                                                                <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
-                                                            </li><!-- li -->
-                                                            <li>
-                                                                <div class="dropdown">
-                                                                    <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
-                                                                        <em class="icon ni ni-setting"></em>
-                                                                    </a>
-                                                                    <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
-                                                                        <ul class="link-check">
-                                                                            <li><span>Show</span></li>
-                                                                            <li class="active"><a href="#">10</a></li>
-                                                                            <li><a href="#">20</a></li>
-                                                                            <li><a href="#">50</a></li>
-                                                                        </ul>
-                                                                        <ul class="link-check">
-                                                                            <li><span>Order</span></li>
-                                                                            <li class="active"><a href="#">DESC</a></li>
-                                                                            <li><a href="#">ASC</a></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div><!-- .dropdown -->
-                                                            </li><!-- li -->
-                                                        </ul><!-- .btn-toolbar -->
-                                                    </div><!-- .toggle-content -->
-                                                </div><!-- .toggle-wrap -->
-                                            </li><!-- li -->
-                                        </ul><!-- .btn-toolbar -->
-                                    </div><!-- .card-tools -->
                                 </div><!-- .card-title-group -->
                             </div><!-- .card-inner -->
                             <div class="card-inner p-0">

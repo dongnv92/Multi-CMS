@@ -7,10 +7,13 @@ class Category{
         $this->path = $path;
     }
 
-    public function getOptionSelect(){
+    public function getOptionSelect($plus = ''){
         global $database;
         $config = $this->getConfig();
         $option = [];
+        if(is_array($plus)){
+            $option['0'] = $plus[0];
+        }
         $data   = $database->select('meta_id, meta_name')->from('dong_meta')->where(['meta_type' => $config['type']])->fetch();
         foreach ($data AS $_data){
             $option[$_data['meta_id']] = $_data['meta_name'];

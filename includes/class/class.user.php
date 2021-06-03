@@ -95,13 +95,16 @@ class user{
     }
 
     // Lấy thông tin toàn bộ của User Option
-    public function get_all_user_option($where = []){
+    public function get_all_user_option($where = [], $first = ''){
         $db     = $this->db;
         $data   = $db->select("{$this->user_id}, {$this->user_name}")->from("{$this->db_table}")->where($where)->fetch();
         $return = [];
         if(!$data)
             return false;
 
+        if(is_array($first)){
+            $return['0'] = $first[0];
+        }
         foreach ($data AS $_data){
             $return[$_data[$this->user_id]] = $_data[$this->user_name];
         }
