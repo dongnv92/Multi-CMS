@@ -75,6 +75,7 @@ switch ($path[2]){
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <tfoot>
                                         <tr>
                                             <td><?=$data['caroil_id']?></td>
                                             <td>Xe <strong class="text-pink"><?=$get_car['data']['meta_name']?></strong> đổ dầu ngày <strong class="text-pink"><?=date('d/m/Y', strtotime($data['caroil_date']))?></strong></td>
