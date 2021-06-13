@@ -541,64 +541,28 @@ switch ($path[2]){
                             <div class="card-tools">
                                 <?=formOpen('', ['method' => 'GET'])?>
                                 <div class="form-inline flex-nowrap gx-3">
-                                    <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
-                                    <div class="form-wrap w-150px">
-                                        <select class="form-select form-select-sm" data-search="on" data-placeholder="Trạng thái" name="user_status">
-                                            <option value="">Tất cả</option>
-                                            <option value="active" <?=$_REQUEST['user_status'] == 'active' ? 'selected' : ''?>>Hoạt Động</option>
-                                            <option value="not_active" <?=$_REQUEST['user_status'] == 'not_active' ? 'selected' : ''?>>Chưa Kích Hoạt</option>
-                                            <option value="block" <?=$_REQUEST['user_status'] == 'block' ? 'selected' : ''?>>Tạm Khoá</option>
-                                            <option value="block_forever" <?=$_REQUEST['user_status'] == 'block_forever' ? 'selected' : ''?>>Khoá Vĩnh Viễn</option>
-                                        </select>
-                                    </div>
-                                    <div class="btn-wrap">
-                                        <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
-                                        <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
+                                        </div>
+                                        <div class="col-2">
+                                            <select class="form-select form-select-sm" data-search="on" data-placeholder="Trạng thái" name="user_status">
+                                                <option value="">Tất cả</option>
+                                                <option value="active" <?=$_REQUEST['user_status'] == 'active' ? 'selected' : ''?>>Hoạt Động</option>
+                                                <option value="not_active" <?=$_REQUEST['user_status'] == 'not_active' ? 'selected' : ''?>>Chưa Kích Hoạt</option>
+                                                <option value="block" <?=$_REQUEST['user_status'] == 'block' ? 'selected' : ''?>>Tạm Khoá</option>
+                                                <option value="block_forever" <?=$_REQUEST['user_status'] == 'block_forever' ? 'selected' : ''?>>Khoá Vĩnh Viễn</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="btn-wrap">
+                                                <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
+                                                <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div><!-- .form-inline -->
                                 <?=formClose()?>
-                            </div><!-- .card-tools -->
-                            <div class="card-tools mr-n1">
-                                <ul class="btn-toolbar gx-1">
-                                    <li>
-                                        <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Thêm thành viên mới">
-                                            <em class="icon ni ni-user-add"></em>
-                                        </a>
-                                    </li>
-                                    <li class="btn-toolbar-sep"></li><!-- li -->
-                                    <li>
-                                        <div class="toggle-wrap">
-                                            <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-menu-right"></em></a>
-                                            <div class="toggle-content" data-content="cardTools">
-                                                <ul class="btn-toolbar gx-1">
-                                                    <li class="toggle-close">
-                                                        <a href="#" class="btn btn-icon btn-trigger toggle" data-target="cardTools"><em class="icon ni ni-arrow-left"></em></a>
-                                                    </li><!-- li -->
-                                                    <li>
-                                                        <div class="dropdown">
-                                                            <a href="#" class="btn btn-trigger btn-icon dropdown-toggle" data-toggle="dropdown">
-                                                                <em class="icon ni ni-setting"></em>
-                                                            </a>
-                                                            <div class="dropdown-menu dropdown-menu-xs dropdown-menu-right">
-                                                                <ul class="link-check">
-                                                                    <li><span>Show</span></li>
-                                                                    <li class="active"><a href="#">10</a></li>
-                                                                    <li><a href="#">20</a></li>
-                                                                    <li><a href="#">50</a></li>
-                                                                </ul>
-                                                                <ul class="link-check">
-                                                                    <li><span>Order</span></li>
-                                                                    <li class="active"><a href="#">DESC</a></li>
-                                                                    <li><a href="#">ASC</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div><!-- .dropdown -->
-                                                    </li><!-- li -->
-                                                </ul><!-- .btn-toolbar -->
-                                            </div><!-- .toggle-content -->
-                                        </div><!-- .toggle-wrap -->
-                                    </li><!-- li -->
-                                </ul><!-- .btn-toolbar -->
                             </div><!-- .card-tools -->
                         </div><!-- .card-title-group -->
                     </div><!-- .card-inner -->

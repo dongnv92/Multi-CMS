@@ -266,11 +266,11 @@ switch ($path[2]){
                 }
 
                 $car   = new Category('driving_team');
-                $list_car   = $car->getOptionSelect(['0' => ' Chọn Xe Ô Tô ']);
+                $list_car   = $car->getOptionSelect(['0' => 'Chọn Xe']);
 
                 $data_user  = new user($database);
-                $list_tx    = $data_user->get_all_user_option([], ['0' => ' Chọn Lái Xe Đổ Dầu ']);
-                $list_user  = $data_user->get_all_user_option([], ['0' => ' Chọn Người Nhập ']);
+                $list_tx    = $data_user->get_all_user_option([], ['0' => 'Người Đổ Dầu']);
+                $list_user  = $data_user->get_all_user_option([], ['0' => 'Người Nhập']);
 
                 $oil    = new pDriving();
                 $data   = $oil->get_all();
@@ -287,36 +287,46 @@ switch ($path[2]){
                     <div class="card card-bordered card-stretch">
                         <div class="card-inner-group">
                             <div class="card-inner position-relative card-tools-toggle">
-                                <div class="card-title-group">
-
-                                        <?=formOpen('', ['method' => 'GET'])?>
-                                        <div class="form-inline flex-nowrap gx-4">
-                                            <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
-                                            <div class="form-wrap w-150px">
-                                                <?=formInputSelect('caroil_bsx', $list_car, [
-                                                    'data-search'   => 'on',
-                                                    'selected'      => $_REQUEST['caroil_bsx']
-                                                ])?>
-                                            </div>
-                                            <div class="form-wrap w-150px">
-                                                <?=formInputSelect('caroil_tx', $list_tx, [
-                                                    'data-search'   => 'on',
-                                                    'selected'      => $_REQUEST['caroil_tx']
-                                                ])?>
-                                            </div>
-                                            <div class="form-wrap w-150px">
-                                                <?=formInputSelect('caroil_user', $list_user, [
-                                                    'data-search'   => 'on',
-                                                    'selected'      => $_REQUEST['caroil_user']
-                                                ])?>
-                                            </div>
-                                            <div class="btn-wrap w-150px">
-                                                <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
-                                                <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
-                                            </div>
-                                        </div><!-- .form-inline -->
-                                        <?=formClose()?>
-                                </div><!-- .card-title-group -->
+								<?=formOpen('', ['method' => 'GET'])?>
+								<div class="row">
+                                    <div class="col-2">
+                                        <?=formInputText('search', [
+                                            'label' => 'Tìm kiếm',
+                                            'value' => $_REQUEST['search'] ? $_REQUEST['search'] : ''
+                                        ])?>
+                                    </div>
+                                    <div class="col-2">
+                                        <?=formInputText('date_start', [
+                                            'layout' => 'date',
+                                            'placeholder' => 'Từ Ngày',
+                                            'value' => $_REQUEST['date_start'] ? $_REQUEST['date_start'] : ''
+                                        ])?>
+                                    </div>
+                                    <div class="col-2">
+                                        <?=formInputText('date_end', [
+                                            'layout' => 'date',
+                                            'placeholder' => 'Đến Ngày',
+                                            'value' => $_REQUEST['date_end'] ? $_REQUEST['date_end'] : ''
+                                        ])?>
+                                    </div>
+									<div class="col-2">
+										<?=formInputSelect('caroil_bsx', $list_car, [
+											'data-search'   => 'on',
+											'selected'      => $_REQUEST['caroil_bsx']
+										])?>
+									</div>
+									<div class="col-2">
+										<?=formInputSelect('caroil_tx', $list_tx, [
+											'data-search'   => 'on',
+											'selected'      => $_REQUEST['caroil_tx']
+										])?>
+									</div>
+									<div class="col-2">
+										<span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
+										<span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
+									</div>
+								</div><!-- .form-inline -->
+								<?=formClose()?>
                             </div><!-- .card-inner -->
                             <div class="card-inner p-0">
                                 <table class="table table-tranx table-hover">

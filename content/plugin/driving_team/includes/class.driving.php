@@ -104,6 +104,7 @@ class pDriving{
         return ['response'  => 200, 'message'   => 'Thêm dữ liệu thành công', 'data' => $action];
     }
 
+
     // Lấy danh sách tất cả
     public function get_all(){
         global $database;
@@ -114,15 +115,25 @@ class pDriving{
         $where      = [];
         $pagination = [];
 
+        if($_REQUEST['caroil_bsx'] && $this->check_bks($_REQUEST['caroil_bsx'])){
+            $where['caroil_bsx'] = $_REQUEST['caroil_bsx'];
+        }
+        if($_REQUEST['caroil_tx'] && $this->check_user($_REQUEST['caroil_tx'])){
+            $where['caroil_tx'] = $_REQUEST['caroil_tx'];
+        }
 
         // Tính tổng data
         $database->select('COUNT(*) AS count_data')->from($this->table_oil);
         if($_REQUEST['search']){
-            $database->where(get_query_search($_REQUEST['search'], [$this->caroil_note]));
+            $database->where(get_query_search($_REQUEST['search'], [$this->caroil_note, $this->caroil_lit, $this->caroil_price]));
         }
         if($where){
             $database->where($where);
         }
+        if(($_REQUEST['date_start'] && check_date($_REQUEST['date_start'], 'y-m-d')) && ($_REQUEST['date_end'] && check_date($_REQUEST['date_end'], 'y-m-d'))){
+            $database->between($this->caroil_date, $_REQUEST['date_start'], $_REQUEST['date_end']);
+        }
+
         $data_count                 = $database->fetch_first();
         $pagination['count']        = $data_count['count_data'];                    // Tổng số bản ghi
         $pagination['page_num']     = ceil($pagination['count'] / $limit);   // Tổng số trang
@@ -135,10 +146,13 @@ class pDriving{
         // Hiển thị dữ liệu theo số liệu nhập vào
         $database->select('*')->from($this->table_oil);
         if($_REQUEST['search']){
-            $database->where(get_query_search($_REQUEST['search'], [$this->caroil_note]));
+            $database->where(get_query_search($_REQUEST['search'], [$this->caroil_note, $this->caroil_lit, $this->caroil_price]));
         }
         if($where){
             $database->where($where);
+        }
+        if(($_REQUEST['date_start'] && check_date($_REQUEST['date_start'], 'y-m-d')) && ($_REQUEST['date_end'] && check_date($_REQUEST['date_end'], 'y-m-d'))){
+            $database->between($this->caroil_date, $_REQUEST['date_start'], $_REQUEST['date_end']);
         }
         $database->limit($limit, ($page > 1 ? $pagination['page_start'] : $offset));
         if($_REQUEST['sort']){
@@ -177,4 +191,76 @@ class pDriving{
         }
         return get_response_array(200, 'Xóa lịch sử đổ dầu thành công.');
     }
+
+    public function widget_index($content = ''){
+        global $database;
+        switch ($content){
+            case 'oil_last':
+                $database->select()->from($this->table_oil);
+                $database->order_by($this->caroil_id, 'DESC');
+                $database->limit(5);
+                $data = $database->fetch();
+                $html = '
+                <div class="card card-bordered h-100">
+                    <div class="card-inner border-bottom">
+                        <div class="card-title-group">
+                            <div class="card-title">
+                                <h6 class="title">Danh sách đổ dầu mới nhất</h6>
+                            </div>
+                            <div class="card-tools">
+                                <a href="'. URL_ADMIN .'/driving_team/oil/" class="link">Xem tất cả</a> | <a href="'. URL_ADMIN .'/driving_team/oil/add" class="link">Thêm mới</a> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-inner">
+                        <div class="timeline">
+                            <h6 class="timeline-head">Hiện tại: '. date('H:i:s d/m/Y') .'</h6>
+                            <ul class="timeline-list">';
+                            foreach ($data AS $row){
+                                $car        = new meta($database, 'listcar_category');
+                                $get_car    = $car->get_meta($row['caroil_bsx']);
+
+                                $tx         = new user($database);
+                                $get_tx     = $tx->get_user(['user_id' => $row['caroil_tx']]);
+                                $html .= '<li class="timeline-item">
+                                    <div class="timeline-status bg-primary is-outline"></div>
+                                    <div class="timeline-date">'. date('d/m', strtotime($row[$this->caroil_date])) .' <em class="icon ni ni-alarm-alt"></em></div>
+                                    <div class="timeline-data">
+                                        <h6 class="timeline-title">Đổ dầu xe '. $get_car['data']['meta_name'] .'</h6>
+                                        <div class="timeline-des">
+                                            <p>Lái xe đổ dầu '. $get_tx['user_name'] .'.</p>
+                                            <span class="time">Thêm lúc: '. view_date_time($row[$this->caroil_create]) .'</span>
+                                        </div>
+                                    </div>
+                                </li>';
+                            }
+                            $html .= '</ul>
+                        </div>
+                    </div>
+                </div><!-- .card -->';
+            break;
+        }
+
+        return $html;
+    }
+
+    // Check BKS
+    private function check_bks($bks){
+        global $database;
+        $meta = new meta($database, 'listcar_category');
+        if(!$meta->check_id($bks)){
+            return false;
+        }
+        return true;
+    }
+
+    private function check_user($user_id){
+        global $database;
+        $user = new user($database);
+        if(!$user->check_user($user_id, 'id')){
+            return false;
+        }
+        return true;
+    }
 }
+

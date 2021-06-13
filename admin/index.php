@@ -32,25 +32,18 @@ switch ($path[1]){
         }else{
             $header['title'] = 'Trang quản trị';
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Trang Chủ', [URL_ADMIN => 'Trang test'], 'Đang ở đây');
+            echo admin_breadcrumbs('Trang Chủ', [URL_ADMIN => 'Quản trị'], 'Nội dung trang chính');
             ?>
-            <div class="nk-block">
-                <div class="card card-bordered card-stretch">
-                    <div class="card-inner-group">
-                        <div class="card-inner">
-                        <?php
-                            $path = ['admin', 'user', 'update'];
-                            $acti = [['admin', 'user'], ['admin', 'user', 'update']];
-                            if($path == $acti[0]){
-                                echo "Yes";
-                            }else{
-                                echo "No";
-                            }
-                        ?>
-                        </div>
-                    </div><!-- .card-inner-group -->
-                </div><!-- .card -->
-            </div><!-- .nk-block -->
+            <div class="row">
+                <div class="col-lg-6">
+                    <?php
+                    if(class_exists(pDriving)){
+                        $driving = new pDriving();
+                        echo $driving->widget_index('oil_last');
+                    }
+                    ?>
+                </div><!-- .col -->
+            </div>
             <?php
             require_once 'admin-footer.php';
         }

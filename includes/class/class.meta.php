@@ -100,7 +100,7 @@ class meta{
         return false;
     }
 
-    private function check_id($id){
+    public function check_id($id){
         $db     = $this->db;
         $check  = $db->select('COUNT(*) AS count')->from($this->db_table)->where([$this->meta_id=> $id, $this->meta_type => $this->type])->fetch_first();
         if($check['count'] > 0)

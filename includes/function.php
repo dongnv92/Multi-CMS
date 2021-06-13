@@ -537,3 +537,19 @@ function curl($url, $data = '', $method = 'GET'){
 function convert_number_to_money($number){
     return number_format($number, 0, '', '.').' ₫';
 }
+
+function check_date($date, $type = 'y-m-d'){
+    $result = false;
+    if(!$date){
+        return false;
+    }
+    switch ($type){
+        case 'y-m-d':
+            $date = explode('-', $date);
+            if(checkdate($date[1], $date[2], $date[0])){
+                $result = true;
+            }
+            break;
+    }
+    return $result;
+}
