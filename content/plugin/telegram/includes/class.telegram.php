@@ -7,6 +7,9 @@ class Telegram{
 
     public function __construct($token){
         switch ($token){
+            case 'citypost_notice':
+                $this->token = '1709795286:AAEyN3xSVPti3RtHKZitBpYfwl0qCcOplhc';
+                break;
             case 'rentcode':
                 $this->token = '1377461891:AAEDxvY8dVOTTYXZE5k20X8HjIfv7I_Eeqg';
                 break;

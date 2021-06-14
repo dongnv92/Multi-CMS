@@ -2,6 +2,166 @@
 switch ($path[2]){
     case 'oil':
         switch ($path[3]){
+            case 'update':
+                $driving    = new pDriving();
+                $caroil     = $driving->get_caroil($path[4]);
+                // Kiểm tra quyền truy cập
+                if(!$role['driving_team']['oil_add']){
+                    $header['title'] = 'Lỗi quyền truy cập';
+                    require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+                    echo admin_breadcrumbs('Cập nhật phiếu đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Cập nhật đổ dầu');
+                    echo admin_error('Cập nhật phiếu đổ dầu', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+                    exit();
+                }
+                // Kiểm tra tồn tại của đơn dầu
+                if(!$caroil){
+                    $header['title'] = 'Lỗi quyền truy cập';
+                    require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+                    echo admin_breadcrumbs('Cập nhật phiếu đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Cập nhật đổ dầu');
+                    echo admin_error('Cập nhật phiếu đổ dầu', 'Phiếu dầu không tồn tại, vui lòng quay lại hoặc liên hệ quản trị viên.');
+                    require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+                    exit();
+                }
+
+                $list_car   = new Category('driving_team');
+                $list_car   = $list_car->getOptionSelect();
+
+                $list_user  = new user($database);
+                $list_user  = $list_user->get_all_user_option();
+
+                // Submit
+                if($_REQUEST['submit']){
+                    $error = $success = '';
+                    $upadte = $driving->update_oil($path[4]);
+                    if($upadte['response'] == 200){
+                        require_once ABSPATH . 'includes/class/class.uploader.php';
+                        if($_FILES['meta_image']){
+                            $path_upload        = 'content/plugin/driving_team/upload/';
+                            $uploader           = new Uploader();
+                            $data_upload        = $uploader->upload($_FILES['meta_image'], array(
+                                'limit'         => 1, //Maximum Limit of files. {null, Number}
+                                'maxSize'       => 2, //Maximum Size of files {null, Number(in MB's)}
+                                'extensions'    => ['jpg', 'JPG', 'png', 'PNG', 'jpeg', 'JPEG'], //Whitelist for file extension. {null, Array(ex: array('jpg', 'png'))}
+                                'required'      => true, //Minimum one file is required for upload {Boolean}
+                                'uploadDir'     => ABSPATH . $path_upload, //Upload directory {String}
+                                'title'         => array('auto', 15), //New file name {null, String, Array} *please read documentation in README.md
+                                'removeFiles'   => true, //Enable file exclusion {Boolean(extra for jQuery.filer), String($_POST field name containing json data with file names)}
+                                'replace'       => false, //Replace the file if it already exists {Boolean}
+                                'onRemove'      => 'onFilesRemoveCallback'//A callback function name to be called by removing files (must return an array) | ($removed_files) | Callback
+                            ));
+
+                            if($data_upload['isSuccess']){
+                                $data_images    = $path_upload . $data_upload['data']['metas'][0]['name'];
+                                $update_image   = $driving->update_image_oil($path[4], $data_images);
+                            }
+                        }
+                        $success    = alert('success', $upadte['message']);
+                        $caroil     = $driving->get_caroil($path[4]);
+                    }else{
+                        $error = alert('error', $upadte['message']);
+                    }
+                }
+
+                $header['title']    = 'Cập nhật phiếu đổ dầu';
+                require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+                echo admin_breadcrumbs('Cập nhật phiếu đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Cập nhật phiếu đổ dầu');
+                echo formOpen('', ['method' => 'POST', 'enctype' => 'true']);
+                ?>
+                <div class="row justify-content-center">
+                    <div class="col-9">
+                        <div class="card card-bordered">
+                            <div class="card-inner border-bottom">
+                                <!-- Title -->
+                                <div class="card-title-group">
+                                    <div class="card-title"><h6 class="title">Cập nhật phiếu đổ dầu</h6></div>
+                                    <div class="card-tools">
+                                        <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}"?>" class="link">Danh sách</a>
+                                    </div>
+                                </div>
+                                <!-- Title -->
+                            </div>
+                            <!-- Content -->
+                            <div class="card-inner g-4">
+                                <?=$error?$error:''?>
+                                <?=$success?$success:''?>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <?=formInputText('caroil_date', [
+                                            'placeholder'   => 'Chọn ngày đổ dầu',
+                                            'layout'        => 'date',
+                                            'value'         => $caroil['caroil_date']
+                                        ])?>
+                                    </div>
+                                    <div class="col-6">
+                                        <?=formInputText('caroil_code', [
+                                            'label' => 'Mã phiếu',
+                                            'value' => $caroil['caroil_code']
+                                        ])?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <?=formInputSelect('caroil_bsx', $list_car, [
+                                            'label'         => 'Biển Số Xe',
+                                            'data-search'   => 'on',
+                                            'selected'      => $caroil['caroil_bsx']
+                                        ])?>
+                                    </div>
+                                    <div class="col-6">
+                                        <?=formInputSelect('caroil_tx', $list_user, [
+                                            'label'             => 'Lái xe đổ dầu',
+                                            'data-search'       => 'on',
+                                            'data-placeholder'  => 'Chọn lái xe đổ dầu',
+                                            'selected'          => $caroil['caroil_tx']
+                                        ])?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <?=formInputText('caroil_lit', [
+                                            'label' => 'Số lượng dầu (Lít)',
+                                            'value' => $caroil['caroil_lit']
+                                        ])?>
+                                    </div>
+                                    <div class="col-6">
+                                        <?=formInputText('caroil_price', [
+                                            'label' => 'Đơn giá/lít',
+                                            'value' => $caroil['caroil_price']
+                                        ])?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="customFileLabel">Ảnh</label>
+                                    <div class="form-control-wrap">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="meta_image" id="meta_image_add">
+                                            <label class="custom-file-label" for="meta_image_add">Chọn File</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?=formInputTextarea('caroil_note', [
+                                    'placeholder'   => 'Ghi chú',
+                                    'value'         => $caroil['caroil_note']
+                                ])?>
+                                <div class="text-center">
+                                    <?=formButton('CẬP NHẬT', [
+                                        'id'    => 'button_oil_add',
+                                        'class' => 'btn btn-secondary',
+                                        'type'  => 'submit',
+                                        'name'  => 'submit',
+                                        'value' => 'submit'
+                                    ])?>
+                                </div>
+                            </div>
+                            <!-- End Content -->
+                        </div>
+                    </div>
+                </div>
+                <?php
+                echo formClose();
+                require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+                break;
             case 'view':
                 // Kiểm tra quyền truy cập
                 if(!$role['driving_team']['oil_manager'] && !$role['driving_team']['oil_add']){
@@ -36,74 +196,88 @@ switch ($path[2]){
                 require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                 echo admin_breadcrumbs('Chi tiết đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Chi tiết đổ dầu');
                 ?>
-                <div class="nk-block">
-                    <div class="invoice">
-                        <div class="invoice-wrap">
-                            <div class="invoice-brand text-center">
-                                <img src="<?=get_config('logo')?>" alt="">
+                <div class="row">
+                    <div class="col-lg-9">
+                        <div class="nk-block">
+                            <div class="invoice">
+                                <div class="invoice-wrap">
+                                    <div class="invoice-brand text-center">
+                                        <img src="<?=get_config('logo')?>" alt="">
+                                    </div>
+                                    <div class="invoice-head">
+                                        <div class="invoice-contact">
+                                            <span class="overline-title">Hoá Đơn Của</span>
+                                            <div class="invoice-contact-info">
+                                                <h4 class="title"><?=$get_tx['user_name']?></h4>
+                                                <ul class="list-plain">
+                                                    <li><em class="icon ni ni-map-pin-fill"></em><span>Cửa hàng xăng dầu số 8 - 190, Đại Mỗ, P. Đại Mỗ, Q. Nam Từ Liêm, Tp. Hà Nội</span></li>
+                                                    <li><em class="icon ni ni-call-fill"></em><span><?=$get_tx['user_phone']?></span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="invoice-desc">
+                                            <h3 class="title">HOÁ ĐƠN</h3>
+                                            <ul class="list-plain">
+                                                <li class="invoice-id"><span>Số Phiếu</span>:<span><?=$data['caroil_code']?></span></li>
+                                                <li class="invoice-date"><span>Ngày Đổ</span>:<span><?=date('d/m/Y', strtotime($data['caroil_date']))?></span></li>
+                                                <li class="invoice-date"><span>Người Nhập</span>:<span><?=$get_user['user_name']?></span></li>
+                                            </ul>
+                                        </div>
+                                    </div><!-- .invoice-head -->
+                                    <div class="invoice-bills">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                <tr>
+                                                    <th class="w-150px">ID Phiếu</th>
+                                                    <th class="w-50">Mô Tả</th>
+                                                    <th>Giá/Lít</th>
+                                                    <th>Số Lượng (Lít)</th>
+                                                    <th>Thành Tiền</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td><?=$data['caroil_id']?></td>
+                                                    <td>Xe <strong class="text-pink"><?=$get_car['data']['meta_name']?></strong> đổ dầu ngày <strong class="text-pink"><?=date('d/m/Y', strtotime($data['caroil_date']))?></strong></td>
+                                                    <td><?=convert_number_to_money($data['caroil_price'])?></td>
+                                                    <td><?=$data['caroil_lit']?></td>
+                                                    <td><?=convert_number_to_money($data['caroil_price']*$data['caroil_lit'])?></td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+                                            <div class="nk-notes ff-italic fs-12px text-soft"> Ghi chú: <?=$data['caroil_note']?$data['caroil_note']:'Không có ghi chú cho đơn này.'?>. </div>
+                                            <hr />
+                                        </div>
+                                    </div><!-- .invoice-bills -->
+                                </div><!-- .invoice-wrap -->
+                            </div><!-- .invoice -->
+                        </div><!-- .nk-block -->
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="card card-bordered">
+                            <div class="card-inner border-bottom">
+                                <!-- Title -->
+                                <div class="card-title-group">
+                                    <div class="card-title"><h6 class="title">Hình Ảnh</h6></div>
+                                </div>
+                                <!-- Title -->
                             </div>
-                            <div class="invoice-head">
-                                <div class="invoice-contact">
-                                    <span class="overline-title">Hoá Đơn Của</span>
-                                    <div class="invoice-contact-info">
-                                        <h4 class="title"><?=$get_tx['user_name']?></h4>
-                                        <ul class="list-plain">
-                                            <li><em class="icon ni ni-map-pin-fill"></em><span>Cửa hàng xăng dầu số 8 - 190, Đại Mỗ, P. Đại Mỗ, Q. Nam Từ Liêm, Tp. Hà Nội</span></li>
-                                            <li><em class="icon ni ni-call-fill"></em><span><?=$get_tx['user_phone']?></span></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="invoice-desc">
-                                    <h3 class="title">HOÁ ĐƠN</h3>
-                                    <ul class="list-plain">
-                                        <li class="invoice-id"><span>Số Phiếu</span>:<span><?=$data['caroil_code']?></span></li>
-                                        <li class="invoice-date"><span>Ngày Đổ</span>:<span><?=date('d/m/Y', strtotime($data['caroil_date']))?></span></li>
-                                        <li class="invoice-date"><span>Người Nhập</span>:<span><?=$get_user['user_name']?></span></li>
-                                    </ul>
-                                </div>
-                            </div><!-- .invoice-head -->
-                            <div class="invoice-bills">
-                                <div class="table-responsive">
-                                    <table class="table table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th class="w-150px">ID Phiếu</th>
-                                            <th class="w-60">Mô Tả</th>
-                                            <th>Giá/Lít</th>
-                                            <th>Số Lượng (Lít)</th>
-                                            <th>Thành Tiền</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tfoot>
-                                        <tr>
-                                            <td><?=$data['caroil_id']?></td>
-                                            <td>Xe <strong class="text-pink"><?=$get_car['data']['meta_name']?></strong> đổ dầu ngày <strong class="text-pink"><?=date('d/m/Y', strtotime($data['caroil_date']))?></strong></td>
-                                            <td><?=convert_number_to_money($data['caroil_price'])?></td>
-                                            <td><?=$data['caroil_lit']?></td>
-                                            <td><?=convert_number_to_money($data['caroil_price']*$data['caroil_lit'])?></td>
-                                        </tr>
-                                        </tfoot>
-                                    </table>
-                                    <div class="nk-notes ff-italic fs-12px text-soft"> Ghi chú: <?=$data['caroil_note']?$data['caroil_note']:'Không có ghi chú cho đơn này.'?>. </div>
-                                    <hr />
-                                    <div>
-                                        <p>Hình Ảnh</p>
-                                        <p class="text-center">
-                                            <?php
-                                            if($data['cariol_image']){
-                                                echo '<img src="'. URL_HOME .'/'. $data['cariol_image'] .'" />';
-                                            }else{
-                                                echo "Không có hình ảnh";
-                                            }
-                                            ?>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div><!-- .invoice-bills -->
-                        </div><!-- .invoice-wrap -->
-                    </div><!-- .invoice -->
-                </div><!-- .nk-block -->
+                            <!-- Content -->
+                            <div class="card-inner">
+                                <?php
+                                if($data['cariol_image']){
+                                    echo '<a href="'. URL_HOME .'/'. $data['cariol_image'] .'" target="_blank"><img src="'. URL_HOME .'/'. $data['cariol_image'] .'" /></a>';
+                                }else{
+                                    echo "Không có hình ảnh";
+                                }
+                                ?>
+                            </div>
+                            <!-- End Content -->
+                        </div>
+                    </div>
+                </div>
                 <?php
                 require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
                 break;
@@ -234,7 +408,8 @@ switch ($path[2]){
                                     </div>
                                 </div>
                                 <?=formInputTextarea('caroil_note', [
-                                    'placeholder' => 'Ghi chú'
+                                    'placeholder'   => 'Ghi chú',
+                                    'value'         => $_REQUEST['caroil_note']
                                 ])?>
                                 <div class="text-center">
                                     <?=formButton('THÊM MỚI', [
@@ -366,11 +541,18 @@ switch ($path[2]){
                                                     <li>
                                                         <?php
                                                         if($role['driving_team']['oil_add']){
+                                                            if((time() - strtotime($row['caroil_create'])) < (60*60*24*2)){
                                                             ?>
+                                                            <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/{$path[3]}update/{$row['caroil_id']}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật">
+                                                                <em class="icon ni ni-edit-fill"></em>
+                                                            </a>
                                                             <a href="#" data-type="delete" data-id="<?=$row['caroil_id']?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Xóa">
                                                                 <em class="icon ni ni-trash text-danger"></em>
                                                             </a>
                                                             <?php
+                                                            }else{
+                                                                echo '<em class="icon ni ni-user-cross-fill text-danger" title="Đã quá thời gian sửa, xoá"></em>';
+                                                            }
                                                         }else{
                                                             echo '---';
                                                         }

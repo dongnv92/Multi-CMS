@@ -29,7 +29,7 @@ class pDriving{
 
     public function get_caroil($caroil_id, $fields = '*'){
         global $database;
-        if(!$this->check_id_oil($caroil_id)){
+        if(!$this->check_caroil($caroil_id)){
             return false;
         }
         $data = $database->select($fields)->from($this->table_oil)->where($this->caroil_id, $caroil_id)->fetch_first();
@@ -39,19 +39,9 @@ class pDriving{
         return $data;
     }
 
-    public function check_id_oil($oil_id){
-        global $database;
-        $check = $database->select('COUNT(*) AS count')->from($this->table_oil)->where($this->caroil_id, $oil_id)->fetch_first();
-        if($check['count'] > 0){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     public function update_image_oil($oil_id, $path_image){
         global $database;
-        if(!$this->check_id_oil($oil_id)){
+        if(!$this->check_caroil($oil_id)){
             return get_response_array(309, 'Phiếu đổ dầu không tồn tại.');
         }
         $update = $database->where([$this->caroil_id => $oil_id])->update($this->table_oil, [$this->cariol_image => $path_image]);
@@ -60,6 +50,56 @@ class pDriving{
         }else{
             return get_response_array(309, 'Update ảnh không thành công.');
         }
+    }
+
+    public function update_oil($caroil_id){
+        global $database;
+
+        $caroil = $this->get_caroil($caroil_id);
+        if(!$caroil){
+            return get_response_array(309, 'Phiếu này không tồn tại.');
+        }
+        if((time() - strtotime($caroil[$this->caroil_create])) > (60*60*24*2)){
+            return get_response_array(309, 'Đã quá thời gian để chỉnh sửa.');
+        }
+
+        $caroil_date = $_REQUEST['caroil_date'];
+        if(!$caroil_date){
+            return get_response_array(309, 'Bạn cần nhập ngày đổ phiếu.');
+        }
+        $caroil_date = explode('-', $caroil_date);
+        if(!checkdate($caroil_date[1], $caroil_date[2], $caroil_date[0])){
+            return get_response_array(309, 'Ngày đổ dầu không đúng định dạng.');
+        }
+
+        if(!$_REQUEST['caroil_bsx'] || !$this->check_bks($_REQUEST['caroil_bsx'])){
+            return get_response_array(309, 'Bạn cần nhập biển số xe.');
+        }
+
+        if(!$_REQUEST['caroil_tx'] ||  !$this->check_user($_REQUEST['caroil_tx'])){
+            return get_response_array(309, 'Bạn cần chọn người đi đổ dầu.');
+        }
+
+        if(!$_REQUEST['caroil_lit']){
+            return get_response_array(309, 'Bạn cần nhập số lít đầu đổ.');
+        }
+
+        $data = [
+            'caroil_bsx'    => $_REQUEST['caroil_bsx'],
+            'caroil_tx'     => $_REQUEST['caroil_tx'],
+            'caroil_code'   => $_REQUEST['caroil_code'],
+            'caroil_lit'    => $_REQUEST['caroil_lit'],
+            'caroil_price'  => $_REQUEST['caroil_price'],
+            'caroil_date'   => $_REQUEST['caroil_date'],
+            'caroil_note'   => $_REQUEST['caroil_note']
+        ];
+
+        $action = $database->where([$this->caroil_id => $caroil_id])->update($this->table_oil, $data);
+
+        if(!$action){
+            return get_response_array(208, "Cập nhật dữ liệu không thành công.");
+        }
+        return ['response'  => 200, 'message'   => 'Cập nhật liệu thành công', 'data' => $action];
     }
 
     public function add_oil(){
@@ -73,11 +113,11 @@ class pDriving{
             return get_response_array(309, 'Ngày đổ dầu không đúng định dạng.');
         }
 
-        if(!$_REQUEST['caroil_bsx']){
+        if(!$_REQUEST['caroil_bsx'] || !$this->check_bks($_REQUEST['caroil_bsx'])){
             return get_response_array(309, 'Bạn cần nhập biển số xe.');
         }
 
-        if(!$_REQUEST['caroil_tx']){
+        if(!$_REQUEST['caroil_tx'] ||  !$this->check_user($_REQUEST['caroil_tx'])){
             return get_response_array(309, 'Bạn cần chọn người đi đổ dầu.');
         }
 
@@ -101,9 +141,19 @@ class pDriving{
         if(!$action){
             return get_response_array(208, "Thêm dữ liệu không thành công.");
         }
+
+        // Send Message to Telegram Group
+        $car        = new meta($database, 'listcar_category');
+        $get_car    = $car->get_meta($_REQUEST['caroil_bsx']);
+        $tx         = new user($database);
+        $get_tx     = $tx->get_user(['user_id' => $_REQUEST['caroil_tx']]);
+
+        $telegram = new Telegram('citypost_notice');
+        $telegram->set_chatid('-506790604');
+        $message = "[Thông báo đổ dầu] Lái xe {$get_tx['user_name']} đổ {$_REQUEST['caroil_lit']} Lít dầu ngày {$_REQUEST['caroil_date']} xe {$get_car['data']['meta_name']}.\nNgười nhập: {$me['user_name']}";
+        $telegram->sendMessage($message);
         return ['response'  => 200, 'message'   => 'Thêm dữ liệu thành công', 'data' => $action];
     }
-
 
     // Lấy danh sách tất cả
     public function get_all(){
@@ -182,9 +232,14 @@ class pDriving{
 
     public function delete_oilcar($oilcar_id){
         global $database;
-        if(!$this->check_id_oil($oilcar_id)){
-            return get_response_array(309, 'ID lịch sử đổ dầu không tồn tại.');
+        $caroil = $this->get_caroil($oilcar_id);
+        if(!$caroil){
+            return get_response_array(309, 'Phiếu này không tồn tại.');
         }
+        if((time() - strtotime($caroil[$this->caroil_create])) > (60*60*24*2)){
+            return get_response_array(309, 'Đã quá thời gian để chỉnh sửa.');
+        }
+
         $delete = $database->delete($this->table_oil)->where($this->caroil_id, $oilcar_id)->execute();
         if(!$delete){
             return get_response_array(309, 'Xóa lịch sử dổ dầu không thành công.');
@@ -244,6 +299,16 @@ class pDriving{
         return $html;
     }
 
+    // Check Oil Car
+    private function check_caroil($caroil_id){
+        global $database;
+        $count = $database->select('COUNT(*) AS count')->from($this->table_oil)->where($this->caroil_id, $caroil_id)->fetch_first();
+        if($count['count'] > 0){
+            return true;
+        }
+        return false;
+    }
+
     // Check BKS
     private function check_bks($bks){
         global $database;
@@ -254,6 +319,7 @@ class pDriving{
         return true;
     }
 
+    // Check User
     private function check_user($user_id){
         global $database;
         $user = new user($database);

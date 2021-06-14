@@ -2,7 +2,7 @@ RewriteEngine on
 php_value allow_url_fopen On
 # force ssl
 # RewriteCond     %{SERVER_PORT} ^80$
-# RewriteRule     ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+#RewriteRule     ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^login.html$ login.php [L,QSA,B]
