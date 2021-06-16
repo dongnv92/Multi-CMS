@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.htaccess" beforeDir="false" afterPath="$PROJECT_DIR$/.htaccess" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/driving_team/includes/class.driving.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/driving_team/includes/class.driving.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/driving_team/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/driving_team/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/telegram/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/telegram/config.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/telegram/includes/class.telegram.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/telegram/includes/class.telegram.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/telegram/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/telegram/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -142,7 +136,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -152,7 +146,7 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>C:\Users\DONG\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -213,6 +207,8 @@
       <workItem from="1623636200370" duration="16000" />
       <workItem from="1623636273088" duration="454000" />
       <workItem from="1623636747403" duration="11395000" />
+      <workItem from="1623723342077" duration="2464000" />
+      <workItem from="1623808534234" duration="823000" />
     </task>
     <servers />
   </component>

@@ -12,4 +12,5 @@ $MAC = strtok($MAC, ' ');
 // because getmac returns transport name after
 // MAC address
 echo "MAC address of client is: $MAC";
+
 ?>
