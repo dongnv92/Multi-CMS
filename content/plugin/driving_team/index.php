@@ -2,6 +2,15 @@
 switch ($path[2]){
     case 'oil':
         switch ($path[3]){
+            case 'test':
+                $driving = new pDriving();
+                //print_r($driving->oilcar_static('31', '2021-05-30', '2021-05-31'));
+                $date = date('Y-m-d');
+                echo "Date Now: $date<br />";
+                $newdate = strtotime('+7 days', strtotime($date));
+                $newdate = date('Y-m-d', $newdate);
+                echo "Date New: $newdate";
+                break;
             case 'update':
                 $driving    = new pDriving();
                 $caroil     = $driving->get_caroil($path[4]);

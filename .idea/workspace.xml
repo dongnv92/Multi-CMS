@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/plugin/driving_team/includes/class.driving.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/driving_team/includes/class.driving.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/content/plugin/driving_team/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/driving_team/index.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +146,16 @@
       <recent name="C:\xampp\htdocs\dong\multicms\content\plugin" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration name="index.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/content/plugin/kplus/index.php">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="PHP Script.index.php" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>C:\Users\DONG\AppData\Roaming\Subversion</configuration>
@@ -208,8 +220,17 @@
       <workItem from="1623636273088" duration="454000" />
       <workItem from="1623636747403" duration="11395000" />
       <workItem from="1623723342077" duration="2464000" />
-      <workItem from="1623808534234" duration="823000" />
+      <workItem from="1623808534234" duration="2215000" />
+      <workItem from="1623895073467" duration="6099000" />
     </task>
+    <task id="LOCAL-00001" summary="...">
+      <created>1623810740523</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1623810740523</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -263,6 +284,10 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="..." />
+    <option name="LAST_COMMIT_MESSAGE" value="..." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/admin/includes/index.php">

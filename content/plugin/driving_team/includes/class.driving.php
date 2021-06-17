@@ -23,8 +23,16 @@ class pDriving{
     public function __construct(){
     }
 
-    public function add_car_plan(){
-
+    public function oilcar_static($bks_id, $date_start, $date_end){
+        global $database;
+        $where = [
+            $this->caroil_bsx => $bks_id
+        ];
+        $database->select('COUNT(*) AS count_data, SUM('. $this->caroil_lit .') AS sum_lit')->from($this->table_oil);
+        $database->where($where);
+        $database->between($this->caroil_date, $date_start, $date_end);
+        $statics = $database->fetch_first();
+        return $statics;
     }
 
     public function get_caroil($caroil_id, $fields = '*'){
@@ -147,11 +155,22 @@ class pDriving{
         $get_car    = $car->get_meta($_REQUEST['caroil_bsx']);
         $tx         = new user($database);
         $get_tx     = $tx->get_user(['user_id' => $_REQUEST['caroil_tx']]);
+        $date_now   = date('Y-m-d');
+        $newdate_7  = strtotime('-7 days', strtotime($date_now));
+        $newdate_30 = strtotime('-30 days', strtotime($date_now));
+        $newdate_7  = date('Y-m-d', $newdate_7);
+        $newdate_30 = date('Y-m-d', $newdate_30);
+        $statics_7  = $this->oilcar_static($_REQUEST['caroil_bsx'], $newdate_7, $date_now);
+        $statics_30 = $this->oilcar_static($_REQUEST['caroil_bsx'], $newdate_30, $date_now);
 
         $telegram = new Telegram('citypost_notice');
         $telegram->set_chatid('-506790604');
         $message = "[Thông báo đổ dầu] Lái xe {$get_tx['user_name']} đổ {$_REQUEST['caroil_lit']} Lít dầu ngày {$_REQUEST['caroil_date']} xe {$get_car['data']['meta_name']}.\nNgười nhập: {$me['user_name']}";
+        $message_static  = "[Thống kê xe {$get_car['data']['meta_name']}]\n";
+        $message_static .= "- 7 Ngày gần nhất xe {$get_car['data']['meta_name']} đổ {$statics_7['count_data']} lần, tổng {$statics_7['sum_lit']} Lít\n";
+        $message_static .= "- 30 Ngày gần nhất xe {$get_car['data']['meta_name']} đổ {$statics_30['count_data']} lần, tổng {$statics_30['sum_lit']} Lít";
         $telegram->sendMessage($message);
+        $telegram->sendMessage($message_static);
         return ['response'  => 200, 'message'   => 'Thêm dữ liệu thành công', 'data' => $action];
     }
 
