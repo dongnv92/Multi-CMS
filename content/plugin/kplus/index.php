@@ -130,7 +130,7 @@ switch ($path[2]){
         if(!$role['kplus']['manager']){
             $header['title'] = 'Lỗi quyền truy cập';
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-            echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
+            echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
             echo admin_error('Thêm mới', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
@@ -149,9 +149,9 @@ switch ($path[2]){
         }
 
         $select_payment = [
-            ''  => 'Thanh toán',
-            'paid'  => 'Đã thanh toán',
-            'unpaid'  => 'Chưa thanh toán'
+            ''          => 'Thanh toán',
+            'paid'      => 'Đã thanh toán',
+            'unpaid'    => 'Chưa thanh toán'
         ];
 
         $select_status = [
@@ -162,18 +162,11 @@ switch ($path[2]){
             'error'         => 'Thẻ lỗi ('. $static['error'] .')'
         ];
 
-
-        $header['css']      = [
-            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.css'
-        ];
-        $header['js']       = [
-            URL_ADMIN_ASSETS . 'plugins/sweetalert/sweetalert.min.js',
-            URL_JS . "{$path[1]}",
-        ];
+        $header['js']       = [URL_JS . "{$path[1]}",];
 
         $header['title'] = 'Danh sách mã thẻ';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        echo admin_breadcrumbs('Kplus', 'Danh sách mã thẻ','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
+        echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
         ?>
         <div class="row">
             <div class="col-lg-6">

@@ -4,7 +4,7 @@
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "KPLUS.VN List",
-    "status": "not_active",
+    "status": "active",
     "author": "MULTICMS PLUGIN",
     "website": "http:\/\/localhost\/dong\/multicms\/",
     "source": {
