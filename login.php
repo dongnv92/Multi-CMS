@@ -144,22 +144,25 @@ if($me){
                         });
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');
-                    }, 2000);
+                    }, 500);
                 } else {
                     setTimeout(function () {
+/*
                         if($('#rememberme:checkbox:checked').length > 0){
                             setCookie('access_token', data.data.user_token, 30);
                         }
+*/
                         toastr.clear();
                         NioApp.Toast(data.message, 'success',{
                             position: 'top-right'
                         });
                         $('#submit_login').attr('disabled', false);
                         $('#submit_login').html('ĐĂNG NHẬP');
+                        setCookie('access_token', data.data.user_token, 30);
                         setTimeout(function () {
                             $(location).attr('href', '<?=isset($_REQUEST['ref']) ? $_REQUEST['ref'] : URL_ADMIN?>');
-                        }, 2000);
-                    }, 2000);
+                        }, 500);
+                    }, 500);
                 }
             });
 
