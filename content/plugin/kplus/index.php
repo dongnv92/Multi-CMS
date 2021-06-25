@@ -183,7 +183,7 @@ switch ($path[2]){
                 <br />
                 <a href="<?=URL_ADMIN."/{$path[1]}/"?>">Làm mới</a> | <a href="<?=URL_ADMIN."/{$path[1]}/add"?>">Thêm mới</a>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 text-right">
                 <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
             </div>
             <div class="col-lg-12">
@@ -250,7 +250,7 @@ switch ($path[2]){
                                         ?>
                                         <tr>
                                             <td class="text-left align-middle">
-                                                <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'verify' ? '<i class="zmdi zmdi-check-circle text-primary"></i>' : ''?>
+                                                <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'verify' ? '<em class="icon ni ni-check-circle-cut text-primary"></em>' : ''?>
                                             </td>
                                             <td class="text-left align-middle">
                                                 <?=date('d/m/Y', strtotime($row['kplus_expired']))?>

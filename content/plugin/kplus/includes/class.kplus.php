@@ -42,17 +42,17 @@ class Kplus{
     // Cập nhật update đã kiểm tra
     public function update_verify($kplus_code){
         global $database;
-        if(!$this->validateCode($kplus_code)){
-            return false;
+        if(!$this->validateCode(trim($kplus_code))){
+            return get_response_array(309, 'Mã thẻ trống hoặc sai định dạng.');
         }
         $status = $database->select(self::kplus_verify)->from(self::table)->where(self::kplus_code, $kplus_code)->fetch_first();
         $status = $status[self::kplus_verify];
         $data   = [self::kplus_verify => ($status == 'verify' ? 'unchecked' : 'verify')];
         $update = $database->where(self::kplus_code, $kplus_code)->update(self::table, $data);
         if(!$update){
-            return false;
+            return get_response_array(309, 'Cập nhật trạng thái đăng ký không thành công.');
         }
-        return true;
+        return get_response_array(200, 'Cập nhật trạng thái đăng ký thành công.'.($status == 'verify' ? 'Đã huỷ xác nhận check' : 'Đã thêm xác nhận check'));
     }
 
     // Lấy thông tin các trạng thái
@@ -113,7 +113,7 @@ class Kplus{
     }
 
     private function validateCode($code){
-        if(strlen($code) == 12 && validate_int($code)){
+        if(strlen($code) == 12){
             return true;
         }
         return false;

@@ -168,34 +168,36 @@ switch ($path[2]) {
             // Verify
             $('a[data-type=update_verify]').on('click', function () {
                 var id = $(this).data('id');
-                swal({
-                    title: "Cập nhật trạng thái xác nhận",
-                    text: "Bạn có muốn cập nhật trạng thái xác nhận không?",
+                swal.fire({
+                    title: "Cập nhật trạng thái đã check",
+                    text: "Bạn có muốn cập nhật trạng thái đã check không?",
                     type: "warning",
                     showCancelButton: true,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true,
-                }, function () {
-                    setTimeout(function () {
-                        var ajax = $.ajax({
-                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/update_verify/"?>' + id,
-                            method      : 'POST',
-                            dataType    : 'json',
-                        });
-                        ajax.done(function (data) {
-                            if(data.response == 200){
-                                swal("Cập nhật trạng thái xác nhận", data.message, "success");
-                                setTimeout(function () {
-                                    location.reload();
-                                }, 1500);
-                            }else{
-                                swal("Cập nhật trạng thái xác nhận", data.message, "error");
-                            }
-                        });
-                        ajax.fail(function( jqXHR, textStatus ) {
-                            console.log("Request failed: " + textStatus );
-                        });
-                    }, 2000);
+                }). then(function (result) {
+                    if(result){
+                        setTimeout(function () {
+                            var ajax = $.ajax({
+                                url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/update_verify/"?>' + id,
+                                method      : 'POST',
+                                dataType    : 'json',
+                            });
+                            ajax.done(function (data) {
+                                if(data.response == 200){
+                                    swal.fire("Cập nhật trạng thái xác nhận", data.message, "success");
+                                    setTimeout(function () {
+                                        location.reload();
+                                    }, 1500);
+                                }else{
+                                    swal.fire("Cập nhật trạng thái xác nhận", data.message, "error");
+                                }
+                            });
+                            ajax.fail(function( jqXHR, textStatus ) {
+                                console.log("Request failed: " + textStatus );
+                            });
+                        }, 1500);
+                    }
                 });
             });
 
@@ -234,17 +236,17 @@ switch ($path[2]) {
             });
 
             // Delete
-            $('a[data-type=delete]').on('click', function () {
+            $('a[data-type=delete]').on('click', function (e) {
                 var kpkus_code = $(this).data('id');
-                swal({
+                Swal.fire({
                     title: "Xóa thẻ đầu thu",
                     text: "Bạn có chắc chắn muốn xóa thẻ này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
-                    type: "warning",
+                    icon: 'warning',
                     showCancelButton: true,
-                    closeOnConfirm: false,
+                    confirmButtonText: 'Xóa',
                     showLoaderOnConfirm: true,
-                }, function () {
-                    setTimeout(function () {
+                }).then(function (result) {
+                    if (result.value) {
                         var ajax = $.ajax({
                             url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>delete/' + kpkus_code,
                             method      : 'POST',
@@ -252,49 +254,54 @@ switch ($path[2]) {
                         });
                         ajax.done(function (data) {
                             if(data.response == 200){
-                                swal("Xóa thẻ", 'Xóa thẻ thành công', "success");
-                                location.reload();
+                                Swal.fire("Xóa thẻ đầu thu", "Xoá mã thẻ đầu thu thành công!", "success");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
                             }else{
-                                swal("Xóa thẻ", data.message, "error");
+                                Swal.fire("Xóa thẻ đầu thu", data.message, "error");
                             }
                         });
                         ajax.fail(function( jqXHR, textStatus ) {
                             console.log("Request failed: " + textStatus );
                         });
-                    }, 2000);
+                    }
                 });
+                e.preventDefault();
             });
 
             // Update Status
             $('a[data-type=update_status]').on('click', function () {
                 var kplus_code      = $(this).data('id');
                 var kplus_status    = $(this).data('status');
-                swal({
+                swal.fire({
                     title: "Cập nhật trạng thái",
                     text: "Bạn có chắc chắn muốn cập nhật trạng thái thẻ này không?",
-                    type: "warning",
+                    icon: 'warning',
                     showCancelButton: true,
-                    closeOnConfirm: false,
+                    confirmButtonText: 'Xóa',
                     showLoaderOnConfirm: true,
-                }, function () {
-                    setTimeout(function () {
-                        var ajax = $.ajax({
-                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>update_status/' + kplus_code + '/' + kplus_status,
-                            method      : 'POST',
-                            dataType    : 'json',
-                        });
-                        ajax.done(function (data) {
-                            if(data.response == 200){
-                                swal("Cập nhật trạng thái", 'Cập nhật trạng thái thành công', "success");
-                                location.reload();
-                            }else{
-                                swal("Cập nhật trạng thái", data.message, "error");
-                            }
-                        });
-                        ajax.fail(function( jqXHR, textStatus ) {
-                            console.log("Request failed: " + textStatus );
-                        });
-                    }, 2000);
+                }).then(function (result) {
+                    if(result.value){
+                        setTimeout(function () {
+                            var ajax = $.ajax({
+                                url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/"?>update_status/' + kplus_code + '/' + kplus_status,
+                                method      : 'POST',
+                                dataType    : 'json',
+                            });
+                            ajax.done(function (data) {
+                                if(data.response == 200){
+                                    swal.fire("Cập nhật trạng thái", 'Cập nhật trạng thái thành công', "success");
+                                    location.reload();
+                                }else{
+                                    swal.fire("Cập nhật trạng thái", data.message, "error");
+                                }
+                            });
+                            ajax.fail(function( jqXHR, textStatus ) {
+                                console.log("Request failed: " + textStatus );
+                            });
+                        }, 2000);
+                    }
                 });
             });
         });
