@@ -282,7 +282,7 @@ class pDriving{
                                 <h6 class="title">Danh sách đổ dầu mới nhất</h6>
                             </div>
                             <div class="card-tools">
-                                <a href="'. URL_ADMIN .'/driving_team/oil/" class="link">Xem tất cả</a> | <a href="'. URL_ADMIN .'/driving_team/oil/add" class="link">Thêm mới</a> 
+                                <a href="'. URL_ADMIN .'/driving/oil/" class="link">Xem tất cả</a> | <a href="'. URL_ADMIN .'/driving/oil/add" class="link">Thêm mới</a> 
                             </div>
                         </div>
                     </div>

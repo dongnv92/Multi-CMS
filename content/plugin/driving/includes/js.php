@@ -4,7 +4,7 @@ switch ($path[2]) {
         switch ($path[3]){
             case 'add':
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_add']){
+                if(!$role['driving']['oil_add']){
                     exit('Error');
                 }
                 ?>
@@ -51,7 +51,7 @@ switch ($path[2]) {
                 break;
             default:
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_add']){
+                if(!$role['driving']['oil_add']){
                     exit('Error');
                 }
                 ?>

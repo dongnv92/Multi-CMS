@@ -64,58 +64,84 @@ switch ($path[2]){
         if(!$role['kplus']['manager']){
             $header['title'] = 'Lỗi quyền truy cập';
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-            echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
-            echo admin_error('Thêm mới', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Cập nhật');
+            echo admin_error('Cập nhật', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
         }
 
+        $data_option_status = [
+            'unregistered'  => 'Chưa đăng ký',
+            'registered'    => 'Đã đăng ký',
+            'wait'          => 'Đang chờ xác nhận',
+            'error'         => 'Mã lỗi'
+        ];
+        $data_option_verify = [
+            'verify'    => 'Đã xác thực',
+            'unchecked' => 'Chưa kiểm tra'
+        ];
+
         $kplus  = new Kplus($database);
         $row    = $kplus->getData($path[3]);
 
-        $header['js']       = [
-            URL_ADMIN_ASSETS . 'plugins/bootstrap-notify/bootstrap-notify.js',
-            URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
-        ];
-        $header['title'] = 'Cập nhật';
+        $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"];
+        $header['title']    = 'Cập nhật';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        echo admin_breadcrumbs('Kplus', 'Danh sách tài khoản','Danh sách', [URL_ADMIN . "/{$path[1]}/" => 'Kplus']);
+        echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Cập nhật');
         ?>
-        <div class="card">
-            <div class="body">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#first">Thêm một mã</a></li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane in active" id="first">
+        <div class="row">
+            <div class="col-9">
+                <div class="card card-bordered">
+                    <div class="card-inner border-bottom">
+                        <!-- Title -->
+                        <div class="card-title-group">
+                            <div class="card-title"><h6 class="title">Cập nhật thông tin thẻ</h6></div>
+                            <div class="card-tools">
+                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="link">Danh sách</a>
+                            </div>
+                        </div>
+                        <!-- Title -->
+                    </div>
+                    <div class="card-inner">
                         <?=formOpen('POST', ['id' => 'add'])?>
-                        <?=formInputText('kplus_code', [
-                            'layout'        => 'horizonta',
-                            'label'         => '<code>*</code> Mã thẻ',
-                            'autofocus'     => 'true',
-                            'placeholder'   => 'Mã thẻ gồm 12 chữ số',
-                            'value'         => $row['kplus_code']
-                        ])?>
-                        <?=formInputText('kplus_expired', [
-                            'layout'        => 'horizonta',
-                            'label'         => '<code>*</code> Hết hạn',
-                            'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)',
-                            'value'         => date('d/m/Y', strtotime($row['kplus_expired']))
-                        ])?>
-                        <?=formInputText('kplus_name', [
-                            'layout'        => 'horizonta',
-                            'label'         => 'Tên chủ thẻ',
-                            'autofocus'     => 'true',
-                            'placeholder'   => 'Tên chủ thẻ. Có thể để trống',
-                            'value'         => $row['kplus_name']
-                        ])?>
-                        <div class="text-center">
-                            <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="btn btn-raised bg-blue waves-effect">DANH SÁCH</a>
-                            <?=formButton('CẬP NHẬT', [
-                                'id' => 'button_update'
-                            ])?>
+                        <div class="row g-4">
+                            <div class="col-4">
+                                <?=formInputText('kplus_code', [
+                                    'label'         => '<code>*</code> Mã thẻ',
+                                    'value'         => $row['kplus_code']
+                                ])?>
+                            </div>
+                            <div class="col-4">
+                                <?=formInputText('kplus_expired', [
+                                    'label'         => '<code>*</code> Ngày hết hạn',
+                                    'placeholder'   => 'Nhập ngày hết hạn định dạng dd/mm/yyyy (VD: 24/02/1992)',
+                                    'value'         => date('d/m/Y', strtotime($row['kplus_expired']))
+                                ])?>
+                            </div>
+                            <div class="col-4">
+                                <?=formInputText('kplus_name', [
+                                    'label'         => 'Tên chủ thẻ',
+                                    'placeholder'   => 'Tên chủ thẻ. Có thể để trống',
+                                    'value'         => $row['kplus_name']
+                                ])?>
+                            </div>
+                            <div class="col-6">
+                                <?=formInputSelect('kplus_status', $data_option_status, [
+                                    'label'     => 'Trạng thái mã thẻ',
+                                    'selected'  => $row['kplus_status']
+                                ])?>
+                            </div>
+                            <div class="col-6">
+                                <?=formInputSelect('kplus_verify', $data_option_verify, [
+                                    'label'     => 'Xác thực mã thẻ',
+                                    'selected'  => $row['kplus_verify']
+                                ])?>
+                            </div>
+                            <div class="col-12 text-center">
+                                <?=formButton('CẬP NHẬT', [
+                                    'id' => 'button_update'
+                                ])?>
+                            </div>
                         </div>
                         <?=formClose()?>
                     </div>

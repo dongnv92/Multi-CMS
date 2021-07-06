@@ -15,7 +15,7 @@ switch ($path[2]){
                 $driving    = new pDriving();
                 $caroil     = $driving->get_caroil($path[4]);
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_add']){
+                if(!$role['driving']['oil_add']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Cập nhật phiếu đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Cập nhật đổ dầu');
@@ -33,7 +33,7 @@ switch ($path[2]){
                     exit();
                 }
 
-                $list_car   = new Category('driving_team');
+                $list_car   = new Category('driving');
                 $list_car   = $list_car->getOptionSelect();
 
                 $list_user  = new user($database);
@@ -46,7 +46,7 @@ switch ($path[2]){
                     if($upadte['response'] == 200){
                         require_once ABSPATH . 'includes/class/class.uploader.php';
                         if($_FILES['meta_image']){
-                            $path_upload        = 'content/plugin/driving_team/upload/';
+                            $path_upload        = 'content/plugin/driving/upload/';
                             $uploader           = new Uploader();
                             $data_upload        = $uploader->upload($_FILES['meta_image'], array(
                                 'limit'         => 1, //Maximum Limit of files. {null, Number}
@@ -173,7 +173,7 @@ switch ($path[2]){
                 break;
             case 'view':
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_manager'] && !$role['driving_team']['oil_add']){
+                if(!$role['driving']['oil_manager'] && !$role['driving']['oil_add']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Chi tiết đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Chi tiết đổ dầu');
@@ -292,7 +292,7 @@ switch ($path[2]){
                 break;
             case 'add':
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_add']){
+                if(!$role['driving']['oil_add']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Thêm đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Kế đổ dầu'],'Thêm đổ dầu');
@@ -301,7 +301,7 @@ switch ($path[2]){
                     exit();
                 }
 
-                $list_car   = new Category('driving_team');
+                $list_car   = new Category('driving');
                 $list_car   = $list_car->getOptionSelect();
 
                 $list_user  = new user($database);
@@ -314,7 +314,7 @@ switch ($path[2]){
                     if($add['response'] == 200){
                         require_once ABSPATH . 'includes/class/class.uploader.php';
                         if($_FILES['meta_image']){
-                            $path_upload        = 'content/plugin/driving_team/upload/';
+                            $path_upload        = 'content/plugin/driving/upload/';
                             $uploader           = new Uploader();
                             $data_upload        = $uploader->upload($_FILES['meta_image'], array(
                                 'limit'         => 1, //Maximum Limit of files. {null, Number}
@@ -440,7 +440,7 @@ switch ($path[2]){
                 break;
             default:
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['oil_manager']){
+                if(!$role['driving']['oil_manager']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Danh sách đổ dầu', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Đổ dầu'],'Danh sách');
@@ -449,7 +449,7 @@ switch ($path[2]){
                     exit();
                 }
 
-                $car   = new Category('driving_team');
+                $car   = new Category('driving');
                 $list_car   = $car->getOptionSelect(['0' => 'Chọn Xe']);
 
                 $data_user  = new user($database);
@@ -549,7 +549,7 @@ switch ($path[2]){
                                                 <ul class="nk-tb-actions gx-1">
                                                     <li>
                                                         <?php
-                                                        if($role['driving_team']['oil_add']){
+                                                        if($role['driving']['oil_add']){
                                                             if((time() - strtotime($row['caroil_create'])) < (60*60*24*2)){
                                                             ?>
                                                             <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/{$path[3]}update/{$row['caroil_id']}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập nhật">
@@ -599,7 +599,7 @@ switch ($path[2]){
         switch ($path[3]){
             case 'add':
                 // Kiểm tra quyền truy cập
-                if(!$role['driving_team']['plan']){
+                if(!$role['driving']['plan']){
                     $header['title'] = 'Lỗi quyền truy cập';
                     require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
                     echo admin_breadcrumbs('Thêm kế hoạch xe', [URL_ADMIN . "/{$path[1]}/" => 'Tổ lái xe', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'Kế hoạch xe'],'Thêm kế hoạch xe');
@@ -608,7 +608,7 @@ switch ($path[2]){
                     exit();
                 }
 
-                $list_car   = new Category('driving_team');
+                $list_car   = new Category('driving');
                 $list_car   = $list_car->getOptionSelect();
                 $list_user  = new user($database);
                 $list_user  = $list_user->get_all_user_option();

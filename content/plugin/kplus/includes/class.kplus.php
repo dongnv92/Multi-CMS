@@ -11,6 +11,7 @@ class Kplus{
     const kplus_note    = 'kplus_note';
     const kplus_time    = 'kplus_time';
     const kplus_status_value        = ['unregistered', 'registered', 'wait', 'error']; // unregistered|registered
+    const kplus_verify_value        = ['verify', 'unchecked']; // unregistered|registered
     const kplus_register_at         = 'kplus_register_at';      // Đăng ký lúc
     const kplus_register_by         = 'kplus_register_by';      // Người đăng ký
     const kplus_register_month      = 'kplus_register_month';   // Người đăng ký
@@ -19,6 +20,47 @@ class Kplus{
 
     public function __construct($database){
         $this->db = $database;
+    }
+
+    private function getFirstName($dau = 'yes', $sex = 'male'){
+        if($dau == 'yes' && $sex == 'male'){
+            $list_1 = [
+                'Nguyễn',
+                'Trần',
+                'Phạm',
+                'Lê',
+                'Hoàng',
+                'Huỳnh',
+                'Phan',
+                'Vũ',
+                'Võ',
+                'Đặng',
+                'Bùi',
+                'Đỗ',
+                'Hồ',
+                'Ngô',
+                'Dương',
+                'Lý'
+            ];
+            $list_2 = [
+                ' ',
+                'Văn',
+                'Ngọc',
+                'Thanh',
+                'Gia',
+                'Mạnh',
+                'Minh',
+                'Quang',
+                'Việt'
+            ];
+        }
+    }
+    private function getLastName($dau = 'yes', $sex = 'male'){
+
+    }
+
+    public function getRandomName(){
+
     }
 
     public function getNameByChatId($chatid){
@@ -403,11 +445,24 @@ class Kplus{
         }
         $kplus_expired = explode('/', $_REQUEST[self::kplus_expired]);
 
+        if($_REQUEST[self::kplus_status] && !in_array($_REQUEST[self::kplus_status], self::kplus_status_value)){
+            return get_response_array(309, 'Trạng thái mã thẻ không hợp lệ.');
+        }
+        if($_REQUEST[self::kplus_verify] && !in_array($_REQUEST[self::kplus_verify], self::kplus_verify_value)){
+            return get_response_array(309, 'Trạng thái xác nhận không hợp lệ.');
+        }
+
         $data = [
             self::kplus_code        => $db->escape($_REQUEST[self::kplus_code]),
             self::kplus_expired     => $db->escape($kplus_expired[2].'-'.$kplus_expired[1].'-'.$kplus_expired[0]),
             self::kplus_name        => $db->escape($_REQUEST[self::kplus_name])
         ];
+        if($_REQUEST[self::kplus_status]){
+            $data[self::kplus_status] = $_REQUEST[self::kplus_status];
+        }
+        if($_REQUEST[self::kplus_verify]){
+            $data[self::kplus_verify] = $_REQUEST[self::kplus_verify];
+        }
 
         $action = $db->where(self::kplus_code, $kplus_code)->update(self::table, $data);
         if(!$action){

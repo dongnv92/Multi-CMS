@@ -77,9 +77,9 @@ CREATE TABLE `dong_car_oil` (
 --
 
 INSERT INTO `dong_car_oil` (`caroil_id`, `caroil_bsx`, `caroil_tx`, `cariol_image`, `caroil_lit`, `caroil_price`, `caroil_date`, `caroil_note`, `caroil_user`, `caroil_create`) VALUES
-(1, '30', 3, 'content/plugin/driving_team/upload/IaUAMvZFXdKwOEc.png', 23, '23244', '2021-05-31', '', 1, '2021-05-31 14:00:39'),
-(2, '31', 3, 'content/plugin/driving_team/upload/brG7MyHDhaqvYX6.png', 24, '443434344', '2021-05-30', 'Alo Alo', 1, '2021-05-31 14:42:43'),
-(3, '32', 3, 'content/plugin/driving_team/upload/OnQbLWCy9wf6DM0.png', 23, '23', '2021-05-31', 'tretret', 1, '2021-05-31 17:07:33'),
+(1, '30', 3, 'content/plugin/driving/upload/IaUAMvZFXdKwOEc.png', 23, '23244', '2021-05-31', '', 1, '2021-05-31 14:00:39'),
+(2, '31', 3, 'content/plugin/driving/upload/brG7MyHDhaqvYX6.png', 24, '443434344', '2021-05-30', 'Alo Alo', 1, '2021-05-31 14:42:43'),
+(3, '32', 3, 'content/plugin/driving/upload/OnQbLWCy9wf6DM0.png', 23, '23', '2021-05-31', 'tretret', 1, '2021-05-31 17:07:33'),
 (4, '31', 2, '', 20, '19880', '2021-05-31', 'Hello', 1, '2021-05-31 17:49:48');
 
 -- --------------------------------------------------------
@@ -4787,7 +4787,7 @@ CREATE TABLE `dong_meta` (
 --
 
 INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_url`, `meta_info`, `meta_image`, `meta_parent`, `meta_user`, `meta_time`) VALUES
-(1, 'role', 'Administrator', 'Người quản trị, sáng lập và điều hành ứng dụng.', 'administrator', 'a:4:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:12:\"driving_team\";a:5:{s:4:\"plan\";b:1;s:6:\"report\";b:1;s:3:\"car\";b:1;s:11:\"oil_manager\";b:1;s:7:\"oil_add\";b:1;}}', '', 0, 1, '2020-06-24 17:13:25'),
+(1, 'role', 'Administrator', 'Người quản trị, sáng lập và điều hành ứng dụng.', 'administrator', 'a:4:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:1;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:1;}s:12:\"driving\";a:5:{s:4:\"plan\";b:1;s:6:\"report\";b:1;s:3:\"car\";b:1;s:11:\"oil_manager\";b:1;s:7:\"oil_add\";b:1;}}', '', 0, 1, '2020-06-24 17:13:25'),
 (2, 'role', 'Quản trị viên', 'Quản trị viên điều hành ứng dụng', 'quan-tri-vien', 'a:11:{s:4:\"user\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:4:\"role\";b:0;s:6:\"delete\";b:1;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;s:8:\"category\";b:1;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"customer\";a:4:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:1;s:6:\"delete\";b:1;}s:5:\"excel\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:5:\"kplus\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:4:\"momo\";a:1:{s:7:\"manager\";b:0;}s:6:\"pickup\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:3:\"pos\";a:2:{s:4:\"sell\";b:0;s:3:\"buy\";b:0;}s:7:\"product\";a:6:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:8:\"category\";b:0;s:5:\"brand\";b:0;s:6:\"delete\";b:0;}s:8:\"telegram\";a:1:{s:7:\"manager\";b:0;}}', '', 0, 1, '2020-06-24 17:14:52'),
 (4, 'role', 'Thành viên', 'Thành viên bình thường', 'thanh-vien', 'a:11:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:1;s:3:\"add\";b:1;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"customer\";a:4:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;}s:5:\"excel\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:5:\"kplus\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:4:\"momo\";a:1:{s:7:\"manager\";b:0;}s:6:\"pickup\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:3:\"pos\";a:2:{s:4:\"sell\";b:0;s:3:\"buy\";b:0;}s:7:\"product\";a:6:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:8:\"category\";b:0;s:5:\"brand\";b:0;s:6:\"delete\";b:0;}s:8:\"telegram\";a:1:{s:7:\"manager\";b:0;}}', '', 0, 1, '2020-06-26 15:09:13'),
 (5, 'blog_category', 'Khác', 'Chuyên mục mặc định', 'khac', '', 'content/uploads/category/2021/04/22/byO9McxaRYLr2P5.jpg', 0, 1, '2020-07-03 14:00:31'),
@@ -4805,7 +4805,7 @@ INSERT INTO `dong_meta` (`meta_id`, `meta_type`, `meta_name`, `meta_des`, `meta_
 (31, 'listcar_category', '29C22798', '', '29c22798', '', 'content/assets/images/system/noimage.jpg', 0, 1, '2021-05-11 11:46:17'),
 (32, 'listcar_category', '29H23602', '', '29h23602', '', 'content/assets/images/system/noimage.jpg', 0, 1, '2021-05-11 11:46:39'),
 (33, 'listcar_category', '29H14204', '', '29h14204', '', 'content/assets/images/system/noimage.jpg', 0, 1, '2021-05-11 11:46:44'),
-(34, 'role', 'Lái xe', 'Lái xe', 'lai-xe', 'a:6:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"business\";a:2:{s:6:\"report\";b:0;s:8:\"telesale\";b:0;}s:5:\"covid\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:12:\"driving_team\";a:3:{s:4:\"plan\";b:0;s:6:\"report\";b:0;s:3:\"car\";b:0;}}', 'content/assets/images/system/noimage.jpg', 0, 1, '2021-05-11 15:09:56');
+(34, 'role', 'Lái xe', 'Lái xe', 'lai-xe', 'a:6:{s:4:\"user\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:4:\"role\";b:0;s:6:\"delete\";b:0;}s:4:\"blog\";a:5:{s:7:\"manager\";b:0;s:3:\"add\";b:0;s:6:\"update\";b:0;s:6:\"delete\";b:0;s:8:\"category\";b:0;}s:6:\"plugin\";a:1:{s:7:\"manager\";b:0;}s:8:\"business\";a:2:{s:6:\"report\";b:0;s:8:\"telesale\";b:0;}s:5:\"covid\";a:2:{s:7:\"manager\";b:0;s:3:\"add\";b:0;}s:12:\"driving\";a:3:{s:4:\"plan\";b:0;s:6:\"report\";b:0;s:3:\"car\";b:0;}}', 'content/assets/images/system/noimage.jpg', 0, 1, '2021-05-11 15:09:56');
 
 -- --------------------------------------------------------
 

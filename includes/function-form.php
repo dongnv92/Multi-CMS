@@ -486,7 +486,7 @@ function formInputCheckbox($name, $data, $attribute = []){
 function formButton($text, $attribute = []){
     $content            = '';
     $form_attribute     = '';
-    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-raised bg-blue waves-effect';
+    $attribute['class'] = $attribute['class']   ? $attribute['class']   : 'btn btn-primary';
     $attribute['type']  = $attribute['type']    ? $attribute['type']    : 'button';
     foreach ($attribute AS $key => $value){
         switch ($key){

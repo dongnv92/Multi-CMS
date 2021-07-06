@@ -15,19 +15,27 @@ switch ($path[2]) {
                     data        : $('form').serialize(),
                     beforeSend  : function () {
                         $('#button_update').attr('disabled', true);
-                        $('#button_update').html('ĐANG CẬP NHẬT ...');
+                        $('#button_update').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang cập nhật ... </span>');
                     }
                 });
                 ajax.done(function (data) {
-                    if(data.response == 200){
-                        show_notify(data.message, 'bg-green');
-                        $('#button_update').attr('disabled', false);
-                        $('#button_update').html('CẬP NHẬT');
-                    }else{
-                        show_notify(data.message, 'bg-red');
-                        $('#button_update').attr('disabled', false);
-                        $('#button_update').html('CẬP NHẬT');
-                    }
+                    setTimeout(function (){
+                        if(data.response == 200){
+                            NioApp.Toast(data.message, 'success',{
+                                ui: 'is-dark',
+                                position: 'top-right'
+                            });
+                            $('#button_update').attr('disabled', false);
+                            $('#button_update').html('CẬP NHẬT');
+                        }else{
+                            NioApp.Toast(data.message, 'error',{
+                                ui: 'is-dark',
+                                position: 'top-right'
+                            });
+                            $('#button_update').attr('disabled', false);
+                            $('#button_update').html('CẬP NHẬT');
+                        }
+                    }, 1000)
                 });
 
                 ajax.fail(function( jqXHR, textStatus ) {

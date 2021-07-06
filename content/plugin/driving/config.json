@@ -1,6 +1,6 @@
 {
     "name": "Tổ Lái Xe",
-    "unique_identifier": "driving_team",
+    "unique_identifier": "driving",
     "version": "0.1",
     "banner": "assets\/images\/banner.jpg",
     "description": "Quản lý tổ lái xe ...",
@@ -9,7 +9,8 @@
     "website": "http:\/\/localhost\/dong\/driving_team\/",
     "source": {
         "javascript": "includes\/js.php",
-        "ajax": "includes\/ajax.php"
+        "ajax": "includes\/ajax.php",
+        "api": "includes\/api.php"
     },
     "public_class": [
         "includes\/class.driving.php"
@@ -32,7 +33,7 @@
             "des": true
         },
         "permission": [
-            "driving_team",
+            "driving",
             "car"
         ],
         "type": "listcar_category",
@@ -51,60 +52,60 @@
             "child": [
                 {
                     "text": "Kế Hoạch",
-                    "url": "URL_ADMIN\/driving_team\/plan",
+                    "url": "URL_ADMIN\/driving\/plan",
                     "roles": [
-                        "driving_team",
+                        "driving",
                         "plan"
                     ],
                     "active": [
                         [
                             "admin",
-                            "driving_team",
+                            "driving",
                             "plan"
                         ]
                     ]
                 },
                 {
                     "text": "Báo cáo",
-                    "url": "URL_ADMIN\/driving_team\/report",
+                    "url": "URL_ADMIN\/driving\/report",
                     "roles": [
-                        "driving_team",
+                        "driving",
                         "report"
                     ],
                     "active": [
                         [
                             "admin",
-                            "driving_team",
+                            "driving",
                             "report"
                         ]
                     ]
                 },
                 {
                     "text": "Danh sách xe",
-                    "url": "URL_ADMIN\/category\/driving_team",
+                    "url": "URL_ADMIN\/category\/driving",
                     "roles": [
-                        "driving_team",
+                        "driving",
                         "car"
                     ],
                     "active": [
                         [
                             "admin",
-                            "driving_team",
+                            "driving",
                             "car"
                         ]
                     ]
                 },
                 {
                     "text": "Danh sách đổ dầu",
-                    "url": "URL_ADMIN\/driving_team\/oil/",
+                    "url": "URL_ADMIN\/driving\/oil/",
                     "roles": [
-                        "driving_team",
+                        "driving",
                         "oil_manager"
                     ],
                     "active": [
                         [
                             "admin",
-                            "driving_team",
+                            "driving",
                             "oil",
                             ""
                         ]
@@ -112,15 +113,15 @@
                 },
                 {
                     "text": "Thêm đổ dầu",
-                    "url": "URL_ADMIN\/driving_team\/oil/add",
+                    "url": "URL_ADMIN\/driving\/oil/add",
                     "roles": [
-                        "driving_team",
+                        "driving",
                         "oil_add"
                     ],
                     "active": [
                         [
                             "admin",
-                            "driving_team",
+                            "driving",
                             "oil",
                             "add"
                         ]
@@ -130,7 +131,7 @@
         }
     ],
     "role_structure": {
-        "driving_team": {
+        "driving": {
             "plan": false,
             "report": false,
             "car" : false,

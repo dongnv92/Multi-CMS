@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/kplus/includes/ajax.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/kplus/includes/class.kplus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/kplus/includes/js.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/kplus/includes/js.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/content/plugin/kplus/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/content/plugin/kplus/index.php" afterDir="false" />
-    </list>
+    <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -228,6 +222,8 @@
       <workItem from="1624242179162" duration="4003000" />
       <workItem from="1624417287119" duration="3093000" />
       <workItem from="1624502931980" duration="9276000" />
+      <workItem from="1625362821884" duration="6746000" />
+      <workItem from="1625572050101" duration="6707000" />
     </task>
     <task id="LOCAL-00001" summary="...">
       <created>1623810740523</created>
