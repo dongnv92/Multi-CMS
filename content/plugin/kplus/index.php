@@ -146,7 +146,33 @@ switch ($path[2]){
                         <?=formClose()?>
                     </div>
                 </div>
-            </div>
+            </div> <!-- End Col-9 -->
+            <div class="col-3">
+                <div class="card card-bordered">
+                    <div class="card-inner border-bottom">
+                        <!-- Title -->
+                        <div class="card-title-group">
+                            <div class="card-title"><h6 class="title">Update tài khoản</h6></div>
+                            <div class="card-tools">
+                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="link">Danh sách</a>
+                            </div>
+                        </div>
+                        <!-- Title -->
+                    </div>
+                    <div class="card-inner">
+                        <?=formOpen('POST', ['id' => 'add'])?>
+                        <div class="row g-4">
+
+                            <div class="col-12 text-center">
+                                <?=formButton('Cập Nhật Tải Khoản', [
+                                    'id' => 'button_update'
+                                ])?>
+                            </div>
+                        </div>
+                        <?=formClose()?>
+                    </div>
+                </div>
+            </div> <!--End Col-3-->
         </div>
         <?php
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
