@@ -18,7 +18,7 @@
     "menu": [
         {
             "text": "Excel",
-            "icon": "<em class=\"icon ni ni-list-thumb\"><\/em>\n",
+            "icon": "<i class=\"far fa-file-excel\"><\/i>\n",
             "child": [
                 {
                     "text": "Danh s\u00e1ch",
@@ -30,6 +30,18 @@
                     "active": [
                         [
                             "excel"
+                        ]
+                    ]
+                },{
+                    "text": "Anh Mạnh",
+                    "url": "URL_ADMIN\/excel\/new",
+                    "roles": [
+                        "excel",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "excel", "new"
                         ]
                     ]
                 }

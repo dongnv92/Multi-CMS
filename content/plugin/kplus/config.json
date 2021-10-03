@@ -18,7 +18,7 @@
     "menu": [
         {
             "text": "Kplus",
-            "icon": "<em class=\"icon ni ni-kickstarter\"><\/em>\n",
+            "icon": "<i class=\"fab fa-kickstarter-k\"><\/i>\n",
             "child": [
                 {
                     "text": "Danh sách",

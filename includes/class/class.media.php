@@ -20,9 +20,6 @@ class Media{
     }
 
     public function get_list_data($file_type, $file_attackment){
-        if(!in_array($file_type, self::file_type_allow)){
-            return get_response_array(309, 'Từ khoá tập tin không hợp lệ.');
-        }
         $db     = $this->db;
         $data   = $db->select()->from(self::table)->where([self::file_type => $file_type, self::file_attackment => $file_attackment])->fetch();
         if(!$data){
@@ -32,9 +29,6 @@ class Media{
     }
 
     public function delete_file($file_type, $file_id){
-        if(!in_array($file_type, self::file_type_allow)){
-            return get_response_array(309, 'Từ khoá tập tin không hợp lệ.');
-        }
         $db     = $this->db;
         $file   = $db->from(self::table)->where([self::file_type => $file_type, self::file_id => $file_id])->fetch_first();
         if(!$file){
@@ -57,11 +51,6 @@ class Media{
     public function add($file_type, $file_attackment){
         $db = $this->db;
         global $me;
-
-        // Kiểm tra file_type có hợp lệ không?
-        if(!in_array($file_type, self::file_type_allow)){
-            return get_response_array(309, 'Từ khoá tập tin không hợp lệ.');
-        }
 
         if(!$_REQUEST[self::file_path]){
             return get_response_array(309, 'Chưa có đường dẫn file.');

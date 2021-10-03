@@ -406,12 +406,14 @@ class Kplus{
             $search = $this->searchCode($month);
             if(!$search){
                 $text .= "Mã thẻ $month tháng đã hết, vui lòng chọn số tháng khác.\n";
+                break;
             }
 
             // Update trạng thái mã thẻ thành wait và unpaid
             $update = $this->updateSearchCode($search['kplus_code'], $chatid);
             if(!$update){
                 $text .= "Update trạng thái mã thẻ {$search['kplus_code']} không thành công.\n";
+                break;
             }
 
             // Update trạng thái mã thẻ thành số tháng tính từ lúc lấy mã
@@ -650,6 +652,9 @@ class Kplus{
     // Update trạng thái sau khi tìm được mã thẻ
     public function updateSearchCode($kplus_code, $chat_id = self::kplus_register_by_defaule){
         $db     = $this->db;
+        if(!$this->validateCode($kplus_code)){
+            return false;
+        }
         $count  = $db->select('COUNT(*) AS count')->from(self::table)->where([self::kplus_code => $kplus_code, self::kplus_status => 'unregistered'])->fetch_first();
         if($count == 0){
             return false;

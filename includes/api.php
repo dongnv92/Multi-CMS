@@ -1,6 +1,6 @@
 <?php
 require_once '../init.php';
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 switch ($path[1]){
     default:
         if(in_array($path[1], get_list_plugin())){

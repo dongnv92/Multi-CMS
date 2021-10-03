@@ -1,8 +1,137 @@
 <?php
 switch ($path[2]){
+    case 'refusetrip':
+        $group_id = [
+            'citypost_refusetrip_test'  => '-582736253',
+            'citypost_refusetrip_hn'    => '-416213766'
+        ];
+        $request    = json_decode(file_get_contents('php://input'), true);
+        $telegram   = new Telegram('citypost_notice');
+        $check      = new user($database);
+        /*-----------------------*/
+        $token          = $request['token'];    // Token
+        $trip           = $request['trip']; // Mã chuyến
+        $weight         = $request['weight']; // Trọng lượng, khối lượng
+        $driver         = $request['driver']; // Tài xế
+        $codriver       = $request['codriver']; // Tài phụ
+        $manage         = $request['manage']; // Quản lý
+        $refuse         = $request['refuse']; // Lý do từ chối
+        $date_create    = $request['date_create']; // Ngày tạo
+        $date_refuse    = $request['date_refuse']; // Ngày từ chối
+        $location       = $request['location']; // Chi nhánh
+        /*-----------------------*/
+        if(!$token){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu Mã Access Token.']);
+            break;
+        }
+        if(!$check->check_access_token($token)){
+            echo encode_json(['response' => '503', 'message' => 'Mã Access Token không hợp lệ.']);
+            break;
+        }
+        if(!$trip){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu Mã TRIP.']);
+            break;
+        }
+        if(!$weight){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu trọng lượng.']);
+            break;
+        }
+        if(!$driver){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu tài xế.']);
+            break;
+        }
+        if(!$manage){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu quản lý.']);
+            break;
+        }
+        if(!$date_create){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu ngày tạo.']);
+            break;
+        }
+        if(!$date_refuse){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu ngày từ chối.']);
+            break;
+        }
+        $message  = "[THÔNG BÁO TỪ CHỐI CHUYẾN]\n";
+        $message .= "Mã chuyến: <b>$trip</b>\n";
+        $message .= "Trọng lượng: <b>$weight</b>\n";
+        $message .= "Tài xế: <b>$driver</b>\n";
+        $message .= $codriver ? "Tài phụ: <b>$codriver</b>\n" : '';
+        $message .= "Quản lý: <b>$manage</b>\n";
+        $message .= "Lý do từ chối: <b>$refuse</b>\n";
+        $message .= "Ngày tạo: <b>$date_create</b>\n";
+        $message .= "Ngày từ chối: <b>$date_refuse</b>\n";
+        $message .= "Chi nhánh: <b>". ($location ? $location : '---') ."</b>\n";
+
+        $telegram->set_chatid($group_id['citypost_refusetrip_hn']);
+        $telegram->sendMessage($message, ['parse_mode' => 'html']);
+        echo json_encode(['response' => 200, 'message' => 'Send Message To Telegram Group Success.']);
+        break;
+    case 'proposed':
+        $group_id = [
+            'citypost_proposed_test' => '-407900915'
+        ];
+        $request    = json_decode(file_get_contents('php://input'), true);
+        $telegram   = new Telegram('citypost_notice');
+        $check      = new user($database);
+        /*-----------------------*/
+        $user           = $request['user'];         // Người đề xuất.
+        $approved_by    = $request['approved_by'];  // Danh sách người duyệt.
+        $title          = $request['title'];        // Tiêu đề.
+        $content        = $request['content'];      // Nội dung
+        $money          = $request['money'];        // Số Tiền
+        $token          = $request['token'];    // Token
+        /*-----------------------*/
+        if(!$token){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu Mã Access Token.']);
+            break;
+        }
+        if(!$check->check_access_token($token)){
+            echo encode_json(['response' => '503', 'message' => 'Mã Access Token không hợp lệ.']);
+            break;
+        }
+        if(!$user){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu người đề xuất.']);
+            break;
+        }
+        if(!$approved_by){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu danh sách người duyệt.']);
+            break;
+        }
+        if(!$content){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu nội dung.']);
+            break;
+        }
+        if(!$title){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu tiêu đề.']);
+            break;
+        }
+        if(!$money){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu số tiền.']);
+            break;
+        }
+        /*-----------------------*/
+        $list_user = '';
+        foreach ($approved_by AS $list_approved){
+            $list_user .= "» $list_approved.\n";
+        }
+        $message  = "[THÔNG BÁO ĐỀ XUẤT].\n";
+        $message .= "- Người đề xuất: $user.\n";
+        $message .= "- Tiêu đề: $title.\n";
+        $message .= "- Nội dung: $content.\n";
+        $message .= "- Số tiền: ". convert_number_to_money($money) .".\n";
+        $message .= "[DANH SÁCH NGƯỜI DUYỆT]:\n";
+        $message .= "$list_user\n";
+        $telegram->set_chatid($group_id['citypost_proposed_test']);
+        $telegram->sendMessage($message);
+        echo json_encode(['response' => 200, 'message' => 'Send Message To Telegram Group Success.']);
+        break;
     case 'addoil':
         $group_id = [
-            'citypost_test_notice' => '-589881611'
+            'citypost_addoil_hn' => '-589881611',
+            'citypost_addoil_dn' => '-582770353',
+            'citypost_addoil_sg' => '-508996637',
+            'citypost_addoil_bd' => '-405325125'
         ];
         $request    = json_decode(file_get_contents('php://input'), true);
         $telegram   = new Telegram('citypost_notice');
@@ -45,15 +174,27 @@ switch ($path[2]){
             echo encode_json(['response' => '404', 'message' => 'Thiếu số phiếu.']);
             break;
         }
+        switch ($location){
+            case 'BƯU CỤC HÀ NỘI':
+                $telegram->set_chatid($group_id['citypost_addoil_hn']);
+                break;
+            case 'BƯU CỤC ĐÀ NẴNG':
+                $telegram->set_chatid($group_id['citypost_addoil_dn']);
+                break;
+            case 'BƯU CỤC HỒ CHÍ MINH':
+                $telegram->set_chatid($group_id['citypost_addoil_sg']);
+                break;
+            case 'BƯU CỤC BÌNH DƯƠNG':
+                $telegram->set_chatid($group_id['citypost_addoil_bd']);
+                break;
+        }
         /*-----------------------*/
-        $message = "-----------------\n";
         $message .= "[Thông báo đổ dầu]\nLái xe {$request['user']} đổ {$request['amount']} Lít dầu xe {$request['bsx']}.\n";
         $message .= "- Số phiếu: {$request['numbill']}\n";
-        $message .= "- Đơn giá: {$request['price']}\n";
+        $message .= "- Đơn giá: ". convert_number_to_money($request['price']) ."\n";
         $message .= "- Thời gian: ". date('H:i:s d/m/Y') ."\n";
+        $message .= "- Chi nhánh: {$request['location']}\n";
         $message .= "-----------------";
-
-        $telegram->set_chatid($group_id['citypost_test_notice']);
         $telegram->sendMessage($message);
         echo json_encode(['response' => 200, 'message' => 'Send Message To Telegram Group Success.']);
         break;

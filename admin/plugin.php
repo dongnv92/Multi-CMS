@@ -5,8 +5,8 @@ switch ($path[2]){
             URL_JS . "{$path[1]}"
         ];
         $header['title']    = 'Quản lý Plugin';
+        $header['toolbar']  = admin_breadcrumbs('Plugin', [URL_ADMIN . "/{$path[1]}/" => 'Plugin'],'Quản lý');
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Plugin', [URL_ADMIN . "/{$path[1]}/" => 'Plugin'],'Quản lý');
         ?>
         <div class="row">
         <?php
@@ -14,82 +14,56 @@ switch ($path[2]){
             $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$plugin}/config.json");
             $config = json_decode($config, true);
             ?>
-            <div class="col-sm-6 col-lg-4 col-xxl-3">
-                <div class="card card-bordered">
-                    <div class="card-inner">
-                        <div class="team">
-                            <div class="<?=$config['status'] == 'active' ? 'team-status bg-success text-white' : 'team-status bg-light text-white'?>"><em class="icon ni ni-check-thick"></em></div>
-                            <div class="team-options">
-                                <div class="drodown">
-                                    <a href="#" class="dropdown-toggle btn btn-sm btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
-                                    <div class="dropdown-menu dropdown-menu-right">
-                                        <ul class="link-list-opt no-bdr">
-                                            <li>
-                                                <a href="javascript:;" data-action="change_status" id="plugin_status" data-type="active" data-name="<?=$plugin?>">
-                                                    <em class="icon ni ni-check-circle text-success"></em><span>Kích Hoạt</span>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="javascript:;" data-action="change_status" id="plugin_status" data-type="not_active" data-name="<?=$plugin?>">
-                                                    <em class="icon ni ni-info"></em><span>Ngừng Hoạt</span>
-                                                </a>
-                                            </li>
-                                            <li><a href="javascript:;"><em class="icon ni ni-trash text-danger"></em><span>Xoá</span></a></li>
-                                        </ul>
-                                    </div>
+            <!--begin::content-->
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6">
+                <!--begin::Card-->
+                <div class="card card-custom gutter-b card-stretch">
+                    <!--begin::Body-->
+                    <div class="card-body pt-4">
+                        <!--begin::User-->
+                        <div class="d-flex align-items-center mb-7">
+                            <!--begin::Pic-->
+                            <div class="flex-shrink-0 mr-4">
+                                <div class="symbol symbol-circle symbol-lg-75">
+                                    <img src="<?=URL_HOME . '/' . PATH_PLUGIN . "$plugin/{$config['banner']}"?>" alt="image">
                                 </div>
                             </div>
-                            <div class="user-card user-card-s2">
-                                <div class="user-avatar sq lg bg-primary">
-                                    <img src="<?=URL_HOME . '/' . PATH_PLUGIN . "$plugin/{$config['banner']}"?>" alt="">
-                                </div>
-                                <div class="user-info"><h6><?=$config['name']?></h6></div>
+                            <!--end::Pic-->
+                            <!--begin::Title-->
+                            <div class="d-flex flex-column">
+                                <a href="#" class="text-dark font-weight-bold text-hover-primary font-size-h4 mb-0"><?=$config['name']?></a>
+                                <span class="text-muted font-weight-bold">@<?=$config['author']?></span>
                             </div>
-                            <div class="team-details">
-                                <p><?=$config['description']?>.</p>
-                            </div>
-                            <ul class="team-statistics">
-                                <li><span>Tác giả</span><span><?=$config['author']?></span></li>
-                                <li><span>Version</span><span><?=$config['version']?></span></li>
-                            </ul>
-                        </div><!-- .team -->
-                    </div><!-- .card-inner -->
-                </div><!-- .card -->
-                <br />
-            </div><!-- .col -->
-            <!--<div class="col-lg-3 col-md-12">
-                <div class="card member-card">
-                    <div class="header" style='background-image: url("<?/*=URL_HOME . '/' . PATH_PLUGIN . "$plugin/{$config['banner']}"*/?>"); background-size: 100% 100%; background-repeat: no-repeat'></div>
-                    <div class="body">
-                        <div class="col-12">
-                            <h5 class="col-teal"><?/*=$config['name']*/?></h5>
+                            <!--end::Title-->
                         </div>
-                        <div class="col-12">
-                            <p class="text-muted"><?/*=$config['description']*/?></p>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-3">
-                                <h6><?/*=$config['version']*/?></h6>
-                                <small>VERSION</small>
+                        <!--end::User-->
+                        <!--begin::Desc-->
+                        <p class="mb-7"><?=$config['description']?>.</p>
+                        <!--end::Desc-->
+                        <!--begin::Info-->
+                        <div class="mb-7">
+                            <div class="d-flex justify-content-between align-items-cente my-1">
+                                <span class="text-dark-75 font-weight-bolder mr-2">Website</span>
+                                <a href="#" class="text-muted text-hover-primary"><?=($config['website'] ? '<a href="'. $config['website'] .'" target="_blank">Đi đến Website</a>' : '---')?></a>
                             </div>
-                            <div class="col-5">
-                                <h6><?/*=$config['website'] ? '<a href="'. $config['website'] .'" class="font-weight-bold text-danger">'. $config['author'] .'</a>' : '<span class="font-weight-bold text-danger">'. $config['author'] .'</span>'*/?></h6>
-                                <small>TÁC GIẢ</small>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-dark-75 font-weight-bolder mr-2">Phiên bản:</span>
+                                <a href="#" class="text-muted text-hover-primary"><?=$config['version']?></a>
                             </div>
-                            <div class="col-4">
-                                <h6>
-                                    <?/*=$config['status'] == 'active' ?
-                                        '<button type="button" data-action="change_status" id="plugin_status" data-type="not_active" data-name="'. $plugin .'" class="btn btn-raised bg-teal waves-effect btn-sm">KÍCH HOẠT</button>':
-                                        '<button type="button" data-action="change_status" id="plugin_status" data-type="active" data-name="'. $plugin .'" class="btn btn-raised bg-red waves-effect btn-sm">NGỪNG KÍCH HOẠT</button>'
-                                    */?>
-                                </h6>
-                                <small>TRẠNG THÁI</small>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-dark-75 font-weight-bolder mr-2">Trạng thái</span>
+                                <span class="text-muted font-weight-bold"><?=$config['status'] == 'active' ? 'Đang hoạt động' : 'Chưa kích hoạt'?></span>
                             </div>
                         </div>
+                        <!--end::Info-->
+                        <?=$config['status'] == 'active' ? '<a href="javascript:;" data-action="change_status" id="plugin_status" data-type="not_active" data-name="'. $plugin .'" class="btn btn-block btn-sm btn-light-success font-weight-bolder text-uppercase py-4">ĐÃ KÍCH HOẠT</a>' : '<a href="javascript:;" data-action="change_status" id="plugin_status" data-type="active" data-name="'. $plugin .'" class="btn btn-block btn-sm btn-light-danger font-weight-bolder text-uppercase py-4">CHƯA KÍCH HOẠT</a>'?>
                     </div>
+                    <!--end::Body-->
                 </div>
-            </div>-->
+                <!--end:: Card-->
+            </div>
+            <!--end::content-->
+
         <?php
         }
         ?>

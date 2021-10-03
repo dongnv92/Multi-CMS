@@ -81,6 +81,13 @@ function role_structure($type = '', $des = ''){
         case 'des':
             $text = '';
             switch ($des[0]){
+                case 'theme':
+                    switch ($des[1]){
+                        case 'add':     $text = 'Thêm giao diện';       break;
+                        case 'slides':  $text = 'Quản lý Slides';       break;
+                        default:        $text = 'Quản lý giao diện';       break;
+                    }
+                    break;
                 case 'user':
                     switch ($des[1]){
                         case 'manager': $text = 'Quản lý thành viên';   break;
@@ -107,6 +114,12 @@ function role_structure($type = '', $des = ''){
                         default:            $text = 'Plugin';           break;
                     }
                     break;
+                case 'system':
+                    switch ($des[1]){
+                        case 'settings':    $text = 'Cài đặt hệ thống';   break;
+                        default:            $text = 'Cấu hình hệ thống'; break;
+                    }
+                    break;
                 default:
                     if(in_array($des[0], $list_plugin)){
                         $config = file_get_contents(ABSPATH . PATH_PLUGIN . "{$des[0]}/config.json");
@@ -121,6 +134,10 @@ function role_structure($type = '', $des = ''){
             break;
         default:
             $structure = [
+                'theme' => [
+                    'add'       => false,
+                    'slides'    => false
+                ],
                 'user' => [
                     'manager'   => false,
                     'add'       => false,
@@ -137,6 +154,9 @@ function role_structure($type = '', $des = ''){
                 ],
                 'plugin' => [
                     'manager'   => false
+                ],
+                'system' => [
+                    'settings'   => false
                 ]
             ];
 
@@ -421,7 +441,7 @@ function pagination($page_curent, $page_count, $url){
 
 function get_param_defaul(){
     $page       = (validate_int($_REQUEST['page']) && $_REQUEST['page'] > 1 ? $_REQUEST['page'] : 1); // Nếu không truyền tham số page thì mặc định là 1 (Số trang hiện tại)
-    $limit      = (validate_int($_REQUEST['limit']) ? $_REQUEST['limit'] : 100); // Nếu không truyền tham số limit thì mặc định là 100 (Số bản ghi trên 1 trang)
+    $limit      = (validate_int($_REQUEST['limit']) ? $_REQUEST['limit'] : 50); // Nếu không truyền tham số limit thì mặc định là 100 (Số bản ghi trên 1 trang)
     $offset     = (validate_int($_REQUEST['offset'])? $_REQUEST['offset'] : 0); // Nếu không truyền tham số offset thì mặc định là 0 (Từ bản ghi thứ ...)
     return [
         'page'      => $page,
@@ -445,16 +465,16 @@ function get_status($type, $data){
         case 'user':
             switch ($data){
                 case 'active':
-                    return '<span class="text-success">Đang hoạt động</span>';
+                    return '<span class="label label-lg font-weight-bold label-light-primary label-inline">Hoạt động</span>';
                     break;
                 case 'not_active':
-                    return '<span class="text-success">Chưa kích hoạt</span>';
+                    return '<span class="label label-lg font-weight-bold  label-light-warning label-inline">Chưa Active</span>';
                     break;
                 case 'block':
-                    return '<span class="text-danger">Đang tạm khóa</span>';
+                    return '<span class="label label-lg font-weight-bold  label-light-danger label-inline">Tạm Khóa</span>';
                     break;
                 case 'block_forever':
-                    return '<span class="text-danger">Đang bị khóa</span>';
+                    return '<span class="label label-lg font-weight-bold  label-light-danger label-inline">Đang khóa</span>';
                     break;
             }
             break;
@@ -552,4 +572,8 @@ function check_date($date, $type = 'y-m-d'){
             break;
     }
     return $result;
+}
+
+function random_string($length = 10){
+    return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 }

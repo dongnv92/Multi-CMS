@@ -180,9 +180,9 @@ switch ($path[2]){
     default:
         // Kiểm tra quyền truy cập
         if(!$role['kplus']['manager']){
-            $header['title'] = 'Lỗi quyền truy cập';
+            $header['title']    = 'Lỗi quyền truy cập';
+            $header['toolbar']  = admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-            echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
             echo admin_error('Thêm mới', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
@@ -194,7 +194,7 @@ switch ($path[2]){
         $param  = get_param_defaul();
         $static = $kplus->getStatics();
         $list_chatid    = $kplus->getListChatid();
-        $select_chatid  = [' ' => 'Người đăng ký'];
+        $select_chatid  = [];
 
         foreach ($list_chatid AS $_list_chatid){
             $select_chatid[$_list_chatid] = $kplus->getNameByChatId($_list_chatid);
@@ -216,9 +216,9 @@ switch ($path[2]){
 
         $header['js']       = [URL_JS . "{$path[1]}",];
 
-        $header['title'] = 'Danh sách mã thẻ';
+        $header['title']    = 'Danh sách mã thẻ';
+        $header['toolbar']  = admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        echo admin_breadcrumbs('Kplus', [URL_ADMIN . "/{$path[1]}/" => 'Kplus'],'Danh sách tài khoản');
         ?>
         <div class="row">
             <div class="col-lg-6">
@@ -239,104 +239,115 @@ switch ($path[2]){
                 <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/".build_query($_REQUEST, ['page' => '{page}']))?>
             </div>
             <div class="col-lg-12">
-                <div class="card card-bordered card-stretch">
-                    <div class="card-inner-group">
-                        <div class="card-inner position-relative card-tools-toggle">
-                            <?=formOpen('', ['method' => 'GET'])?>
-                            <div class="row">
-                                <div class="col-2">
-                                    <?=formInputText('search', [
-                                        'label' => 'Tìm kiếm',
-                                        'value' => $_REQUEST['search'] ? $_REQUEST['search'] : ''
-                                    ])?>
-                                </div>
-                                <div class="col-2">
-                                    <?=formInputSelect('kplus_status', $select_status, [
-                                        'data-search'   => 'on',
-                                        'selected'      => $_REQUEST['kplus_status'
-                                        ]
-                                    ])?>
-                                </div>
-                                <div class="col-2">
-                                    <?=formInputSelect('kplus_register_by', $select_chatid, [
-                                        'data-search'   => 'on',
-                                        'selected'      => $_REQUEST['kplus_register_by']
-                                    ])?>
-                                </div>
-                                <div class="col-2">
-                                    <?=formInputSelect('kplus_register_payment', $select_payment, [
-                                        'data-search'   => 'on',
-                                        'selected'      => $_REQUEST['kplus_register_payment']
-                                    ])?>
-                                </div>
-                                <div class="col-2">
-                                    <?=formButton('<em class="icon ni ni-search"></em> Tìm kiếm', ['type' => 'submit', 'class' => 'btn btn-outline-primary'])?>
+                <!--begin::Search Form-->
+                <div class="mb-7">
+                    <form action="" method="get">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9 col-xl-8">
+                                <div class="row align-items-center">
+                                    <div class="col-md-3 my-2 my-md-0">
+                                        <div class="input-icon">
+                                            <input type="text" value="<?=($_REQUEST['search'] ? $_REQUEST['search'] : '')?>" name="search" class="form-control" placeholder="Tìm kiếm ..." />
+                                            <span><i class="flaticon2-search-1 text-muted"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Trạng thái:</label>
+                                            <select name="kplus_status" class="form-control selectpicker">
+                                                <option value="">Tất cả</option>
+                                                <?php
+                                                foreach ($select_status AS $key => $value){
+                                                    echo '<option value="'. $key .'" '. ($_REQUEST['kplus_status'] == $key ? 'selected' : '') .'>'. $value .'</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Người Đki:</label>
+                                            <select name="kplus_register_by" class="form-control selectpicker">
+                                                <option value="">Tất cả</option>
+                                                <?php
+                                                foreach ($select_chatid AS $key => $value){
+                                                    echo '<option value="'. $key .'" '. ($_REQUEST['kplus_register_by'] == $key ? 'selected' : '') .'>'. $value .'</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <?=formClose()?>
-                        </div>
-                        <div class="card-inner p-0">
-                            <div class="content table-responsive">
-                                <table class="table table-hover mb-0">
-                                    <thead>
-                                    <tr>
-                                        <th style="width: 20%" class="text-left align-middle">Mã thẻ</th>
-                                        <th style="width: 20%" class="text-left align-middle">
-                                            <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => 'kplus_expired.desc']) .'">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => '']) .'">Ngày hết hạn</a>'?>
-                                        </th>
-                                        <th style="width: 10%" class="text-left align-middle">Đếm ngày</th>
-                                        <th style="width: 10%" class="text-center align-middle">Người Đkí/Tháng</th>
-                                        <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
-                                        <th style="width: 10%" class="text-center align-middle">Ngày thêm/Đkí</th>
-                                        <th style="width: 15%" class="text-center align-middle">Quản lý</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php if($data['paging']['count_data'] == 0){?>
-                                        <tr>
-                                            <td colspan="6" class="text-center">Dữ liệu trống</td>
-                                        </tr>
-                                    <?php }?>
-                                    <?php
-                                    foreach ($data['data'] AS $row){
-                                        ?>
-                                        <tr>
-                                            <td class="text-left align-middle">
-                                                <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'verify' ? '<em class="icon ni ni-check-circle-cut text-primary"></em>' : ''?>
-                                            </td>
-                                            <td class="text-left align-middle">
-                                                <?=date('d/m/Y', strtotime($row['kplus_expired']))?>
-                                            </td>
-                                            <td class="text-left align-middle">
-                                                <?=$kplus->caculatorDate($row['kplus_expired'])?>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <?=$kplus->getNameByChatId($row['kplus_register_by']).($row['kplus_register_month'] ? '<br />'.$row['kplus_register_month'].' tháng' : '')?>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <?=$kplus->getStatus($row['kplus_status']).($row['kplus_status'] == 'registered' ? '<br />'.($row['kplus_register_payment'] == 'paid' ? '<span class="text-success">Đã thanh toán</span>' : '<span class="text-danger">Chưa thanh toán</span>') : '')?>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <?=view_date_time($row['kplus_time']).($row['kplus_register_at'] ? '<br />'.date('d/m/Y', strtotime($row['kplus_register_at'])) : '')?>
-                                            </td>
-                                            <td class="text-center align-middle">
-                                                <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['kplus_code']}"?>" title="Sửa mã thẻ này"><em class="icon ni ni-edit-fill"></em></a>
-                                                <a href="javascript:;" title="Xóa mã thẻ này" class="text-danger" data-type="delete" data-id="<?=$row['kplus_code']?>"><em class="icon ni ni-trash"></em></a>
-                                                <a href="javascript:;" title="Cập nhật trạng thái" class="text-info" data-type="update_status" data-status="<?=in_array($row['kplus_status'], ['unregistered', 'wait']) ? 'registered' : 'unregistered'?>" data-id="<?=$row['kplus_code']?>"><em class="icon ni ni-update"></em></a>
-                                                <a href="javascript:;" title="Cập nhật xác nhận" class="text-warning text-small" data-type="update_verify" data-id="<?=$row['kplus_code']?>"><em class="icon ni ni-shield-check"></em></a>
-                                            </td>
-                                        </tr>
-                                    <?php }?>
-                                    <tr>
-                                        <td colspan="9" class="text-left">
-                                            Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
-                                            Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                <button type="submit" class="btn btn-light-primary px-6 font-weight-bold">Tìm Kiếm</button>
                             </div>
                         </div>
+                    </form>
+                </div>
+                <!--end::Search Form-->
+                <div class="card card-custom">
+                    <div class="card-body p-0">
+                        <table class="table table-hover table-head-custom table-row-dashed">
+                            <thead>
+                            <tr class="text-uppercase">
+                                <th style="width: 5%" class="text-center align-middle">ID</th>
+                                <th style="width: 15%" class="text-center align-middle">Mã thẻ</th>
+                                <th style="width: 15%" class="text-left align-middle">
+                                    <?=!$_REQUEST['sort'] ? '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => 'kplus_expired.desc']) .'">Ngày hết hạn</a>' : '<a href="'. URL_ADMIN .'/'. $path[1] . build_query($_REQUEST, ['sort' => '']) .'">Ngày hết hạn</a>'?>
+                                </th>
+                                <th style="width: 15%" class="text-center align-middle">Đếm ngày</th>
+                                <th style="width: 10%" class="text-center align-middle">Người Đkí/Tháng</th>
+                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
+                                <th style="width: 10%" class="text-center align-middle">Ngày thêm/Đkí</th>
+                                <th style="width: 15%" class="text-center align-middle">Quản lý</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if($data['paging']['count_data'] == 0){?>
+                                <tr>
+                                    <td colspan="6" class="text-center">Dữ liệu trống</td>
+                                </tr>
+                            <?php }?>
+                            <?php
+                            foreach ($data['data'] AS $row){
+                                ?>
+                                <tr>
+                                    <td class="font-size-lg text-center"><?=$row['kplus_id']?></td>
+                                    <td class="text-center align-middle font-size-lg">
+                                        <?=$row['kplus_code']?> <?=$row['kplus_verify'] == 'verify' ? '<em class="icon ni ni-check-circle-cut text-primary"></em>' : ''?>
+                                    </td>
+                                    <td class="text-left align-middle font-size-lg">
+                                        <?=date('d/m/Y', strtotime($row['kplus_expired']))?>
+                                    </td>
+                                    <td class="text-center align-middle font-size-lg">
+                                        <?=$kplus->caculatorDate($row['kplus_expired'])?>
+                                    </td>
+                                    <td class="text-center align-middle font-size-lg">
+                                        <?=$kplus->getNameByChatId($row['kplus_register_by']).($row['kplus_register_month'] ? '<br />'.$row['kplus_register_month'].' tháng' : '')?>
+                                    </td>
+                                    <td class="text-center align-middle font-size-lg">
+                                        <?=$kplus->getStatus($row['kplus_status']).($row['kplus_status'] == 'registered' ? '<br />'.($row['kplus_register_payment'] == 'paid' ? '<span class="text-success">Đã thanh toán</span>' : '<span class="text-danger">Chưa thanh toán</span>') : '')?>
+                                    </td>
+                                    <td class="text-center align-middle font-size-lg">
+                                        <?=view_date_time($row['kplus_time']).($row['kplus_register_at'] ? '<br />'.date('d/m/Y', strtotime($row['kplus_register_at'])) : '')?>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a href="<?=URL_ADMIN . "/{$path[1]}/update/{$row['kplus_code']}"?>" title="Sửa mã thẻ này"><i class="text-dark-50 flaticon-edit"></i></a>
+                                        <a href="javascript:;" title="Xóa mã thẻ này" class="text-danger" data-type="delete" data-id="<?=$row['kplus_code']?>"><i class="text-danger flaticon-delete"></i></a>
+                                        <a href="javascript:;" title="Cập nhật trạng thái" class="text-info" data-type="update_status" data-status="<?=in_array($row['kplus_status'], ['unregistered', 'wait']) ? 'registered' : 'unregistered'?>" data-id="<?=$row['kplus_code']?>"><i class="flaticon2-refresh text-info"></i></a>
+                                        <a href="javascript:;" title="Cập nhật xác nhận" class="text-warning text-small" data-type="update_verify" data-id="<?=$row['kplus_code']?>"><i class="flaticon2-protected text-success"></i></a>
+                                    </td>
+                                </tr>
+                            <?php }?>
+                            <tr>
+                                <td colspan="9" class="text-left font-size-lg">
+                                    Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                    Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

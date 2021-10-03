@@ -183,6 +183,8 @@ switch ($path[2]) {
                     showCancelButton: true,
                     closeOnConfirm: false,
                     showLoaderOnConfirm: true,
+                    cancelButtonText: 'Bỏ',
+                    confirmButtonText: 'Cập nhật'
                 }). then(function (result) {
                     if(result){
                         setTimeout(function () {
@@ -287,7 +289,8 @@ switch ($path[2]) {
                     text: "Bạn có chắc chắn muốn cập nhật trạng thái thẻ này không?",
                     icon: 'warning',
                     showCancelButton: true,
-                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Bỏ',
+                    confirmButtonText: 'Cập nhật',
                     showLoaderOnConfirm: true,
                 }).then(function (result) {
                     if(result.value){

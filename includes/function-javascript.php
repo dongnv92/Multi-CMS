@@ -6,60 +6,187 @@ $text['Forbidden'] = 'Forbidden';
 
 header('Content-type: application/javascript; charset=utf-8');
 switch ($path[1]){
-    case 'category':
+    case 'theme':
         switch ($path[2]){
-            default:
-                $category   = new Category($path[2]);
-                $config     = $category->getConfig();
-                if(!$config){
-                    exit($text['404']);
-                }
+            case 'slides':
+                switch ($path[3]){
+                    case 'update':
+                        // Kiểm tra quyền truy cập
+                        if(!$role['theme']['slides']){
+                            echo "Forbidden";
+                            exit();
+                        }
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            var drEvent = $('.dropify').dropify({
+                                messages: {
+                                    'default': '<center>Kéo, thả File vào đây hoặc Bấm để chọn tập tin</center>',
+                                    'replace': 'Kéo thả hoặc bấm để đổi File',
+                                    'remove':  'Xóa',
+                                    'error':   'Ohhh có lỗi rồi.'
+                                },
+                                error: {
+                                    'fileSize': 'Tập tin quá nặng.).',
+                                    'minWidth': 'The image width is too small ({{ value }}}px min).',
+                                    'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                                    'minHeight': 'The image height is too small ({{ value }}}px min).',
+                                    'maxHeight': 'The image height is too big ({{ value }}px max).',
+                                    'imageFormat': 'Chỉ hỗ trợ file ảnh ({{ value }} ).',
+                                    'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
+                                }
+                            });
+                            drEvent.on('dropify.errors', function(event, element){
+                                toastr.error('Lỗi tập tin, vui lòng chọn tại File.');
+                            });
+                        });
+                    <?php
+                    break;
+                    default:
+                        // Kiểm tra quyền truy cập
+                        if(!$role['theme']['slides']){
+                            echo "Forbidden";
+                            exit();
+                        }
+                        ?>
+                        //<script>
+                        $(document).ready(function () {
+                            var drEvent = $('.dropify').dropify({
+                                messages: {
+                                    'default': '<center>Kéo, thả File vào đây hoặc Bấm để chọn tập tin</center>',
+                                    'replace': 'Kéo thả hoặc bấm để đổi File',
+                                    'remove':  'Xóa',
+                                    'error':   'Ohhh có lỗi rồi.'
+                                },
+                                error: {
+                                    'fileSize': 'Tập tin quá nặng.).',
+                                    'minWidth': 'The image width is too small ({{ value }}}px min).',
+                                    'maxWidth': 'The image width is too big ({{ value }}}px max).',
+                                    'minHeight': 'The image height is too small ({{ value }}}px min).',
+                                    'maxHeight': 'The image height is too big ({{ value }}px max).',
+                                    'imageFormat': 'Chỉ hỗ trợ file ảnh ({{ value }} ).',
+                                    'fileExtension' : 'Kiểu File không được hỗ trợ. Hỗ trợ định các định dạng ({{ value }})'
+                                }
+                            });
+                            drEvent.on('dropify.errors', function(event, element){
+                                toastr.error('Lỗi tập tin, vui lòng chọn tại File.');
+                            });
 
-                // Kiểm tra sự cho phép truy cập
-                if(!$role[$config['permission'][0]][$config['permission'][1]]){
-                    exit($text['Forbidden']);
-                }
-                ?>
-                //<script>
-                $(document).ready(function () {
-                    // Xóa chuyên mục
-                    $('a[data-type=delete]').on('click', function (e) {
-                        var id = $(this).data('id');
-                        Swal.fire({
-                            title: "Xóa chuyên mục",
-                            text: "Bạn có muốn xóa chuyên mục này không?",
-                            icon: 'danger',
-                            showCancelButton: true,
-                            confirmButtonText: 'Xóa',
-                            showLoaderOnConfirm: true,
-                        }).then(function (result) {
-                            if (result.value) {
+                            // Thay đổi trạng thái
+                            $('input[data-action=switch]').on('change', function () {
+                                var id      = $(this).data('id');
+                                var status  = this.checked ? 'show' : 'hide';
                                 var ajax = $.ajax({
-                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/delete/{$path[2]}"?>/' + id,
+                                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/change_status/"?>' + id,
                                     method      : 'POST',
+                                    data        : {status : status},
                                     dataType    : 'json',
                                 });
                                 ajax.done(function (data) {
                                     if(data.response == 200){
-                                        Swal.fire("Xóa chuyên mục", "Xóa chuyên mục thành công!", "success");
-                                        setTimeout(function () {
-                                            location.reload();
-                                        }, 2000);
+                                        toastr.success(data.message);
                                     }else{
-                                        Swal.fire("Xóa chuyên mục", data.message, "error");
+                                        toastr.error(data.message);
                                     }
                                 });
                                 ajax.fail(function( jqXHR, textStatus ) {
-                                    console.log("Request failed: " + textStatus );
+                                    console.log("Request failed: " + jqXHR.responseText );
                                 });
-                            }
+                            });
+
+                            // Xóa
+                            $('a[data-action=delete]').on('click', function () {
+                                var id = $(this).data('id');
+                                swal.fire({
+                                    title: "Xóa Slides",
+                                    text: "Bạn có chắc chắn muốn xóa Slides này không?",
+                                    type: "warning",
+                                    showCancelButton: true,
+                                    closeOnConfirm: false,
+                                    showLoaderOnConfirm: true,
+                                    cancelButtonText: 'Không Xóa',
+                                    confirmButtonText: 'Xóa'
+                                }). then(function (result) {
+                                    if(result.value){
+                                        var ajax = $.ajax({
+                                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/delete/"?>' + id,
+                                            method      : 'POST',
+                                            dataType    : 'json',
+                                        });
+                                        ajax.done(function (data) {
+                                            if(data.response == 200){
+                                                swal.fire("Xóa Slides", data.message, "success");
+                                                setTimeout(function () {
+                                                    location.reload();
+                                                }, 1000);
+                                            }else{
+                                                swal.fire("Xóa Slides", data.message, "error");
+                                            }
+                                        });
+                                        ajax.fail(function( jqXHR, textStatus ) {
+                                            console.log("Request failed: " + textStatus );
+                                        });
+                                    }
+                                });
+                            });
                         });
-                        e.preventDefault();
-                    });
-                });
-                <?php
+                        <?php
+                        break;
+                }
                 break;
         }
+        break;
+    case 'category':
+        $category   = new Category($path[2], $path[3]);
+        $config     = $category->getConfig();
+        if(!$config){
+            exit($text['404']);
+        }
+
+        // Kiểm tra sự cho phép truy cập
+        if(!$role[$config['permission'][0]][$config['permission'][1]]){
+            exit($text['Forbidden']);
+        }
+        ?>
+        //<script>
+        $(document).ready(function () {
+            // Xóa chuyên mục
+            $('a[data-type=delete]').on('click', function (e) {
+                var id = $(this).data('id');
+                Swal.fire({
+                    title: "Xóa chuyên mục",
+                    text: "Bạn có muốn xóa chuyên mục này không?",
+                    icon: 'danger',
+                    showCancelButton: true,
+                    cancelButtonText: 'Không xóa',
+                    confirmButtonText: 'Xóa',
+                    showLoaderOnConfirm: true,
+                }).then(function (result) {
+                    if (result.value) {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/delete/{$path[2]}".($path[3] ? '/'.$path['3'] : '')?>/' + id,
+                            method      : 'POST',
+                            dataType    : 'json',
+                        });
+                        ajax.done(function (data) {
+                            if(data.response == 200){
+                                Swal.fire("Xóa chuyên mục", "Xóa chuyên mục thành công!", "success");
+                                setTimeout(function () {
+                                    location.reload();
+                                }, 2000);
+                            }else{
+                                Swal.fire("Xóa chuyên mục", data.message, "error");
+                            }
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            console.log("Request failed: " + textStatus );
+                        });
+                    }
+                });
+                e.preventDefault();
+            });
+        });
+        <?php
         break;
     case 'plugin':
             switch ($path[2]){
@@ -375,9 +502,10 @@ switch ($path[1]){
                 ?>
                 //<script>
                 $(document).ready(function () {
+                    // Thay đổi thông tin cá nhân
                     $('#button_update_me').on('click', function () {
                         var ajax = $.ajax({
-                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>',
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}"?>',
                             method      : 'POST',
                             dataType    : 'json',
                             data        : $('form').serialize(),
@@ -389,25 +517,52 @@ switch ($path[1]){
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    NioApp.Toast(data.message, 'success',{
-                                        ui: 'is-dark'
-                                    });
+                                    toastr.success(data.message);
                                     $('#button_update_me').attr('disabled', false);
                                     $('#button_update_me').html('CẬP NHẬT');
                                 }else{
-                                    toastr.clear();
-                                    NioApp.Toast(data.message, 'error',{
-                                        position: 'top-right'
-                                    });
+                                    toastr.error(data.message);
                                     $('#button_update_me').attr('disabled', false);
                                     $('#button_update_me').html('CẬP NHẬT');
                                 }
-                            }, 2000);
+                            }, 300);
                         });
                         ajax.fail(function( jqXHR, textStatus ) {
                             $('#button_update_me').attr('disabled', false);
                             $('#button_update_me').html('CẬP NHẬT');
-                            alert("Request failed: " + jqXHR.responseText);
+                            toastr.error(jqXHR.responseText);
+                        });
+                    });
+
+                    // Change Password
+                    $('#change_password').on('click', function () {
+                        var ajax = $.ajax({
+                            url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/change_password"?>',
+                            method      : 'POST',
+                            dataType    : 'json',
+                            data        : $('form').serialize(),
+                            beforeSend  : function () {
+                                $('#change_password').attr('disabled', true);
+                                $('#change_password').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang đổi mật khẩu ... </span>');
+                            }
+                        });
+                        ajax.done(function (data) {
+                            setTimeout(function () {
+                                if(data.response == 200){
+                                    toastr.success(data.message);
+                                    $('#change_password').attr('disabled', false);
+                                    $('#change_password').html('Lưu thay đổi');
+                                }else{
+                                    toastr.error(data.message);
+                                    $('#change_password').attr('disabled', false);
+                                    $('#change_password').html('Lưu thay đổi');
+                                }
+                            }, 300);
+                        });
+                        ajax.fail(function( jqXHR, textStatus ) {
+                            $('#change_password').attr('disabled', false);
+                            $('#change_password').html('Lưu thay đổi');
+                            toastr.error(jqXHR.responseText);
                         });
                     });
                 });
@@ -434,27 +589,21 @@ switch ($path[1]){
                             data        : $('form').serialize(),
                             beforeSend  : function () {
                                 $('#button_update_user').attr('disabled', true);
-                                $('#button_update_user').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> Đang cập nhật thành viên ... </span>');
+                                $('#button_update_user').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span><span> ĐANG CẬP NHẬT ... </span>');
                             }
                         });
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    NioApp.Toast(data.message, 'success',{
-                                        ui: 'is-dark',
-                                        position: 'top-right'
-                                    });
+                                    toastr.success(data.message);
                                     $('#button_update_user').attr('disabled', false);
                                     $('#button_update_user').html('CẬP NHẬT');
                                 }else{
-                                    NioApp.Toast(data.message, 'error',{
-                                        ui: 'is-dark',
-                                        position: 'top-right'
-                                    });
+                                    toastr.error(data.message);
                                     $('#button_update_user').attr('disabled', false);
                                     $('#button_update_user').html('CẬP NHẬT');
                                 }
-                            }, 2000);
+                            }, 500);
                         });
                         ajax.fail(function( jqXHR, textStatus ) {
                             $('#button_update_user').attr('disabled', false);
@@ -488,21 +637,15 @@ switch ($path[1]){
                         ajax.done(function (data) {
                             setTimeout(function () {
                                 if(data.response == 200){
-                                    NioApp.Toast(data.message, 'success',{
-                                        ui: 'is-dark',
-                                        position: 'top-right'
-                                    });
+                                    toastr.success(data.message);
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
                                 }else{
-                                    NioApp.Toast(data.message, 'error',{
-                                        ui: 'is-dark',
-                                        position: 'top-right'
-                                    });
+                                    toastr.error(data.message);
                                     $('#button_add_user').attr('disabled', false);
                                     $('#button_add_user').html('THÊM THÀNH VIÊN');
                                 }
-                            }, 2000);
+                            }, 1000);
                         });
 
                         ajax.fail(function( jqXHR, textStatus ) {
@@ -539,21 +682,15 @@ switch ($path[1]){
                                 ajax.done(function (data) {
                                     setTimeout(function () {
                                         if(data.response == 200){
-                                            NioApp.Toast(data.message, 'success',{
-                                                ui: 'is-dark',
-                                                position: 'top-right'
-                                            });
+                                            toastr.success(data.message);
                                             $('#button_update_role').attr('disabled', false);
                                             $('#button_update_role').html('CẬP NHẬT');
                                         }else{
-                                            NioApp.Toast(data.message, 'error',{
-                                                ui: 'is-dark',
-                                                position: 'top-right'
-                                            });
+                                            toastr.error(data.message);
                                             $('#button_update_role').attr('disabled', false);
                                             $('#button_update_role').html('CẬP NHẬT');
                                         }
-                                    }, 2000);
+                                    }, 500);
                                 });
 
                                 ajax.fail(function( jqXHR, textStatus ) {
@@ -583,17 +720,11 @@ switch ($path[1]){
                                 ajax.done(function (data) {
                                     setTimeout(function () {
                                         if(data.response == 200){
-                                            NioApp.Toast(data.message, 'success',{
-                                                ui: 'is-dark',
-                                                position: 'top-right'
-                                            });
+                                            toastr.success(data.message);
                                             $('#button_add_role').attr('disabled', false);
                                             $('#button_add_role').html('THÊM');
                                         }else{
-                                            NioApp.Toast(data.message, 'error',{
-                                                ui: 'is-dark',
-                                                position: 'top-right'
-                                            });
+                                            toastr.error(data.message);
                                             $('#button_add_role').attr('disabled', false);
                                             $('#button_add_role').html('THÊM');
                                         }
@@ -618,7 +749,7 @@ switch ($path[1]){
                                 Swal.fire({
                                     title: "Xóa vai trò thành viên",
                                     text: "Bạn có muốn xóa vai trò thanh viên này không?",
-                                    icon: 'danger',
+                                    icon: 'warning',
                                     showCancelButton: true,
                                     confirmButtonText: 'Xóa',
                                     showLoaderOnConfirm: true,
@@ -634,17 +765,16 @@ switch ($path[1]){
                                                 Swal.fire("Xóa vai trò thành viên", "Xóa vai trò thành viên thành công!", "success");
                                                 setTimeout(function () {
                                                     location.reload();
-                                                }, 2000);
+                                                }, 500);
                                             }else{
                                                 Swal.fire("Xóa vai trò thành viên", data.message, "error");
                                             }
                                         });
                                         ajax.fail(function( jqXHR, textStatus ) {
-                                            console.log("Request failed: " + textStatus );
+                                            console.log("Request failed: " + jqXHR.responsetext );
                                         });
                                     }
                                 });
-                                e.preventDefault();
                             });
                         });
                         <?php
@@ -663,12 +793,13 @@ switch ($path[1]){
                     $('a[data-type=delete]').on('click', function (e) {
                         var id = $(this).data('id');
                         Swal.fire({
-                            title: 'Xóa thành viên?',
-                            text: "Bạn có muốn xóa thành viên này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
-                            icon: 'danger',
-                            showCancelButton: true,
-                            confirmButtonText: 'Xóa',
-                            showLoaderOnConfirm: true,
+                            title               : 'Xóa thành viên?',
+                            text                : "Bạn có muốn xóa thành viên này không? sau khi xóa dữ liệu sẽ không thể khôi phục được!",
+                            icon                : 'warning',
+                            showCancelButton    : true,
+                            confirmButtonText   : 'Xóa',
+                            cancelButtonText    : 'Không xóa!',
+                            showLoaderOnConfirm : true
                         }).then(function (result) {
                             if (result.value) {
                                 var ajax = $.ajax({
@@ -681,7 +812,7 @@ switch ($path[1]){
                                         Swal.fire("Xóa thành viên", "Xóa thành viên thành công!", "success");
                                         setTimeout(function () {
                                             location.reload();
-                                        }, 2000);
+                                        }, 500);
                                     }else{
                                         Swal.fire("Xóa thành viên", data.message, "error");
                                     }

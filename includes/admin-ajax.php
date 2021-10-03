@@ -5,13 +5,47 @@ $text['404'] = '404';
 $text['Forbidden'] = 'Forbidden';
 $text['not_login'] = 'Error Login';
 switch ($path[1]){
+    case 'theme':
+        switch ($path[2]){
+            case 'slides':
+                switch ($path[3]){
+                    case 'delete':
+                        if(!$me){
+                            exit($text['not_login']);
+                        }
+                        if(!$role['theme']['slides']){
+                            exit($text['Forbidden']);
+                        }
+                        $theme  = new Theme();
+                        $action = $theme->delete_slides($path[4]);
+                        echo encode_json($action);
+                        break;
+                        //End case delete
+                    case 'change_status':
+                        if(!$me){
+                            exit($text['not_login']);
+                        }
+                        if(!$role['theme']['slides']){
+                            exit($text['Forbidden']);
+                        }
+                        $status = $_REQUEST['status'];
+                        $theme  = new Theme();
+                        $action = $theme->update_status_slides($path[4], $status);
+                        echo encode_json($action);
+                        break;
+                }
+                break;
+                //End case Slides
+        }
+        break;
+        //End case Theme
     case 'category':
         switch ($path[2]){
             case 'delete':
                 if(!$me){
                     exit($text['not_login']);
                 }
-                $category   = new Category($path[3]);
+                $category   = new Category($path[3], $path[4]);
                 $config     = $category->getConfig();
                 if(!$config){
                     exit($text['404']);
@@ -21,8 +55,9 @@ switch ($path[1]){
                     exit($text['Forbidden']);
                 }
 
-                $role   = new meta($database, $config['type']);
-                $delete = $role->delete($path[4]);
+                $role_id    = ($path[5] ? $path[5] : $path[4]);
+                $role       = new meta($database, $config['type']);
+                $delete     = $role->delete($role_id);
                 echo encode_json($delete);
                 break;
         }
@@ -141,6 +176,16 @@ switch ($path[1]){
         break;
     case 'profile':
         switch ($path[2]){
+            case 'change_password':
+                // Kiểm tra đăng nhập
+                if(!$me) {
+                    echo encode_json(get_response_array(403));
+                    break;
+                }
+                $user   = new user($database);
+                $update = $user->change_password($_REQUEST['pass_old'], $_REQUEST['pass_new'], $_REQUEST['pass_renew']);
+                echo encode_json($update);
+                break;
             default:
                 // Kiểm tra đăng nhập
                 if(!$me) {

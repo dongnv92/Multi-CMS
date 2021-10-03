@@ -1,5 +1,5 @@
 <?php
 require_once 'init.php';
-$logout = new user($database);
-$logout->logout();
+$user = new user($database);
+$user->logout();
 redirect(URL_ADMIN);

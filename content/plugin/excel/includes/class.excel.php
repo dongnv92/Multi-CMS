@@ -17,6 +17,24 @@ class ExcelByMe{
     public function __construct(){
     }
 
+    public function Calculator($filename, $data_so = []){
+        global $database;
+        $data_so = implode(',', $data_so);
+        $data_so = trim($data_so, ',');
+        $query = 'SELECT DISTINCT(`excel_product_name`) FROM dong_excel WHERE `excel_filename` = "'. $filename .'" AND `excel_bill` IN ('. $data_so .')';
+        $list_products = $database->query($query)->fetch();
+        $product_name = [];
+        foreach ($list_products AS $list_product){
+            $query = "SELECT SUM(`excel_amount`) AS `sum` FROM `dong_excel` WHERE `excel_filename` = '$filename' AND `excel_bill` IN ($data_so) AND `excel_product_name` = '{$list_product['excel_product_name']}'";
+            $query = $database->query($query)->fetch_first();
+            $product_name[] = [
+                'product_name' => $list_product['excel_product_name'],
+                'amout'     => $query['sum']
+            ];
+        }
+        return $product_name;
+    }
+
     function getListFileUpload(){
         global $database;
         $data   = $database->query("SELECT DISTINCT ". self::excel_filename ." FROM ". self::table)->fetch();

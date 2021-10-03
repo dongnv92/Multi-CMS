@@ -1,10 +1,21 @@
 <?php
 class Category{
     private $category_system = ['blog'];
-    private $path;
+    private $path, $title;
 
-    public function __construct($path){
-        $this->path = $path;
+    public function __construct($path, $title = ''){
+        $this->path     = $path;
+        $this->title    = $title;
+    }
+
+    public function getCategory($category_id){
+        global $database;
+        if(!validate_int($category_id) || !$category_id)
+            return get_response_array(311, 'ID phải là dạng số.');
+        $meta   = $database->select()->from("dong_meta")->where(['meta_id' => $category_id])->fetch_first();
+        if(!$meta)
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+        return $meta;
     }
 
     public function getOptionSelect($plus = ''){
@@ -24,6 +35,8 @@ class Category{
     public function getConfig(){
         $config = false;
         $path   = $this->path;
+        $title  = $this->title;
+
         if(in_array($path, $this->category_system)){
             switch ($path){
                 case 'blog':
@@ -52,8 +65,8 @@ class Category{
             }
         }else{
             $check_lugin = get_config_plugin($path);
-            if($check_lugin && is_array($check_lugin['category'])){
-                $config = $check_lugin['category'];
+            if($check_lugin && is_array($check_lugin['category'][$title])){
+                $config = $check_lugin['category'][$title];
             }
         }
         return $config;

@@ -7,6 +7,9 @@ class Telegram{
 
     public function __construct($token){
         switch ($token){
+            case 'citypostarbot':
+                $this->token = '1811282977:AAHakti7sY0S4AY5RJignfc-0Sic6zc5iMA';
+                break;
             case 'citypost_notice':
                 $this->token = '1709795286:AAEyN3xSVPti3RtHKZitBpYfwl0qCcOplhc';
                 break;
@@ -51,11 +54,19 @@ class Telegram{
         return $request;
     }
 
-    public function sendMessage($content){
+    public function sendMessage($content, $option = []){
         if(!$this->chat_id){
             return false;
         }
-        $request = curl($this->url_api . 'sendMessage', ['chat_id' => $this->chat_id, 'text' => $content]);
+
+        $data = [
+            'chat_id'   => $this->chat_id,
+            'text'      => $content
+        ];
+        if($option['parse_mode'] == 'html'){
+            $data['parse_mode'] = 'html';
+        }
+        $request = curl($this->url_api . 'sendMessage', $data);
         if(!$request){
             return false;
         }

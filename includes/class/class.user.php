@@ -112,6 +112,7 @@ class user{
     }
 
 
+    // Lấy toàn bộ thành viên theo vai trò
     public function get_all_user_by_role($role){
         global $database;
         $check_role = $database->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $role])->fetch_first();
@@ -129,14 +130,20 @@ class user{
     public function get_all(){
         $db         = $this->db;
         $param      = get_param_defaul();
-        $page       = $param['page'];
-        $limit      = $param['limit'];
-        $offset     = $param['offset'];
+        $page       = (($_REQUEST['page'] && validate_int($_REQUEST['page'])) ? $_REQUEST['page'] : $param['page']);
+        $limit      = (($_REQUEST['limit'] && validate_int($_REQUEST['limit'])) ? $_REQUEST['limit'] : $param['limit']);
+        $offset     = (($_REQUEST['offset'] && validate_int($_REQUEST['offset'])) ? $_REQUEST['offset'] : $param['offset']);
         $where      = [];
         $pagination = [];
 
+        // Lọc theo trạng thái thành viên
         if($_REQUEST[$this->user_status] && (in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_ACCESS) || in_array($_REQUEST[$this->user_status], self::USER_STATUS_LOGIN_BLOCK))){
             $where[$this->user_status] = $_REQUEST[$this->user_status];
+        }
+
+        // Lọc theo vai trò
+        if($_REQUEST[$this->user_role]){
+            $where[$this->user_role] = $_REQUEST[$this->user_role];
         }
 
         // Tính tổng data
@@ -479,6 +486,7 @@ class user{
     }
 
     public function add(){
+        global $me;
         $db         = $this->db;
         $check_role = $db->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $_REQUEST[$this->user_role]])->fetch_first();
         // Kiểm tra username
@@ -525,6 +533,12 @@ class user{
         if($check_role['count'] == 0)
             return get_response_array(309, 'Vai trò thành viên không tồn tại.');
 
+        // Kiểm tra vai trò thành viên Special
+        $role_special = get_config('role_special');
+        if($_REQUEST[$this->user_role] == $role_special && $me['user_role'] != $role_special){
+            return get_response_array(309, 'Bạn không có quyền thêm thành viên mới với vai trò thành viên này. Vui lòng đổi vai trò thành viên khác.');
+        }
+
         $data_add = [
             'user_login'        => $db->escape($_REQUEST[$this->user_login]),
             'user_password'     => $this->encodeText($_REQUEST[$this->user_password]),
@@ -551,8 +565,54 @@ class user{
         return get_response_array(200, "Thêm thành viên mới thành công.");
     }
 
+    public function change_password($pass_old, $pass_new, $pass_renew){
+        global $me, $database;
+        $db = $this->db;
+        $check_pass = $database->select('COUNT(*) AS user')->from($this->db_table)->where([$this->user_id => $me['user_id'], $this->user_password => $this->encodeText($pass_old)])->fetch_first();
+        // Kiểm tra mật khẩu cũ
+        if(!validate_isset($pass_old))
+            return get_response_array(309, 'Bạn cần nhập mật khẩu cũ.');
+        if(strlen($pass_old) < 4 || strlen($pass_old) > 20)
+            return get_response_array(309, 'Mật khẩu cũ từ 4 đến 20 ký tự.');
+        if($check_pass['user'] == 0)
+            return get_response_array(309, 'Mật khẩu cũ không đúng.');
+
+        // Kiểm tra mật khẩu mới
+        if(!validate_isset($pass_new))
+            return get_response_array(309, 'Bạn cần nhập mật khẩu mới.');
+        if(strlen($pass_new) < 4 || strlen($pass_new) > 20)
+            return get_response_array(309, 'Mật khẩu mới từ 4 đến 20 ký tự.');
+
+        // Kiểm tra nhập lại mật khẩu mới
+        if(!validate_isset($pass_renew))
+            return get_response_array(309, 'Bạn cần nhập lại mật khẩu mới.');
+        if(strlen($pass_renew) < 4 || strlen($pass_renew) > 20)
+            return get_response_array(309, 'Nhập lại mật khẩu mới từ 4 đến 20 ký tự.');
+        if($pass_new != $pass_renew)
+            return get_response_array(309, 'Hai mật khẩu không giống nhau.');
+        if($pass_old == $pass_new)
+            return get_response_array(309, 'Mật khẩu mới không được trùng mật khẩu cũ.');
+
+        // Thực hiện đổi mật khẩu
+        $data   = [$this->user_password => $this->encodeText($pass_new)];
+        $update = $database->where($this->user_id, $me['user_id'])->update($this->db_table, $data);
+        if(!$update){
+            return get_response_array(309, 'Đổi mật khẩu không thành công.');
+        }
+
+        return get_response_array(200, 'Đổi mật khẩu thành công');
+    }
+
     public function logout(){
         session_destroy();
-        setcookie('access_token', '');
+        if (isset($_SERVER['HTTP_COOKIE'])) {
+            $cookies = explode(';', $_SERVER['HTTP_COOKIE']);
+            foreach($cookies as $cookie) {
+                $parts = explode('=', $cookie);
+                $name = trim($parts[0]);
+                setcookie($name, '', time()-1000);
+                setcookie($name, '', time()-1000, '/');
+            }
+        }
     }
 }

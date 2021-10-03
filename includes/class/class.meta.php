@@ -38,9 +38,7 @@ class meta{
         if(is_array($default_option) && count($default_option)){
             $result['0'] = $default_option[0];
         }
-
         $data = $this->recursiveDatabase($data);
-
         foreach ($data AS $_data){
             $result[$_data[$this->meta_id]] = ($_data['level'] > 0 ? str_repeat(' → ', $_data['level']) : '') . $_data[$this->meta_name];
         }
@@ -119,6 +117,15 @@ class meta{
         return ['response' => 200, 'data' => $meta];
     }
 
+    public function get_meta_by_slug($slug, $field = '*'){
+        $db     = $this->db;
+        $slug   = str_replace('.html', '', $slug);
+        $meta   = $db->select($field)->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_url => $slug])->fetch_first();
+        if(!$meta)
+            return get_response_array(302, 'Dữ liệu không tồn tại.');
+        return ['response' => 200, 'data' => $meta];
+    }
+
     public function delete($id){
         // Nếu chưa có id hoặc sai định dạng int thì báo lỗi
         if(!validate_int($id) || !$id)
@@ -132,13 +139,15 @@ class meta{
             return get_response_array(302, 'Dữ liệu không tồn tại.');
 
         if($this->type == 'role'){
+            $role_default = get_config('role_default');
             // Nếu id là id đặc biệt thì báo lỗi
             if($id == get_config('role_special'))
                 return get_response_array(302, 'Không thể xóa dữ liệu này, đây là vai trò thành viên đặc biệt!');
             // Nếu id là id mặc định thì báo lỗi
-            if($id == get_config('role_default'))
+            if($id == $role_default)
                 return get_response_array(302, 'Không thể xóa dữ liệu này! đây là vai trò thành viên mặc định');
-
+            $db->where('user_role', $id)->update('dong_user', ['user_role' => $role_default]);
+            //return get_response_array(302, "ID: $id; Default: ".get_config('role_default'));
         }
 
         $delete = $db->delete()->from($this->db_table)->where([$this->meta_type => $this->type, $this->meta_id => $id])->limit(1)->execute();
@@ -146,6 +155,7 @@ class meta{
             return get_response_array(208, 'Xóa dữ liệu không thành công!');
         }
 
+        // Xóa ảnh
         if($meta[$this->meta_image] && $meta[$this->meta_image] != get_config('no_image')){
             unlink(ABSPATH . $meta[$this->meta_image]);
         }

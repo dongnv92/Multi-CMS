@@ -1,5 +1,10 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 switch ($path[2]){
+    case 'test':
+        $string = 'BƯU CỤC H&#192; NỘI Đ&#227; lấy h&#224;ng (HN Kiểm So&#225;t Hafele - 1241654564)';
+        echo html_entity_decode($string);
+        break;
     default:
         $header['title'] = 'Telegram';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
@@ -22,7 +27,9 @@ switch ($path[2]){
                     <div class="card-inner">
                     <?php
                     $telegram = new Telegram('citypost_notice');
-                    $telegram->set_chatid('-506790604');
+                    echo "<pre>";
+                    print_r(json_decode($telegram->getUpdates(), true));
+                    echo "</pre>";
                     ?>
                     </div>
                     <!-- End Content -->

@@ -8,8 +8,8 @@ switch ($path[2]){
                 // Kiểm tra tồn tại của meta
                 if($meta['response'] != 200){
                     $header['title']    = 'Cập nhật vai trò thành viên';
+                    $header['toolbar']  =  admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò thành viên'],'Cập nhật');
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Cập nhật');
                     echo admin_error('Cập nhật vai trò thành viên', 'Vai trò thành viên không tồn tại.');
                     require_once 'admin-footer.php';
                     exit();
@@ -18,8 +18,8 @@ switch ($path[2]){
                 // Kiểm tra quyền truy cập
                 if(!$role['user']['role']){
                     $header['title']    = 'Cập nhật vai trò thành viên';
+                    $header['toolbar']  =  admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò thành viên'],'Cập nhật');
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Cập nhật');
                     echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
                     require_once 'admin-footer.php';
                     exit();
@@ -28,28 +28,22 @@ switch ($path[2]){
                 $role_info = unserialize($meta['data']['meta_info']);
                 $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"];
                 $header['title']    = 'Cập nhật vai trò thành viên';
+                $header['toolbar']  =  admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò thành viên'],'Cập nhật', '<a href="'. URL_ADMIN .'/'. $path[1] .'/'. $path[2] .'" class="btn btn-success font-weight-bold btn-square btn-sm mr-2">DANH SÁCH</a> <a href="'. URL_ADMIN .'/'. $path[1] .'/'. $path[2] .'/add" class="btn btn-success font-weight-bold btn-square btn-sm">THÊM MỚI</a>');
                 require_once 'admin-header.php';
-                echo admin_breadcrumbs('Cập nhật vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Cập nhật');
                 ?>
                 <?=formOpen('', ["method" => "POST"])?>
                 <div class="row">
                     <div class="col-lg-4">
-                        <div class="card card-bordered">
-                            <div class="card-inner border-bottom">
-                                <div class="card-title-group">
-                                    <div class="card-title"><h6 class="title">Thông tin cơ bản</h6></div>
-                                    <div class="card-tools">
-                                        <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/add"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Thêm vai trò thành viên"><em class="icon ni ni-plus"></em></a>
-                                        <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Danh sách vai trò thành viên"><em class="icon ni ni-list-thumb"></em></a>
-                                    </div>
-                                </div>
+                        <div class="card card-custom">
+                            <div class="card-header">
+                                <div class="card-title"><h3 class="card-label">Cập nhật vai trò thành viên</h3></div>
                             </div>
                             <!-- Content -->
-                            <div class="card-inner">
-                                <div class="row g-4">
+                            <div class="card-body">
+                                <div class="row">
                                     <div class="col-lg-12">
                                         <?=formInputText('meta_name', [
-                                            'label'         => 'Tên vai trò thành viên. <code>*</code>',
+                                            'label'         => 'Tên vai trò thành viên. <span class="text-danger">*</span>',
                                             'value'         => $meta['data']['meta_name']
                                         ])?>
                                     </div>
@@ -71,36 +65,41 @@ switch ($path[2]){
                         </div> <!--End Col-lg-4-->
                     </div>
                     <div class="col-lg-8">
-                        <div class="nk-block">
-                            <?php
-                            $list_role = role_structure();
-                            foreach ($list_role AS $key => $value){
-                            ?>
-                                <div class="card card-bordered card-stretch">
-                                    <div class="card-inner-group">
-                                        <div class="card-inner p-0">
-                                            <div class="nk-tb-list nk-tb-ulist is-compact">
-                                                <div class="nk-tb-item nk-tb-head">
-                                                    <div class="nk-tb-col">
-                                                        <p class="text-danger font-weight-bold"><em class="icon ni ni-curve-down-right"></em> <?=role_structure('des', [$key])?></p>
-                                                    </div>
-                                                </div>
-                                                <?php foreach ($value AS $_key => $_value){?>
-                                                    <div class="nk-tb-item">
-                                                        <div class="nk-tb-col nk-tb-col-check">
-                                                            <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                                <input type="checkbox" name="<?=$key.'_'.$_key?>" class="custom-control-input" value="1" id="<?=$key.'_'.$_key?>" <?=$role_info[$key][$_key] ? 'checked' : ''?>>
-                                                                <label class="custom-control-label" for="<?=$key.'_'.$_key?>"><?=role_structure('des', [$key, $_key])?></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                <?php }?>
-                                            </div>
-                                        </div>
+                        <?php
+                        $list_role = role_structure();
+                        foreach ($list_role AS $key => $value){
+                        ?>
+                        <div class="card card-custom gutter-b">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">
+                                        <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Clipboard-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                <rect x="0" y="0" width="24" height="24"/>
+                                                <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
+                                                <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
+                                                <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
+                                            </g>
+                                        </svg><!--end::Svg Icon--></span>
+                                        <?=role_structure('des', [$key])?>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="checkbox-list">
+                                        <?php foreach ($value AS $_key => $_value){?>
+                                            <label class="checkbox checkbox-square">
+                                                <input type="checkbox" name="<?=$key.'_'.$_key?>" class="custom-control-input" value="1" id="<?=$key.'_'.$_key?>" <?=$role_info[$key][$_key] ? 'checked' : ''?>>
+                                                <span></span>
+                                                <?=role_structure('des', [$key, $_key])?>
+                                            </label>
+                                        <?php }?>
                                     </div>
                                 </div>
-                            <?php }?>
+                            </div>
                         </div>
+                        <?php }?>
                     </div>
                 </div>
                 <?=formClose()?>
@@ -111,8 +110,8 @@ switch ($path[2]){
                 // Kiểm tra quyền truy cập
                 if(!$role['user']['role']){
                     $header['title']    = 'Cập nhật vai trò thành viên';
+                    $header['toolbar']  = admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Thêm mới');
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Thêm mới');
                     echo admin_error('Cập nhật vai trò thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
                     require_once 'admin-footer.php';
                     exit();
@@ -120,25 +119,21 @@ switch ($path[2]){
 
                 $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"];
                 $header['title']    = 'Thêm vai trò thành viên';
+                $header['toolbar']  = admin_breadcrumbs('Thêm vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Thêm mới', '<a href="'. URL_ADMIN .'/'. $path[1] .'/'. $path[2] .'" class="btn btn-success font-weight-bold btn-square btn-sm">DANH SÁCH</a>');
                 require_once 'admin-header.php';
-                echo admin_breadcrumbs('Thêm vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Thêm mới');
                 ?>
                 <?=formOpen('', ["method" => "POST"])?>
                 <div class="row">
                     <div class="col-lg-4">
-                        <div class="card card-bordered">
-                            <div class="card-inner border-bottom">
-                                <div class="card-title-group">
-                                    <div class="card-title"><h6 class="title">Thông tin cơ bản</h6></div>
-                                    <div class="card-tools"><a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}"?>" class="link"><em class="icon ni ni-list-thumb"></em></a></div>
-                                </div>
+                        <div class="card card-custom">
+                            <div class="card-header">
+                                <div class="card-title"><h6 class="card-label">Thông tin cơ bản</h6></div>
                             </div>
-                            <!-- Content -->
-                            <div class="card-inner">
-                                <div class="row g-4">
+                            <div class="card-body">
+                                <div class="row">
                                     <div class="col-lg-12">
                                         <?=formInputText('meta_name', [
-                                            'label'         => 'Tên vai trò thành viên. <code>*</code>'
+                                            'label' => 'Tên vai trò thành viên. <span class="text-danger">*</span>'
                                         ])?>
                                     </div>
                                     <div class="col-lg-12">
@@ -158,36 +153,43 @@ switch ($path[2]){
                         </div> <!--End Col-lg-4-->
                     </div>
                     <div class="col-lg-8">
-                        <div class="nk-block">
-                            <?php
-                            $list_role = role_structure();
-                            foreach ($list_role AS $key => $value){
-                            ?>
-                                <div class="card card-bordered card-stretch">
-                                    <div class="card-inner-group">
-                                        <div class="card-inner p-0">
-                                            <div class="nk-tb-list nk-tb-ulist is-compact">
-                                                <div class="nk-tb-item nk-tb-head">
-                                                    <div class="nk-tb-col">
-                                                        <p class="text-danger font-weight-bold"><em class="icon ni ni-curve-down-right"></em> <?=role_structure('des', [$key])?></p>
-                                                    </div>
-                                                </div>
-                                                <?php foreach ($value AS $_key => $_value){?>
-                                                <div class="nk-tb-item">
-                                                    <div class="nk-tb-col nk-tb-col-check">
-                                                        <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                            <input type="checkbox" name="<?=$key.'_'.$_key?>" class="custom-control-input" value="1" id="<?=$key.'_'.$_key?>">
-                                                            <label class="custom-control-label" for="<?=$key.'_'.$_key?>"><?=role_structure('des', [$key, $_key])?></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <?php }?>
-                                            </div>
-                                        </div>
+                        <?php
+                        $list_role = role_structure();
+                        foreach ($list_role AS $key => $value){
+                        ?>
+                        <!--begin::Content-->
+                        <div class="card card-custom gutter-b">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">
+                                    <span class="svg-icon svg-icon-primary svg-icon-2x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Communication/Clipboard-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <path d="M8,3 L8,3.5 C8,4.32842712 8.67157288,5 9.5,5 L14.5,5 C15.3284271,5 16,4.32842712 16,3.5 L16,3 L18,3 C19.1045695,3 20,3.8954305 20,5 L20,21 C20,22.1045695 19.1045695,23 18,23 L6,23 C4.8954305,23 4,22.1045695 4,21 L4,5 C4,3.8954305 4.8954305,3 6,3 L8,3 Z" fill="#000000" opacity="0.3"/>
+                                            <path d="M10.875,15.75 C10.6354167,15.75 10.3958333,15.6541667 10.2041667,15.4625 L8.2875,13.5458333 C7.90416667,13.1625 7.90416667,12.5875 8.2875,12.2041667 C8.67083333,11.8208333 9.29375,11.8208333 9.62916667,12.2041667 L10.875,13.45 L14.0375,10.2875 C14.4208333,9.90416667 14.9958333,9.90416667 15.3791667,10.2875 C15.7625,10.6708333 15.7625,11.2458333 15.3791667,11.6291667 L11.5458333,15.4625 C11.3541667,15.6541667 11.1145833,15.75 10.875,15.75 Z" fill="#000000"/>
+                                            <path d="M11,2 C11,1.44771525 11.4477153,1 12,1 C12.5522847,1 13,1.44771525 13,2 L14.5,2 C14.7761424,2 15,2.22385763 15,2.5 L15,3.5 C15,3.77614237 14.7761424,4 14.5,4 L9.5,4 C9.22385763,4 9,3.77614237 9,3.5 L9,2.5 C9,2.22385763 9.22385763,2 9.5,2 L11,2 Z" fill="#000000"/>
+                                        </g>
+                                    </svg><!--end::Svg Icon--></span>
+                                        <?=role_structure('des', [$key])?>
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <div class="checkbox-list">
+                                        <?php foreach ($value AS $_key => $_value){?>
+                                            <label class="checkbox checkbox-square">
+                                                <input type="checkbox" name="<?=$key.'_'.$_key?>" class="custom-control-input" value="1" id="<?=$key.'_'.$_key?>" />
+                                                <span></span>
+                                                <?=role_structure('des', [$key, $_key])?>
+                                            </label>
+                                        <?php }?>
                                     </div>
                                 </div>
-                            <?php }?>
+                            </div>
                         </div>
+                        <!--end::Content-->
+                        <?php }?>
                     </div>
                 </div>
                 <?=formClose()?>
@@ -198,8 +200,8 @@ switch ($path[2]){
                 // Kiểm tra quyền truy cập
                 if(!$role['user']['role']){
                     $header['title']    = 'Quản lý vai trò thành viên';
+                    $header['toolbar']  = admin_breadcrumbs('Quản lý vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Quản lý vai trò thành viên');
                     require_once 'admin-header.php';
-                    echo admin_breadcrumbs('Quản lý vai trò', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Quản lý');
                     echo admin_error('Quản lý vai trò', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
                     require_once 'admin-footer.php';
                     exit();
@@ -214,83 +216,92 @@ switch ($path[2]){
                     URL_JS . "{$path[1]}/{$path[2]}",
                 ];
                 $header['title']    = 'Quản lý vai trò thành viên';
+                $header['toolbar']  = admin_breadcrumbs('Quản lý vai trò thành viên', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Quản lý vai trò thành viên', '<a href="'. URL_ADMIN .'/'. $path[1] .'/'. $path[2] .'/add" class="btn btn-success font-weight-bold btn-square btn-sm">THÊM MỚI</a>');
                 require_once 'admin-header.php';
-                echo admin_breadcrumbs('Quản lý vai trò', [URL_ADMIN . '/user/' => 'Thành viên', URL_ADMIN . '/'. $path[1] .'/' . $path[2] => 'Vai trò'],'Quản lý');
                 ?>
-                <div class="nk-block">
-                    <div class="card card-bordered card-stretch">
-                        <div class="card-inner-group">
-                            <div class="card-inner position-relative card-tools-toggle">
-                                <div class="card-title-group">
-                                    <div class="card-tools">
-                                        <?=formOpen('', ['method' => 'GET'])?>
-                                        <div class="form-inline flex-nowrap gx-3">
-                                            <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
-                                            <div class="btn-wrap">
-                                                <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
-                                                <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
-                                            </div>
-                                        </div><!-- .form-inline -->
-                                        <?=formClose()?>
-                                    </div><!-- .card-tools -->
-                                    <div class="card-tools mr-n1">
-                                        <ul class="btn-toolbar gx-1">
-                                            <li>
-                                                <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/add"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Thêm vai trò thành viên">
-                                                    <em class="icon ni ni-plus"></em>
-                                                </a>
-                                            </li>
-                                        </ul><!-- .btn-toolbar -->
-                                    </div><!-- .card-tools -->
-                                </div><!-- .card-title-group -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card card-custom">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">Danh sách vai trò thành viên</h3>
+                                </div>
                             </div><!-- .card-inner -->
-                            <div class="card-inner p-0">
-                                <table class="table table-tranx table-hover">
+                            <div class="card-body p-0">
+                                <table class="table table-hover table-head-custom table-row-dashed">
                                     <thead>
-                                    <tr class="tb-tnx-head">
+                                    <tr>
+                                        <th style="width: 5%" class="text-center align-middle">ID</th>
                                         <th style="width: 25%" class="text-left align-middle">Tên vai trò</th>
-                                        <th style="width: 35%" class="text-center align-middle">Mô tả</th>
+                                        <th style="width: 30%" class="text-left align-middle">Mô tả</th>
                                         <th style="width: 20%" class="text-center align-middle">Ngày tạo</th>
-                                        <th style="width: 20%" class="text-right align-middle">Quản trị</th>
+                                        <th style="width: 20%" class="text-center align-middle">Quản trị</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php if($data['paging']['count_data'] == 0){?>
                                         <tr>
-                                            <td colspan="4" class="text-center">Dữ liệu trống</td>
+                                            <td colspan="5" class="text-center">Dữ liệu trống</td>
                                         </tr>
                                     <?php }?>
                                     <?php foreach ($data['data'] AS $row){?>
                                         <tr>
+                                            <td class="text-center">
+                                                <?=$row['meta_id']?>
+                                            </td>
                                             <td class="text-left align-middle font-weight-bold">
                                                 <a title="Click để chỉnh sửa" href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/update/{$row['meta_id']}"?>"><?=$row['meta_name']?></a>
-                                                <?=get_config('role_special') == $row['meta_id'] ? '<em class="icon ni ni-shield-check-fill text-success"></em></em>' : ''?>
-                                                <?=get_config('role_default') == $row['meta_id'] ? '<em class="icon ni ni-na text-danger"></em>' : ''?>
+                                                <?=get_config('role_special') == $row['meta_id'] ? '<span class="svg-icon svg-icon-danger svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Shield-check.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24"/>
+                                                        <path d="M4,4 L11.6314229,2.5691082 C11.8750185,2.52343403 12.1249815,2.52343403 12.3685771,2.5691082 L20,4 L20,13.2830094 C20,16.2173861 18.4883464,18.9447835 16,20.5 L12.5299989,22.6687507 C12.2057287,22.8714196 11.7942713,22.8714196 11.4700011,22.6687507 L8,20.5 C5.51165358,18.9447835 4,16.2173861 4,13.2830094 L4,4 Z" fill="#000000" opacity="0.3"/>
+                                                        <path d="M11.1750002,14.75 C10.9354169,14.75 10.6958335,14.6541667 10.5041669,14.4625 L8.58750019,12.5458333 C8.20416686,12.1625 8.20416686,11.5875 8.58750019,11.2041667 C8.97083352,10.8208333 9.59375019,10.8208333 9.92916686,11.2041667 L11.1750002,12.45 L14.3375002,9.2875 C14.7208335,8.90416667 15.2958335,8.90416667 15.6791669,9.2875 C16.0625002,9.67083333 16.0625002,10.2458333 15.6791669,10.6291667 L11.8458335,14.4625 C11.6541669,14.6541667 11.4145835,14.75 11.1750002,14.75 Z" fill="#000000"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span>' : ''?>
+                                                <?=get_config('role_default') == $row['meta_id'] ? '<span class="svg-icon svg-icon-warning svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/General/Heart.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <polygon points="0 0 24 0 24 24 0 24"/>
+                                                        <path d="M16.5,4.5 C14.8905,4.5 13.00825,6.32463215 12,7.5 C10.99175,6.32463215 9.1095,4.5 7.5,4.5 C4.651,4.5 3,6.72217984 3,9.55040872 C3,12.6834696 6,16 12,19.5 C18,16 21,12.75 21,9.75 C21,6.92177112 19.349,4.5 16.5,4.5 Z" fill="#000000" fill-rule="nonzero"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span>' : ''?>
                                             </td>
-                                            <td class="text-center align-middle">
-                                                <?=text_truncate($row['meta_des'], '7')?>
+                                            <td class="text-left align-middle">
+                                                <?=($row['meta_des'] ? text_truncate($row['meta_des'], '7') : '---')?>
                                             </td>
                                             <td class="text-center align-middle">
                                                 <?=view_date_time($row['meta_time'])?>
                                             </td>
-                                            <td class="text-right align-middle">
-                                                <ul class="nk-tb-actions gx-1">
+                                            <td class="text-center align-middle">
+                                                <!--<ul class="nk-tb-actions gx-1">
                                                     <li>
-                                                        <a href="<?=URL_ADMIN."/{$path[1]}/{$path[2]}/update/{$row['meta_id']}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập Nhật">
+                                                        <a href="<?/*=URL_ADMIN."/{$path[1]}/{$path[2]}/update/{$row['meta_id']}"*/?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập Nhật">
                                                             <em class="icon ni ni-edit"></em>
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" data-type="delete" data-id="<?=$row['meta_id']?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Xóa">
+                                                        <a href="#" data-type="delete" data-id="<?/*=$row['meta_id']*/?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Xóa">
                                                             <em class="icon ni ni-trash text-danger"></em>
                                                         </a>
                                                     </li>
-                                                </ul>
+                                                </ul>-->
+                                                <a href="javascript:;" data-type="delete" data-id="<?=$row['meta_id']?>" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                                                    <span class="svg-icon svg-icon-md svg-icon-danger">
+                                                        <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/General/Trash.svg-->
+                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                <rect x="0" y="0" width="24" height="24" />
+                                                                <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                                <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
+                                                            </g>
+                                                        </svg>
+                                                        <!--end::Svg Icon-->
+                                                    </span>
+                                                </a>
                                             </td>
                                         </tr>
                                     <?php }?>
                                     <tr>
-                                        <td colspan="4" class="text-left">
+                                        <td colspan="5" class="text-left">
                                             Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
                                             Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
                                         </td>
@@ -300,7 +311,7 @@ switch ($path[2]){
                             </div>
                         </div><!-- .card-inner-group -->
                     </div><!-- .card -->
-                </div><!-- .nk-block -->
+                </div>
                 <?php
                 require_once 'admin-footer.php';
                 break;
@@ -312,12 +323,12 @@ switch ($path[2]){
             URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"
         ];
         $header['title']    = 'Cập nhật thành viên';
+        $header['toolbar']  = admin_breadcrumbs('Cập nhật thành viên', [URL_ADMIN . '/user' => 'Thành viên'],'Cập nhật', '<a href="'. URL_ADMIN .'/'. $path[1] .'" class="btn btn-success font-weight-bold btn-square btn-sm mr-2">DANH SÁCH</a> <a href="'. URL_ADMIN .'/'. $path[1] .'/add" class="btn btn-success font-weight-bold btn-square btn-sm">THÊM MỚI</a>');
         $user = new user($database);
         $user = $user->get_user(['user_id' => $path[3]]);
 
         if(!$role['user']['update']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Cập nhật thành viên', [URL_ADMIN . '/user' => 'Thành viên'],'Cập nhật');
             echo admin_error('Cập nhật thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
@@ -325,7 +336,6 @@ switch ($path[2]){
 
         if(!$path[3] || !$user){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Cập nhật thành viên', [URL_ADMIN . '/user' => 'Thành viên'],'Cập nhật');
             echo admin_error('Cập nhật thành viên.', 'Thành viên không tồn tại hoặc đã bị xóa khỏi hệ thống. Vui lòng kiểm tra lại.');
             require_once 'admin-footer.php';
             exit();
@@ -335,90 +345,79 @@ switch ($path[2]){
         $user_role          = new meta($database, 'role');
         $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Cập nhật thành viên', [URL_ADMIN . '/user' => 'Thành viên'],'Cập nhật');
         echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card card-bordered">
-                    <div class="card-inner border-bottom">
-                        <!-- Title -->
-                        <div class="card-title-group">
-                            <div class="card-title"><h6 class="title">Cập nhật thành viên <?=$user['user_name']?></h6></div>
-                            <div class="card-tools">
-                                <a href="<?=URL_ADMIN."/{$path[1]}/add"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Thêm thành viên mới">
-                                    <em class="icon ni ni-user-add"></em>
-                                </a>
-                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Danh sách thành viên">
-                                    <em class="icon ni ni-users"></em>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- Title -->
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title"><h3 class="card-label">Cập nhật thành viên <?=$user['user_name']?></h3></div>
                     </div>
                     <!-- Content -->
-                    <div class="card-inner">
-                        <div class="row g-4">
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-lg-6">
                                 <?=formInputText('user_login', [
-                                    'label'         => 'Tên đăng nhập. <code>*</code>',
+                                    'label'         => 'Tên đăng nhập. <span class="text-danger">*</span>',
                                     'autofocus'     => '',
                                     'value'         => $user['user_login']
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputText('user_name', [
-                                    'label'         => 'Tên hiển thị. <code>*</code>',
+                                    'label'         => 'Tên hiển thị. <span class="text-danger">*</span>',
                                     'value'         => $user['user_name']
                                 ])?>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <?=formInputPassword('user_password', [
-                                    'label'         => 'Mật khẩu. <code>*</code>',
+                                    'label'         => 'Mật khẩu.',
                                     'autocomplete'  => 'new-password'
                                 ])?>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
                                 <?=formInputPassword('user_repass', [
-                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>'
+                                    'label'         => 'Nhập lại mật khẩu.'
                                 ])?>
                             </div>
-                            <div class="col-lg-4">
+                            <div class="col-lg-6">
+                                <?=formInputText('user_phone', [
+                                    'label'         => 'Điện thoại.',
+                                    'value'         => $user['user_phone']
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputText('user_email', [
+                                    'label'         => 'Email.',
+                                    'value'         => $user['user_email']
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputSelect('user_role', $user_role, [
+                                        'label'         => 'Phân quyền',
+                                        'data-live-search'  => 'true',
+                                        'selected'      => $user['user_role']]
+                                )?>
+                            </div>
+                            <div class="col-lg-6">
                                 <?=formInputSelect('user_status', [
                                     'active'        => 'Hoạt động',
                                     'not_active'    => 'Chưa kích hoạt',
                                     'block'         => 'Tạm khóa',
                                     'block_forever' => 'Đã khóa'
                                 ], [
+                                    'label'             => 'Trạng thái',
                                     'data-live-search'  => 'true',
                                     'selected'          => $user['user_status']
                                 ])?>
                             </div>
-                            <div class="col-lg-4">
-                                <?=formInputText('user_email', [
-                                    'label'         => 'Email.',
-                                    'value'         => $user['user_email']
-                                ])?>
-                            </div>
-                            <div class="col-lg-4">
-                                <?=formInputText('user_phone', [
-                                    'label'         => 'Điện thoại.',
-                                    'value'         => $user['user_phone']
-                                ])?>
-                            </div>
-                            <div class="col-lg-4">
-                                <?=formInputSelect('user_role', $user_role, [
-                                    'data-search'  => 'on',
-                                    'selected'     => $user['user_role']]
-                                )?>
-                            </div>
-                            <div class="col-lg-12 text-right">
-                                <?=formButton('CẬP NHẬT', [
-                                    'id'    => 'button_update_user',
-                                    'class' => 'btn btn-secondary'
-                                ])?>
-                            </div>
                         </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <?=formButton('CẬP NHẬT', [
+                            'id'    => 'button_update_user',
+                            'class' => 'btn btn-secondary'
+                        ])?>
                     </div>
                 </div>
             </div>
@@ -428,12 +427,19 @@ switch ($path[2]){
         require_once 'admin-footer.php';
         break;
     case 'add':
-        $header['js']      = [URL_JS . "{$path[1]}/{$path[2]}"];
+        $header['js']       = [
+            URL_JS . "{$path[1]}/{$path[2]}",
+            URL_ADMIN_ASSETS."js/pages/crud/forms/widgets/select2.js?v=7.2.8"
+        ];
         $header['title']    = 'Thêm thành viên';
+        $header['toolbar']  = admin_breadcrumbs(
+            'Thêm thành viên',
+            [URL_ADMIN . '/user/' => 'Thành viên'],
+            'Thêm thành viên',
+            '<a href="'. URL_ADMIN .'/'. $path[1] .'" class="btn btn-light-primary font-weight-bolder btn-sm">Danh sách thành viên</a>');
         // Kiểm tra quyền truy cập
         if(!$role['user']['add']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Thành viên', [URL_ADMIN . '/user/' => 'Thành viên'], 'Thêm thành viên');
             echo admin_error('Thêm thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
@@ -442,45 +448,37 @@ switch ($path[2]){
         $user_role          = new meta($database, 'role');
         $user_role          = $user_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Thành viên', [URL_ADMIN . '/user/' => 'Thành viên'], 'Thêm thành viên');
         echo formOpen('', ['method' => 'POST']);
         ?>
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card card-bordered">
-                    <div class="card-inner border-bottom">
-                        <!-- Title -->
-                        <div class="card-title-group">
-                            <div class="card-title"><h6 class="title">Thêm thành viên</h6></div>
-                            <div class="card-tools">
-                                <a href="<?=URL_ADMIN."/{$path[1]}"?>" class="link">Xem tất cả</a>
-                            </div>
-                        </div>
-                        <!-- Title -->
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title"><h3 class="card-label">Thêm thành viên</h3></div>
                     </div>
                     <!-- Content -->
-                    <div class="card-inner">
-                        <div class="row g-4">
+                    <div class="card-body">
+                        <div class="row">
                             <div class="col-lg-6">
                                 <?=formInputText('user_login', [
-                                    'label'         => 'Tên đăng nhập. <code>*</code>',
+                                    'label'         => 'Tên đăng nhập. <span class="text-danger">*</span>',
                                     'autofocus'     => ''
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputText('user_name', [
-                                    'label'         => 'Tên hiển thị. <code>*</code>'
+                                    'label'         => 'Tên hiển thị. <span class="text-danger">*</span>'
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputPassword('user_password', [
-                                    'label'         => 'Mật khẩu. <code>*</code>',
+                                    'label'         => 'Mật khẩu. <span class="text-danger">*</span>',
                                     'autocomplete'  => 'new-password'
                                 ])?>
                             </div>
                             <div class="col-lg-6">
                                 <?=formInputPassword('user_repass', [
-                                    'label'         => 'Nhập lại mật khẩu. <code>*</code>'
+                                    'label'         => 'Nhập lại mật khẩu. <span class="text-danger">*</span>'
                                 ])?>
                             </div>
                             <div class="col-lg-4">
@@ -495,13 +493,14 @@ switch ($path[2]){
                             </div>
                             <div class="col-lg-4">
                                 <?=formInputSelect('user_role', $user_role, [
-                                    'data-live-search'  => 'true']
+                                    'id'    => 'kt_select2_1',
+                                    'label' => 'Vài trò']
                                 )?>
                             </div>
-                            <div class="col-lg-12 text-right">
+                            <div class="col-lg-12 text-center">
                                 <?=formButton('THÊM THÀNH VIÊN', [
                                     'id'    => 'button_add_user',
-                                    'class' => 'btn btn-secondary'
+                                    'class' => 'btn btn-dark font-weight-bold btn-square'
                                 ])?>
                             </div>
                         </div>
@@ -516,10 +515,10 @@ switch ($path[2]){
         break;
     default:
         $header['title'] = 'Quản lý thành viên';
+        $header['toolbar'] = admin_breadcrumbs('Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên'],'Quản lý thành viên', '<a href="'. URL_ADMIN .'/'. $path[1] .'/add" class="btn btn-light-primary font-weight-bolder btn-sm">Thêm thành viên</a>');
         // Kiểm tra quyền truy cập
         if(!$role['user']['manager']){
             require_once 'admin-header.php';
-            echo admin_breadcrumbs('Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên'],'Quản lý thành viên');
             echo admin_error('Quản lý thành viên', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once 'admin-footer.php';
             exit();
@@ -528,55 +527,95 @@ switch ($path[2]){
         $user   = new user($database);
         $data   = $user->get_all();
         $param  = get_param_defaul();
-
         $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}",];
+
+        // Lấy danh sách vai trò thành viên
+        $my_role    = new meta($database, 'role');
+        $list_role  = $my_role->get_data_select();
         require_once 'admin-header.php';
-        echo admin_breadcrumbs('Quản lý thành viên', [URL_ADMIN . '/user/' => 'Thành viên'],'Quản lý thành viên');
         ?>
-        <div class="nk-block">
-            <div class="card card-bordered card-stretch">
-                <div class="card-inner-group">
-                    <div class="card-inner position-relative card-tools-toggle">
-                        <div class="card-title-group">
-                            <div class="card-tools">
-                                <?=formOpen('', ['method' => 'GET'])?>
-                                <div class="form-inline flex-nowrap gx-3">
-                                    <div class="row">
-                                        <div class="col-2">
-                                            <?=formInputText('search', ['label' => 'Tìm kiếm', 'value' => $_GET['search'] ? $_GET['search'] : ''])?>
-                                        </div>
-                                        <div class="col-2">
-                                            <select class="form-select form-select-sm" data-search="on" data-placeholder="Trạng thái" name="user_status">
-                                                <option value="">Tất cả</option>
-                                                <option value="active" <?=$_REQUEST['user_status'] == 'active' ? 'selected' : ''?>>Hoạt Động</option>
-                                                <option value="not_active" <?=$_REQUEST['user_status'] == 'not_active' ? 'selected' : ''?>>Chưa Kích Hoạt</option>
-                                                <option value="block" <?=$_REQUEST['user_status'] == 'block' ? 'selected' : ''?>>Tạm Khoá</option>
-                                                <option value="block_forever" <?=$_REQUEST['user_status'] == 'block_forever' ? 'selected' : ''?>>Khoá Vĩnh Viễn</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-2">
-                                            <div class="btn-wrap">
-                                                <span class="d-none d-md-block"><button class="btn btn-dim btn-outline-light disabled">LỌC</button></span>
-                                                <span class="d-md-none"><button class="btn btn-dim btn-outline-light btn-icon disabled"><em class="icon ni ni-arrow-right"></em></button></span>
-                                            </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!--begin::Search Form-->
+                <div class="mb-7">
+                    <form action="" method="get">
+                        <div class="row align-items-center">
+                            <div class="col-lg-9 col-xl-8">
+                                <div class="row align-items-center">
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="input-icon">
+                                            <input type="text" value="<?=($_REQUEST['search'] ? $_REQUEST['search'] : '')?>" name="search" class="form-control" placeholder="Tìm kiếm ..." id="kt_datatable_search_query" />
+                                            <span><i class="flaticon2-search-1 text-muted"></i></span>
                                         </div>
                                     </div>
-                                </div><!-- .form-inline -->
-                                <?=formClose()?>
-                            </div><!-- .card-tools -->
-                        </div><!-- .card-title-group -->
-                    </div><!-- .card-inner -->
-                    <div class="card-inner p-0">
-                        <table class="table table-tranx table-hover">
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Trạng thái:</label>
+                                            <select name="user_status" class="form-control selectpicker">
+                                                <option value="">Tất cả</option>
+                                                <option value="active" <?=($_REQUEST['user_status'] == 'active' ? 'selected' : '')?>>Hoạt động</option>
+                                                <option value="not_active" <?=($_REQUEST['user_status'] == 'not_active' ? 'selected' : '')?>>Chưa Active</option>
+                                                <option value="block" <?=($_REQUEST['user_status'] == 'block' ? 'selected' : '')?>>Tạm Khóa</option>
+                                                <option value="block_forever" <?=($_REQUEST['user_status'] == 'block_forever' ? 'selected' : '')?>>Đã Khóa</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 my-2 my-md-0">
+                                        <div class="d-flex align-items-center">
+                                            <label class="mr-3 mb-0 d-none d-md-block">Vai trò:</label>
+                                            <select name="user_role" class="form-control selectpicker">
+                                                <option value="">Tất cả</option>
+                                                <?php
+                                                foreach ($list_role AS $key => $value){
+                                                    echo '<option value="'. $key .'" '. ($_REQUEST['user_role'] == $key ? 'selected' : '') .'>'. $value .'</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                <button type="submit" class="btn btn-light-primary px-6 font-weight-bold">Tìm Kiếm</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--end::Search Form-->
+                <div class="card card-custom">
+                    <div class="card-body p-0">
+                        <table class="table table-hover table-head-custom table-row-dashed">
                             <thead>
-                            <tr class="tb-tnx-head">
-                                <th style="width: 15%" class="text-left align-middle">Thông tin</th>
-                                <th style="width: 10%" class="text-center align-middle">Tên đăng nhập</th>
-                                <th style="width: 10%" class="text-center align-middle">Điện Thoại</th>
-                                <th style="width: 15%" class="text-center align-middle">Vai trò</th>
-                                <th style="width: 10%" class="text-center align-middle">Trạng thái</th>
-                                <th style="width: 10%" class="text-center align-middle">Ngày tạo</th>
-                                <th style="width: 15%" class="text-right align-middle">Quản trị</th>
+                            <tr class="text-uppercase">
+                                <th style="width: 5%" class="text-center align-middle">
+                                    <a href="<?=URL_ADMIN."/{$path[1]}".((!$_REQUEST['sort'] || $_REQUEST['sort'] == 'user_id.asc') ? '/?sort=user_id.desc' : '')?>">#
+                                        <?php
+                                        if(!$_REQUEST['sort'] || $_REQUEST['sort'] == 'user_id.asc'){
+                                            echo '<span class="svg-icon svg-icon-primary svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Up-2.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1"/>
+                                                    <path d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z" fill="#000000" fill-rule="nonzero"/>
+                                                </g>
+                                            </svg><!--end::Svg Icon--></span>';
+                                        }else{
+                                            echo '<span class="svg-icon svg-icon-primary svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Navigation/Arrow-down.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                                    <rect fill="#000000" opacity="0.3" x="11" y="5" width="2" height="14" rx="1"/>
+                                                    <path d="M6.70710678,18.7071068 C6.31658249,19.0976311 5.68341751,19.0976311 5.29289322,18.7071068 C4.90236893,18.3165825 4.90236893,17.6834175 5.29289322,17.2928932 L11.2928932,11.2928932 C11.6714722,10.9143143 12.2810586,10.9010687 12.6757246,11.2628459 L18.6757246,16.7628459 C19.0828436,17.1360383 19.1103465,17.7686056 18.7371541,18.1757246 C18.3639617,18.5828436 17.7313944,18.6103465 17.3242754,18.2371541 L12.0300757,13.3841378 L6.70710678,18.7071068 Z" fill="#000000" fill-rule="nonzero" transform="translate(12.000003, 14.999999) scale(1, -1) translate(-12.000003, -14.999999) "/>
+                                                </g>
+                                            </svg><!--end::Svg Icon--></span';
+                                        }
+                                        ?>
+                                    </a>
+                                </th>
+                                <th style="width: 25%" class="text-left align-middle">Tên</th>
+                                <th style="width: 15%" class="text-left align-middle">Điện thoại</th>
+                                <th style="width: 10%" class="text-left align-middle">Vai trò</th>
+                                <th style="width: 15%" class="text-center align-middle">Trạng thái</th>
+                                <th style="width: 15%" class="text-center align-middle">Ngày tạo</th>
+                                <th style="width: 15%" class="text-center align-middle">Quản trị</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -585,41 +624,72 @@ switch ($path[2]){
                                 $user_role = new meta($database, 'role');
                                 $user_role = $user_role->get_meta($row['user_role'], 'meta_name');
                                 ?>
-                                <tr class="tb-tnx-item">
-                                    <td class="text-left align-middle">
-                                        <div class="user-card">
-                                            <div class="user-avatar">
-                                                <?=$row['user_avatar'] ? '<img src="'. URL_HOME .'/'. $row['user_avatar'] .'" />' : strtoupper(substr($row['user_name'], 0, 2))?>
+                                <tr>
+                                    <td class="text-center align-middle"><?=$row['user_id']?></td>
+                                    <td class="datatable-cell">
+                                        <div class="d-flex align-items-center">
+                                            <div class="symbol symbol-40 symbol-sm flex-shrink-0">
+                                                <div class="symbol symbol-20 symbol-lg-30 symbol-circle mr-3">
+                                                    <img alt="<?=$row['user_name']?>" src="<?=($row['user_avatar'] ? URL_HOME .'/'. $row['user_avatar'] : URL_HOME.'/'.get_config('avatar_default'))?>" />
+                                                </div>
                                             </div>
-                                            <div class="user-info">
-                                                <span class="tb-lead font-weight-bold"><?=$row['user_name']?> <?=get_config('user_special') == $row['user_id'] ? '<em class="icon ni ni-shield-check-fill text-success"></em>' : ''?></span>
-                                                <span><?=$row['user_email'] ? $row['user_email'] : ''?></span>
+                                            <div class="ml-4">
+                                                <?=($row['user_id'] == get_config('user_special') ? '<div class="text-danger font-weight-bolder font-size-lg mb-0">'. $row['user_name'] .' <span class="svg-icon svg-icon-primary svg-icon-1x"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Code/Done-circle.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24"/>
+                                                        <circle fill="#000000" opacity="0.3" cx="12" cy="12" r="10"/>
+                                                        <path d="M16.7689447,7.81768175 C17.1457787,7.41393107 17.7785676,7.39211077 18.1823183,7.76894473 C18.5860689,8.1457787 18.6078892,8.77856757 18.2310553,9.18231825 L11.2310553,16.6823183 C10.8654446,17.0740439 10.2560456,17.107974 9.84920863,16.7592566 L6.34920863,13.7592566 C5.92988278,13.3998345 5.88132125,12.7685345 6.2407434,12.3492086 C6.60016555,11.9298828 7.23146553,11.8813212 7.65079137,12.2407434 L10.4229928,14.616916 L16.7689447,7.81768175 Z" fill="#000000" fill-rule="nonzero"/>
+                                                    </g>
+                                                </svg><!--end::Svg Icon--></span></div>' : '<div class="text-dark-75 font-weight-bolder font-size-lg mb-0">'. $row['user_name'] .'</div>')?>
+
+                                                <span class="text-muted text-hover-primary font-size-lg"><?=$row['user_login']?></span>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="text-center align-middle"><?=$row['user_login']?></td>
-                                    <td class="text-center align-middle"><?=$row['user_phone'] ? $row['user_phone'] : '---'?></td>
-                                    <td class="text-center align-middle"><?=$user_role['data']['meta_name']?></td>
+                                    <td class="text-left align-middle font-size-lg">
+                                        <?=$row['user_phone'] ? $row['user_phone'] : '---'?>
+                                    </td>
+                                    <td class="text-left align-middle font-size-lg"><?=$user_role['data']['meta_name']?></td>
                                     <td class="text-center align-middle"><?=get_status('user', $row['user_status'])?></td>
-                                    <td class="text-center align-middle"><?=view_date_time($row['user_time'])?></td>
-                                    <td class="text-center align-middle">
-                                        <ul class="nk-tb-actions gx-1">
-                                            <li>
-                                                <a href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Cập Nhật">
-                                                    <em class="icon ni ni-account-setting-fill"></em>
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="#" data-type="delete" data-id="<?=$row['user_id']?>" class="btn btn-trigger btn-icon" data-toggle="tooltip" data-placement="top" title="Xóa">
-                                                    <em class="icon ni ni-user-cross-fill text-danger"></em>
-                                                </a>
-                                            </li>
-                                        </ul>
+                                    <td class="text-center align-middle text-primary mb-0 font-size-lg"><?=view_date_time($row['user_time'])?></td>
+                                    <td class="pr-0 text-center">
+                                        <a href="<?=URL_ADMIN."/{$path[1]}/update/{$row['user_id']}"?>" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-3">
+                                            <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Communication/Write.svg-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24" />
+                                                        <path d="M12.2674799,18.2323597 L12.0084872,5.45852451 C12.0004303,5.06114792 12.1504154,4.6768183 12.4255037,4.38993949 L15.0030167,1.70195304 L17.5910752,4.40093695 C17.8599071,4.6812911 18.0095067,5.05499603 18.0083938,5.44341307 L17.9718262,18.2062508 C17.9694575,19.0329966 17.2985816,19.701953 16.4718324,19.701953 L13.7671717,19.701953 C12.9505952,19.701953 12.2840328,19.0487684 12.2674799,18.2323597 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.701953, 10.701953) rotate(-135.000000) translate(-14.701953, -10.701953)" />
+                                                        <path d="M12.9,2 C13.4522847,2 13.9,2.44771525 13.9,3 C13.9,3.55228475 13.4522847,4 12.9,4 L6,4 C4.8954305,4 4,4.8954305 4,6 L4,18 C4,19.1045695 4.8954305,20 6,20 L18,20 C19.1045695,20 20,19.1045695 20,18 L20,13 C20,12.4477153 20.4477153,12 21,12 C21.5522847,12 22,12.4477153 22,13 L22,18 C22,20.209139 20.209139,22 18,22 L6,22 C3.790861,22 2,20.209139 2,18 L2,6 C2,3.790861 3.790861,2 6,2 L12.9,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                        </a>
+                                        <a href="javascript:;" data-type="delete" data-id="<?=$row['user_id']?>" class="btn btn-icon btn-light btn-hover-primary btn-sm">
+                                            <span class="svg-icon svg-icon-md svg-icon-danger">
+                                                <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/General/Trash.svg-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24" />
+                                                        <path d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z" fill="#000000" fill-rule="nonzero" />
+                                                        <path d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z" fill="#000000" opacity="0.3" />
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                        </a>
                                     </td>
                                 </tr>
-                            <?php }?>
-                            <tr class="tb-tnx-item">
-                                <td colspan="8" class="text-left">
+                                <?php
+                            }
+                            // end::foreach
+                            if($data['paging']['count_data'] == 0){
+                                echo '<tr><td colspan="7" class="text-center">Không có dữ liệu</td></tr>';
+                            }
+                            ?>
+                            <tr>
+                                <td colspan="7" class="text-left">
                                     <div class="row">
                                         <div class="col-lg-6 text-left">
                                             Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
@@ -634,8 +704,8 @@ switch ($path[2]){
                             </tbody>
                         </table>
                     </div>
-                </div><!-- .card-inner-group -->
-            </div><!-- .card -->
+                </div><!-- .card -->
+            </div>
         </div><!-- .nk-block -->
         <?php
         require_once 'admin-footer.php';
