@@ -19,7 +19,7 @@ switch ($path[1]){
         }else{
             $response = [
                 'response'  => 404,
-                'message'   => 'URL API IS NOT FOUND'
+                'message'   => 'URL API IS NOT FOUND.'
             ];
             echo encode_json($response);
         }
