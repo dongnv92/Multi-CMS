@@ -16,6 +16,12 @@ class Telegram{
             case 'rentcode':
                 $this->token = '1377461891:AAEDxvY8dVOTTYXZE5k20X8HjIfv7I_Eeqg';
                 break;
+            case 'momonotice_bot':
+                $this->token = '5214533328:AAG-bCdmp1YS9KIQqv-B5nuA_50IcsR2sys';
+                break;
+            case 'bombcryptoauto_bot':
+                $this->token = '5241817436:AAHuZIqThrurQgZNeZTf3HEpKhbXQ6qxK1U';
+                break;
             default:
                 $this->token    = $token;
                 break;

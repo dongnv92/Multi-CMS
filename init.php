@@ -13,7 +13,7 @@ define( 'PATH_ADMIN'        , 'admin');
 define( 'PATH_PLUGIN'       , 'content/plugin/');
 define( 'PATH_THEME'        , 'content/theme');
 define( 'CONFIG_THEME'      , 'suha');
-define( 'URL_HOME'          , 'https://cms.kini.vn');
+define( 'URL_HOME'          , 'https://muataikhoan.net');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
 define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
 define( 'URL_BLOG'          , URL_HOME . '/blog/');
@@ -27,7 +27,7 @@ define( 'URL_REFERER'       , isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_R
 /*define( 'DB_HOST'           , 'localhost');
 define( 'DB_USERNAME'       , 'root');
 define( 'DB_PASSWORD'       , '');
-define( 'DB_DATABASE'       , 'cms');*/
+define( 'DB_DATABASE'       , 'multicms'); */
 
 define( 'DB_HOST'           , 'localhost');
 define( 'DB_USERNAME'       , 'topcongt');

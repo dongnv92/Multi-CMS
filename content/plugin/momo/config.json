@@ -33,6 +33,10 @@
                             "admin",
                             "momo",
                             ""
+                        ],[
+                            "admin",
+                            "momo",
+                            "setting"
                         ]
                     ]
                 },{
@@ -77,6 +81,20 @@
                             "api"
                         ]
                     ]
+                },{
+                    "text": "Chuyển tiền MOMO",
+                    "url": "URL_ADMIN\/momo\/send",
+                    "roles": [
+                        "momo",
+                        "send"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "momo",
+                            "send"
+                        ]
+                    ]
                 }
             ]
         }
@@ -86,6 +104,7 @@
             "history": false,
             "add": false,
             "manager": false,
+            "send"  : false,
             "api": false
         }
     },
@@ -94,6 +113,7 @@
         "history": "Lịch sử giao dịch",
         "add": "Thêm tài khoản",
         "manager": "Quản lý tài khoản MOMO",
+        "send": "Chuyển tiền MOMO",
         "api": "Sử dụng API"
     }
 }

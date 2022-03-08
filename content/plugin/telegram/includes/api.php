@@ -1,5 +1,20 @@
 <?php
 switch ($path[2]){
+    case 'bomb':
+        $token = $_REQUEST['token'];
+        if(!$token){
+            echo encode_json(['message' => 'Bạn cần nhập mã Token']);
+            exit();
+        }
+        $telegram   = new Telegram($token);
+        $data       = $telegram->getUpdates();
+        $data       = json_decode($data, true);
+        $text       = '';
+        foreach ($data['result'] AS $result){
+            $text .= "Người gửi: {$result['message']['from']['first_name']}<br />Nội dung: {$result['message']['text']}<br>ID CHÁT: {$result['message']['chat']['id']}<br>----------------------------<br>";
+        }
+        echo encode_json(['message' => $text]);
+        break;
     case 'citypost':
         $content        = json_decode(file_get_contents("php://input"), TRUE);
         $chatId         = $content["message"]["chat"]["id"];
@@ -269,26 +284,26 @@ switch ($path[2]){
                 break;
             case '/sk':
                 // Check quyền truy cập
-                if(!in_array($chatId, ['823657709', '1150103183', '811726046', '1585307227', '1637619949'])){
+                if(!in_array($chatId, ['823657709'])){
                     $telegram->sendMessage("Bạn không có quyền truy cập tính năng này.");
                     exit();
                 }
-                $apikey     = '3125b8a2';
-                $service    = 1222; // 1222 kplus
+                $apikey     = '52d3a0d28e664357b4b500cb64d3e9de';
+                $service    = 338; // 338 kplus
 
                 /*$telegram->sendMessage("Hiện tại hệ thống SMS đang bảo trì, vui lòng truy cập lại sau.");
                 exit();*/
 
-                $url_fetch  = 'https://chothuesimcode.com/api';
-                $fetch      = curl($url_fetch, ['apik' => $apikey, 'appId' => $service, 'act' => 'number', 'carrier' => 'Viettel'], 'GET');
+                $url_fetch  = 'https://api.viotp.com/request/getv2';
+                $fetch      = curl($url_fetch, ['token' => $apikey, 'serviceId' => $service]);
                 $fetch      = json_decode($fetch, true);
-                if($fetch['ResponseCode'] == 0){
-                    $telegram->sendMessage("Phone: 0{$fetch['Result']['Number']}\nSố dư: ". ($chatId == '823657709' ? convert_number_to_money($fetch['Result']['Balance']) : 'You do not have permission.') ."\n/skc_{$fetch['Result']['Id']}\n#get_sms");
+                if($fetch['status_code'] == 200){
+                    $telegram->sendMessage("Phone: 0{$fetch['data']['phone_number']}\nSố dư: ". ($chatId == '823657709' ? convert_number_to_money($fetch['data']['balance']) : 'You do not have permission.') ."\n/skc_{$fetch['data']['request_id']}\n#get_sms");
                     // Nếu không phải admin thì thông báo cho admin khi có thêm đơn SMS mới
                     $kplus  = new Kplus($database);
                     if($chatId != '823657709'){
                         $telegram->set_chatid('823657709');
-                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId)." vừa thêm 1 đơn SMS mới.\n/skc_{$fetch['Result']['Id']}\n#notify_{$chatId}_get_sms");
+                        $telegram->sendMessage('Thông báo: '.$kplus->getNameByChatId($chatId)." vừa thêm 1 đơn SMS mới.\n/skc_{$fetch['data']['request_id']}\n#notify_{$chatId}_get_sms");
                     }
                 }else{
                     $telegram->sendMessage("Lỗi: {$fetch['message']}\nTạo vận đơn khác.\n/sk");
@@ -356,20 +371,20 @@ switch ($path[2]){
                     $telegram->sendMessage("Thiếu mã đơn SMS.");
                     break;
                 }
-                $apikey     = '3125b8a2';
-                $url_fetch  = "https://chothuesimcode.com/api";
-                $fetch  = curl($url_fetch, ['apik' => $apikey, 'id' => $message_value, 'act' => 'code'], 'GET');
+                $apikey     = '52d3a0d28e664357b4b500cb64d3e9de';
+                $url_fetch  = 'https://api.viotp.com/session/getv2';
+                $fetch  = curl($url_fetch, ['token' => $apikey, 'requestId' => $message_value], 'GET');
                 $fetch  = json_decode($fetch, true);
-                if($fetch['ResponseCode'] == 1){
+                if($fetch['data']['Status'] == 0){
                     $telegram->sendMessage("Đang chờ tin nhắn về.\n/skc_{$message_value}");
                     break;
                 }
-                if($fetch['ResponseCode'] == 2){
+                if($fetch['data']['Status'] == 2){
                     $telegram->sendMessage("Phiên đã hết hạn.");
                     break;
                 }
-                if($fetch['ResponseCode'] == 0){
-                    $telegram->sendMessage($fetch['Result']['Code']);
+                if($fetch['data']['Status']  == 1){
+                    $telegram->sendMessage($fetch['data']['Code']);
                     break;
                 }
                 break;

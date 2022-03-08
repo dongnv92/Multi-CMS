@@ -23,6 +23,96 @@ class pDriving{
     public function __construct(){
     }
 
+    // Gọi API bên system xem kiểm tra lại mã bill xem đã nhận chưa.
+    private function check_bkp_code($code){
+        global $database;
+        // Xử lý
+
+        return true;
+    }
+
+    // Kiểm tra xem mã bill có tồn tại trên hệ thống không.
+    private function check_bill_by_code($code){
+        global $database;
+        $check = $database->select('COUNT(*) AS count')->from('dong_receive_bill')->where(['bill_code' => $code])->fetch_first();
+        if($check['count'] > 0){
+            return true;
+        }
+        return false;
+    }
+
+    // Cập nhập trạng thái bill.
+    private function update_bill_status($code, $status){
+        global $database;
+        if(!$this->check_bill_by_code($code)){
+            return false;
+        }
+        if(!in_array($status, ['unconfirm', 'confirm'])){
+            return false;
+        }
+        $update = $database->where(['bill_code' => $code])->update('dong_receive_bill', ['bill_status' => $status]);
+        if($update){
+            return true;
+        }
+        return false;
+    }
+
+    public function check_bill(){
+        global $database;
+        $where = ['bill_status' => 'unconfirm'];
+        $bill_unconfirm = $database->select()->from('dong_receive_bill')->where($where)->fetch();
+        if(!$bill_unconfirm){
+            return false;
+        }
+        $message = '';
+        foreach ($bill_unconfirm AS $_bill_unconfirm){
+            $bkp_code           = $_bill_unconfirm['bill_code'];
+            $bkp_status_check   = $this->check_bkp_code($bkp_code);
+            // Nếu trạng thái mã đơn trả về true đã xác nhận thì update trạng thái thành confirm. Không thì gửi thông báo
+            if($bkp_status_check){
+                // Cập nhật mã trạng thái thành đã xác nhận
+                $this->update_bill_status($bkp_code, 'confirm');
+            }else{
+                $message .= "» Bảng kê phát [{$_bill_unconfirm['bill_send_name']}] tạo cho [{$_bill_unconfirm['bill_receive_name']}] chưa được xác nhận. - ". human_time_diff(strtotime($_bill_unconfirm['bill_create']), time()) ."\n";
+            }
+        }
+        if(!$message){
+            return false;
+        }
+        return $message;
+    }
+
+    public function add_bill(){
+        global $database;
+        if(!$_REQUEST['bkp_location']){
+            return get_response_array(309, 'Chưa có địa chỉ chi nhánh.');
+        }
+        if(!$_REQUEST['bkp_code']){
+            return get_response_array(309, 'Thiếu mã bảng kê phát.');
+        }
+        if(!$_REQUEST['officer_create']){
+            return get_response_array(309, 'Cần nhập tên người tạo bảng kê');
+        }
+        if(!$_REQUEST['officer_receive']){
+            return get_response_array(309, 'Cần nhập tên người nhận bảng kê phát.');
+        }
+        if($this->check_bill_by_code($_REQUEST['bkp_code'])){
+            return get_response_array(309, 'Mã BKP đã tồn tại.');
+        }
+        $data_add = [
+            'bill_location'     => $database->escape($_REQUEST['bkp_location']),
+            'bill_code'         => $database->escape($_REQUEST['bkp_code']),
+            'bill_send_name'    => $database->escape($_REQUEST['officer_create']),
+            'bill_receive_name' => $database->escape($_REQUEST['officer_receive']),
+            'bill_status'       => $database->escape('unconfirm'),
+            'bill_create'       => get_date_time('datetime')
+        ];
+        if($database->insert('dong_receive_bill', $data_add)){
+            return get_response_array(200, 'Thêm dữ liệu thành công');
+        }
+        return get_response_array(309, 'Thêm dữ liệu không thành công');
+    }
+
     public function oilcar_static($bks_id, $date_start, $date_end){
         global $database;
         $where = [

@@ -1,5 +1,101 @@
 <?php
 switch ($path[2]){
+    case 'transactions':
+        // Kiểm tra quyền truy cập
+        if(!$role['account']['transaction']){
+            $header['title']    = 'Lỗi quyền truy cập';
+            $header['toolbar']  = admin_breadcrumbs('GIAO DỊCH', [URL_ADMIN . "/{$path[1]}/" => 'Tài khoản', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'giao dịch'],'Danh sách giao dịch');
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_error('Cập nhật tài khoản', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+
+        $account    = new pAccount();
+        $data       = $account->transaction_getall();
+        $param      = get_param_defaul();
+
+        $header['title']    = 'Danh sách giao dịch';
+        $header['toolbar']  = admin_breadcrumbs('GIAO DỊCH', [URL_ADMIN . "/{$path[1]}/" => 'Tài khoản', URL_ADMIN . "/{$path[1]}/{$path[2]}" => 'giao dịch'],'Danh sách giao dịch');
+        require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <!--begin::Search Form-->
+                <div class="mb-7">
+                    <form action="" method="get">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 my-2 my-md-0">
+                                <div class="input-icon">
+                                    <input type="text" value="<?=($_REQUEST['search'] ? $_REQUEST['search'] : '')?>" name="search" class="form-control" placeholder="Tìm kiếm ..." id="kt_datatable_search_query" />
+                                    <span><i class="flaticon2-search-1 text-muted"></i></span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 my-2 my-md-0 text-right">
+                                <button type="submit" class="btn btn-dark btn-square px-6 font-weight-bold">Tìm Kiếm</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--end::Search Form-->
+                <!--begin::Content-->
+                <div class="card card-custom">
+                    <div class="card-body p-0">
+                        <table class="table table-hover table-head-custom table-row-dashed">
+                            <thead>
+                            <tr class="text-uppercase">
+                                <th class="text-center">STT</th>
+                                <th class="text-center">Mã GD</th>
+                                <th class="text-center">Số SP</th>
+                                <th class="text-center">Tổng tiền</th>
+                                <th class="text-center">Giảm Giá</th>
+                                <th class="text-center">Kiểu TT</th>
+                                <th class="text-center">Trạng Thái</th>
+                                <th class="text-center">Ngày tạo</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            $i=0;
+                            foreach ($data['data'] AS $row){
+                                $i++;
+                                ?>
+                                <tr>
+                                    <td class="text-center font-size-lg"><?=$i?></td>
+                                    <td class="text-center font-size-lg"><strong title="<?=$row['transaction_code']?>"><?=substr($row['transaction_code'], 0, 6)?>...</strong></td>
+                                    <td class="text-center font-size-lg"><?=$row['transaction_amount']?></td>
+                                    <td class="text-center font-size-lg"><?=convert_number_to_money($row['transaction_total_money'])?></td>
+                                    <td class="text-center font-size-lg"><?=convert_number_to_money($row['transaction_discount_money'] ? $row['transaction_discount_money'] : '0')?></td>
+                                    <td class="text-center font-size-lg"><?=$row['transaction_payment_method']?></td>
+                                    <td class="text-center font-size-lg"><?=$account->transaction_viewstatus($row['transaction_status'])?></td>
+                                    <td class="text-center font-size-lg"><?=view_date_time($row['transaction_create'], 'datetime')?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
+                            <tr class="align-middle font-size-lg">
+                                <td colspan="2">
+                                    <div class="row">
+                                        <div class="col-lg-6 text-left">
+                                            Tổng số <strong class="text-secondary"><?=$data['paging']['count_data']?></strong> bản ghi.
+                                            Trang thứ <strong class="text-secondary"><?=$param['page']?></strong> trên tổng <strong class="text-secondary"><?=$data['paging']['page']?></strong> trang.
+                                        </div>
+                                        <div class="col-lg-6 text-right">
+                                            <?=pagination($param['page'], $data['paging']['page'], URL_ADMIN."/{$path[1]}/{$path[2]}/".buildQuery($_REQUEST, ['page' => '{page}']))?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!--end::Content-->
+            </div>
+        </div>
+        <?php
+        require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+        break;
     case 'update':
         $account = new pAccount();
         $data    = $account->get_account($path[3]);
@@ -573,7 +669,7 @@ switch ($path[2]){
                                 </td>
                                 <td class="text-center font-size-lg align-middle">
                                     <span class="text-dark-75 font-weight-bolder d-block font-size-lg">
-                                        <?=date('d/m/Y', strtotime($row['account_expired']))?>
+                                        <?=($row['account_expired'] ?? date('d/m/Y', strtotime($row['account_expired'])))?>
                                     </span>
                                     <span class="text-muted font-weight-bold"><?=$account->caculatorDate($row['account_expired'])?></span>
                                 </td>

@@ -28,6 +28,7 @@ class MomoAccount{
         'account_hardware'          => 'account_hardware',
         'account_facture'           => 'account_facture',
         'account_model_id'          => 'account_model_id',
+        'account_setting_telegram'  => 'account_setting_telegram',
         'account_create'            => 'account_create'
     ];
     private $table_history_rows = [
@@ -50,6 +51,51 @@ class MomoAccount{
     public function __construct(){
     }
 
+    // Chuyển tiền đến số điện thoại momo
+    public function sendMoney(){
+        global $database, $me;
+
+        if(!validate_isset($_REQUEST['send_account'])){
+            return get_response_array(204, 'Thiếu tài khoản chuyển tiền');
+        }
+        if(!$this->checkPhoneNumber($_REQUEST['send_account'])){
+            return get_response_array(204, 'Số tài khoản chuyển tiền không đúng định dạng.');
+        }
+        if(!validate_isset($_REQUEST['send_pass'])){
+            return get_response_array(204, 'Bạn cần nhập mật khẩu tài khoản MOMO');
+        }
+        $where_check_account = [
+            $this->table_account_rows['account_phone'] => $_REQUEST['send_account'],
+            $this->table_account_rows['account_password'] => $_REQUEST['send_pass'],
+            $this->table_account_rows['account_user'] => $me['user_id']
+        ];
+        $data_check_account = $database->select('COUNT(*) AS count')->from($this->table_account)->where($where_check_account)->fetch_first();
+        if($data_check_account['count'] <= 0){
+            return get_response_array(204, 'Mật khẩu tài khoản MOMO không chính xác.');
+        }
+        if(!validate_isset($_REQUEST['send_phone'])){
+            return get_response_array(204, 'Thiếu số điện thoại nhận tiền.');
+        }
+        if(!$this->checkPhoneNumber($_REQUEST['send_phone'])){
+            return get_response_array(204, 'Số điện thoại nhận tiền không đúng định dạng.');
+        }
+        if($_REQUEST['send_account'] == $_REQUEST['send_phone']){
+            return get_response_array(204, 'Số điện thoại nhận tiền và số chuyển giống nhau.');
+        }
+        if(!validate_isset($_REQUEST['send_money'])){
+            return get_response_array(204, 'Thiếu số tiền cần chuyển.');
+        }
+        if(!ctype_digit($_REQUEST['send_money'])){
+            return get_response_array(204, 'Số tiền nhập vào không đúng.');
+        }
+        if(strlen($_REQUEST['send_content']) > 160){
+            return get_response_array(204, 'Nội dung phải nhỏ hơn 160 ký tự.');
+        }
+        $momo = new Momo($_REQUEST['send_account']);
+        $send = $momo->sendMoney($_REQUEST['send_phone'], $_REQUEST['send_money'], $_REQUEST['send_content']);
+        return $send;
+    }
+
     // Lấy danh sách tài khoản của mình tạo
     public function getListAccount(){
         global $database, $me;
@@ -69,7 +115,61 @@ class MomoAccount{
         return $data;
     }
 
-    // Xóa tài khoản
+    // Lấy thông tin 1 tài khoản
+    public function getAccount($phone){
+        global $database;
+        $where = [$this->table_account_rows['account_phone'] => $phone];
+        $check = $database->select('COUNT(*) AS count')->from($this->table_account)->where($where)->fetch_first();
+        if($check['count'] == 0){
+            return get_response_array(204, 'Tài khoản không tồn tại');
+        }
+        $data = $database->select()->from($this->table_account)->where($where)->fetch_first();
+        return $data;
+    }
+
+    // Cập nhật cài đặt
+    public function updateSetting($phone){
+        global $database;
+        $where = [$this->table_account_rows['account_phone'] => $phone];
+        $check = $database->select('COUNT(*) AS count')->from($this->table_account)->where($where)->fetch_first();
+        if($check['count'] == 0){
+            return get_response_array(204, 'Tài khoản không tồn tại');
+        }
+
+        $data = [];
+        // Thông báo Telegram
+        if($_REQUEST['account_setting_telegram']){
+            $data['account_setting_telegram'] = $_REQUEST['account_setting_telegram'];
+        }else{
+            $data['account_setting_telegram'] = '';
+        }
+
+        // Forward tiền
+        if($_REQUEST['account_setting_forward']){
+            if(!$this->checkPhoneNumber($_REQUEST['account_setting_forward'])){
+                return get_response_array(302, 'Số điện thoại Forward không hợp lệ, chưa lưu thay đổi nào.');
+            }
+            if($_REQUEST['account_setting_forward'] == $phone){
+                return get_response_array(302, 'Số điện thoại Forward không được giống số cài đặt, chưa lưu thay đổi nào.');
+            }
+            $data['account_setting_forward'] = $_REQUEST['account_setting_forward'];
+        }else{
+            $data['account_setting_forward'] = '';
+        }
+
+        if($data){
+            $update = $database->where($where)->update($this->table_account, $data);
+            if($update){
+                return get_response_array(200, 'Update thành công.');
+            }else{
+                return get_response_array(309, 'Lỗi update Bot Telegram.');
+            }
+        }else{
+            return get_response_array(200, 'Không có gì được update.');
+        }
+    }
+
+    // xóa tài khoản
     public function deleteAccount($account_id){
         global $database;
         $check = $database->select('COUNT(*) AS count')->from($this->table_account)->where($this->table_account_rows['account_id'], $account_id)->fetch_first();
@@ -150,6 +250,44 @@ class MomoAccount{
         return true;
     }
 
+    // Kiểm tra xem ID chat Telegram và Phone có hợp lệ không
+    public function checkChatIdAndPhone($phone, $chatid){
+        global $database;
+        $where = [$this->table_account_rows['account_phone'] => $phone, $this->table_account_rows['account_setting_telegram'] => $chatid];
+        $data = $database->select("count(*) AS num")->from($this->table_account)->where($where)->fetch_first();
+        if($data['num'] == 0){
+            return false;
+        }
+        return true;
+    }
+
+    // Kiểm tra xem số điện thoại có mã chatid không
+    private function checkChatId($phone){
+        global $database;
+        $where  = [$this->table_account_rows['account_phone'] => $phone];
+        $data   = $database->from($this->table_account)->where($where)->fetch_first();
+        if(!$data || !$data[$this->table_account_rows['account_setting_telegram']]){
+            return false;
+        }
+        return [
+            'chatid'    => $data[$this->table_account_rows['account_setting_telegram']],
+            'amount'    => $data[$this->table_account_rows['account_balance']]
+        ];
+    }
+
+    // Kiểm tra xem số điện thoại có dùng Forward không?
+    private function checkForward($phone){
+        global $database;
+        $where  = [$this->table_account_rows['account_phone'] => $phone];
+        $data   = $database->from($this->table_account)->where($where)->fetch_first();
+        if(!$data || !$data[$this->table_account_rows['account_setting_forward']]){
+            return false;
+        }
+        return [
+            'forward'   => $data[$this->table_account_rows['account_setting_forward']]
+        ];
+    }
+
     // Đồng bộ giao dịch từ Momo vào Database
     public function syncHistory($momo_history, $user_id){
         global $database;
@@ -175,7 +313,50 @@ class MomoAccount{
                     $this->table_history_rows['history_user']               => $user_id,
                     $this->table_history_rows['history_create']             => date('Y-m-d H:i:s', time())
                 ];
-                $database->insert($this->table_history, $data_add);
+                $add = $database->insert($this->table_history, $data_add);
+
+                // Check nếu add dữ liệu thành công.
+                if($add){
+                    // Forward tin nhắn đến số
+                    $forward = $this->checkForward($history['user']);
+                    if($forward){
+                        $momo = new Momo($history['user']);
+                        $send = $momo->sendMoney($forward['forward'], $history['amount'], $history['comment']);
+                        if($send['response'] != 200){
+                            $send_error = $send['message'];
+                        }
+                    }
+
+                    // Gửi tin nhắn tự động đến bot telegram
+                    $chat_id = $this->checkChatId($history['user']);
+                    if($chat_id){
+                        if(class_exists('Telegram')){
+                            $telegram = new Telegram('momonotice_bot');
+                            $telegram->set_chatid($chat_id['chatid']);
+                            // Gửi tin nhắn lỗi nếu Forward lỗi
+                            if($send_error){
+                                $telegram->sendMessage($send_error, ['parse_mode' => 'html']);
+                            }
+
+                            if($history['io'] == 1){
+                                $message = "Tài khoản <strong>{$history['user']}</strong>\n";
+                                $message .= "Số tiền GD: +<strong>". convert_number_to_money($history['amount']) ."</strong>\n";
+                                $message .= "Số dư: <strong>". convert_number_to_money($chat_id['amount']) ."</strong>\n";
+                                $message .= "Người chuyển: <strong>{$history['partnerName']}</strong> (<strong>{$history['partnerId']}</strong>)\n";
+                                $message .= "Nội dung: <strong>". ($history['comment'] ? $history['comment'] : 'Không có') ."</strong>\n";
+                                $message .= "Thời gian GD: <strong>$history_tran_time</strong>\n";
+                            }else{
+                                $message = "Tài khoản <strong>{$history['user']}</strong>\n";
+                                $message .= "Số tiền GD: -<strong>". convert_number_to_money($history['amount']) ."</strong>\n";
+                                $message .= "Số dư: <strong>". convert_number_to_money($chat_id['amount']) ."</strong>\n";
+                                $message .= "Người nhận: <strong>{$history['partnerName']}</strong> (<strong>{$history['partnerId']}</strong>)\n";
+                                $message .= "Nội dung: <strong>". ($history['comment'] ? $history['comment'] : 'Không có') ."</strong>\n";
+                                $message .= "Thời gian GD: <strong>$history_tran_time</strong>\n";
+                            }
+                            $telegram->sendMessage($message, ['parse_mode' => 'html']);
+                        }
+                    }
+                }
             }
         }
         return true;
@@ -358,9 +539,9 @@ class MomoAccount{
     }
 
     // Lấy thông tin tài khoản
-    public function getAccount($phone){
+    /*public function getAccount($phone){
         global $database;
         $data = $database->select("{$this->table_account_rows['account_balance']}, {$this->table_account_rows['account_last_update']}, {$this->table_account_rows['account_status']}")->from($this->table_account)->where($this->table_account_rows['account_phone'], $phone)->fetch_first();
         return $data;
-    }
+    }*/
 }

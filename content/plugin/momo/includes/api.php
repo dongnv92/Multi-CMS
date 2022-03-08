@@ -1,6 +1,46 @@
 <?php
 error_reporting(0);
+set_time_limit(0);
 switch ($path[2]){
+    // Bot Telegram
+    case 'telegram_bot':
+        $input              = json_decode(file_get_contents("php://input"), TRUE);
+        $chatId             = $input["message"]["chat"]["id"];
+        $message_chat       = $input["message"]["text"];
+        $message            = explode('_', $message_chat);
+        $message_key        = $message[0];
+        $message_value      = str_replace("{$message_key}_", '', $message_chat);
+        $telegram           = new Telegram('momonotice_bot');
+        $account            = new MomoAccount();
+        $telegram->set_chatid($chatId);
+        switch ($message_key){
+            case '/sodu':
+                $phone = $message_value;
+                // kiểm tra số điện thoại có hợp lệ không
+                if(!$account->checkPhoneNumber($phone)){
+                    $telegram->sendMessage("Số điện thoại <strong>$phone</strong> không hợp lệ.", ['parse_mode' => 'html']);
+                    break;
+                }
+
+                // Kiểm tra xem số điện thoại và mã chat id có cùng 1 account momo không.
+                if(!$account->checkChatIdAndPhone($phone, $chatId)){
+                    $telegram->sendMessage("Bạn không có quyền truy cập tài khoản <strong>$phone</strong>.", ['parse_mode' => 'html']);
+                    break;
+                }
+                $info       = $account->getAccount($phone);
+                $message    = "Thông tin tài khoản <strong>$phone</strong>\n";
+                $message   .= "Số dư: <strong>". convert_number_to_money($info['account_balance']) ."</strong>\n";
+                $message   .= "Cập nhật lần cuối: <strong>{$info['account_last_update']}</strong> (<i>". (human_time_diff(strtotime($info['account_last_update']), time())) ."</i>)\n";
+                $telegram->sendMessage($message, ['parse_mode' => 'html']);
+                break;
+            case '/ci':
+                $telegram->sendMessage("Mã ID của bạn là: <strong>$chatId</strong>", ['parse_mode' => 'html']);
+                break;
+            default:
+                $telegram->sendMessage('Không có lệnh nào. Vui lòng xem lại.');
+                break;
+        }
+        break;
     case 'history_receive':
         $token  = $_REQUEST['access_token'];
         $day    = $_REQUEST['day'];
@@ -34,19 +74,24 @@ switch ($path[2]){
         if(!$day){
             $day = 5;
         }
-        $momo = new Momo($phone);
-        $init = $momo->getBalance();
-        if($init['response'] != 200){
-            echo encode_json($init);
-            break;
+
+        for ($i=0; $i<3; $i++){
+            $momo = new Momo($phone);
+            $init = $momo->getBalance();
+            if($init['response'] != 200){
+                echo encode_json($init);
+                break;
+            }
+            $history = $momo->getTransactionReceive($day);
+            if($history['response'] != 200){
+                echo encode_json($history);
+                break;
+            }
+            $data = $history['data'];
+            $account->syncHistory($data, $user_info['user_id']);
+            sleep(20);
         }
-        $history = $momo->getTransactionReceive($day);
-        if($history['response'] != 200){
-            echo encode_json($history);
-            break;
-        }
-        $data = $history['data'];
-        $account->syncHistory($data, $user_info['user_id']);
+
         echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công']);
         break;
     case 'history':
@@ -83,6 +128,7 @@ switch ($path[2]){
             'data'      => $history
         ]);
         break;
+    // Link để refresh trực tiếp
     case 'cronjob':
         $token  = $_REQUEST['access_token'];
         $day    = $_REQUEST['day'];
@@ -116,6 +162,7 @@ switch ($path[2]){
         if(!$day){
             $day = 5;
         }
+
         $momo = new Momo($phone);
         $init = $momo->getBalance();
         if($init['response'] != 200){
@@ -130,8 +177,10 @@ switch ($path[2]){
         }
         $data = $history['data'];
         $account->syncHistory($data, $user_info['user_id']);
+
         echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công']);
         break;
+    // Lấy thông tin tài khoản
     case 'info':
         $token  = $_REQUEST['access_token'];
         $phone  = $path[3];

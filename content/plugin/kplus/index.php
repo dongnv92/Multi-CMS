@@ -1,5 +1,26 @@
 <?php
 switch ($path[2]){
+    case 'fill':
+        $kplus = new Kplus($database);
+        $where  = ['kplus_status' => 'unregistered', 'kplus_verify' => 'unchecked'];
+        $database->select()->from('dong_kplus')->where($where);
+        $database->limit(20);
+        $database->order_by('kplus_id', 'DESC');
+        $data   = $database->fetch();
+        foreach ($data AS $_data){
+            $check = $kplus->Register($_data['kplus_code']);
+            if($check['msg_card']){
+                $data_update = ['kplus_status' => 'registered'];
+                $database->where(['kplus_code' => $_data['kplus_code']])->update('dong_kplus', $data_update);
+                echo "Check mã thẻ <b>{$_data['kplus_code']}</b>: Đã đăng ký Myk+, đã update thành mã hỏng.<br>";
+            }else{
+                $data_update = ['kplus_verify' => 'verify'];
+                $database->where(['kplus_code' => $_data['kplus_code']])->update('dong_kplus', $data_update);
+                echo "Check mã thẻ <b>{$_data['kplus_code']}</b>: Chưa đăng ký Myk+, đã update thành mã đã kiểm định.<br>";
+            }
+            sleep(1);
+        }
+        Break;
     case 'add':
         // Kiểm tra quyền truy cập
         if(!$role['kplus']['add']){

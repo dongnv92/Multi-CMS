@@ -10,6 +10,7 @@ class user{
     private $user_id;       // Id thành viên (Tự động tăng)
     private $user_login;    // Tên đăng nhập (varchar(50))
     private $user_password; // Mật khẩu (varchar(200))
+    private $user_point;    // Số điểm
     private $user_name;     // Tên hiển thị (varchar(100))
     private $user_address;  // ID địa chỉ (int(11))
     private $user_phone;    // Số điện thoại (varchar(20))

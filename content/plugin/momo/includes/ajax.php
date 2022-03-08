@@ -1,5 +1,36 @@
 <?php
 switch ($path[2]){
+    case 'send':
+        if(!$role['momo']['send']){
+            echo encode_json(['response' => '404', 'message' => 'Not Access']);
+            exit();
+        }
+        $account    = new MomoAccount();
+        $action     = $account->sendMoney();
+        echo encode_json($action);
+        break;
+    case 'setting':
+        if(!$role['momo']['manager']){
+            echo encode_json(['response' => '404', 'message' => 'Not Access']);
+            exit();
+        }
+        $chatid     = $_REQUEST['account_setting_telegram'];
+        $phone      = $_REQUEST['phone'];
+        // Check số điện thoại có hợp lệ không
+        $account = new MomoAccount();
+        if(!$account->checkPhoneNumber($phone)){
+            echo encode_json(['response' => '404', 'message' => 'Phone Error...']);
+            exit();
+        }
+
+        // Xem User Id và số điện thoại có cùng 1 người hay không
+        if(!$account->checkPhoneByUserId($phone, $me['user_id'])){
+            echo encode_json(['response' => '404', 'message' => 'Not Login']);
+            exit();
+        }
+        $action     = $account->updateSetting($phone);
+        echo encode_json($action);
+        break;
     case 'delete':
         if(!$role['momo']['manager']){
             exit('Forbidden');

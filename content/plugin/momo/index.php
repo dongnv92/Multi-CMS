@@ -3,19 +3,148 @@ error_reporting(0);
 switch ($path[2]){
     case 'send':
         // Kiểm tra quyền truy cập
-        if(!$role['momo']['manager']){
+        if(!$role['momo']['send']){
             $header['title']    = 'Lỗi quyền truy cập';
             $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Danh sách tài khoản');
             require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-            echo admin_error('Danh sách tài khoản MOMO', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            echo admin_error('Chuyển tiền MOMO', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
             require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
             exit();
         }
-        $header['title']    = 'Chuyển tiền';
-        $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Danh sách tài khoản');
+        $header['js']       = [
+            URL_JS . "{$path[1]}/{$path[2]}"
+        ];
+        $header['title']    = 'Chuyển tiền MOMO';
+        $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}" => 'MOMO'],'Chuyển tiền MOMO');
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
-        $momo = new Momo('0962778307');
-        print_r($momo->sendMoney('0966624292', '1111', 'Nguyễn Văn Đông'));
+        $momo = new MomoAccount();
+        $list = $momo->getListAccount();
+        $list_phone = [];
+        foreach ($list AS $_list){
+            $list_phone[$_list['account_phone']] = $_list['account_phone'];
+        }
+        ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <?=formOpen('', ['method' => 'get', 'id' => 'sendmoney'])?>
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title"><h3 class="card-label">Chuyển tiền MOMO</h3></div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <?=formInputSelect('send_account', $list_phone, [
+                                    'label'             => 'Chọn tài khoản cần chuyển',
+                                    'data-live-search'  => 'true'
+                                ])?>
+                            </div>
+                            <div class="col-lg-6">
+                                <?=formInputPassword('send_pass', [
+                                    'label'         => 'Mật khẩu tài khoản MOMO',
+                                    'autocomplete'  => 'new-password'
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputText('send_phone', [
+                                    'label'         => 'Số cần chuyển.'
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputText('send_money', [
+                                    'label'         => 'Số tiền cần chuyển'
+                                ])?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?=formInputText('send_content', [
+                                    'label'         => 'Nội Dung'
+                                ])?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-right">
+                        <?=formButton('CHUYỂN TIỀN', [
+                            'id' => 'btsend'
+                        ])?>
+                    </div>
+                </div>
+                <?=formClose()?>
+            </div>
+        </div>
+        <?php
+        require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+        break;
+    case 'setting':
+        $phone = $path[3];
+        // Kiểm tra quyền truy cập
+        if(!$role['momo']['manager']){
+            $header['title']    = 'Lỗi quyền truy cập';
+            $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Cầu hình tài khoản');
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_error('Cầu hình tài khoản', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+
+        // Check số điện thoại có hợp lệ không
+        $account = new MomoAccount();
+        if(!$account->checkPhoneNumber($phone)){
+            $header['title']    = 'Lỗi quyền truy cập';
+            $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Cầu hình tài khoản');
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_error('Cầu hình tài khoản', 'Số điện thoại không hợp lệ.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+            break;
+        }
+
+        // Xem User Id và số điện thoại có cùng 1 người hay không
+        if(!$account->checkPhoneByUserId($phone, $me['user_id'])){
+            $header['title']    = 'Lỗi quyền truy cập';
+            $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Cầu hình tài khoản');
+            require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+            echo admin_error('Cầu hình tài khoản', 'Bạn không có quyền truy cập, vui lòng quay lại hoặc liên hệ quản trị viên.');
+            require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
+            exit();
+        }
+        $info = $account->getAccount($phone);
+        $header['js']       = [URL_JS . "{$path[1]}/{$path[2]}/{$path[3]}"];
+        $header['title']    = 'Cấu hình tài khoản';
+        $header['toolbar']  = admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Cầu hình tài khoản');
+        require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
+        ?>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header">
+                        <div class="card-title"><h3 class="card-label">Cấu hình tài khoản <?=$path[3]?></h3></div>
+                    </div>
+                    <div class="card-body">
+                        <?=formInputText('account_setting_telegram', [
+                            'label'         => 'Nhập mã Chát ID Telegram để nhận thông báo số dư (Nếu không dùng, để trống).',
+                            'placeholder'   => 'Mã chatid (VD: 123876898)',
+                            'value'         => ($info['account_setting_telegram'] ? $info['account_setting_telegram'] : ''),
+                            'note'          => 'Chát với bot Telegram <a href="https://t.me/momonotice_bot" target="_blank">@momonotice_bot</a> và nhập nội dung <span class="text-danger">/ci</span> để biết mã ID của bạn.'
+                        ])?>
+                        <?=formInputText('account_setting_forward', [
+                            'label'         => 'Nhập số điện thoại momo chuyển tiếp (Nếu không dùng, để trống).',
+                            'placeholder'   => 'Nhập số điện thoại momo chuyển tiếp',
+                            'value'         => ($info['account_setting_forward'] ? $info['account_setting_forward'] : ''),
+                            'note'          => 'Nếu bật chuyển tiếp, sau khi tài khoản nhận được tiền sẽ lập tức chuyển đến số điện thoại này.'
+                        ])?>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-right">
+                            <?=formButton('CẬP NHẬT', [
+                                'id'    => 'button_update',
+                                'class' => 'btn btn-secondary'
+                            ])?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
         require_once ABSPATH . PATH_ADMIN . "/admin-footer.php";
         break;
     case 'history':
@@ -121,7 +250,9 @@ switch ($path[2]){
                                 </td>
                                 <td class="font-size-lg"><?=$row['history_tran_partner_id']?></td>
                                 <td class="font-size-lg"><?=$row['history_tran_partner_name']?></td>
-                                <td class="font-size-lg"><?=convert_number_to_money($row['history_tran_amount'])?></td>
+                                <td class="font-size-lg">
+                                    <?=($row['history_tran_action'] == 'send' ? '<span class="text-danger">-'.convert_number_to_money($row['history_tran_amount']).'</span>': '<span class="text-success">+'.convert_number_to_money($row['history_tran_amount']).'</span>')?>
+                                </td>
                                 <td class="font-size-lg"><?=date('H:i - d/m/Y', strtotime($row['history_tran_time']))?></td>
                             </tr>
                             <?php
@@ -535,6 +666,9 @@ switch ($path[2]){
                                 <td class="text-center align-middle font-size-lg"><?=human_time_diff(strtotime($row['account_last_update']), time())?></td>
                                 <td class="text-center align-middle font-size-lg"><?=view_date_time($row['account_create'])?></td>
                                 <td class="text-center align-middle font-size-lg">
+                                    <a href="<?=URL_ADMIN . "/{$path[1]}/setting/{$row['account_phone']}"?>">
+                                        <i class="text-secondary flaticon-cogwheel-2"></i>
+                                    </a>
                                     <a href="javascript:;" data-type="delete" data-id="<?=$row['account_id']?>">
                                         <i class="text-danger flaticon-delete"></i>
                                     </a>

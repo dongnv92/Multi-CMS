@@ -1,6 +1,130 @@
 <?php
 require_once ABSPATH . 'content/theme/suha/init.php';
 switch ($path[0]){
+    case 'test.html':
+        //create array of data to be posted 135328155460
+        $kplus = new Kplus($database);
+        $data = $kplus->Register('');
+        $data = json_decode($data, true);
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        Break;
+    case 'bomb.html':
+        ?>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.88.1">
+    <title>Lấy mã Chát ID Bot Telegram</title>
+    <!-- Bootstrap core CSS -->
+<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <!-- Favicons -->
+<link rel="icon" href="https://muataikhoan.net/content/assets/images/system/favicon.ico">
+<meta name="theme-color" content="#7952b3">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="bg-light">
+
+<div class="container">
+  <main>
+  <div class="py-5 text-center">
+      <h2>LẤY MÃ ID CHÁT CHO BOT TELEGRAM</h2>
+      <p class="lead">Để tạo Bot đầu tiên chát với <a href="https://t.me/BotFather" target="_blank">@BotFather</a>, chát với lệnh <span class="text-danger">/newbot</span>, Sau đó bạn đặt tên và user name cho bot. Sau khi hoàn thành bot sẽ gửi cho bạn thông tin token của bot bạn mới tạo. Để nhận thông báo từ BOT, bạn hãy chát 1 vài câu với BOT bạn mới tạo và nhập mã TOKEN bạn mới nhận ở trên vào đây, nhập xong hệ thống sẽ gửi về các mã ID chát của BOT</p>
+    </div>
+    <div class="row g-5">
+        <div class="col-12">
+            <div class="input-group">
+            <input type="text" id="token" class="form-control" placeholder="Nhập mã TOKEN BOT vào đây. VD: 5841867436:AAHuZIqThrurQgZNeZTf5HEpKhbXQ7qxK1U">
+            <button type="submit" class="btn btn-primary" id="click">LẤY MÃ CHAT ID</button>
+          </div>
+    </div>
+
+    <div class="py-5 text-center">
+
+  <p class="lead" id="result"></p>
+</div>
+  </main>
+
+  <footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1">&copy; 2022 DONG NGUYEN</p>
+    <ul class="list-inline">
+    </ul>
+  </footer>
+</div>
+    <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <script language="JavaScript">
+    $(document).ready(function () {
+        $('#click').on('click', function (){
+            let token = $('#token').val();
+            if(!token){
+                $('#result').html('Vui lòng nhập mã TOKEN');
+                return false;
+            }
+
+                let btnText     = $(this).text();
+                let id          = '#' + $(this).attr('id');
+                let textLoading = ' VUI LÒNG CHỜ ... ';
+                let urlLoad     = '<?=URL_API . "telegram/bomb"?>';
+
+                var ajax = $.ajax({
+                    url         : urlLoad,
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : {'token' : token},
+                    beforeSend  : function () {
+                        $(id).attr('disabled', true);
+                        $(id).html('<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span>'+ textLoading +'</span>');
+                    }
+                });
+                ajax.done(function (data) {
+                    setTimeout(function (){
+
+                            $(id).attr('disabled', false);
+                            $(id).html(btnText);
+                            $('#result').html(data.message);
+
+                    }, 500)
+                });
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $(id).attr('disabled', false);
+                    $(id).html(btnText);
+                    toastr.error(jqXHR.responseText);
+                });
+        });
+    });
+</script>
+  </body>
+</html>
+
+        <?php
+        break;
     case 'payment':
         switch ($path[1]){
             default:
@@ -27,7 +151,7 @@ switch ($path[0]){
 
                 switch ($transaction['transaction_payment_method']){
                     case 'momo':
-                        $qrcode = new QRCode('2|99|0962778307|NGUYEN VAN QUAN|0|0|0|'.$transaction['transaction_total_money']);
+                        $qrcode = new QRCode('2|99|0966624292|NGUYEN VAN DONG|0|0|0|'.$transaction['transaction_total_money']);
                         $qrcode->setConfig([
                             'bgColor' => '#FFFFFF',
                             'body' => 'diamond',
@@ -65,7 +189,14 @@ switch ($path[0]){
                                 <!--<img class="d-block mb-4" src="<?/*=$image*/?>" alt="">-->
                                 <img class="d-block mb-4" src="<?=$image?>" alt="Quét Mã Để Thanh Toán">
                                 <p>
-                                    <i class="lni lni-frame-expand"></i> Sử dụng App <strong class="text-danger">MOMO</strong> để quét mã QRcode, kiểm tra lại thông tin bên dưới và nhập đúng nội dung.
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24"/>
+                                            <rect fill="#000000" opacity="0.3" x="4" y="4" width="4" height="4" rx="1"/>
+                                            <path d="M5,10 L7,10 C7.55228475,10 8,10.4477153 8,11 L8,13 C8,13.5522847 7.55228475,14 7,14 L5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,7 C14,7.55228475 13.5522847,8 13,8 L11,8 C10.4477153,8 10,7.55228475 10,7 L10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,10 L13,10 C13.5522847,10 14,10.4477153 14,11 L14,13 C14,13.5522847 13.5522847,14 13,14 L11,14 C10.4477153,14 10,13.5522847 10,13 L10,11 C10,10.4477153 10.4477153,10 11,10 Z M17,4 L19,4 C19.5522847,4 20,4.44771525 20,5 L20,7 C20,7.55228475 19.5522847,8 19,8 L17,8 C16.4477153,8 16,7.55228475 16,7 L16,5 C16,4.44771525 16.4477153,4 17,4 Z M17,10 L19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 L17,14 C16.4477153,14 16,13.5522847 16,13 L16,11 C16,10.4477153 16.4477153,10 17,10 Z M5,16 L7,16 C7.55228475,16 8,16.4477153 8,17 L8,19 C8,19.5522847 7.55228475,20 7,20 L5,20 C4.44771525,20 4,19.5522847 4,19 L4,17 C4,16.4477153 4.44771525,16 5,16 Z M11,16 L13,16 C13.5522847,16 14,16.4477153 14,17 L14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 L10,17 C10,16.4477153 10.4477153,16 11,16 Z M17,16 L19,16 C19.5522847,16 20,16.4477153 20,17 L20,19 C20,19.5522847 19.5522847,20 19,20 L17,20 C16.4477153,20 16,19.5522847 16,19 L16,17 C16,16.4477153 16.4477153,16 17,16 Z" fill="#000000"/>
+                                        </g>
+                                    </svg> Sử dụng App <strong class="text-danger">MOMO</strong> để quét mã QRcode, kiểm tra lại thông tin bên dưới và nhập đúng nội dung.<br>
+                                    Sau khi quét mã thanh toán xong hãy đợi 30 giây, hệ thống sẽ tự hiện thông tin tài khoản cho bạn, nếu hệ thống không hiện hãy làm mới trang hoặc <a href="">Bấm vào đây</a>
                                 </p>
                             </div>
                         </div>
@@ -102,7 +233,7 @@ switch ($path[0]){
                                         </div>
                                         <div class="order-text">
                                             <h6>Thông Tin Chuyển Khoản</h6>
-                                            <span>ĐIỆN THOẠI: <strong class="text-danger">0962778307 (Nguyễn Văn Quân)</strong></span>
+                                            <span>ĐIỆN THOẠI: <strong class="text-danger">0966624292 (Nguyễn Văn Đông)</strong></span>
                                             <span>SỐ TIỀN: <strong class="text-danger"><?=convert_number_to_money($transaction['transaction_total_money'])?></strong></span>
                                             <span>NỘI DUNG: <strong class="text-danger"><?=$transaction['transaction_payment_content']?></strong></span>
                                         </div>
@@ -165,6 +296,28 @@ switch ($path[0]){
                                             <h6>THÔNG TIN TÀI KHOẢN</h6>
                                             <span>Tên Đăng Nhập: <strong class="text-danger"><?=$account_info['account_login']?></strong></span>
                                             <span>Mật Khẩu: <strong class="text-danger"><?=$account_info['account_password']?></strong></span>
+                                        </div>
+                                        <div class="order-status">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                                                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <?php }else{?>
+                                    <div class="single-order-status active">
+                                        <div class="order-icon shadow-sm">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                                    <path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                                    <path d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div class="order-text">
+                                            <h6>THÔNG TIN TÀI KHOẢN</h6>
+                                            <span>Tên Đăng Nhập: <strong class="text-danger">Thanh toán để xem</strong></span>
+                                            <span>Mật Khẩu: <strong class="text-danger">Thanh toán để xem</strong></span>
                                         </div>
                                         <div class="order-status">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
@@ -346,7 +499,7 @@ switch ($path[0]){
                                         <path d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2z"/>
                                         <path d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z"/>
                                     </svg>
-                                    <h6>THẺ ĐIỆN THOẠI</h6>
+                                    <h6>THẺ ĐIỆN THOẠI <small class="text-warning">(Đang tích hợp)</small></h6>
                                 </a>
                             </div>
                         </div>
@@ -555,7 +708,8 @@ switch ($path[0]){
                     $header['title'] = $meta['data']['meta_name'].' - Chuyên Mục';
                 }
                 $option = [
-                    'account_category' => $meta['data']['meta_id']
+                    'account_category'  => $meta['data']['meta_id'],
+                    'account_status'    => 'instock'
                 ];
                 require_once 'header.php';
                 echo template_category();
@@ -646,7 +800,11 @@ switch ($path[0]){
                                 <span class="ps-1">3 đánh giá</span>
                             </div>
                             <div class="total-result-of-ratings">
-                                <a href="<?=URL_CART . "?account={$product['account_id']}"?>" class="btn btn-danger btn-block">Mua Ngay</a>
+                                <?php if($product['account_status'] == 'instock'){?>
+                                    <a href="<?=URL_CART . "?account={$product['account_id']}"?>" class="btn btn-danger btn-block">Mua Ngay</a>
+                                <?php }else{?>
+                                    <a href="javascript:;" class="btn btn-dark btn-block">Hết Hàng</a>
+                                <?php }?>
                             </div>
                         </div>
                     </div>

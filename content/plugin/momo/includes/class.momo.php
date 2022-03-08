@@ -35,28 +35,55 @@ class Momo
         'account_create' => 'account_create'
     ];
     private $url_action = array(
-        "CHECK_USER_BE_MSG" => "https://owa.momo.vn/public/CHECK_USER_BE_MSG",
-        "SEND_OTP_MSG" => "https://owa.momo.vn/public/SEND_OTP_MSG",
-        "REG_DEVICE_MSG" => "https://owa.momo.vn/public/REG_DEVICE_MSG",
-        "QUERY_TRAN_HIS_MSG" => "https://owa.momo.vn/api/QUERY_TRAN_HIS_MSG",
-        "USER_LOGIN_MSG" => "https://owa.momo.vn/public/login",
-        "QUERY_TRAN_HIS_MSG_NEW" => "https://m.mservice.io/hydra/v2/user/noti",
-        "M2MU_INIT" => "https://owa.momo.vn/api/M2MU_INIT",
-        "M2MU_CONFIRM" => "https://owa.momo.vn/api/M2MU_CONFIRM",
-        "LOAN_MSG" => "https://owa.momo.vn/api/LOAN_MSG",
-        'M2M_VALIDATE_MSG' => 'https://owa.momo.vn/api/M2M_VALIDATE_MSG',
-        'CHECK_USER_PRIVATE' => 'https://owa.momo.vn/api/CHECK_USER_PRIVATE',
-        'TRAN_HIS_INIT_MSG' => 'https://owa.momo.vn/api/TRAN_HIS_INIT_MSG',
-        'TRAN_HIS_CONFIRM_MSG' => 'https://owa.momo.vn/api/TRAN_HIS_CONFIRM_MSG',
+        "CHECK_USER_BE_MSG" => "https://api.momo.vn/backend/auth-app/public/CHECK_USER_BE_MSG",//Check người dùng
+        "SEND_OTP_MSG"      => "https://api.momo.vn/backend/otp-app/public/SEND_OTP_MSG",//Gửi OTP
+        "REG_DEVICE_MSG"    => "https://api.momo.vn/backend/otp-app/public/REG_DEVICE_MSG",// Xác minh OTP
+        "QUERY_TRAN_HIS_MSG" => "https://owa.momo.vn/api/QUERY_TRAN_HIS_MSG", // Check ls giao dịch
+        "USER_LOGIN_MSG"     => "https://owa.momo.vn/public/login",// Đăng Nhập
+        "QUERY_TRAN_HIS_MSG_NEW" => "https://m.mservice.io/hydra/v1/user/noti",// check ls giao dịch
+        "M2MU_INIT"         => "https://owa.momo.vn/api/M2MU_INIT",// Chuyển tiền
+        "M2MU_CONFIRM"      => "https://owa.momo.vn/api/M2MU_CONFIRM",// Chuyển tiền
+        "LOAN_MSG"          => "https://owa.momo.vn/api/LOAN_MSG",// yêu cầu chuyển tiền
+        'M2M_VALIDATE_MSG'  => 'https://owa.momo.vn/api/M2M_VALIDATE_MSG',// Ko rõ chức năng
+        'CHECK_USER_PRIVATE'=> 'https://owa.momo.vn/api/CHECK_USER_PRIVATE', // Check người dùng ẩn
+        'TRAN_HIS_INIT_MSG' => 'https://owa.momo.vn/api/TRAN_HIS_INIT_MSG', // Rút tiền, chuyển tiền
+        'TRAN_HIS_CONFIRM_MSG' => 'https://owa.momo.vn/api/TRAN_HIS_CONFIRM_MSG',// rút tiền chuyển tiền
         'GET_CORE_PREPAID_CARD' => 'https://owa.momo.vn/api/sync/GET_CORE_PREPAID_CARD',
-        'ins_qoala_phone' => 'https://owa.momo.vn/proxy/ins_qoala_phone',
-        'GET_DETAIL_LOAN' => 'https://owa.momo.vn/api/GET_DETAIL_LOAN',
-        'LOAN_UPDATE_STATUS' => 'https://owa.momo.vn/api/LOAN_UPDATE_STATUS',
-        'CANCEL_LOAN_REQUEST' => 'https://owa.momo.vn/api/CANCEL_LOAN_REQUEST',
-        'LOAN_SUGGEST' => 'https://owa.momo.vn/api/LOAN_SUGGEST',
-        'STANDARD_LOAN_REQUEST' => 'https://owa.momo.vn/api/STANDARD_LOAN_REQUEST',
-        'SAY_THANKS' => 'https://owa.momo.vn/api/SAY_THANKS',
-        'HEARTED_TRANSACTIONS' => 'https://owa.momo.vn/api/HEARTED_TRANSACTIONS'
+        'ins_qoala_phone'   => 'https://owa.momo.vn/proxy/ins_qoala_phone',
+        'GET_DETAIL_LOAN'   => 'https://owa.momo.vn/api/GET_DETAIL_LOAN',// Get danh sách yêu cầu chuyển
+        'LOAN_UPDATE_STATUS'=> 'https://owa.momo.vn/api/LOAN_UPDATE_STATUS',// Từ chỗi chuyển tiền
+        'CANCEL_LOAN_REQUEST'=> 'https://owa.momo.vn/api/CANCEL_LOAN_REQUEST',// Huỷe chuyển tiền
+        'LOAN_SUGGEST'      => 'https://owa.momo.vn/api/LOAN_SUGGEST',
+        'STANDARD_LOAN_REQUEST'  => 'https://owa.momo.vn/api/STANDARD_LOAN_REQUEST',
+        'SAY_THANKS'        => 'https://owa.momo.vn/api/SAY_THANKS',// Gửi lời nhắn khi nhận tiền
+        'HEARTED_TRANSACTIONS'=> 'https://owa.momo.vn/api/HEARTED_TRANSACTIONS',
+        'VERIFY_MAP'        => 'https://owa.momo.vn/api/VERIFY_MAP',// Liên kết ngân hàng
+        'service'           => "https://owa.momo.vn/service",   // Check ngân hàng qua stk
+        'NEXT_PAGE_MSG'     => 'https://owa.momo.vn/api/NEXT_PAGE_MSG', // mua thẻ điện thoại
+        'dev_backend_gift-recommend' => 'https://owa.momo.vn/proxy/dev_backend_gift-recommend', // check gift
+        'ekyc_init'         => 'https://owa.momo.vn/proxy/ekyc_init',  // Xác minh cmnd
+        'ekyc_ocr'          => 'https://owa.momo.vn/proxy/ekyc_ocr', // xác minh cmnd
+        'GetDataStoreMsg'   => 'https://owa.momo.vn/api/GetDataStoreMsg', // Get danh sách ngân hàng đã chuyển
+        'VOUCHER_GET'       => 'https://owa.momo.vn/api/sync/VOUVHER_GET',// get voucher
+        'END_USER_QUICK_REGISTER' => 'https://api.momo.vn/backend/auth-app/public/END_USER_QUICK_REGISTER',// đăng kí
+        'AGENT_MODIFY'      => 'https://api.momo.vn/backend/auth-app/api/AGENT_MODIFY',// Cập nhật tên email
+        'ekyc_ocr_result'   => 'https://owa.momo.vn/proxy/ekyc_ocr_result',// xác minh cmnd
+        'CHECK_INFO'        => 'https://owa.momo.vn/api/CHECK_INFO',// Check hóa đơn
+        'BANK_OTP'          => 'https://owa.momo.vn/api/BANK_OTP',// Rút tiền
+        'SERVICE_UNAVAILABLE'=> 'https://owa.momo.vn/api/SERVICE_UNAVAILABLE',// Bên bảo mật
+        'ekyc_ocr_confirm'  => 'https://owa.momo.vn/proxy/ekyc_ocr_confirm',//Xác minh cmnd
+        'sync'              => 'https://owa.momo.vn/api/sync',// Lấy biến động số dư
+        'MANAGE_CREDIT_CARD'=> 'https://owa.momo.vn/api/MANAGE_CREDIT_CARD',//Thêm visa marter card
+        'UN_MAP'            => 'https://owa.momo.vn/api/UN_MAP',// Hủy liên kết thẻ
+        'WALLET_MAPPING'    => 'https://owa.momo.vn/api/WALLET_MAPPING',// Liên kết thẻ
+        'NAPAS_CASHIN_INIT_MSG' => 'https://owa.momo.vn/api/NAPAS_CASHIN_INIT_MSG', // Liên kết napas
+        "CARD_GET" => "https://owa.momo.vn/api/sync/CARD_GET",// Get thẻ
+        'NAPAS_CASHIN_DELETE_TOKEN_MSG' => 'https://owa.momo.vn/api/NAPAS_CASHIN_DELETE_TOKEN_MSG',// Hủy thẻ
+        'API_DEFAULT_SOURCE'=> 'https://owa.momo.vn/api/API_DEFAULT_SOURCE',
+        'GET_WIDGET'        => 'https://owa.momo.vn/api/GET_WIDGET',
+        'QUERY_POINT_HIS_MSG'=> 'https://owa.momo.vn/api/QUERY_POINT_HIS_MSG',
+        'GENERATE_TOKEN_AUTH_MSG'   => 'https://api.momo.vn/backend/auth-app/public/GENERATE_TOKEN_AUTH_MSG',
+        'GET_TRANS_BY_TID'          => 'https://owa.momo.vn/api/GET_TRANS_BY_TID'
     );
     private $device_config = [
         'samsung' => [
@@ -284,8 +311,8 @@ class Momo
             "msgtype: REG_DEVICE_MSG",
             "Host: owa.momo.vn",
             "User-Agent: okhttp/3.14.17",
-            "app_version: 30183",
-            "app_code: 3.0.18",
+            "app_version: 30261",
+            "app_code: 3.0.26",
             "device_os: ANDROID"
         );
         $Data = '{
@@ -295,8 +322,8 @@ class Momo
             "lang": "vi",
             "time": ' . $microtime . ',
             "channel": "APP",
-            "appVer": 30183,
-            "appCode": "3.0.18",
+            "appVer": 30261,
+            "appCode": "3.0.26",
             "deviceOS": "ANDROID",
             "buildNumber": 0,
             "appId": "vn.momo.platform",
@@ -356,8 +383,8 @@ class Momo
             "lang":"vi",
             "time":' . $microtime . ',
             "channel":"APP",
-            "appVer":30183,
-            "appCode":"3.0.18",
+            "appVer":30261,
+            "appCode":"3.0.26",
             "deviceOS":"ANDROID",
             "buildNumber":1916,
             "appId":"vn.momo.transfer",
@@ -402,8 +429,8 @@ class Momo
             'lang' => 'vi',
             'time' => $microtime,
             'channel' => 'APP',
-            'appVer' => 30183,
-            'appCode' => '3.0.18',
+            'appVer' => 30261,
+            'appCode' => '3.0.26',
             'deviceOS' => 'ANDROID',
             'buildNumber' => 0,
             'appId' => 'vn.momo.platform',
@@ -480,8 +507,8 @@ class Momo
             'lang' => 'vi',
             'time' => $microtime,
             'channel' => 'APP',
-            'appVer' => 30183,
-            'appCode' => '3.0.18',
+            'appVer' => 30261,
+            'appCode' => '3.0.26',
             'deviceOS' => 'ANDROID',
             'buildNumber' => 0,
             'appId' => 'vn.momo.platform',
@@ -572,8 +599,8 @@ class Momo
             "lang" => "vi",
             "time" => $microtime,
             "channel" => "APP",
-            "appVer" => 30183,
-            "appCode" => "3.0.18",
+            "appVer" => 30261,
+            "appCode" => "3.0.26",
             "deviceOS" => "ANDROID",
             "buildNumber" => 1874,
             "appId" => "vn.momo.platform",
@@ -626,8 +653,8 @@ class Momo
             "msgtype: SEND_OTP_MSG",
             "Host: owa.momo.vn",
             "User-Agent: okhttp/3.14.17",
-            "app_version: 30183",
-            "app_code: 3.0.18",
+            "app_version: 30261",
+            "app_code: 3.0.26",
             "device_os: ANDROID"
         );
         $microtime = $this->generateMicrotime();
@@ -638,8 +665,8 @@ class Momo
             "lang": "vi",
             "time": ' . $microtime . ',
             "channel": "APP",
-            "appVer": 30183,
-            "appCode": "3.0.18",
+            "appVer": 30261,
+            "appCode": "3.0.26",
             "deviceOS": "ANDROID",
             "buildNumber": 0,
             "appId": "vn.momo.platform",
@@ -730,8 +757,8 @@ class Momo
             "Host: owa.momo.vn",
             "user_id: " . $this->config["account_phone"],
             "User-Agent: okhttp/3.14.17",
-            "app_version: 30183",
-            "app_code: 3.0.18",
+            "app_version: 30261",
+            "app_code: 3.0.26",
             "device_os: ANDROID"
         );
         $Data = '{
@@ -742,8 +769,8 @@ class Momo
             "lang": "vi",
             "time": ' . (int)$microtime . ',
             "channel": "APP",
-            "appVer": 30183,
-            "appCode": "3.0.18",
+            "appVer": 30261,
+            "appCode": "3.0.26",
             "deviceOS": "ANDROID",
             "buildNumber": 0,
             "appId": "vn.momo.platform",
@@ -824,8 +851,8 @@ class Momo
             'time' => $microtime,
             'lang' => 'vi',
             'channel' => 'APP',
-            'appVer' => 30183,
-            'appCode' => '3.0.18',
+            'appVer' => 30261,
+            'appCode' => '3.0.26',
             'deviceOS' => 'ANDROID',
             'result' => true,
             'buildNumber' => 0,
@@ -856,7 +883,6 @@ class Momo
         if (!$data) {
             return get_response_array(404, 'Thời gian truy cập đã hết hạn, vui lòng đăng nhập lại.');
         }
-
         return ['response' => '200', 'message' => 'Lấy lịch sử giao dịch thành công', 'data' => $data['momoMsg']['tranList']];
     }
 
@@ -893,19 +919,19 @@ class Momo
 
         if ($tranHisMsg["status"] != 999) {
             return [
-                'response' => 208,
-                'message' => $tranHisMsg["desc"],
-                "id" => $tranHisMsg["ID"],
-                "tranId" => $tranHisMsg["tranId"],
-                "amount" => $tranHisMsg["amount"],
+                'response'  => 208,
+                'message'   => $tranHisMsg["desc"],
+                "id"        => $tranHisMsg["ID"],
+                "tranId"    => $tranHisMsg["tranId"],
+                "amount"    => $tranHisMsg["amount"],
             ];
         }
         return [
-            'response' => 200,
-            'message' => $tranHisMsg["desc"],
-            "id" => $tranHisMsg["ID"],
-            "tranId" => $tranHisMsg["tranId"],
-            "amount" => $tranHisMsg["amount"],
+            'response'  => 200,
+            'message'   => $tranHisMsg["desc"],
+            "id"        => $tranHisMsg["ID"],
+            "tranId"    => $tranHisMsg["tranId"],
+            "amount"    => $tranHisMsg["amount"],
         ];
     }
 

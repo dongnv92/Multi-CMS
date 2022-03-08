@@ -577,3 +577,7 @@ function check_date($date, $type = 'y-m-d'){
 function random_string($length = 10){
     return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $length);
 }
+
+function get_method_request(){
+    return $_SERVER['REQUEST_METHOD'];
+}

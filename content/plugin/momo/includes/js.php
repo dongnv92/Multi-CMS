@@ -1,5 +1,108 @@
 <?php
 switch ($path[2]){
+    case 'send':
+        if(!$role['momo']['send']){
+            exit('Forbidden');
+        }
+        ?>
+        //<script>
+        $(document).ready(function () {
+            $('#btsend').on('click', function (){
+                let btnText     = $(this).text();
+                let id          = '#' + $(this).attr('id');
+                let textLoading = ' ĐANG CHUYỂN TIỀN ... ';
+                let urlLoad     = '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}"?>';
+
+                var ajax = $.ajax({
+                    url         : urlLoad,
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : $('form').serialize(),
+                    beforeSend  : function () {
+                        $(id).attr('disabled', true);
+                        $(id).html('<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span>'+ textLoading +'</span>');
+                    }
+                });
+                ajax.done(function (data) {
+                    setTimeout(function (){
+                        if(data.response == 200){
+                            $(id).attr('disabled', false);
+                            $(id).html(btnText);
+                            toastr.success(data.message);
+                        }else{
+                            $(id).attr('disabled', false);
+                            $(id).html(btnText);
+                            toastr.error(data.message);
+                        }
+                    }, 500)
+                });
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $(id).attr('disabled', false);
+                    $(id).html(btnText);
+                    toastr.error(jqXHR.responseText);
+                });
+            });
+        });
+        <?php
+        break;
+    case 'setting':
+        if(!$role['momo']['manager']){
+            exit('Forbidden');
+        }
+        $phone = $path[3];
+        // Check số điện thoại có hợp lệ không
+        $account = new MomoAccount();
+        if(!$account->checkPhoneNumber($phone)){
+            exit('Forbidden');
+        }
+
+        // Xem User Id và số điện thoại có cùng 1 người hay không
+        if(!$account->checkPhoneByUserId($phone, $me['user_id'])){
+            exit('Forbidden');
+        }
+        ?>
+        //<script>
+        $(document).ready(function () {
+            // Xóa tài khoản
+            $('#button_update').on('click', function () {
+                let account_setting_telegram    = $('#_account_setting_telegram').val();
+                let account_setting_forward     = $('#_account_setting_forward').val();
+                var ajax = $.ajax({
+                    url         : '<?=URL_ADMIN_AJAX . "{$path[1]}/setting"?>',
+                    method      : 'POST',
+                    dataType    : 'json',
+                    data        : {
+                        'phone'                     : '<?=$phone?>',
+                        'account_setting_telegram'  : account_setting_telegram,
+                        'account_setting_forward'   : account_setting_forward
+                    },
+                    beforeSend  : function () {
+                        $('#button_update').attr('disabled', true);
+                        $('#button_update').html('<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span> Đang Cập Nhật ... </span>');
+                    }
+                });
+                ajax.done(function (data) {
+                    setTimeout(function (){
+                        if(data.response == 200){
+                            $('#button_update').attr('disabled', false);
+                            $('#button_update').html('CẬP NHẬT');
+                            toastr.success(data.message);
+                        }else{
+                            $('#button_update').attr('disabled', false);
+                            $('#button_update').html('CẬP NHẬT');
+                            toastr.error(data.message);
+                        }
+                    }, 500)
+                });
+                ajax.fail(function( jqXHR, textStatus ) {
+                    $('#button_update').attr('disabled', false);
+                    $('#button_update').html('CẬP NHẬT');
+                    toastr.error(jqXHR.responseText);
+                });
+            });
+        });
+        <?php
+        break;
     case 'history':
         if(!$role['momo']['history']){
             exit('Forbidden');

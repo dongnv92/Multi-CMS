@@ -25,6 +25,113 @@ class pAccount{
     public function __construct(){
     }
 
+    public function transaction_viewstatus($status){
+        $text = '';
+        switch ($status){
+            case 'success':
+                $text .= '<span class="label label-square label-success label-inline mr-2">THÀNH CÔNG</span>';
+                break;
+            case 'wait':
+                $text .= '<span class="label label-square label-warning label-inline mr-2">CHỜ THANH TOÁN</span>';
+                break;
+            case 'false':
+                $text .= '<span class="label label-square label-danger label-inline mr-2">THẤT BẠI</span>';
+                break;
+        }
+        return $text;
+    }
+
+    public function transaction_getall(){
+        global $database, $me;
+
+        $param      = get_param_defaul();
+        $page       = (($_REQUEST['page'] && validate_int($_REQUEST['page'])) ? $_REQUEST['page'] : $param['page']);
+        $limit      = (($_REQUEST['limit'] && validate_int($_REQUEST['limit'])) ? $_REQUEST['limit'] : $param['limit']);
+        $offset     = (($_REQUEST['offset'] && validate_int($_REQUEST['offset'])) ? $_REQUEST['offset'] : $param['offset']);
+        $where      = [];
+        $pagination = [];
+
+
+        // Tính tổng data
+        $database->select('COUNT(*) AS count_data')->from($this->table_tran);
+        if($_REQUEST['search']){
+            $data_search = get_query_search($_REQUEST['search'], [
+                'transaction_code',
+                'transaction_name',
+                'transaction_phone',
+                'transaction_coupon',
+                'transaction_payment_method',
+                'transaction_payment_info',
+                'transaction_payment_name',
+                'transaction_payment_network',
+                'transaction_payment_content',
+                'transaction_payment_id',
+                'transaction_note'
+            ]);
+            $database->where($data_search);
+        }
+        if($where){
+            $database->where($where);
+        }
+
+        $data_count                 = $database->fetch_first();
+        $pagination['count']        = $data_count['count_data'];                    // Tổng số bản ghi
+        $pagination['page_num']     = ceil($pagination['count'] / $limit);   // Tổng số trang
+        $pagination['page_start']   = ($page - 1) * $limit;                        // Bắt đầu từ số bản ghi này
+
+        // Nếu số trang hiện tại lớn hơn tổng số trang thì bào lỗi
+        if(($page - 1) > $pagination['page_num'] || $offset > $pagination['count'])
+            return get_response_array(311, 'Số trang không được lớn hơn số dữ liệu có.');
+
+        // Hiển thị dữ liệu theo số liệu nhập vào
+        $database->select('*')->from($this->table_tran);
+        if($_REQUEST['search']){
+            $data_search = get_query_search($_REQUEST['search'], [
+                'transaction_code',
+                'transaction_name',
+                'transaction_phone',
+                'transaction_coupon',
+                'transaction_payment_method',
+                'transaction_payment_info',
+                'transaction_payment_name',
+                'transaction_payment_network',
+                'transaction_payment_content',
+                'transaction_payment_id',
+                'transaction_note'
+            ]);
+            $database->where($data_search);
+        }
+        if($where){
+            $database->where($where);
+        }
+
+        $database->limit($limit, ($page > 1 ? $pagination['page_start'] : $offset));
+        if($_REQUEST['sort']){
+            $sort = explode('.',$_REQUEST['sort']);
+            if(count($sort) == 1){
+                $database->order_by($sort[0]);
+            }else if(count($sort) == 2 && in_array($sort[1], ['asc', 'ASC', 'desc', 'DESC'])){
+                $database->order_by($sort[0], $sort[1]);
+            }
+        }else{
+            $database->order_by('transaction_id', 'DESC');
+        }
+        $data = $database->fetch();
+
+        $response = [
+            'response'  => 200,
+            'paging'    => [
+                'count_data'    => $pagination['count'],
+                'page'          => $pagination['page_num'],
+                'page_current'  => $page,
+                'limit'         => $limit,
+                'offset'        => $page > 1 ? $pagination['page_start'] : $offset
+            ],
+            'data'      => $data
+        ];
+        return $response;
+    }
+
     public function change_status_account($account_id, $status){
         global $database;
         if(!in_array($status, ['instock', 'wait_payment', 'outstock'])){
@@ -331,8 +438,8 @@ class pAccount{
         if(!validate_int($_REQUEST['account_price'])){
             return get_response_array(309, 'Giá tài khoản phải là dạng số');
         }
-        if($_REQUEST['account_price'] < 100 || $_REQUEST['account_price'] > 200000){
-            return get_response_array(309, 'Giá từ 100đ đến 200.000đ');
+        if($_REQUEST['account_price'] < 100 || $_REQUEST['account_price'] > 1000000){
+            return get_response_array(309, 'Giá từ 100đ đến 1.000.000đ');
         }
         if(!$_REQUEST['account_price_type']){
             return get_response_array(309, 'Bạn cần nhập kiểu tính giá');
@@ -367,7 +474,7 @@ class pAccount{
             $this->table_rows['account_url']        => $database->escape($_REQUEST[$this->table_rows['account_url']]),
             $this->table_rows['account_login']      => $database->escape($_REQUEST[$this->table_rows['account_login']]),
             $this->table_rows['account_password']   => $database->escape($_REQUEST[$this->table_rows['account_password']]),
-            $this->table_rows['account_expired']    => date('Y-m-d', strtotime($_REQUEST['account_expired'])),
+            $this->table_rows['account_expired']    => ($_REQUEST['account_expired'] ? date('Y-m-d', strtotime($_REQUEST['account_expired'])) : ''),
             $this->table_rows['account_category']   => $database->escape($_REQUEST[$this->table_rows['account_category']]),
             $this->table_rows['account_package']    => $database->escape($_REQUEST[$this->table_rows['account_package']]),
             $this->table_rows['account_price']      => $database->escape($_REQUEST[$this->table_rows['account_price']]),
@@ -387,7 +494,7 @@ class pAccount{
         return ['response'  => 200, 'message'   => 'Thêm dữ liệu thành công', 'id' => $action];
     }
 
-    // Thêm tài khoản
+    // Cập nhật tài khoản
     public function update($account_id){
         global $database;
 
@@ -428,8 +535,8 @@ class pAccount{
         if(!validate_int($_REQUEST['account_price'])){
             return get_response_array(309, 'Giá tài khoản phải là dạng số');
         }
-        if($_REQUEST['account_price'] < 100 || $_REQUEST['account_price'] > 200000){
-            return get_response_array(309, 'Giá từ 100đ đến 200.000đ');
+        if($_REQUEST['account_price'] < 100 || $_REQUEST['account_price'] > 1000000){
+            return get_response_array(309, 'Giá từ 100đ đến 1.000.000đ');
         }
         if(!$_REQUEST['account_price_type']){
             return get_response_array(309, 'Bạn cần nhập kiểu tính giá');
@@ -461,7 +568,7 @@ class pAccount{
             $this->table_rows['account_url']        => $database->escape($_REQUEST[$this->table_rows['account_url']]),
             $this->table_rows['account_login']      => $database->escape($_REQUEST[$this->table_rows['account_login']]),
             $this->table_rows['account_password']   => $database->escape($_REQUEST[$this->table_rows['account_password']]),
-            $this->table_rows['account_expired']    => date('Y-m-d', strtotime($_REQUEST['account_expired'])),
+            $this->table_rows['account_expired']    => ($_REQUEST['account_expired'] ? date('Y-m-d', strtotime($_REQUEST['account_expired'])) : ''),
             $this->table_rows['account_category']   => $database->escape($_REQUEST[$this->table_rows['account_category']]),
             $this->table_rows['account_package']    => $database->escape($_REQUEST[$this->table_rows['account_package']]),
             $this->table_rows['account_price']      => $database->escape($_REQUEST[$this->table_rows['account_price']]),

@@ -103,6 +103,21 @@
                             "type"
                         ]
                     ]
+                },
+                {
+                    "text": "Giao dịch",
+                    "url": "URL_ADMIN\/account\/transactions",
+                    "roles": [
+                        "account",
+                        "transaction"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "account",
+                            "transactions"
+                        ]
+                    ]
                 }
             ]
         }
@@ -111,13 +126,15 @@
         "account": {
             "manager": false,
             "add": false,
-            "category": false
+            "category": false,
+            "transaction": false
         }
     },
     "role_text": {
         "": "Bán Tài Khoản Online",
         "manager": "Quản lý tài khoản",
         "add": "Thêm tài khoản",
-        "category": "Quản lý kiểu tài khoản"
+        "category": "Quản lý kiểu tài khoản",
+        "transaction": "Xem giao dịch"
     }
 }

@@ -1,4 +1,5 @@
 <?php
+require_once ABSPATH.'/includes/class/simple_html_dom.php';
 class Kplus{
     private $db;
     const table         = 'dong_kplus';
@@ -17,10 +18,162 @@ class Kplus{
     const kplus_register_month      = 'kplus_register_month';   // Người đăng ký
     const kplus_register_by_defaule = '823657709';              // ID chát của tôi
     const kplus_register_payment    = 'kplus_register_payment'; // Tình trạng thanh toán
+    const token_capcha              = 'fb4f3bf380cb60600023a4ffcfcd3554';
 
     public function __construct($database){
         $this->db = $database;
     }
+
+    // ------------------- CHECK CARD ---------------------------- //
+    private function save($url){
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: __utmz=1.1646553257.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); current_site=1; ai_user=kPWpw|2022-03-06T07:54:17.007Z; __RequestVerificationToken_L215a3BsdXM1=q-tWLzC1vHUnbLlTSu8YDC9otkELnPSm4YYS5wRspSZMfrXql2Mtlz7NCvR7QslemR4RxiLw7LfpXU3_Ye-LT4InGBj-6YL2-lztJUjBkBM1; ASP.NET_SessionId=gcgufzopyrrd4v022bgl2ofu; __utmc=1; __utma=1.950350985.1646553257.1646553257.1646558733.2; Kplus.WebApp.Locale=vi-VN; __utmt=1; _ga=GA1.2.950350985.1646553257; _gid=GA1.2.1776370451.1646562533; ai_session=00wPd|1646558754182|1646562700348.1; __utmb=1.23.10.1646558733'
+            ),
+        ));
+        $response = curl_exec($curl);
+        $save_file = $this->SaveFile($response);
+        curl_close($curl);
+        return $save_file;
+    }
+    private function SaveFile($file, $path = ABSPATH.'/content/plugin/kplus/assets/capcha/'){
+        $file_name  = md5(random_string(10)).'.png';
+        $path_file  = $path.$file_name;
+        $url_file   = URL_HOME.'/content/plugin/kplus/assets/capcha/'.$file_name;
+        $saveFile = fopen($path_file, 'w+');
+        fwrite($saveFile, $file);
+        fclose($saveFile);
+        return $url_file;
+    }
+
+    private function image_base64($path){
+        $data = file_get_contents($path);
+        $base64 = base64_encode($data);
+        return $base64;
+    }
+
+    private function auto_get($url){
+        $data = curl_init();
+        curl_setopt($data, CURLOPT_HEADER, false);
+        curl_setopt($data, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($data, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($data, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($data, CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($data, CURLOPT_TIMEOUT, 3);
+        curl_setopt($data, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($data, CURLOPT_URL, $url);
+        $res = curl_exec($data);
+        curl_close($data);
+        return $res;
+    }
+
+    private function RequestToken($url){
+        //include ABSPATH.'/includes/class/simple_html_dom.php';
+        $data = curl_init();
+        curl_setopt($data, CURLOPT_HEADER, false);
+        curl_setopt($data, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($data, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($data, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        curl_setopt($data, CURLOPT_CONNECTTIMEOUT, 3);
+        curl_setopt($data, CURLOPT_TIMEOUT, 3);
+        curl_setopt($data, CURLOPT_URL, $url);
+        curl_setopt($data, CURLOPT_HTTPHEADER, array(
+            'Accept: application/json',
+            'Cookie: __utmz=1.1646553257.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); current_site=1; ai_user=kPWpw|2022-03-06T07:54:17.007Z; __RequestVerificationToken_L215a3BsdXM1=q-tWLzC1vHUnbLlTSu8YDC9otkELnPSm4YYS5wRspSZMfrXql2Mtlz7NCvR7QslemR4RxiLw7LfpXU3_Ye-LT4InGBj-6YL2-lztJUjBkBM1; ASP.NET_SessionId=gcgufzopyrrd4v022bgl2ofu; __utmc=1; __utma=1.950350985.1646553257.1646553257.1646558733.2; Kplus.WebApp.Locale=vi-VN; __utmt=1; _ga=GA1.2.950350985.1646553257; _gid=GA1.2.1776370451.1646562533; ai_session=00wPd|1646558754182|1646562700348.1; __utmb=1.23.10.1646558733',
+        ));
+        curl_setopt($data, CURLOPT_HEADERFUNCTION,
+            function($curl, $header) use (&$headers)
+            {
+                $len = strlen($header);
+                $header = explode(':', $header, 2);
+                if (count($header) < 2)
+                    return $len;
+
+                $headers[strtolower(trim($header[0]))][] = trim($header[1]);
+
+                return $len;
+            }
+        );
+        $res = curl_exec($data);
+        $_csrf_token = str_get_html($res)->find("input[name=__RequestVerificationToken]", 0) -> value;
+        curl_close($data);
+        $encode_array = json_encode($headers);
+        $obj = json_decode($encode_array, true);
+        $cookie = explode(';', $obj["set-cookie"][0]);
+        $json['token'] = $_csrf_token;
+        $json['cookie'] = $cookie['0'];
+        $json['captcha'] = 'https://www.kplus.vn/mykplus/account/getcaptcha?r=0.33960775349915884';
+        return $json;
+    }
+
+    function Register($SetTopBox, $phone = ''){
+        //include ABSPATH.'/includes/class/simple_html_dom.php';
+        $list_phone = ['0945144466', '0981384284'];
+        $phone = (!$phone ? $list_phone[rand(0, 1)] : $phone);
+        $token = $this->RequestToken('https://www.kplus.vn/mykplus/account/registernew?lang=vi');
+        $return_image = $this->save('https://www.kplus.vn/mykplus/account/getcaptcha?r=0.33960775349915884');
+        $captcha = $this->getCapcha($this->image_base64($return_image));
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://www.kplus.vn/mykplus/account/registernew?lang=vi',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array(
+                '__RequestVerificationToken' => 'VoXwVvXf1SKfOFvnP9bDAghzaOlHXOuhllF5Hq-dDlyXb5x09G98F7Qcq62LN6sUx7Qw59lWnRg_IVD_Vpz1Y13eI4p6ivPTLFnhfGR2-1I1',
+                'MobilePhone' => $phone,
+                'Email' => '',
+                'Password' => $phone,
+                'ConfirmPassword' => $phone,
+                'SmartCard' => '123456',
+                'SetTopBox' => $SetTopBox,
+                'CaptchaCode' => strtoupper($captcha),
+                'AgreeTermConditions' => 'true'
+            ),
+            CURLOPT_HTTPHEADER => array(
+                'Cookie: __utmz=1.1646553257.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); current_site=1; ai_user=kPWpw|2022-03-06T07:54:17.007Z; __RequestVerificationToken_L215a3BsdXM1=q-tWLzC1vHUnbLlTSu8YDC9otkELnPSm4YYS5wRspSZMfrXql2Mtlz7NCvR7QslemR4RxiLw7LfpXU3_Ye-LT4InGBj-6YL2-lztJUjBkBM1; ASP.NET_SessionId=gcgufzopyrrd4v022bgl2ofu; __utmc=1; __utma=1.950350985.1646553257.1646553257.1646558733.2; Kplus.WebApp.Locale=vi-VN; __utmt=1; _ga=GA1.2.950350985.1646553257; _gid=GA1.2.1776370451.1646562533; ai_session=00wPd|1646558754182|1646562700348.1; __utmb=1.23.10.1646558733',
+            ),
+        ));
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $json['msg_email'] = trim(str_get_html($response)->find("span[data-valmsg-for=Email]", 0)->plaintext);
+        $json['msg_phone'] = trim(str_get_html($response)->find("span[data-valmsg-for=MobilePhone]", 0)->plaintext);
+        $json['msg_card'] = html_entity_decode(trim(str_get_html($response)->find("span[data-valmsg-for=SetTopBox]", 0)->plaintext));
+        $json['msg_captcha'] = trim(str_get_html($response)->find("span[data-valmsg-for=CaptchaCode]", 0)->plaintext);
+        return $json;
+    }
+
+    private function getCapcha($url_img){
+        $url_prepare    = 'https://captcha99.com/in.php?key='. self::token_capcha .'&method=base64';
+        $data           = ['body' => $url_img];
+        $data           = curl($url_prepare, $data, 'POST');
+        $data           = explode('|', $data);
+        if($data[0] != 'OK'){
+            return get_response_array(202,'Lỗi Upload ảnh');
+        }
+        $data_id = $data[1];
+        $url_get    = 'https://captcha99.com/res.php?key='. self::token_capcha .'&action=get&id='.$data_id;
+        $data       = curl($url_get, [], 'GET');
+        $data       = explode('|', $data);
+        if($data[0] != 'OK'){
+            return get_response_array(202, 'Lỗi không nhận dạng Capcha: '.$url_get);
+        }
+        return strtoupper($data[1]);
+    }
+    // ------------------- CHECK CARD ---------------------------- //
 
     private function getFirstName($dau = 'yes', $sex = 'male'){
         if($dau == 'yes' && $sex == 'male'){
@@ -359,6 +512,12 @@ class Kplus{
         if(!$this->checkCodeAvailable($_REQUEST[self::kplus_code])){
             return get_response_array(309, 'Mã thẻ đã được sử dụng.');
         }
+
+        $check_register = $this->Register($_REQUEST[self::kplus_code]);
+        if($check_register['msg_card']){
+            return get_response_array(309, $check_register['msg_card']);
+        }
+
         if(!validate_isset($_REQUEST[self::kplus_expired])){
             return get_response_array(309, 'Bạn cần nhập ngày hết hạn.');
         }
@@ -372,6 +531,7 @@ class Kplus{
             self::kplus_expired     => $db->escape($kplus_expired[2].'-'.$kplus_expired[1].'-'.$kplus_expired[0]),
             self::kplus_name        => $db->escape($_REQUEST[self::kplus_name]),
             self::kplus_status      => 'unregistered',
+            self::kplus_verify      => 'verify',
             self::kplus_time        => get_date_time()
         ];
 
@@ -602,8 +762,8 @@ class Kplus{
             }
         }
 
-        // Lặp từ 9 đến 90 ngày
-        for ($i=9; $i<=60; $i++){
+        // Lặp từ 9 đến 15 ngày
+        for ($i=9; $i<=30; $i++){
             $newdate    = strtotime("+$i days", strtotime($date));
             $newdate    = date('Y-m-d', $newdate);
             if($this->checkCodeDate($newdate)){
@@ -612,8 +772,8 @@ class Kplus{
             }
         }
 
-        // Lặp Từ -9 đến -90
-        for ($i=-9; $i>=-90; $i--){
+        // Lặp Từ -9 đến -15
+        for ($i=-9; $i>=-30; $i--){
             $newdate    = strtotime("$i days", strtotime($date));
             $newdate    = date('Y-m-d', $newdate);
             if($this->checkCodeDate($newdate)){

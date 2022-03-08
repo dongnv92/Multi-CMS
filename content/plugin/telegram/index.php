@@ -9,6 +9,7 @@ switch ($path[2]){
         $header['title'] = 'Telegram';
         require_once ABSPATH . PATH_ADMIN . "/admin-header.php";
         echo admin_breadcrumbs('MOMO', [URL_ADMIN . "/{$path[1]}/" => 'MOMO'],'Cấu Hình');
+        $token = $_REQUEST['token'];
         ?>
         <div class="row">
             <div class="col-12">
@@ -26,10 +27,12 @@ switch ($path[2]){
                     <!-- Content -->
                     <div class="card-inner">
                     <?php
-                    $telegram = new Telegram('citypost_notice');
-                    echo "<pre>";
-                    print_r(json_decode($telegram->getUpdates(), true));
-                    echo "</pre>";
+                    if($token){
+                        $telegram = new Telegram($token);
+                        echo "<pre>";
+                        print_r(json_decode($telegram->getUpdates(), true));
+                        echo "</pre>";
+                    }
                     ?>
                     </div>
                     <!-- End Content -->

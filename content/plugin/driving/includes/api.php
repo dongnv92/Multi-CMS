@@ -1,5 +1,119 @@
 <?php
 switch ($path[2]){
+    // Thông báo chấm công.
+    case 'chamcong':
+        $hour   = date('H', time());
+        $minus  = date('i', time());
+        $day    = date('w', time()) + 1;
+        if(in_array($day, [2,3,4,5,6])){
+            if($hour == 8 && $minus == 13){
+                $text = 'Sắp muộn giờ làm rồi, ai đang trên đường thì đi nhanh không muộn, ai đến rồi mà quên thì chấm công nhé!';
+            }else if($hour == 17 && $minus == 25){
+                $text = 'Sắp đến giờ tan ca rồi, vào chấm công luôn cho chắc cốp bạn nhé.';
+            }
+        }else if(in_array($day, [7])){
+            if($hour == 8 && $minus == 13){
+                $text = 'Sắp muộn giờ làm rồi, ai đang trên đường thì đi nhanh không muộn, ai đến rồi mà quên thì chấm công nhé!';
+            }else if($hour == 11 && $minus == 59){
+                $text = 'Sắp đến giờ tan ca rồi, vào chấm công luôn cho chắc cốp bạn nhé.';
+            }
+        }
+        if($text){
+            $telegram = new Telegram('citypost_notice');
+            $telegram->set_chatid('-592349283');
+            $telegram->sendMessage($text);
+            echo encode_json(['response' => 200, 'message' => 'Success!']);
+        }else{
+            echo encode_json(['response' => 200, 'message' => 'Nothing ...']);
+        }
+        break;
+    // Báo cáo thống kê
+    case 'static':
+        $group_id = [
+            'citypost_test'  => '-582736253',
+            'citypost_staic' => '-799087783'
+        ];
+        $request    = json_decode(file_get_contents('php://input'), true);
+        $telegram   = new Telegram('citypost_notice');
+        $check      = new user($database);
+        /*-----------------------*/
+        $token      = $request['token'];    // Token
+        $_REQUEST['content']        = $request['content'];   // Nội dung
+        $_REQUEST['title']          = $request['title'];     // Tiêu đề
+        /*-----------------------*/
+        if(!$token){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu Mã Access Token.']);
+            break;
+        }
+        if(!$check->check_access_token($token)){
+            echo encode_json(['response' => '503', 'message' => 'Mã Access Token không hợp lệ.']);
+            break;
+        }
+        if(!$_REQUEST['content']){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu nội dung.']);
+            break;
+        }
+        if(!$_REQUEST['title']){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu tiêu đề.']);
+            break;
+        }
+
+        $telegram->set_chatid($group_id['citypost_staic']);
+        $content = $_REQUEST['title']."\n".$_REQUEST['content'];
+        $telegram->sendMessage($content, ['parse_mode' => 'html']);
+        echo json_encode(['response' => 200, 'message' => 'Send Message To Telegram Group Success.']);
+        break;
+    case 'checkbkp':
+        $driving    = new pDriving();
+        $status     = $driving->check_bill();
+        if($status){
+            $group_id = [
+                'citypost_refusetrip_test'  => '-582736253'
+            ];
+            $telegram   = new Telegram('citypost_notice');
+            $telegram->set_chatid($group_id['citypost_refusetrip_test']);
+            $telegram->sendMessage($status);
+            echo encode_json(['response' => 200, 'message' => 'Send message to Group Telegram Success!']);
+            break;
+        }
+        echo encode_json(['response' => 200, 'message' => 'Empty']);
+        break;
+    case 'addbill':
+        $group_id = [
+            'citypost_refusetrip_test'  => '-582736253',
+            'citypost_refusetrip_hn'    => '-416213766'
+        ];
+        $request    = json_decode(file_get_contents('php://input'), true);
+        $telegram   = new Telegram('citypost_notice');
+        $check      = new user($database);
+        /*-----------------------*/
+        $token      = $request['token'];    // Token
+        $_REQUEST['officer_create']     = $request['officer_create'];   // Người tạo
+        $_REQUEST['officer_receive']    = $request['officer_receive'];  // Người nhận
+        $_REQUEST['bkp_code']           = $request['bkp_code'];         // Mã BKP
+        $_REQUEST['bkp_location']       = $request['bkp_location'];     // Chi nhánh
+        /*-----------------------*/
+        if(!$token){
+            echo encode_json(['response' => '404', 'message' => 'Thiếu Mã Access Token.']);
+            break;
+        }
+        if(!$check->check_access_token($token)){
+            echo encode_json(['response' => '503', 'message' => 'Mã Access Token không hợp lệ.']);
+            break;
+        }
+        $driving    = new pDriving();
+        $add        = $driving->add_bill();
+        if($add['response'] == 200){
+            $message = "Tạo bảng kê phát thành công.";
+            $telegram->set_chatid($group_id['citypost_refusetrip_test']);
+            $telegram->sendMessage($message);
+            echo encode_json($add);
+            break;
+        }else{
+            echo encode_json($add);
+            break;
+        }
+        break;
     case 'refusetrip':
         $group_id = [
             'citypost_refusetrip_test'  => '-582736253',
