@@ -29,7 +29,7 @@ switch ($path[2]){
                     <div class="card card-custom">
                         <div class="card-header">
                             <div class="card-title">
-                                <h3 class="card-label">Nhập dãy câu hỏi</h3>
+                                <h3 class="card-label">Nhập dãy câu hỏi <?=count($path)?></h3>
                             </div>
                             <div class="card-toolbar">
                                 <button type="submit" name="submit" value="submit" class="btn btn-dark btn-square">Xem đáp áp</button>

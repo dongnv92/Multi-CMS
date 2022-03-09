@@ -51,6 +51,14 @@ class MomoAccount{
     public function __construct(){
     }
 
+    public function get_data_widget(){
+        global $database;
+        $data = [];
+        $count_account_active = $database->select('COUNT(*) AS count')->from($this->table_account)->where(['account_status' => 'active'])->fetch_first();
+        $data['count_account_active'] = $count_account_active['count'];
+        return $data;
+    }
+
     // Chuyển tiền đến số điện thoại momo
     public function sendMoney(){
         global $database, $me;

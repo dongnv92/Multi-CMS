@@ -259,12 +259,24 @@ class Kplus{
                 $data_reg   = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'registered')->fetch_first();
                 $data_wait  = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'wait')->fetch_first();
                 $data_error = $db->select('COUNT(*) AS count')->from(self::table)->where(self::kplus_status, 'error')->fetch_first();
+                $db->select()->from(self::table)->where([self::kplus_status => 'unregistered']);
+                $db->order_by(self::kplus_expired, 'desc');
+                $db->limit(4);
+                $list_long = $db->fetch();
+
+                $db->select()->from(self::table)->where([self::kplus_status => 'unregistered']);
+                $db->order_by(self::kplus_expired, 'asc');
+                $db->limit(4);
+                $list_short = $db->fetch();
+
                 return [
                     'all'           => $data_unreg['count'] + $data_reg['count'] + $data_wait['count'] + $data_error['count'],
                     'unregistered'  => $data_unreg['count'],
                     'registered'    => $data_reg['count'],
                     'wait'          => $data_wait['count'],
-                    'error'         => $data_error['count']
+                    'error'         => $data_error['count'],
+                    'list_long'     => $list_long,
+                    'list_short'    => $list_short
                 ];
                 break;
         }

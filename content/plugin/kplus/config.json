@@ -10,7 +10,8 @@
     "source": {
         "javascript": "includes\/js.php",
         "ajax": "includes\/ajax.php",
-        "api": "includes\/api.php"
+        "api": "includes\/api.php",
+        "widget": "includes\/widget.php"
     },
     "public_class": [
         "includes\/class.kplus.php"

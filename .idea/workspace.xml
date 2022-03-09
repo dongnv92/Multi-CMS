@@ -143,7 +143,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -324,6 +324,9 @@
       <workItem from="1632842922686" duration="5313000" />
       <workItem from="1632881419142" duration="13012000" />
       <workItem from="1632979567176" duration="643000" />
+      <workItem from="1646757500656" duration="488000" />
+      <workItem from="1646758047346" duration="143000" />
+      <workItem from="1646799202325" duration="10220000" />
     </task>
     <task id="LOCAL-00001" summary="...">
       <created>1623810740523</created>
@@ -397,6 +400,10 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="..." />
     <option name="LAST_COMMIT_MESSAGE" value="..." />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/admin/includes/index.php">
