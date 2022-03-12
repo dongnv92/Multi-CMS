@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="e53c3768-312d-4bc5-a517-99cbae1f469d" name="Muataikhoan" url="http://172.96.191.85">
-        <fileTransfer rootFolder="/public_html/add_domain/cms" host="172.96.191.85" port="21">
+      <webServer id="e53c3768-312d-4bc5-a517-99cbae1f469d" name="Muataikhoan" url="http://172.96.191.87">
+        <fileTransfer rootFolder="/public_html/add_domain/cms" host="172.96.191.87" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

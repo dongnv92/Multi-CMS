@@ -1,5 +1,11 @@
 <?php
 switch ($path[2]){
+    case 'test':
+        $string = 'Bưu Cục Hà Nội';
+        echo 'Uppercase: '.mb_convert_case($string, MB_CASE_UPPER, "UTF-8").'<br>';
+        echo 'Lowercase: '.mb_convert_case($string, MB_CASE_LOWER, "UTF-8").'<br>';
+        echo 'Original: '.$string.'<br>';
+        break;
     case 'fill':
         $kplus = new Kplus($database);
         $where  = ['kplus_status' => 'unregistered', 'kplus_verify' => 'unchecked'];

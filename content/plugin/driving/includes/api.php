@@ -257,7 +257,7 @@ switch ($path[2]){
         $price      = $request['price'];    // Đơn giá
         $amount     = $request['amount'];   // Số lượng dầu (Lít)
         $numbill    = $request['numbill'];  // Số phiếu
-        $location   = $request['location']; // Chi nhánh
+        $location   = mb_convert_case($request['location'], MB_CASE_UPPER, "UTF-8"); // Chi nhánh
         $token      = $request['token'];    // Token
         /*-----------------------*/
         if(!$request['token']){
