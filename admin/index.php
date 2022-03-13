@@ -5,7 +5,7 @@ require_once ABSPATH . PATH_ADMIN .'/includes/function.php';
 require_once ABSPATH . PATH_ADMIN .'/includes/function-form.php';
 
 if(!$me){
-    redirect(URL_LOGIN);
+    redirect(URL_LOGIN."?ref=".URL_HOME . $_SERVER['REQUEST_URI']);
 }
 
 switch ($path[1]){

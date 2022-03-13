@@ -328,8 +328,14 @@ class user{
                     $user = true;
                 }
                 break;
-            default:
+            case 'login':
                 $check = $db->select('COUNT(*) AS count')->from($this->db_table)->where($this->user_login, $data)->fetch_first();
+                if($check['count'] > 0){
+                    $user = true;
+                }
+                break;
+            default:
+                $check = $db->select('COUNT(*) AS count')->from($this->db_table)->where($data)->fetch_first();
                 if($check['count'] > 0){
                     $user = true;
                 }
@@ -349,6 +355,7 @@ class user{
         global $me;
         $db             = $this->db;
         $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_id, $id)->fetch_first();
+
         $check_user     = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_login, $_REQUEST[$this->user_login])->fetch_first();
         $check_email    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_email, $_REQUEST[$this->user_email])->fetch_first();
         $check_phone    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_phone, $_REQUEST[$this->user_phone])->fetch_first();
@@ -489,7 +496,18 @@ class user{
     public function add(){
         global $me;
         $db         = $this->db;
+        // Nếu không có vai trò thành viên thì lấy ID vai trò mặc định trong setting
+        if(!$_REQUEST[$this->user_role]){
+            $_REQUEST[$this->user_role] = get_config('role_default');
+        }
+
+        // Nếu không nhập tên hiển thị thì lấy tên đang nhập
+        if(!validate_isset($_REQUEST[$this->user_name]) && $_REQUEST[$this->user_login]){
+            $_REQUEST[$this->user_name] = $_REQUEST[$this->user_login];
+        }
+
         $check_role = $db->select('COUNT(*) AS count')->from('dong_meta')->where(['meta_type' => 'role', 'meta_id' => $_REQUEST[$this->user_role]])->fetch_first();
+
         // Kiểm tra username
         if(!validate_isset($_REQUEST[$this->user_login]))
             return get_response_array(309, 'Bạn cần nhập tên đăng nhập.');
@@ -497,7 +515,7 @@ class user{
             return get_response_array(309, 'Tên đăng nhập từ 4 đến 30 ký tự.');
         if(!validate_username($_REQUEST[$this->user_login]))
             return get_response_array(309, 'Tên đăng nhập chỉ bao gồm chữ, số, ký tự _ hoặc dấu chấm.');
-        if($this->check_user($_REQUEST[$this->user_login]))
+        if($this->check_user($_REQUEST[$this->user_login], 'login'))
             return get_response_array(309, 'Tên đăng nhập đã tồn tại, vui lòng chọn tên khác.');
 
         // Kiểm tra tên hiển thị
@@ -521,10 +539,16 @@ class user{
         // Kiểm tra email
         if($_REQUEST[$this->user_email] && !validate_email($_REQUEST[$this->user_email]))
             return get_response_array(309, 'Email không đúng định dạng.');
+        if($_REQUEST[$this->user_email] && $this->check_user([$this->user_email => $_REQUEST[$this->user_email]])){
+            return get_response_array(309, 'Email đã tồn tại.');
+        }
 
         // Kiểm tra điện thoại
         if($_REQUEST[$this->user_phone] && (strlen($_REQUEST[$this->user_phone]) < 8 || strlen($_REQUEST[$this->user_phone]) > 35))
             return get_response_array(309, 'Số điện thoại từ 8 đến 35 ký tự.');
+        if($_REQUEST[$this->user_phone] && $this->check_user([$this->user_phone => $_REQUEST[$this->user_phone]])){
+            return get_response_array(309, 'Số điện thoại đã tồn tại.');
+        }
 
         // Kiểm tra vai trò thành viên
         if(!validate_isset($_REQUEST[$this->user_role]))
@@ -568,14 +592,12 @@ class user{
 
     public function change_password($pass_old, $pass_new, $pass_renew){
         global $me, $database;
-        $db = $this->db;
-        $check_pass = $database->select('COUNT(*) AS user')->from($this->db_table)->where([$this->user_id => $me['user_id'], $this->user_password => $this->encodeText($pass_old)])->fetch_first();
         // Kiểm tra mật khẩu cũ
         if(!validate_isset($pass_old))
             return get_response_array(309, 'Bạn cần nhập mật khẩu cũ.');
         if(strlen($pass_old) < 4 || strlen($pass_old) > 20)
             return get_response_array(309, 'Mật khẩu cũ từ 4 đến 20 ký tự.');
-        if($check_pass['user'] == 0)
+        if(!$this->check_user([$this->user_id => $me['user_id'], $this->user_password => $this->encodeText($pass_old)]))
             return get_response_array(309, 'Mật khẩu cũ không đúng.');
 
         // Kiểm tra mật khẩu mới
@@ -596,11 +618,10 @@ class user{
 
         // Thực hiện đổi mật khẩu
         $data   = [$this->user_password => $this->encodeText($pass_new)];
-        $update = $database->where($this->user_id, $me['user_id'])->update($this->db_table, $data);
+        $update = $database->where([$this->user_id => $me['user_id']])->update($this->db_table, $data);
         if(!$update){
             return get_response_array(309, 'Đổi mật khẩu không thành công.');
         }
-
         return get_response_array(200, 'Đổi mật khẩu thành công');
     }
 

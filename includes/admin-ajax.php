@@ -302,6 +302,11 @@ switch ($path[1]){
         $login = $login->login();
         echo encode_json($login);
         break;
+    case 'add':
+        $add = new user($database);
+        $add = $add->add();
+        echo encode_json($add);
+        break;
     default:
         if(in_array($path[1], get_list_plugin())){
             $config = file_get_contents(ABSPATH . PATH_PLUGIN . $path[1] . '/config.json');
