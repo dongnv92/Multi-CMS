@@ -21,6 +21,7 @@ class user{
     private $user_note;     // Giới thiệu về bản thân (varchar(1000))
     private $user_avatar;   // Đường dẫn ảnh đại diện (varchar(1000))
     private $user_role;     // ID phân quyền (int)
+    private $user_roleplus; // Phân quyền thêm
     private $user_status;   // Trạng thái (varchar(100) active|not_active|block)
     private $user_block_time;       // Thời gian bị khóa đến bao giờ? datetime
     private $user_block_message;    // Lý do bị khóa (varchar 500)
@@ -50,6 +51,7 @@ class user{
         $this->user_invite          = 'user_invite';
         $this->user_token           = 'user_token';
         $this->user_time            = 'user_time';
+        $this->user_roleplus        = 'user_roleplus';
     }
 
     static private function base64_url_encode($input){
@@ -233,7 +235,7 @@ class user{
         }
 
         // lấy thông tin thành viên
-        $fields_return  = "{$this->user_id}, {$this->user_login}, {$this->user_name}, {$this->user_address}, {$this->user_phone}, {$this->user_email}, {$this->user_gender}, {$this->user_birthday}, {$this->user_married}, {$this->user_note}, {$this->user_avatar}, {$this->user_role}, {$this->user_status}, {$this->user_invite}, {$this->user_token}, {$this->user_time}";
+        $fields_return  = "{$this->user_roleplus}, {$this->user_id}, {$this->user_login}, {$this->user_name}, {$this->user_address}, {$this->user_phone}, {$this->user_email}, {$this->user_gender}, {$this->user_birthday}, {$this->user_married}, {$this->user_note}, {$this->user_avatar}, {$this->user_role}, {$this->user_status}, {$this->user_invite}, {$this->user_token}, {$this->user_time}";
         $data_user      = $this->get_user(["{$this->user_token}" => $_SESSION['access_token']], $fields_return);
 
         // Nếu thông tin không chính xác thì thoát
@@ -351,11 +353,40 @@ class user{
         return get_response_array(200, "Cập nhật ảnh đại diện thành công.");
     }
 
+    public function update_roleplus($user_id){
+        global $me;
+        $db   = $this->db;
+        $user = $this->get_user(['user_id' => $user_id]);
+        if(!$user){
+            return get_response_array(309, 'Thành viên không tồn tại trên hệ thống hoặc đã bị xóa.');
+        }
+        // Nếu update thành viên đặc biệt thì báo lỗi
+        if(get_config('user_special') == $user_id && $user_id != $me['user_id']){
+            return get_response_array(309, 'Bạn không thể cập nhật thành viên này.');
+        }
+        $meta_info  = [];
+        $data_role      = role_structure();
+        foreach ($data_role AS $key => $value){
+            foreach ($value AS $_key => $_value){
+                if($_REQUEST["{$key}_{$_key}"]){
+                    $meta_info[$key][$_key] = true;
+                }else{
+                    $meta_info[$key][$_key] = false;
+                }
+            }
+        }
+        $meta_info  = serialize($meta_info);
+        $update     = $db->where([$this->user_id => $user_id])->update($this->db_table, [$this->user_roleplus => $meta_info]);
+        if(!$update){
+            return get_response_array(309, "Upate không thành công");
+        }
+        return get_response_array(200, "Update dữ liệu thành công");
+    }
+
     public function update($id){
         global $me;
         $db             = $this->db;
         $get_user       = $db->select("{$this->user_login}, {$this->user_email}, {$this->user_phone}")->from($this->db_table)->where($this->user_id, $id)->fetch_first();
-
         $check_user     = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_login, $_REQUEST[$this->user_login])->fetch_first();
         $check_email    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_email, $_REQUEST[$this->user_email])->fetch_first();
         $check_phone    = $db->select("COUNT(*) AS count")->from($this->db_table)->where($this->user_phone, $_REQUEST[$this->user_phone])->fetch_first();

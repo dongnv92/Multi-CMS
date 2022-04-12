@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/admin/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/admin-ajax.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/admin-ajax.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/includes/class/class.user.php" beforeDir="false" afterPath="$PROJECT_DIR$/includes/class/class.user.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/login_old.php" afterDir="false" />
-    </list>
+    <list default="true" id="c602912c-b36a-4a59-8a27-9cce48582fc4" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -154,6 +148,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/content/plugin" />
       <recent name="C:\xampp\htdocs\dong\multicms\content\plugin" />
       <recent name="C:\xampp\htdocs\dong\multicms\admin" />
     </key>
@@ -337,6 +332,12 @@
       <workItem from="1646966147284" duration="2436000" />
       <workItem from="1647097731289" duration="5516000" />
       <workItem from="1647187791071" duration="18000" />
+      <workItem from="1648027574154" duration="770000" />
+      <workItem from="1648483724819" duration="1535000" />
+      <workItem from="1649430635676" duration="3521000" />
+      <workItem from="1649521381999" duration="2013000" />
+      <workItem from="1649559399822" duration="5179000" />
+      <workItem from="1649746832837" duration="2057000" />
     </task>
     <task id="LOCAL-00001" summary="...">
       <created>1623810740523</created>

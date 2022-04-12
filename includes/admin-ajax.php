@@ -247,6 +247,26 @@ switch ($path[1]){
                         $delete = $role->delete($path[4]);
                         echo encode_json($delete);
                         break;
+                    case 'update_user':
+                        $user_info  = $user->get_user(['user_id' => $path[4]]);
+                        // Kiểm tra đăng nhập
+                        if(!$me) {
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        // Kiểm tra quyền truy cập
+                        if(!$role['user']['role']){
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        // Kiểm tra thành viên có tồn tại không
+                        if(!$user_info){
+                            echo encode_json(get_response_array(403));
+                            break;
+                        }
+                        $update = $user->update_roleplus($path[4]);
+                        echo encode_json($update);
+                        break;
                     case 'update':
                         // Kiểm tra đăng nhập
                         if(!$me) {

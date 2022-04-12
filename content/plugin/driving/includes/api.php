@@ -289,9 +289,9 @@ switch ($path[2]){
             break;
         }
         switch ($location){
-            case 'BƯU CỤC HÀ NỘI':
+/*            case 'BƯU CỤC HÀ NỘI':
                 $telegram->set_chatid($group_id['citypost_addoil_hn']);
-                break;
+                break;*/
             case 'BƯU CỤC ĐÀ NẴNG':
                 $telegram->set_chatid($group_id['citypost_addoil_dn']);
                 break;
@@ -300,6 +300,9 @@ switch ($path[2]){
                 break;
             case 'BƯU CỤC BÌNH DƯƠNG':
                 $telegram->set_chatid($group_id['citypost_addoil_bd']);
+                break;
+            default:
+                $telegram->set_chatid($group_id['citypost_addoil_hn']);
                 break;
         }
         /*-----------------------*/

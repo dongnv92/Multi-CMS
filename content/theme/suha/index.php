@@ -2,12 +2,11 @@
 require_once ABSPATH . 'content/theme/suha/init.php';
 switch ($path[0]){
     case 'test.html':
-        //create array of data to be posted 135328155460
-        $kplus = new Kplus($database);
-        $data = $kplus->Register('');
-        $data = json_decode($data, true);
+        $array_1 = ['mot' => ['hai' => false, 'ba' => true, 'bon' => true]];
+        $array_2 = ['mot' => ['hai' => true, 'ba' => false, 'bon' => false]];
+        $array = $array_1 + $array_2;
         echo '<pre>';
-        print_r($data);
+        print_r($array);
         echo '</pre>';
         Break;
     case 'bomb.html':

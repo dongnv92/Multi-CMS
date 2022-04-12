@@ -75,9 +75,12 @@ foreach (get_list_plugin() AS $_init_plugin){
 }
 
 // Lấy thông tin phân quyền vai trò
-$role = new meta($database, 'role');
-$role = $role->get_meta($me['user_role'], 'meta_info');
-$role = unserialize($role['data']['meta_info']);
+/*if($me){
+    $role = new meta($database, 'role');
+    $role = $role->get_meta($me['user_role'], 'meta_info');
+    $role = unserialize($role['data']['meta_info']);
+}*/
+$role = get_role();
 
 // Lấy đường đẫn hiện tại (domain|local)
 $path = get_path_uri('domain');

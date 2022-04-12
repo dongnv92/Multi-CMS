@@ -664,6 +664,59 @@ switch ($path[1]){
                     exit();
                 }
                 switch ($path[3]){
+                    case 'update_user':
+                    // Kiểm tra quyền truy cập
+                    if(!$role['user']['role']){
+                        echo "Forbidden";
+                        exit();
+                    }
+                    $user_info  = $user->get_user(['user_id' => $path[4]]);
+                    // Kiểm tra quyền truy cập
+                    if(!$role['user']['role']){
+                        echo "Forbidden";
+                        exit();
+                    }
+                    ?>
+                    //<script>
+                    $(document).ready(function () {
+                        $('#button_update_role').on('click', function (){
+                            let btnText     = $(this).text();
+                            let id          = '#' + $(this).attr('id');
+                            let textLoading = ' ĐANG UPDATE ... ';
+                            let urlLoad     = '<?=URL_ADMIN_AJAX . "{$path[1]}/{$path[2]}/{$path[3]}/{$path[4]}"?>';
+
+                            var ajax = $.ajax({
+                                url         : urlLoad,
+                                method      : 'POST',
+                                dataType    : 'json',
+                                data        : $('form').serialize(),
+                                beforeSend  : function () {
+                                    $(id).attr('disabled', true);
+                                    $(id).html('<span class="spinner-border spinner-border-sm" aria-hidden="true"></span><span>'+ textLoading +'</span>');
+                                }
+                            });
+                            ajax.done(function (data) {
+                                setTimeout(function (){
+                                    if(data.response == 200){
+                                        $(id).attr('disabled', false);
+                                        $(id).html(btnText);
+                                        toastr.success(data.message);
+                                    }else{
+                                        $(id).attr('disabled', false);
+                                        $(id).html(btnText);
+                                        toastr.error(data.message);
+                                    }
+                                }, 500)
+                            });
+                            ajax.fail(function( jqXHR, textStatus ) {
+                                $(id).attr('disabled', false);
+                                $(id).html(btnText);
+                                toastr.error(jqXHR.responseText);
+                            });
+                        });
+                    });
+                    <?php
+                    break;
                     case 'update':
                         ?>
                         //<script>

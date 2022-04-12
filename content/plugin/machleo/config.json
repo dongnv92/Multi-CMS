@@ -1,0 +1,68 @@
+{
+    "name": "MÁCH LẺO",
+    "unique_identifier": "machleo",
+    "version": "0.1",
+    "banner": "assets\/images\/banner.jpg",
+    "description": "Mách Lẻo Kiếm Xèng",
+    "status": "active",
+    "author": "DONGNV",
+    "website": "http:\/\/muataikhoan.net",
+    "source": {
+        "javascript": "includes\/js.php",
+        "ajax": "includes\/ajax.php",
+        "api": "includes\/api.php",
+        "widget": "includes\/widget.php"
+    },
+    "public_class": [
+        "includes\/class.macleo.php"
+    ],
+    "menu": [
+        {
+            "text": "Mách Lẻo",
+            "icon": "<i class=\"fab fa-kickstarter-k\"><\/i>\n",
+            "child": [
+                {
+                    "text": "Quản Lý Mách Lẻo",
+                    "url": "URL_ADMIN\/machleo",
+                    "roles": [
+                        "machleo",
+                        "manager"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "machleo",
+                            ""
+                        ]
+                    ]
+                },
+                {
+                    "text": "Thêm mới",
+                    "url": "URL_ADMIN\/machleo\/add",
+                    "roles": [
+                        "machleo",
+                        "add"
+                    ],
+                    "active": [
+                        [
+                            "admin",
+                            "machleo",
+                            "add"
+                        ]
+                    ]
+                }
+            ]
+        }
+    ],
+    "role_structure": {
+        "machleo": {
+            "manager": false,
+            "add": false
+        }
+    },
+    "role_text": {
+        "": "Mách Lẻo",
+        "manager": "Quản lý",
+        "add": "Thêm mới"
+    }
+}

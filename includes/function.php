@@ -581,3 +581,15 @@ function random_string($length = 10){
 function get_method_request(){
     return $_SERVER['REQUEST_METHOD'];
 }
+
+function get_role(){
+    global $me, $database;
+    if(!$me){
+        return false;
+    }
+    $meta       = new meta($database, 'role');
+    $role_meta  = $meta->get_meta($me['user_role'], 'meta_info');
+    $role_plus  = $me['user_roleplus'];
+    $role = unserialize($role_meta['data']['meta_info']);
+    return $role;
+}

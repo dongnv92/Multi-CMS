@@ -92,7 +92,7 @@ switch ($path[2]){
             sleep(20);
         }
 
-        echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công']);
+        echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công', 'data' => $history]);
         break;
     case 'history':
         $token  = $_REQUEST['access_token'];
@@ -177,8 +177,7 @@ switch ($path[2]){
         }
         $data = $history['data'];
         $account->syncHistory($data, $user_info['user_id']);
-
-        echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công']);
+        echo encode_json(['response' => 200, 'message' => 'Đồng bộ dữ liệu thành công', 'data' => $history]);
         break;
     // Lấy thông tin tài khoản
     case 'info':
