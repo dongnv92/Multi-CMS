@@ -2,9 +2,15 @@
 require_once ABSPATH . 'content/theme/suha/init.php';
 switch ($path[0]){
     case 'test.html':
-        $array_1 = ['mot' => ['hai' => false, 'ba' => true, 'bon' => true]];
-        $array_2 = ['mot' => ['hai' => true, 'ba' => false, 'bon' => false]];
-        $array = $array_1 + $array_2;
+        $array_1 = ['mot' => ['hai' => true, 'ba' => true, 'bon' => true], 'nam' => ['sau' => false, 'bay' => true, 'tam' => true]];
+        $array_2 = ['mot' => ['hai' => false, 'ba' => false, 'bon' => false], 'nam' => ['sau' => true, 'bay' => false, 'tam' => false]];
+        $array = [];
+
+        foreach ($array_1 AS $_key_1 => $_value_1){
+            foreach ($_value_1 AS $_key_2 => $_value_2){
+                $array[$_key_1][$_key_2] = (($_value_2 == true || $array_2[$_key_1][$_key_2]) ? true : false);
+            }
+        }
         echo '<pre>';
         print_r($array);
         echo '</pre>';

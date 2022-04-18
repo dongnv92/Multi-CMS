@@ -589,7 +589,13 @@ function get_role(){
     }
     $meta       = new meta($database, 'role');
     $role_meta  = $meta->get_meta($me['user_role'], 'meta_info');
-    $role_plus  = $me['user_roleplus'];
-    $role = unserialize($role_meta['data']['meta_info']);
+    $role_meta  = unserialize($role_meta['data']['meta_info']);
+    $role_plus  = unserialize($me['user_roleplus']);
+    $role       = [];
+    foreach ($role_meta AS $key => $value){
+        foreach ($value AS $key_1 => $value_1){
+            $role[$key][$key_1] = (($value_1 == true || $role_plus[$key][$key_1] == true) ? true : false);
+        }
+    }
     return $role;
 }
