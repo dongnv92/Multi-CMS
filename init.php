@@ -13,7 +13,7 @@ define( 'PATH_ADMIN'        , 'admin');
 define( 'PATH_PLUGIN'       , 'content/plugin/');
 define( 'PATH_THEME'        , 'content/theme');
 define( 'CONFIG_THEME'      , 'suha');
-define( 'URL_HOME'          , 'https://muataikhoan.net');
+define( 'URL_HOME'          , 'http://localhost/multicms');
 define( 'URL_ADMIN'         , URL_HOME . '/' . PATH_ADMIN);
 define( 'URL_ADMIN_ASSETS'  , URL_HOME . '/content/assets-admin/');
 define( 'URL_BLOG'          , URL_HOME . '/blog/');
@@ -30,9 +30,9 @@ define( 'DB_PASSWORD'       , '');
 define( 'DB_DATABASE'       , 'multicms'); */
 
 define( 'DB_HOST'           , 'localhost');
-define( 'DB_USERNAME'       , 'topcongt');
-define( 'DB_PASSWORD'       , 'Anhdong2442');
-define( 'DB_DATABASE'       , 'topcongt_cms');
+define( 'DB_USERNAME'       , 'root');
+define( 'DB_PASSWORD'       , '');
+define( 'DB_DATABASE'       , 'multicms');
 
 /* Kết nối file database */
 require_once ABSPATH . 'includes/class/class.mysqli.db.php';
@@ -83,4 +83,4 @@ foreach (get_list_plugin() AS $_init_plugin){
 $role = get_role();
 
 // Lấy đường đẫn hiện tại (domain|local)
-$path = get_path_uri('domain');
+$path = get_path_uri('local');

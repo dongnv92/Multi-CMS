@@ -319,17 +319,18 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 
 function get_config($key){
     global $database;
-    $setting = $database->select('setting_value')->from('dong_setting')->where('setting_key', $key)->fetch_first();
+    $setting    = $database->select('setting_value')->from('dong_setting')->where('setting_key', $key)->fetch_first();
     if(!$setting)
         return false;
     switch ($key){
         case 'logo':
-            return URL_HOME . '/' . $setting['setting_value'];
+            $value = URL_HOME . '/' . $setting['setting_value'];
             break;
         default:
-            return $setting['setting_value'];
+            $value = $setting['setting_value'];
             break;
     }
+    return $value;
 }
 
 // Chuyển hướng đến 1 trang khác
